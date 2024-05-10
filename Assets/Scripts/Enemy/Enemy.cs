@@ -6,8 +6,10 @@ using UnityEngine.Rendering.Universal;
 public class Enemy : MonoBehaviour
 {
     protected EnemyStateMachine state;
+    protected Animator animator;
     protected Dictionary<Enemy, float> EnemyHealthDic;
     protected EnemyData enemyData;
+    protected float traceDistance = 5.0f;
 
     protected virtual void Awake()
     {
@@ -23,6 +25,8 @@ public class Enemy : MonoBehaviour
             enemy.gameObject.SetActive(false);
         }
     }
+
+
 }
 
 public struct EnemyData

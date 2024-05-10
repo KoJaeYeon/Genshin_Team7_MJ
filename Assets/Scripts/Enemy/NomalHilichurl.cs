@@ -16,9 +16,12 @@ public class NomalHilichurl : Enemy
 
         enemyData = new EnemyData(100f, 10f, 10f, 0.1f, 100);
         EnemyHealthDic.Add(this, enemyData.Health);
+        animator = GetComponent<Animator>();
     }
 
     public EnemyStateMachine State => state;
+    public Animator Animator => animator;
+    public float TraceDistance => traceDistance;
 }
 
 public abstract class NomalHilichurlState : BaseState
@@ -32,7 +35,9 @@ public abstract class NomalHilichurlState : BaseState
 
 public class NomalHilichurlIdle : NomalHilichurlState
 {
-    float timer;
+    float timer = 0f;
+    NavMeshAgent agent;
+    Transform Player;
     public NomalHilichurlIdle(NomalHilichurl nomalHilichurl) : base(nomalHilichurl) { }
     
     public override void OnCollisionEnter(Collision collision)
@@ -42,23 +47,32 @@ public class NomalHilichurlIdle : NomalHilichurlState
 
     public override void StateEnter()
     {
-        timer = 0f;
+        agent = nomalHilichurl.gameObject.GetComponent<NavMeshAgent>();
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        nomalHilichurl.Animator.SetFloat("Move", 0f);
     }
 
     public override void StateExit()
     {
-        
+        timer = 0f;
     }
 
     public override void StateUpDate()
     {
+        Trace();
+
         timer += Time.deltaTime;
 
         if(timer > 4.0f)
         {
             nomalHilichurl.State.ChangeState(EnemyState.Move);
         }
+    }
 
+    private void Trace()
+    {
+        if (Vector3.Distance(Player.position, nomalHilichurl.transform.position) <= nomalHilichurl.TraceDistance)
+            nomalHilichurl.State.ChangeState(EnemyState.Trace);
     }
 }
 
@@ -87,6 +101,7 @@ public class NomalHilichurlMove : NomalHilichurlState
         }
 
         agent.SetDestination(WayPoint[Random.Range(0, WayPoint.Count)].transform.position);
+        nomalHilichurl.Animator.SetFloat("Move", agent.speed);
     }
 
     public override void StateExit()
@@ -96,12 +111,7 @@ public class NomalHilichurlMove : NomalHilichurlState
 
     public override void StateUpDate()
     {
-        if (agent.remainingDistance <= agent.stoppingDistance)
-            agent.SetDestination(WayPoint[Random.Range(0, WayPoint.Count)].transform.position);
-
-        timer += Time.deltaTime;
-        
-        if(timer > 10f)
+        if(agent.remainingDistance <= agent.stoppingDistance)
         {
             nomalHilichurl.State.ChangeState(EnemyState.Idle);
         }
@@ -110,6 +120,10 @@ public class NomalHilichurlMove : NomalHilichurlState
 
 public class NomalHilichurlTrace : NomalHilichurlState
 {
+    Transform Player;
+    NavMeshAgent agent;
+
+    private bool isMove = true;
     public NomalHilichurlTrace(NomalHilichurl nomalHilichurl) : base(nomalHilichurl) { }
     
     public override void OnCollisionEnter(Collision collision)
@@ -119,16 +133,28 @@ public class NomalHilichurlTrace : NomalHilichurlState
 
     public override void StateEnter()
     {
-        
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        agent = nomalHilichurl.gameObject.GetComponent<NavMeshAgent>();
+        nomalHilichurl.Animator.SetFloat("Move", agent.speed + 1);
     }
 
     public override void StateExit()
     {
-        
+        agent.SetDestination(nomalHilichurl.transform.position);
     }
 
     public override void StateUpDate()
     {
-        
+        agent.SetDestination(Player.position);
+        Attack();
+
+    }
+
+    private void Attack()
+    {
+        if (agent.remainingDistance <= agent.stoppingDistance)
+            nomalHilichurl.Animator.SetBool("isAttack", true);
+        else
+            nomalHilichurl.Animator.SetFloat("Move", agent.speed + 1);
     }
 }
