@@ -7,32 +7,31 @@ public enum EnemyState
 {
     Idle,
     Move,
-    Attack
+    Trace
 }
 
 public class EnemyStateMachine : MonoBehaviour
 {
-    private Dictionary<EnemyState, IBaseState> EnemyStateDic;
-    IBaseState State;
+    private Dictionary<EnemyState, BaseState> EnemyStateDic = new Dictionary<EnemyState, BaseState>();  
+    BaseState State;
 
-    void Start()
+    private void Start()
     {
         InitState();
     }
 
     void Update()
     {
-        State.StateUpdate();
+        State.StateUpDate();
     }
 
     public void InitState()
     {
-        EnemyStateDic = new Dictionary<EnemyState, IBaseState>();
         State = EnemyStateDic[EnemyState.Idle];
         State.StateEnter();
     }
 
-    public void AddState(EnemyState addState, IBaseState State)
+    public void AddState(EnemyState addState, BaseState State)
     {
         EnemyStateDic.Add(addState, State);
     }
