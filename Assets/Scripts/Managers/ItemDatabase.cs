@@ -2,17 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemDatabase : MonoBehaviour
+public enum Character
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    None,
+    Yoimiya,
+    Beidu
+}
+public class ItemDatabase : Singleton<ItemDatabase>
+{
+    Dictionary<ItemName, Item> itemDictionary = new Dictionary<ItemName, Item>();
+    Dictionary<ItemName, Sprite> itemSpriteDictionary = new Dictionary<ItemName, Sprite>();
+    Dictionary<Character, Sprite> characterSpriteDictionary = new Dictionary<Character, Sprite>();
+    private void Awake()
+    {        
+        itemDictionary.Add(ItemName.ClayMore1, new Item(ItemName.ClayMore1, 1, true, 70, DefenceType.Head, 0));
+        itemDictionary.Add(ItemName.ClayMore2, new Item(ItemName.ClayMore2, 1, true, 60, DefenceType.Head, 0));
     }
 
-    // Update is called once per frame
-    void Update()
+    public Item GetItem(ItemName itemName)
     {
-        
+        return itemDictionary[itemName];
+    }
+
+    public Sprite GetItemSprite(ItemName itemName)
+    {
+        return itemSpriteDictionary[itemName];
+    }
+
+    public Sprite GetCharacterSprite(Character character)
+    {
+        return characterSpriteDictionary[character];
     }
 }
