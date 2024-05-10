@@ -42,7 +42,6 @@ public class NomalHilichurlIdle : NomalHilichurlState
 
     public override void StateEnter()
     {
-        Debug.Log("Idle");
         timer = 0f;
     }
 
@@ -77,8 +76,7 @@ public class NomalHilichurlMove : NomalHilichurlState
 
     public override void StateEnter()
     {
-        Debug.Log("Move");
-
+       
         agent = nomalHilichurl.gameObject.GetComponent<NavMeshAgent>();
         timer = 0f;
         GameObject movePoint = GameObject.FindWithTag("WayPoint");
