@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
@@ -43,6 +44,7 @@ public class InventoryManager : MonoBehaviour
         else
         {
             defenceDictionary.Add(defenceDictionary.Count, item);
+            SetDefenceSlot(weaponDictionary.Count-1, item);
         }
     }
     public void SetWeaponSlot(int key,Item item)
@@ -55,7 +57,7 @@ public class InventoryManager : MonoBehaviour
         {
             ItemSlot itemSlot = PoolManager.Instance.GetItemSlot();
             slotWeaponDictionary.Add(key, itemSlot);
-            itemSlot.UpdateSlot(item);
+            itemSlot.InitUpdateSlot(key,item);
         }
     }
     public void SetDefenceSlot(int key, Item item)
@@ -68,7 +70,7 @@ public class InventoryManager : MonoBehaviour
         {
             ItemSlot itemSlot = PoolManager.Instance.GetItemSlot();
             slotdefenceDictionary.Add(key, itemSlot);
-            itemSlot.UpdateSlot(item);
+            itemSlot.InitUpdateSlot(key,item);
         }
     }
     public void SetOtherSlot(int key, Item item)
@@ -81,7 +83,7 @@ public class InventoryManager : MonoBehaviour
         {
             ItemSlot itemSlot = PoolManager.Instance.GetItemSlot();
             slototherDictionary.Add(key, itemSlot);
-            itemSlot.UpdateSlot(item);
+            itemSlot.InitUpdateSlot(key,item);
         }
     }
 
