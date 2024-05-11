@@ -6,13 +6,18 @@ using UnityEngine.Rendering.Universal;
 public class Enemy : MonoBehaviour
 {
     protected EnemyStateMachine state;
+    protected MonsterWeapon Weapon;
     protected Animator animator;
+    protected Transform Player;
     protected Dictionary<Enemy, float> EnemyHealthDic;
     protected EnemyData enemyData;
     protected float traceDistance = 5.0f;
+    protected bool traceMove = true;
 
     protected virtual void Awake()
     {
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        Weapon = transform.GetComponentInChildren<MonsterWeapon>();
         EnemyHealthDic = new Dictionary<Enemy, float>();
     }
 
