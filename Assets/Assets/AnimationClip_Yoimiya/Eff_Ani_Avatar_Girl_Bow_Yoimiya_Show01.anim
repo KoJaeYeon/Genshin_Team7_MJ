@@ -1,0 +1,347 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!74 &7400000
+AnimationClip:
+  m_Name: Eff_Ani_Avatar_Girl_Bow_Yoimiya_Show01
+  serializedVersion: 6
+  m_Legacy: 1
+  m_Compressed: 0
+  m_UseHighQualityCurve: 1
+  m_RotationCurves: []
+  m_CompressedRotationCurves: []
+  m_EulerCurves: []
+  m_PositionCurves:
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: 0, y: 0, z: -0.048}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0.72932756}
+      - serializedVersion: 2
+        time: 0.5833333
+        value: {x: 0, y: 0, z: 0.37744105}
+        inSlope: {x: 0, y: 0, z: 0.72932756}
+        outSlope: {x: 0, y: 0, z: 0}
+      - serializedVersion: 2
+        time: 0.65
+        value: {x: 0, y: 0, z: 0.37744105}
+        inSlope: {x: -0, y: -0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: 00_Spark
+  m_ScaleCurves: []
+  m_FloatCurves:
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 9.05
+        value: 0
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 9.65
+        value: 0
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 9.8
+        value: 1
+        inSlope: 0
+        outSlope: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: material._DissolveValue
+    path: Eff_Model_Yoimiya_01
+    classID: 23
+    script: {fileID: 0}
+    flags: 0
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 0.65
+        value: -1
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 9.05
+        value: -1
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 9.65
+        value: -1
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 9.8
+        value: -1
+        inSlope: 0
+        outSlope: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: material._DissolveRemapMin
+    path: Eff_Model_Yoimiya_01
+    classID: 23
+    script: {fileID: 0}
+    flags: 0
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: ∞
+        outSlope: ∞
+      - serializedVersion: 2
+        time: 0.016666668
+        value: 1
+        inSlope: ∞
+        outSlope: ∞
+      - serializedVersion: 2
+        time: 9.8
+        value: 1
+        inSlope: ∞
+        outSlope: ∞
+      - serializedVersion: 2
+        time: 9.816667
+        value: 0
+        inSlope: ∞
+        outSlope: ∞
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: Eff_Model_Yoimiya_01
+    classID: 1
+    script: {fileID: 0}
+    flags: 0
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.916
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 6.9
+        value: 0.916
+        inSlope: 0
+        outSlope: -0.5998624
+      - serializedVersion: 2
+        time: 9.05
+        value: 0.07799999
+        inSlope: -0.070731364
+        outSlope: -0.070731364
+      - serializedVersion: 2
+        time: 9.65
+        value: 0.07799999
+        inSlope: -0.070731364
+        outSlope: -0.070731364
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: material._LerpColorDark.r
+    path: Eff_Model_Yoimiya_01
+    classID: 23
+    script: {fileID: 0}
+    flags: 0
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.5149945
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 6.9
+        value: 0.5149945
+        inSlope: 0
+        outSlope: -0.3420532
+      - serializedVersion: 2
+        time: 9.05
+        value: 0.021124778
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 9.65
+        value: 0.021124778
+        inSlope: 0
+        outSlope: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: material._LerpColorDark.g
+    path: Eff_Model_Yoimiya_01
+    classID: 23
+    script: {fileID: 0}
+    flags: 0
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.3165587
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 6.9
+        value: 0.31655875
+        inSlope: 0
+        outSlope: -0.26175186
+      - serializedVersion: 2
+        time: 9.05
+        value: 0
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 9.65
+        value: 0
+        inSlope: 0
+        outSlope: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: material._LerpColorDark.b
+    path: Eff_Model_Yoimiya_01
+    classID: 23
+    script: {fileID: 0}
+    flags: 0
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 6.9
+        value: 1
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 9.05
+        value: 1
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 9.65
+        value: 1
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 9.8
+        value: 1
+        inSlope: 0
+        outSlope: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: material._LerpColorDark.a
+    path: Eff_Model_Yoimiya_01
+    classID: 23
+    script: {fileID: 0}
+    flags: 0
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: ∞
+        outSlope: ∞
+      - serializedVersion: 2
+        time: 0.6333333
+        value: 0
+        inSlope: ∞
+        outSlope: ∞
+      - serializedVersion: 2
+        time: 0.65
+        value: 1
+        inSlope: ∞
+        outSlope: ∞
+      - serializedVersion: 2
+        time: 7.6666665
+        value: 1
+        inSlope: ∞
+        outSlope: ∞
+      - serializedVersion: 2
+        time: 7.6833334
+        value: 0
+        inSlope: ∞
+        outSlope: ∞
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: 00_Trail
+    classID: 1
+    script: {fileID: 0}
+    flags: 0
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 0.65
+        value: 0
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 1
+        value: 0.5
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 6.35
+        value: 0.5
+        inSlope: 0
+        outSlope: -0.8601453
+      - serializedVersion: 2
+        time: 7.6666665
+        value: 0
+        inSlope: 0
+        outSlope: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_Time
+    path: 00_Trail
+    classID: 96
+    script: {fileID: 0}
+    flags: 0
+  m_PPtrCurves: []
+  m_SampleRate: 60
+  m_WrapMode: 1
+  m_Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_ClipBindingConstant:
+    genericBindings: []
+    pptrCurveMapping: []
+  m_AnimationClipSettings: {}
+  m_Events: []
