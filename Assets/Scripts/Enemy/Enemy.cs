@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 public enum EnemyLayer
 {
@@ -22,7 +24,9 @@ public class Enemy : MonoBehaviour
     protected MonsterWeapon Weapon;
     protected Animator animator;
     protected Transform Player;
+    protected NavMeshAgent agent;
     protected Dictionary<Enemy, float> EnemyHealthDic;
+
     protected EnemyData enemyData;
     protected float traceDistance = 5.0f;
     protected bool traceMove = true;
@@ -30,7 +34,10 @@ public class Enemy : MonoBehaviour
     protected virtual void Awake()
     {
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();//플레이어 Transform 참조 변경시 여기만 변경하면 됩니다.
-        Weapon = transform.GetComponentInChildren<MonsterWeapon>();
+        Weapon = transform.GetComponentInChildren<MonsterWeapon>(); //삭제 예정
+        agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+
         EnemyHealthDic = new Dictionary<Enemy, float>();
     }
 
@@ -88,7 +95,7 @@ public struct EnemyData
     public int DropExp { get; }
     public Element element { get; }
 
-    public EnemyData(float health, float attackPower, float speed, float defence, int dropExp, Element element) //체력 , 공격력, 이동속도, 물리내성, 경험치
+    public EnemyData(float health, float attackPower, float speed, float defence, int dropExp, Element element) //체력 , 공격력, 이동속도, 물리내성, 경험치, 속성
     {
         this.Health = health;
         this.AttackPower = attackPower;
