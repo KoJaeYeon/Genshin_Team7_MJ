@@ -11,15 +11,30 @@ public class MonsterWeapon : MonoBehaviour
         boxCollider = GetComponent<BoxCollider>();
         boxCollider.enabled = false;
     }
-    public void UseSword()
+
+    
+    public void EableSword()
     {
-        boxCollider.enabled = true;
+        StartCoroutine(EableWeapon());
     }
 
-    private void OnTriggerEnter(Collider other)
+    public IEnumerator EableWeapon()
     {
-        if(other.gameObject.CompareTag("Player"))
-            Debug.Log("충돌함");
+        boxCollider.enabled = true;
 
+        yield return new WaitForSeconds(0.5f);
+
+        boxCollider.enabled = false;
+
+    }
+
+    private void OnTriggerEnter(Collider other) //플레이어에게 피해를 주는 부분
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("충돌함");
+            
+        }
+            
     }
 }
