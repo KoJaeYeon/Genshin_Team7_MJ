@@ -14,8 +14,8 @@ public class NomalHilichurl : Enemy
         state.AddState(EnemyState.Idle, new NomalHilichurlIdle(this));
         state.AddState(EnemyState.Move, new NomalHilichurlMove(this));
         state.AddState(EnemyState.Trace, new NomalHilichurlTrace(this));
-
-        enemyData = new EnemyData(100f, 10f, 10f, 0.1f, 100);
+                        //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
+        enemyData = new EnemyData(100f, 10f, 3f, 0.1f, 100, Element.Nomal);
         EnemyHealthDic.Add(this, enemyData.Health);
         animator = GetComponent<Animator>();
     }
@@ -23,6 +23,7 @@ public class NomalHilichurl : Enemy
     public EnemyStateMachine State => state;
     public Animator Animator => animator;
     public Transform PlayerTransform => Player;
+    public MonsterWeapon MonsterWeapon => Weapon;
     public float TraceDistance => traceDistance;
     public bool TraceMove
     {
@@ -36,9 +37,9 @@ public class NomalHilichurl : Enemy
             traceMove = true;
     }
 
-    public void UseWeapon()
+    public void UseWeapon() //Animation Event
     {
-        Weapon.UseSword();
+        Weapon.EableSword();
     }
 }
 
@@ -51,21 +52,19 @@ public abstract class NomalHilichurlState : BaseState
     }
 }
 
-public class NomalHilichurlIdle : NomalHilichurlState
+public class NomalHilichurlIdle : NomalHilichurlState //기본 상태
 {
     float timer = 0f;
     NavMeshAgent agent;
     public NomalHilichurlIdle(NomalHilichurl nomalHilichurl) : base(nomalHilichurl) { }
     
-    public override void OnCollisionEnter(Collision collision)
-    {
-        
-    }
-
+    public override void OnCollisionEnter(Collision collision) { }
+   
     public override void StateEnter()
     {
         agent = nomalHilichurl.gameObject.GetComponent<NavMeshAgent>();
         nomalHilichurl.Animator.SetFloat("Move", 0f);
+        nomalHilichurl.MonsterWeapon.DisableSword();
     }
 
     public override void StateExit()
@@ -94,7 +93,7 @@ public class NomalHilichurlIdle : NomalHilichurlState
     }
 }
 
-public class NomalHilichurlMove : NomalHilichurlState
+public class NomalHilichurlMove : NomalHilichurlState //이동 (배회)
 {
     float timer;
     List<Transform> WayPoint = new List<Transform>();
@@ -103,7 +102,7 @@ public class NomalHilichurlMove : NomalHilichurlState
    
     public override void OnCollisionEnter(Collision collision)
     {
-        
+     
     }
 
     public override void StateEnter()
@@ -145,7 +144,7 @@ public class NomalHilichurlMove : NomalHilichurlState
     }
 }
 
-public class NomalHilichurlTrace : NomalHilichurlState
+public class NomalHilichurlTrace : NomalHilichurlState //이동 (추적)
 {
     NavMeshAgent agent;
 
@@ -153,7 +152,7 @@ public class NomalHilichurlTrace : NomalHilichurlState
     
     public override void OnCollisionEnter(Collision collision)
     {
-        
+     
     }
 
     public override void StateEnter()
@@ -192,7 +191,7 @@ public class NomalHilichurlTrace : NomalHilichurlState
 
     public void StopTracking()
     {
-        if (Vector3.Distance(nomalHilichurl.transform.position, nomalHilichurl.PlayerTransform.position) > 20.0f)
+        if (Vector3.Distance(nomalHilichurl.transform.position, nomalHilichurl.PlayerTransform.position) > 15.0f)
             nomalHilichurl.State.ChangeState(EnemyState.Move);
     }
 
