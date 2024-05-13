@@ -73,9 +73,9 @@ public class TestPlayer : MonoBehaviour
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             Debug.Log(enemy);
-            enemy.Damaged(enemy,Atk);
+            enemy.Damaged(enemy, Atk);
             //Debug.Log(enemy.hilichurlHealthDic[enemy]);
-            
+
         }
 
     }

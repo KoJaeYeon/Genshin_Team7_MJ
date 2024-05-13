@@ -105,8 +105,8 @@ public class LightningHilichurlMove : LightningHilichurlState //이동 (배회)
     public override void StateEnter()
     {
         agent = lightningHilichurl.gameObject.GetComponent<NavMeshAgent>();
-        
-        GameObject movePoint = GameObject.FindWithTag("WayPoint");
+
+        GameObject movePoint = lightningHilichurl.transform.parent.gameObject;
 
         foreach (Transform point in movePoint.transform)
         {
