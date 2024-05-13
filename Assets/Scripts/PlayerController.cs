@@ -50,14 +50,14 @@ public class PlayerController : MonoBehaviour
     private float _animationBlend;
     private float _targetRotation = 0.0f;
     private float _rotationVelocity;
-    private float _verticalVelocity;
+    [SerializeField] private float _verticalVelocity;
     private float _terminalVelocity = 53.0f;
     private int _attackCount = 0;
     private bool _isAttacking = false;
 
     // timeout deltatime
-    private float _jumpTimeoutDelta;
-    private float _fallTimeoutDelta;
+    [SerializeField] private float _jumpTimeoutDelta;
+    [SerializeField] private float _fallTimeoutDelta;
 
     // animation IDs
     private int _animIDSpeed;
@@ -284,6 +284,4 @@ public class PlayerController : MonoBehaviour
         if (lfAngle > 360f) lfAngle -= 360f;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
-
-    
 }

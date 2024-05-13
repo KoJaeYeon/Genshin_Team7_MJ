@@ -3263,7 +3263,7 @@ GameObject:
   - component: {fileID: 1857943135}
   - component: {fileID: 1857943137}
   m_Layer: 0
-  m_Name: Avatar_Girl_Bow_Yoimiya
+  m_Name: Yoimiya
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3336,7 +3336,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6439d5e4d4c9a43bb19d6494b9c133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerData: {fileID: 11400000, guid: 147edf8bbd403e7498cc923ca354aa34, type: 2}
+  MoveSpeed: 2
+  SprintSpeed: 5.335
   RotationSmoothTime: 0.12
   SpeedChangeRate: 10
   JumpHeight: 1.2
@@ -3348,12 +3349,16 @@ MonoBehaviour:
   GroundedRadius: 0.28
   GroundLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   CinemachineCameraTarget: {fileID: 765025383}
   TopClamp: 70
   BottomClamp: -30
   CameraAngleOverride: 0
   LockCameraPosition: 0
+  _verticalVelocity: 0
+  _jumpTimeoutDelta: 0
+  _fallTimeoutDelta: 0
+  playerData: {fileID: 11400000, guid: 147edf8bbd403e7498cc923ca354aa34, type: 2}
 --- !u!114 &1857943135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3397,9 +3402,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b0885a7a0013a140a9f067d519bd6b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerData: {fileID: 0}
   move: {x: 0, y: 0}
   look: {x: 0, y: 0}
+  attack: 0
   jump: 0
   sprint: 0
   analogMovement: 0

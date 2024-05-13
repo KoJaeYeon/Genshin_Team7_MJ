@@ -74,8 +74,6 @@ public class PlayerInputHandler : MonoBehaviour
     public void AttackInput(bool newAttackState)
     {
         attack = newAttackState;
-
-        if(newAttackState && !_isAttacking)
     }
 
     private void OnApplicationFocus(bool hasFocus)
