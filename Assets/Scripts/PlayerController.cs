@@ -52,7 +52,6 @@ public class PlayerController : MonoBehaviour
     private float _rotationVelocity;
     [SerializeField] private float _verticalVelocity;
     private float _terminalVelocity = 53.0f;
-    private int _attackCount = 0;
     private bool _isAttacking = false;
 
     // timeout deltatime
@@ -65,6 +64,7 @@ public class PlayerController : MonoBehaviour
     private int _animIDJump;
     private int _animIDFreeFall;
     private int _animIDMotionSpeed;
+    private int _animIDAttack;
 
 #if ENABLE_INPUT_SYSTEM
     private PlayerInput _playerInput;
@@ -124,6 +124,9 @@ public class PlayerController : MonoBehaviour
         JumpAndGravity();
         GroundedCheck();
         Move();
+
+        Attack();
+        
     }
 
     private void LateUpdate()
@@ -138,6 +141,7 @@ public class PlayerController : MonoBehaviour
         _animIDJump = Animator.StringToHash("Jump");
         _animIDFreeFall = Animator.StringToHash("FreeFall");
         _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+        _animIDAttack = Animator.StringToHash("Attack");
     }
 
     private void GroundedCheck()
@@ -283,5 +287,18 @@ public class PlayerController : MonoBehaviour
         if (lfAngle < -360f) lfAngle += 360f;
         if (lfAngle > 360f) lfAngle -= 360f;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
+    }
+
+    private void Attack()
+    {
+        if (_input.attack && !_isAttacking)
+        {
+            if (_hasAnimator)
+            {
+                Debug.Log("Attack");
+                _animator.SetTrigger(_animIDAttack);
+                _isAttacking = true;
+            }
+        }
     }
 }
