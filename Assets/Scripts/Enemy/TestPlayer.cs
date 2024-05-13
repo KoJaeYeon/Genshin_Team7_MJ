@@ -69,14 +69,14 @@ public class TestPlayer : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == 3)
-        {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-            Debug.Log(enemy);
-            enemy.Damaged(enemy, Atk);
-            //Debug.Log(enemy.hilichurlHealthDic[enemy]);
+        //if (collision.gameObject.layer == 3)
+        //{
+        //    Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+        //    Debug.Log(enemy);
+        //    enemy.Damaged(enemy, Atk);
+        //    //Debug.Log(enemy.hilichurlHealthDic[enemy]);
 
-        }
+        //}
 
     }
 

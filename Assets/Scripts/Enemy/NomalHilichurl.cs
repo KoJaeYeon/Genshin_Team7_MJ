@@ -17,13 +17,13 @@ public class NomalHilichurl : Enemy
                         //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
         enemyData = new EnemyData(100f, 10f, 3f, 0.1f, 100, Element.Nomal);
         EnemyHealthDic.Add(this, enemyData.Health);
-        animator = GetComponent<Animator>();
     }
 
     public EnemyStateMachine State => state;
     public Animator Animator => animator;
     public Transform PlayerTransform => Player;
     public MonsterWeapon MonsterWeapon => Weapon;
+    public NavMeshAgent Agent => agent;
     public float TraceDistance => traceDistance;
     public bool TraceMove
     {
@@ -56,15 +56,13 @@ public abstract class NomalHilichurlState : BaseState
 
 public class NomalHilichurlIdle : NomalHilichurlState //기본 상태
 {
-    float timer = 0f;
-    NavMeshAgent agent;
+    private float timer = 0f;    
     public NomalHilichurlIdle(NomalHilichurl nomalHilichurl) : base(nomalHilichurl) { }
     
     public override void OnCollisionEnter(Collision collision) { }
    
     public override void StateEnter()
     {
-        agent = nomalHilichurl.gameObject.GetComponent<NavMeshAgent>();
         nomalHilichurl.Animator.SetFloat("Move", 0f);
     }
 
@@ -97,7 +95,6 @@ public class NomalHilichurlIdle : NomalHilichurlState //기본 상태
 public class NomalHilichurlMove : NomalHilichurlState //이동 (배회)
 {
     List<Transform> WayPoint = new List<Transform>();
-    NavMeshAgent agent;
     public NomalHilichurlMove(NomalHilichurl nomalHilichurl) : base(nomalHilichurl) { }
    
     public override void OnCollisionEnter(Collision collision)
@@ -107,8 +104,6 @@ public class NomalHilichurlMove : NomalHilichurlState //이동 (배회)
 
     public override void StateEnter()
     {
-        agent = nomalHilichurl.gameObject.GetComponent<NavMeshAgent>();
-
         GameObject movePoint = nomalHilichurl.transform.parent.gameObject;
 
         foreach (Transform point in movePoint.transform)
@@ -116,20 +111,20 @@ public class NomalHilichurlMove : NomalHilichurlState //이동 (배회)
             WayPoint.Add(point);
         }
 
-        agent.SetDestination(WayPoint[Random.Range(0, WayPoint.Count)].transform.position);
-        nomalHilichurl.Animator.SetFloat("Move", agent.speed);
+        nomalHilichurl.Agent.SetDestination(WayPoint[Random.Range(0, WayPoint.Count)].transform.position);
+        nomalHilichurl.Animator.SetFloat("Move", nomalHilichurl.Agent.speed);
     }
 
     public override void StateExit()
     {
-        agent.SetDestination(agent.transform.position);
+        nomalHilichurl.Agent.SetDestination(nomalHilichurl.Agent.transform.position);
     }
 
     public override void StateUpDate()
     {
         Trace();
 
-        if(agent.remainingDistance <= agent.stoppingDistance)
+        if(nomalHilichurl.Agent.remainingDistance <= nomalHilichurl.Agent.stoppingDistance)
         {
             nomalHilichurl.State.ChangeState(EnemyState.Idle);
         }
@@ -146,8 +141,6 @@ public class NomalHilichurlMove : NomalHilichurlState //이동 (배회)
 
 public class NomalHilichurlTrace : NomalHilichurlState //이동 (추적)
 {
-    NavMeshAgent agent;
-
     public NomalHilichurlTrace(NomalHilichurl nomalHilichurl) : base(nomalHilichurl) { }
     
     public override void OnCollisionEnter(Collision collision)
@@ -157,26 +150,25 @@ public class NomalHilichurlTrace : NomalHilichurlState //이동 (추적)
 
     public override void StateEnter()
     {
-        agent = nomalHilichurl.gameObject.GetComponent<NavMeshAgent>();
-        agent.SetDestination(nomalHilichurl.PlayerTransform.position);
-        nomalHilichurl.Animator.SetFloat("Move", agent.speed + 1);
+        nomalHilichurl.Agent.SetDestination(nomalHilichurl.PlayerTransform.position);
+        nomalHilichurl.Animator.SetFloat("Move", nomalHilichurl.Agent.speed + 1);
     }
 
     public override void StateExit()
     {
-        agent.SetDestination(nomalHilichurl.transform.position);
+        nomalHilichurl.Agent.SetDestination(nomalHilichurl.transform.position);
     }
 
     public override void StateUpDate()
     {
         if (nomalHilichurl.TraceMove)
         {
-            if(Vector3.Distance(nomalHilichurl.PlayerTransform.position,nomalHilichurl.transform.position) > agent.stoppingDistance)
+            if(Vector3.Distance(nomalHilichurl.PlayerTransform.position,nomalHilichurl.transform.position) > nomalHilichurl.Agent.stoppingDistance)
             {
                 nomalHilichurl.Animator.SetBool("isAttack", false);
-                agent.SetDestination(nomalHilichurl.PlayerTransform.position);
+                nomalHilichurl.Agent.SetDestination(nomalHilichurl.PlayerTransform.position);
             }
-            else if(Vector3.Distance(nomalHilichurl.PlayerTransform.position, nomalHilichurl.transform.position) <= agent.stoppingDistance)
+            else if(Vector3.Distance(nomalHilichurl.PlayerTransform.position, nomalHilichurl.transform.position) <= nomalHilichurl.Agent.stoppingDistance)
             {
                 nomalHilichurl.TraceMove = false;
             }
