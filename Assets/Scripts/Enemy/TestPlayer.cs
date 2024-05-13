@@ -39,8 +39,6 @@ public class TestPlayer : MonoBehaviour
 
     private void FixedUpdate()
     {
-
-
         if (Movedir != Vector3.zero)
         {
             if (Mathf.Sign(transform.forward.x) != Mathf.Sign(Movedir.x) || Mathf.Sign(transform.forward.z) != Mathf.Sign(Movedir.z))
@@ -71,7 +69,7 @@ public class TestPlayer : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.layer == 3)
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             Debug.Log(enemy);
