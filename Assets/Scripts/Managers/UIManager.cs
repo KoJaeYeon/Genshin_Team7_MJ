@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +7,8 @@ public class UIManager : Singleton<UIManager>
 {
     public GameObject androidB;
     public GameObject editorB;
+
+    public IActivePanel activePanel;
 
     void Start()
     {
@@ -21,5 +22,17 @@ public class UIManager : Singleton<UIManager>
         editorB.gameObject.SetActive(true);
         #endif
 
+    }
+
+    public void QuitPanel()
+    {
+        activePanel.PanelInactive();
+    }
+
+    public void PanelActive(GameObject gameObject)
+    {
+        IActivePanel iactivePanel = gameObject.GetComponent<IActivePanel>();
+        if (iactivePanel != null) { iactivePanel.PanelActive(activePanel); }
+        else { Debug.LogWarning("NotPanel"); }
     }
 }
