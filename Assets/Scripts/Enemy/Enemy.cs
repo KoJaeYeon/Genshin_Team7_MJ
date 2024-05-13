@@ -34,6 +34,8 @@ public class Enemy : MonoBehaviour
         EnemyHealthDic = new Dictionary<Enemy, float>();
     }
 
+    
+
     public void Damaged(Enemy enemy, float damage)
     {
         EnemyHealthDic[enemy] -= (damage - Armor(enemy, damage));
