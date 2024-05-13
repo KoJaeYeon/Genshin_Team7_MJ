@@ -11,9 +11,14 @@ public class MonsterWeapon : MonoBehaviour
         boxCollider = GetComponent<BoxCollider>();
         boxCollider.enabled = false;
     }
-    public void UseSword()
+    public void EableSword()
     {
         boxCollider.enabled = true;
+    }
+
+    public void DisableSword()
+    {
+        boxCollider.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
