@@ -67,7 +67,6 @@ public class IceHilichurlIdle : IceHilichurlState
     {
         agent = iceHilichurl.gameObject.GetComponent<NavMeshAgent>();
         iceHilichurl.Animator.SetFloat("Move", 0f);
-        iceHilichurl.MonsterWeapon.DisableSword();
     }
 
     public override void StateExit()
@@ -97,7 +96,7 @@ public class IceHilichurlIdle : IceHilichurlState
 
 public class IceHilichurlMove : IceHilichurlState
 {
-    float timer;
+    
     List<Transform> WayPoint = new List<Transform>();
     NavMeshAgent agent;
     public IceHilichurlMove(IceHilichurl iceHilichurl) : base(iceHilichurl) { }
@@ -110,7 +109,7 @@ public class IceHilichurlMove : IceHilichurlState
     public override void StateEnter()
     {
         agent = iceHilichurl.gameObject.GetComponent<NavMeshAgent>();
-        timer = 0f;
+        
         GameObject movePoint = GameObject.FindWithTag("WayPoint");
 
         foreach (Transform point in movePoint.transform)

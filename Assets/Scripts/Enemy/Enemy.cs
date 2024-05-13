@@ -29,7 +29,7 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Awake()
     {
-        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();//플레이어 Transform 참조 변경시 여기만 변경하면 됩니다.
         Weapon = transform.GetComponentInChildren<MonsterWeapon>();
         EnemyHealthDic = new Dictionary<Enemy, float>();
     }
@@ -66,6 +66,7 @@ public class Enemy : MonoBehaviour
     //{
 
     //}
+
 
     private IEnumerator Die(Enemy enemy)
     {

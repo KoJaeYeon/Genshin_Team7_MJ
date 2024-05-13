@@ -41,6 +41,8 @@ public class NomalHilichurl : Enemy
     {
         Weapon.EableSword();
     }
+
+    
 }
 
 public abstract class NomalHilichurlState : BaseState
@@ -64,7 +66,6 @@ public class NomalHilichurlIdle : NomalHilichurlState //기본 상태
     {
         agent = nomalHilichurl.gameObject.GetComponent<NavMeshAgent>();
         nomalHilichurl.Animator.SetFloat("Move", 0f);
-        nomalHilichurl.MonsterWeapon.DisableSword();
     }
 
     public override void StateExit()
@@ -95,7 +96,6 @@ public class NomalHilichurlIdle : NomalHilichurlState //기본 상태
 
 public class NomalHilichurlMove : NomalHilichurlState //이동 (배회)
 {
-    float timer;
     List<Transform> WayPoint = new List<Transform>();
     NavMeshAgent agent;
     public NomalHilichurlMove(NomalHilichurl nomalHilichurl) : base(nomalHilichurl) { }
@@ -108,7 +108,7 @@ public class NomalHilichurlMove : NomalHilichurlState //이동 (배회)
     public override void StateEnter()
     {
         agent = nomalHilichurl.gameObject.GetComponent<NavMeshAgent>();
-        timer = 0f;
+
         GameObject movePoint = GameObject.FindWithTag("WayPoint");
 
         foreach (Transform point in movePoint.transform)
