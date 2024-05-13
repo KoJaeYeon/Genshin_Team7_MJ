@@ -4585,7 +4585,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &523972032
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10117,7 +10117,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprites:
   - {fileID: 21300000, guid: d24fa5e4b1f16a04d86aa8a3bf5cd558, type: 3}
-  - {fileID: 21300000, guid: 9aed4b03aaeb53b4987c8368b605cfb6, type: 3}
+  - {fileID: 21300000, guid: dd78d2bb668603c4dbed588bd6d40517, type: 3}
+  - {fileID: 21300000, guid: 2018ce1a953b7a1498dd828bcbb6aff9, type: 3}
+  - {fileID: 21300000, guid: a241a50d540ec244cba2075a2b5e6612, type: 3}
 --- !u!4 &1216196243
 Transform:
   m_ObjectHideFlags: 0
@@ -11690,6 +11692,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponTrans: {fileID: 26219328}
+  defenceTrans: {fileID: 1398636072}
+  otherTrans: {fileID: 1108464573}
 --- !u!4 &1407974479
 Transform:
   m_ObjectHideFlags: 0

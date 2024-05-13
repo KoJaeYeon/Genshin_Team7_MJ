@@ -22,15 +22,19 @@ public class ItemDatabase : Singleton<ItemDatabase>
         characterSpriteDictionary = new Dictionary<Character, Sprite>();
 
         itemDictionary.Add(1, new Item(1, 1, true, 70, DefenceType.Head, 0));
-        itemDictionary.Add(2, new Item(2, 1, true, 60, DefenceType.Head, 0));
-        
+        itemDictionary.Add(2, new Item(2, 1, true, 0, DefenceType.Head, 10));
+        itemDictionary.Add(3, new Item(3, 1, false, 0, DefenceType.Head, 0));
+        itemDictionary.Add(4, new Item(4, 1, false, 0, DefenceType.Head, 0));
+
         itemSpriteDictionary.Add(1, sprites[0]);
         itemSpriteDictionary.Add(2, sprites[1]);
+        itemSpriteDictionary.Add(3, sprites[2]);
+        itemSpriteDictionary.Add(4, sprites[3]);
     }
 
     public Item GetItem(int id)
     {
-        return itemDictionary[id];
+        return new Item(itemDictionary[id]);
     }
 
     public Sprite GetItemSprite(int id)
