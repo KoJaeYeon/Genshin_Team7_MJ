@@ -62,7 +62,6 @@ public class LightningHilichurlIdle : LightningHilichurlState //기본 상태
     {
         agent = lightningHilichurl.gameObject.GetComponent<NavMeshAgent>();
         lightningHilichurl.Animator.SetFloat("Move", 0f);
-        lightningHilichurl.MonsterWeapon.DisableSword();
     }
 
     public override void StateExit()
@@ -93,7 +92,7 @@ public class LightningHilichurlIdle : LightningHilichurlState //기본 상태
 
 public class LightningHilichurlMove : LightningHilichurlState //이동 (배회)
 {
-    float timer;
+    
     List<Transform> WayPoint = new List<Transform>();
     NavMeshAgent agent;
     public LightningHilichurlMove(LightningHilichurl lightningHilichurl) : base(lightningHilichurl) { }
@@ -106,7 +105,7 @@ public class LightningHilichurlMove : LightningHilichurlState //이동 (배회)
     public override void StateEnter()
     {
         agent = lightningHilichurl.gameObject.GetComponent<NavMeshAgent>();
-        timer = 0f;
+        
         GameObject movePoint = GameObject.FindWithTag("WayPoint");
 
         foreach (Transform point in movePoint.transform)
