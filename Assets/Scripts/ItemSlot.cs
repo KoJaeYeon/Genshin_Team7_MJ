@@ -6,18 +6,24 @@ using UnityEngine.UI;
 public class ItemSlot : MonoBehaviour
 {
     int key;
-    ItemName itemName;
+    int id;
     string name;
     int count;
     Image itemImage;
-    Image charahcterImage;
+    Image characterImage;
+
+    private void Awake()
+    {
+        itemImage = transform.GetChild(0).GetComponent<Image>();
+        characterImage = transform.GetChild(0).GetChild(0).GetComponent<Image>();
+    }
     public void InitUpdateSlot(int key, Item item)
     {
         this.key = key;
-        this.itemName = item.itemName;
-        this.name = item.itemName.ToString();
+        this.id = item.id;
+        this.name = item.id.ToString();
         this.count = item.count;
-        this.itemImage.sprite = ItemDatabase.Instance.GetItemSprite(itemName);
+        this.itemImage.sprite = ItemDatabase.Instance.GetItemSprite(id);
     }
     public void UpdateSlot(Item item)
     {

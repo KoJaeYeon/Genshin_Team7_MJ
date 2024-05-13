@@ -13,6 +13,8 @@ public class InventoryManager : MonoBehaviour
     Dictionary<int, ItemSlot> slotdefenceDictionary;
     Dictionary<int, ItemSlot> slototherDictionary;
 
+    public Transform weaponTrans;
+
     private void Awake()
     {
         weaponDictionary = new Dictionary<int, Item>();
@@ -22,24 +24,36 @@ public class InventoryManager : MonoBehaviour
         slotWeaponDictionary = new Dictionary<int, ItemSlot>();
         slotdefenceDictionary = new Dictionary<int, ItemSlot>();
         slototherDictionary = new Dictionary<int, ItemSlot>();
+    }
 
-        
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            GetItem(ItemDatabase.Instance.GetItem(1));
+            Debug.Log("GetItem");
+        }
     }
 
     public void GetItem(Item item)
     {
         if (item.isEquip == false)
         {
-            if (otherDictionary.TryAdd((int)item.itemName, item))
+            if (otherDictionary.TryAdd(item.id, item))
             {
-                otherDictionary[(int)item.itemName].count += item.count;
-                SetOtherSlot((int)item.itemName, otherDictionary[(int)item.itemName]);
+                otherDictionary[item.id].count += item.count;
+                SetOtherSlot(item.id, otherDictionary[item.id]);
             }
         }
         else if(item.weaponDamage > 0)
         {
-            weaponDictionary.Add(weaponDictionary.Count, item);
-            SetWeaponSlot(weaponDictionary.Count-1,item);
+            int index = 0;
+            while(weaponDictionary.ContainsKey(index))
+            {
+                index++;
+            }
+            weaponDictionary.Add(index, item);
+            SetWeaponSlot(index,item);
         }
         else
         {
@@ -49,15 +63,17 @@ public class InventoryManager : MonoBehaviour
     }
     public void SetWeaponSlot(int key,Item item)
     {
-        if (weaponDictionary.ContainsKey(key))
+        if (slotWeaponDictionary.ContainsKey(key))
         {
             slotWeaponDictionary[key].UpdateSlot(item);
         }
         else
         {
             ItemSlot itemSlot = PoolManager.Instance.GetItemSlot();
+            itemSlot.transform.SetParent(weaponTrans);
             slotWeaponDictionary.Add(key, itemSlot);
             itemSlot.InitUpdateSlot(key,item);
+            itemSlot.gameObject.SetActive(true);
         }
     }
     public void SetDefenceSlot(int key, Item item)
