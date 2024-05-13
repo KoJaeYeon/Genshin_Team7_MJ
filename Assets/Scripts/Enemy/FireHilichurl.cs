@@ -8,7 +8,7 @@ public class FireHilichurl : Enemy
     protected override void Awake()
     {
         base.Awake();
-
+ 
         state = gameObject.AddComponent<EnemyStateMachine>();
         state.AddState(EnemyState.Idle, new FireHilichurlIdle(this));
         state.AddState(EnemyState.Move, new FireHilichurlMove(this));
@@ -41,9 +41,12 @@ public class FireHilichurl : Enemy
         Weapon.EableSword();
     }
 
-    public void Test()
+    public void OnAnimationEnd()
     {
-        transform.LookAt(Player.position);
+        Debug.Log("호출");
+        Vector3 direction = PlayerTransform.position - transform.position;
+        Quaternion rotation = Quaternion.LookRotation(direction);
+        transform.rotation = rotation;
     }
 
 }
@@ -112,7 +115,9 @@ public class FireHilichurlMove : FireHilichurlState //이동 (배회)
     {
         agent = fireHilichurl.gameObject.GetComponent<NavMeshAgent>();
 
-        GameObject movePoint = GameObject.FindWithTag("WayPoint");
+        //GameObject movePoint = GameObject.FindWithTag("WayPoint");
+
+        GameObject movePoint = fireHilichurl.transform.parent.gameObject;
 
         foreach (Transform point in movePoint.transform)
         {

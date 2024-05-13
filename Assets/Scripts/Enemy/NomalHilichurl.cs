@@ -109,7 +109,7 @@ public class NomalHilichurlMove : NomalHilichurlState //이동 (배회)
     {
         agent = nomalHilichurl.gameObject.GetComponent<NavMeshAgent>();
 
-        GameObject movePoint = GameObject.FindWithTag("WayPoint");
+        GameObject movePoint = nomalHilichurl.transform.parent.gameObject;
 
         foreach (Transform point in movePoint.transform)
         {

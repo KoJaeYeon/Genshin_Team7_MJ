@@ -109,8 +109,8 @@ public class IceHilichurlMove : IceHilichurlState
     public override void StateEnter()
     {
         agent = iceHilichurl.gameObject.GetComponent<NavMeshAgent>();
-        
-        GameObject movePoint = GameObject.FindWithTag("WayPoint");
+
+        GameObject movePoint = iceHilichurl.transform.parent.gameObject;
 
         foreach (Transform point in movePoint.transform)
         {
