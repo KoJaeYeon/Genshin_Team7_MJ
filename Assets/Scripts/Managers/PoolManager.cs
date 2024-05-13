@@ -5,20 +5,22 @@ using UnityEngine;
 public class PoolManager : Singleton<PoolManager>
 {
     public GameObject itemSlotPrefab;
+    public GameObject itemDropPrefab;
 
-    Stack<GameObject> itemSlotList;
+    Stack<GameObject> itemSlotStack;
+    Stack<GameObject> itemDropStack;
 
     public Transform PoolParent;
 
     private void Awake()
     {
-        itemSlotList = new Stack<GameObject>();
+        itemSlotStack = new Stack<GameObject>();
 
         for(int i = 0; i < 200; i++)
         {
             GameObject prefab = Instantiate(itemSlotPrefab,PoolParent.transform);
             prefab.name = i.ToString();
-            itemSlotList.Push(prefab);
+            itemSlotStack.Push(prefab);
             prefab.SetActive(false);
         }
     }
@@ -26,7 +28,7 @@ public class PoolManager : Singleton<PoolManager>
     {
         ItemSlot itemSlot;
         GameObject prefab;
-        if(itemSlotList.TryPop(out prefab))
+        if(itemSlotStack.TryPop(out prefab))
         {
             itemSlot = prefab.GetComponent<ItemSlot>();
             return itemSlot;
@@ -37,7 +39,5 @@ public class PoolManager : Singleton<PoolManager>
             itemSlot = prefab.GetComponent<ItemSlot>();
             return itemSlot;
         }
-        
-        
     }
 }
