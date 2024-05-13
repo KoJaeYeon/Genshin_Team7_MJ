@@ -1,12 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
-public enum ItemName
-{
-    ClayMore1,
-    ClayMore2
-}
 
 public enum DefenceType
 {
@@ -20,7 +16,7 @@ public enum DefenceType
 [System.Serializable]
 public class Item
 {
-    ItemName _itemName;
+    int _id;
     int _count;
     bool _isEquip;
     float _weaponDamage;
@@ -29,7 +25,7 @@ public class Item
     int indexId;
 
     #region Property
-    public ItemName itemName    {        get => _itemName; set => _itemName = value;    }
+    public int id { get => _id; set => _id = value; }
     public int count { get => _count; set => _count = value; }
     public bool isEquip { get => _isEquip; set => _isEquip = value; }
     public float weaponDamage { get => _weaponDamage; set => _weaponDamage = value; }
@@ -37,9 +33,9 @@ public class Item
     public float value { get => _value; set => _value = value; }
     #endregion
 
-    public Item(ItemName itemName, int count, bool isEquip, float weaponDamage, DefenceType defenceType, float value)
+    public Item(int id, int count, bool isEquip, float weaponDamage, DefenceType defenceType, float value)
     {
-        _itemName = itemName;
+        _id = id;
         _count = count;
         _isEquip = isEquip;
         _weaponDamage = weaponDamage;
@@ -49,7 +45,7 @@ public class Item
 
     public Item(Item item)
     {
-        _itemName = item._itemName;
+        _id = item._id;
         _count = item._count;
         _isEquip = item._isEquip;
         _weaponDamage = item._weaponDamage;
@@ -62,7 +58,8 @@ public class Item
         if (obj == null) return false;
         if (!(obj is Item)) return false;
         Item other = (Item)obj;
-        if (_isEquip == false && _itemName == other._itemName) return true;
+        if (_isEquip == false && _id == other._id) return true;
+        else if(indexId == other.indexId) return true;
         return false;
     }
 

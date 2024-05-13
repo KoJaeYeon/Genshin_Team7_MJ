@@ -6,23 +6,38 @@ public class PoolManager : Singleton<PoolManager>
 {
     public GameObject itemSlotPrefab;
 
-    List<GameObject> itemSlotList;
+    Stack<GameObject> itemSlotList;
 
     public Transform PoolParent;
 
     private void Awake()
     {
-        itemSlotList = new List<GameObject>();
+        itemSlotList = new Stack<GameObject>();
 
         for(int i = 0; i < 200; i++)
         {
             GameObject prefab = Instantiate(itemSlotPrefab,PoolParent.transform);
-            itemSlotList.Add(prefab);
+            prefab.name = i.ToString();
+            itemSlotList.Push(prefab);
             prefab.SetActive(false);
         }
     }
     public ItemSlot GetItemSlot()
     {
-        return new ItemSlot();
+        ItemSlot itemSlot;
+        GameObject prefab;
+        if(itemSlotList.TryPop(out prefab))
+        {
+            itemSlot = prefab.GetComponent<ItemSlot>();
+            return itemSlot;
+        }
+        else
+        {
+            prefab = Instantiate(itemSlotPrefab, PoolParent.transform);
+            itemSlot = prefab.GetComponent<ItemSlot>();
+            return itemSlot;
+        }
+        
+        
     }
 }
