@@ -12,6 +12,8 @@ public class UIManager : Singleton<UIManager>
     public GameObject settingBar;
     IActivePanel settingBar_IActivePanel;
 
+    public Transform itemGetContent;
+
     public GameObject mainPanel;
 
     private void Awake()
@@ -21,15 +23,15 @@ public class UIManager : Singleton<UIManager>
 
     void Start()
     {
-        #if UNITY_ANDROID
-        //안드로이드
-        androidB.gameObject.SetActive(true);
-        editorB.gameObject.SetActive(false);
-        #elif UNITY_EDITOR
-        //에디터
-        androidB.gameObject.SetActive(false);
-        editorB.gameObject.SetActive(true);
-        #endif
+        //#if UNITY_ANDROID
+        ////안드로이드
+        //androidB.gameObject.SetActive(true);
+        //editorB.gameObject.SetActive(false);
+        //#elif UNITY_EDITOR
+        ////에디터
+        //androidB.gameObject.SetActive(false);
+        //editorB.gameObject.SetActive(true);
+        //#endif
     }
 
     private void Update()
@@ -60,5 +62,22 @@ public class UIManager : Singleton<UIManager>
         IActivePanel iactivePanel = gameObject.GetComponent<IActivePanel>();
         if (iactivePanel != null) { iactivePanel.PanelActive(activePanel); }
         else { Debug.LogWarning("NotPanel"); }
+    }
+
+    public void AddGetSlot(GetSlot getSlot)
+    {
+        if(!itemGetContent.transform.parent.parent.gameObject.activeSelf)
+        {
+            itemGetContent.transform.parent.parent.gameObject.SetActive(true);
+        }
+        getSlot.transform.SetParent(itemGetContent);
+    }
+
+    public void RemoveGetSlot()
+    {
+        if(transform.childCount == 0)
+        {
+            itemGetContent.transform.parent.parent.gameObject.SetActive(false);
+        }
     }
 }
