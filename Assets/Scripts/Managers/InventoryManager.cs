@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryManager : MonoBehaviour
+public class InventoryManager : Singleton<InventoryManager>
 {
     Dictionary<int, Item> weaponDictionary;
     Dictionary<int, Item> defenceDictionary;
@@ -94,7 +94,7 @@ public class InventoryManager : MonoBehaviour
         }
         else
         {
-            ItemSlot itemSlot = PoolManager.Instance.GetItemSlot();
+            ItemSlot itemSlot = PoolManager.Instance.Get_ItemSlot();
             itemSlot.transform.SetParent(weaponTrans);
             slotWeaponDictionary.Add(key, itemSlot);
             itemSlot.InitUpdateSlot(key,item);
@@ -109,7 +109,7 @@ public class InventoryManager : MonoBehaviour
         }
         else
         {
-            ItemSlot itemSlot = PoolManager.Instance.GetItemSlot();
+            ItemSlot itemSlot = PoolManager.Instance.Get_ItemSlot();
             itemSlot.transform.SetParent(defenceTrans);
             slotdefenceDictionary.Add(key, itemSlot);
             itemSlot.InitUpdateSlot(key, item);
@@ -125,7 +125,7 @@ public class InventoryManager : MonoBehaviour
         }
         else
         {
-            ItemSlot itemSlot = PoolManager.Instance.GetItemSlot();
+            ItemSlot itemSlot = PoolManager.Instance.Get_ItemSlot();
             itemSlot.transform.SetParent(otherTrans);
             slototherDictionary.Add(key, itemSlot);
             itemSlot.InitUpdateSlot(key, item);
