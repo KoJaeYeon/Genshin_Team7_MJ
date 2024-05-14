@@ -27,6 +27,7 @@ public class Item
 
     #region Property
     public int id { get => _id; set => _id = value; }
+    public string itemName { get => _itemName; set => _itemName = value; }
     public int count { get => _count; set => _count = value; }
     public bool isEquip { get => _isEquip; set => _isEquip = value; }
     public float weaponDamage { get => _weaponDamage; set => _weaponDamage = value; }
@@ -48,6 +49,7 @@ public class Item
     public Item(Item item)
     {
         _id = item._id;
+        _itemName = item._itemName;
         _count = item._count;
         _isEquip = item._isEquip;
         _weaponDamage = item._weaponDamage;
@@ -65,4 +67,8 @@ public class Item
         return false;
     }
 
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }

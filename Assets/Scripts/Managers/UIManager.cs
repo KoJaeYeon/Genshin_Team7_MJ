@@ -12,6 +12,8 @@ public class UIManager : Singleton<UIManager>
     public GameObject settingBar;
     IActivePanel settingBar_IActivePanel;
 
+    public Transform itemGetContent;
+
     public GameObject mainPanel;
 
     private void Awake()
@@ -60,5 +62,22 @@ public class UIManager : Singleton<UIManager>
         IActivePanel iactivePanel = gameObject.GetComponent<IActivePanel>();
         if (iactivePanel != null) { iactivePanel.PanelActive(activePanel); }
         else { Debug.LogWarning("NotPanel"); }
+    }
+
+    public void AddGetSlot(GetSlot getSlot)
+    {
+        if(!itemGetContent.transform.parent.parent.gameObject.activeSelf)
+        {
+            itemGetContent.transform.parent.parent.gameObject.SetActive(true);
+        }
+        getSlot.transform.SetParent(itemGetContent);
+    }
+
+    public void RemoveGetSlot()
+    {
+        if(transform.childCount == 0)
+        {
+            itemGetContent.transform.parent.parent.gameObject.SetActive(false);
+        }
     }
 }
