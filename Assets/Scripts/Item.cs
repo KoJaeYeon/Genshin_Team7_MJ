@@ -17,6 +17,7 @@ public enum DefenceType
 public class Item
 {
     int _id;
+    string _itemName;
     int _count;
     bool _isEquip;
     float _weaponDamage;
@@ -33,9 +34,10 @@ public class Item
     public float value { get => _value; set => _value = value; }
     #endregion
 
-    public Item(int id, int count, bool isEquip, float weaponDamage, DefenceType defenceType, float value)
+    public Item(int id, string itemname , int count, bool isEquip, float weaponDamage, DefenceType defenceType, float value)
     {
         _id = id;
+        _itemName = itemname;
         _count = count;
         _isEquip = isEquip;
         _weaponDamage = weaponDamage;
