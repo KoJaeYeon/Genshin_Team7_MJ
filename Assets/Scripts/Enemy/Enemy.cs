@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour
     protected EnemyData enemyData;
     protected float traceDistance = 5.0f;
     protected bool traceMove = true;
+    protected bool attack = true;
 
     protected virtual void Awake()
     {
@@ -81,6 +82,10 @@ public class Enemy : MonoBehaviour
     {
         enemy.gameObject.layer = (int)EnemyLayer.isDead;
         enemy.animator.SetTrigger("Die");
+
+        GameObject DropElement = ElementPool.Instance.GetElementObject();
+        DropElement.transform.position = enemy.transform.position;
+        DropElement.SetActive(true);
         yield return new WaitForSeconds(1.05f);
         enemy.gameObject.SetActive(false);
     }

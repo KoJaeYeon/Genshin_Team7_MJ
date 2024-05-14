@@ -12,7 +12,8 @@ public class LightningHilichurl : Enemy
         state = gameObject.AddComponent<EnemyStateMachine>();
         state.AddState(EnemyState.Idle, new LightningHilichurlIdle(this));
         state.AddState(EnemyState.Move, new LightningHilichurlMove(this));
-        state.AddState(EnemyState.Trace, new LightningHilichurlTrace(this));
+        state.AddState(EnemyState.TraceMove, new LightningHilichurlTraceMove(this));
+        state.AddState(EnemyState.TraceAttack,new LightningHilichurlTraceAttack(this));
         //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
         enemyData = new EnemyData(120f, 20f, 5f, 0.5f, 180, Element.Lightning);
         EnemyHealthDic.Add(this, enemyData.Health);
@@ -23,22 +24,22 @@ public class LightningHilichurl : Enemy
     public MonsterWeapon MonsterWeapon => Weapon;
     public NavMeshAgent Agent => agent;
     public float TraceDistance => traceDistance;
-    public bool TraceMove
+    public EnemyData EnemyData => enemyData;
+    
+    public bool TraceAttack
     {
-        get { return traceMove; }
-        set { traceMove = value; }
+        get { return attack; }
+        set { attack = value; }
     }
 
-    public void IsMove() //Animation Event
+    public void OnAnimationEnd()
     {
-        if (Vector3.Distance(transform.position, Player.position) > 2.0f)
-            traceMove = true;
+        if (Vector3.Distance(transform.position, Player.position) > Agent.stoppingDistance)
+            State.ChangeState(EnemyState.TraceMove);
+
+        attack = true;
     }
 
-    public void UseWeapon() //Animation Event
-    {
-        Weapon.EableSword();
-    }
 }
 
 public abstract class LightningHilichurlState : BaseState
@@ -83,7 +84,7 @@ public class LightningHilichurlIdle : LightningHilichurlState //기본 상태
     {
         if (Vector3.Distance(lightningHilichurl.PlayerTransform.position, lightningHilichurl.transform.position) <= lightningHilichurl.TraceDistance)
         {
-            lightningHilichurl.State.ChangeState(EnemyState.Trace);
+            lightningHilichurl.State.ChangeState(EnemyState.TraceMove);
         }
     }
 }
@@ -130,14 +131,14 @@ public class LightningHilichurlMove : LightningHilichurlState //이동 (배회)
     {
         if (Vector3.Distance(lightningHilichurl.PlayerTransform.position, lightningHilichurl.transform.position) <= lightningHilichurl.TraceDistance)
         {
-            lightningHilichurl.State.ChangeState(EnemyState.Trace);
+            lightningHilichurl.State.ChangeState(EnemyState.TraceMove);
         }
     }
 }
 
-public class LightningHilichurlTrace : LightningHilichurlState //이동 (추적)
+public class LightningHilichurlTraceMove : LightningHilichurlState //이동 (추적)
 {
-    public LightningHilichurlTrace(LightningHilichurl lightningHilichurl) : base(lightningHilichurl) { }
+    public LightningHilichurlTraceMove(LightningHilichurl lightningHilichurl) : base(lightningHilichurl) { }
 
     public override void OnCollisionEnter(Collision collision)
     {
@@ -153,25 +154,18 @@ public class LightningHilichurlTrace : LightningHilichurlState //이동 (추적)
     public override void StateExit()
     {
         lightningHilichurl.Agent.SetDestination(lightningHilichurl.transform.position);
+        lightningHilichurl.Animator.SetFloat("Move", 0);
     }
 
     public override void StateUpDate()
     {
-        if (lightningHilichurl.TraceMove)
+        if (Vector3.Distance(lightningHilichurl.PlayerTransform.position, lightningHilichurl.transform.position) > lightningHilichurl.Agent.stoppingDistance)
         {
-            if (Vector3.Distance(lightningHilichurl.PlayerTransform.position, lightningHilichurl.transform.position) > lightningHilichurl.Agent.stoppingDistance)
-            {
-                lightningHilichurl.Animator.SetBool("isAttack", false);
-                lightningHilichurl.Agent.SetDestination(lightningHilichurl.PlayerTransform.position);
-            }
-            else if (Vector3.Distance(lightningHilichurl.PlayerTransform.position, lightningHilichurl.transform.position) <= lightningHilichurl.Agent.stoppingDistance)
-            {
-                lightningHilichurl.TraceMove = false;
-            }
+            lightningHilichurl.Agent.SetDestination(lightningHilichurl.PlayerTransform.position);
         }
-        else
+        else if (Vector3.Distance(lightningHilichurl.PlayerTransform.position, lightningHilichurl.transform.position) <= lightningHilichurl.Agent.stoppingDistance)
         {
-            lightningHilichurl.Animator.SetBool("isAttack", true);
+            lightningHilichurl.State.ChangeState(EnemyState.TraceAttack);
         }
 
         StopTracking();
@@ -183,4 +177,44 @@ public class LightningHilichurlTrace : LightningHilichurlState //이동 (추적)
             lightningHilichurl.State.ChangeState(EnemyState.Move);
     }
 
+}
+
+public class LightningHilichurlTraceAttack : LightningHilichurlState
+{
+    private MonsterWeapon Weapon;
+    public LightningHilichurlTraceAttack(LightningHilichurl lightningHilichurl) : base(lightningHilichurl) { }
+    
+    public override void OnCollisionEnter(Collision collision)
+    {
+        
+    }
+
+    public override void StateEnter()
+    {
+        lightningHilichurl.Agent.updateRotation = false;
+        lightningHilichurl.Agent.SetDestination(lightningHilichurl.transform.position);
+
+        Weapon = lightningHilichurl.transform.GetComponentInChildren<MonsterWeapon>();
+        Weapon.SetAttackPower(lightningHilichurl.EnemyData.AttackPower);
+    }
+
+    public override void StateExit()
+    {
+        lightningHilichurl.Agent.updateRotation = true;
+        lightningHilichurl.TraceAttack = true;
+    }
+
+    public override void StateUpDate()
+    {
+        if (lightningHilichurl.TraceAttack)
+        {
+            lightningHilichurl.TraceAttack = false;
+            lightningHilichurl.Animator.SetTrigger("Attack");
+            Weapon.EableSword();
+        }
+
+        Vector3 direction = lightningHilichurl.PlayerTransform.position - lightningHilichurl.transform.position;
+        Quaternion rotation = Quaternion.LookRotation(direction);
+        lightningHilichurl.transform.rotation = rotation;
+    }
 }
