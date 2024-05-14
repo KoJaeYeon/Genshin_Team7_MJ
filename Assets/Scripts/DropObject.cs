@@ -9,7 +9,7 @@ public class DropObject : MonoBehaviour,IInteractable
 
     public void InitItemSlot()
     {
-        getSlot.Init(item);
+       // getSlot.Init(item);
     }
     public void RemoveItemGet()
     {
