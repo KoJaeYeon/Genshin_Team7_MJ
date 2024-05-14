@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IMonsterAkt
+public class DropSlot : MonoBehaviour
 {
-    public void SetAttackPower(Enemy enemy);
+    
 }
