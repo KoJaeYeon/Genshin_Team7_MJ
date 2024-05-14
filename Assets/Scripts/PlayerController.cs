@@ -34,6 +34,13 @@ public class PlayerController : MonoBehaviour
     public float GroundedRadius = 0.28f;
     public LayerMask GroundLayers;
 
+    [Header("Player Climb")]
+    public bool Cliff = false;
+    public float CliffCheckOffsetY = 0.09f;
+    public float CliffCheckOffsetZ = 0.09f;
+    public float CliffCheckRadius = 0.18f;
+    public LayerMask CliffLayers;
+
     [Header("Cinemachine")]
     public GameObject CinemachineCameraTarget;
     public float TopClamp = 70.0f;
@@ -52,7 +59,7 @@ public class PlayerController : MonoBehaviour
     private float _rotationVelocity;
     [SerializeField] private float _verticalVelocity;
     private float _terminalVelocity = 53.0f;
-    private bool _isAttacking = false;
+    private bool _attackTrigger = true;
 
     // timeout deltatime
     [SerializeField] private float _jumpTimeoutDelta;
@@ -64,7 +71,7 @@ public class PlayerController : MonoBehaviour
     private int _animIDJump;
     private int _animIDFreeFall;
     private int _animIDMotionSpeed;
-    private int _animIDAttack;
+    private int _animIDCliffCheck;
 
 #if ENABLE_INPUT_SYSTEM
     private PlayerInput _playerInput;
@@ -78,7 +85,7 @@ public class PlayerController : MonoBehaviour
     private const float _threshold = 0.01f;
 
     private bool _hasAnimator;
-
+    
     public PlayerSO playerData;
 
     private bool IsCurrentDeviceMouse
@@ -120,13 +127,34 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         _hasAnimator = TryGetComponent(out _animator);
+        
 
         JumpAndGravity();
         GroundedCheck();
-        Move();
+        CliffCheck();
 
-        Attack();
+        if(Grounded == true)
+        {
+            Move();
+        }
         
+        if(Cliff == true)
+        {
+            Climb();
+        }
+
+        if(_input.attack)
+        { 
+            if (_attackTrigger)
+            {
+                Attack();
+                _attackTrigger = false;
+            }
+        }
+        else
+        {
+            _attackTrigger = true;
+        }
     }
 
     private void LateUpdate()
@@ -136,12 +164,12 @@ public class PlayerController : MonoBehaviour
 
     private void AssignAnimationIDs()
     {
-        _animIDSpeed = Animator.StringToHash("Speed");
+        _animIDSpeed = Animator.StringToHash("MoveSpeed");
         _animIDGrounded = Animator.StringToHash("Grounded");
         _animIDJump = Animator.StringToHash("Jump");
         _animIDFreeFall = Animator.StringToHash("FreeFall");
         _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
-        _animIDAttack = Animator.StringToHash("Attack");
+        _animIDCliffCheck = Animator.StringToHash("Cliff");
     }
 
     private void GroundedCheck()
@@ -151,9 +179,44 @@ public class PlayerController : MonoBehaviour
         Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
             QueryTriggerInteraction.Ignore);
 
+        //Vector3 center = transform.position + Vector3.up * GroundedOffset;
+        //Vector3 halfExtents = new Vector3(GroundedRadius, 0.1f, GroundedRadius);
+
+        //Grounded = Physics.CheckBox(center, halfExtents, Quaternion.identity, GroundLayers,
+        //    QueryTriggerInteraction.Ignore);
+
         if(_hasAnimator)
         {
             _animator.SetBool(_animIDGrounded, Grounded);
+        }
+    }
+
+    private void CliffCheck()
+    {
+        Vector3 spherePosiiton = new Vector3(transform.position.x, transform.position.y + CliffCheckOffsetY,
+            transform.position.z + CliffCheckOffsetZ);
+
+        Cliff = Physics.CheckSphere(spherePosiiton, CliffCheckRadius, CliffLayers,
+            QueryTriggerInteraction.Ignore);
+
+        if (_hasAnimator)
+        {
+            _animator.SetBool(_animIDCliffCheck, Cliff);
+
+            if(Cliff == true)
+            {
+                Grounded = false;
+                transform.rotation = Quaternion.identity;
+                _animator.SetBool("Climb_Idle", true);
+                _animator.SetBool(_animIDGrounded, false);
+                _animator.SetBool(_animIDFreeFall, false);
+            }
+            else
+            {
+                _animator.SetBool("Climb_Idle", false);
+                Grounded = true;
+                _animator.SetBool(_animIDGrounded, true);
+            }
         }
     }
 
@@ -226,6 +289,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Climb()
+    {
+        if(Cliff == true)
+        {
+            Vector3 climbDirection = new Vector3(_input.move.x, _input.move.y, 0.0f);
+
+            _controller.Move(climbDirection * (MoveSpeed * Time.deltaTime));
+        }
+    }
+
     private void JumpAndGravity()
     {
         if (Grounded)
@@ -282,6 +355,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void FlyAndGravity()
+    {
+
+    }
+
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
     {
         if (lfAngle < -360f) lfAngle += 360f;
@@ -291,14 +369,28 @@ public class PlayerController : MonoBehaviour
 
     private void Attack()
     {
-        if (_input.attack && !_isAttacking)
+        if(_hasAnimator)
         {
-            if (_hasAnimator)
-            {
-                Debug.Log("Attack");
-                _animator.SetTrigger(_animIDAttack);
-                _isAttacking = true;
-            }
+            _animator.SetTrigger("Attack");
+            _animator.SetBool("Attacking", true);
         }
+        else
+        {
+            _animator.SetBool("Attacking", false);
+        }
+        
+    }
+
+    private void OnDrawGizmos()
+    {
+        // 레이캐스트를 발사할 위치 계산
+        Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y + CliffCheckOffsetY,
+            transform.position.z + CliffCheckOffsetZ);
+
+        // 기즈모 색상 설정
+        Gizmos.color = Color.yellow;
+
+        // 레이캐스트를 시각적으로 나타내기 위해 구 모양의 기즈모 그리기
+        Gizmos.DrawSphere(spherePosition, CliffCheckRadius);
     }
 }

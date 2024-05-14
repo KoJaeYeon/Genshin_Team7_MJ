@@ -43,8 +43,17 @@
                 },
                 {
                     "name": "Attack",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "eb9c4f76-d5e3-4b9c-a5ad-614b4cb9f5da",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Fly",
+                    "type": "Button",
+                    "id": "8cb56567-a660-48d3-81a5-fba0cda115d5",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -148,6 +157,17 @@
                     "processors": "",
                     "groups": "PC",
                     "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6d5b7a8d-232b-4adc-a10d-310802b2270c",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fly",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
