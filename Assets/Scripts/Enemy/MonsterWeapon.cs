@@ -5,7 +5,7 @@ using UnityEngine;
 public class MonsterWeapon : MonoBehaviour
 {
     BoxCollider boxCollider;
-
+    float MonsterAttackPower;
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
@@ -33,8 +33,10 @@ public class MonsterWeapon : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("Ãæµ¹ÇÔ");
-            
+            Debug.Log(MonsterAttackPower);
         }
             
     }
+
+    
 }

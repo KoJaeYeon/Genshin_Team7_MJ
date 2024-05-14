@@ -7,7 +7,9 @@ public enum EnemyState
 {
     Idle,
     Move,
-    Trace
+    Trace,
+    TraceAttack,
+    TraceMove
 }
 
 public class EnemyStateMachine : MonoBehaviour

@@ -16,12 +16,12 @@ public class LightningHilichurl : Enemy
         //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
         enemyData = new EnemyData(120f, 20f, 5f, 0.5f, 180, Element.Lightning);
         EnemyHealthDic.Add(this, enemyData.Health);
-        animator = GetComponent<Animator>();
     }
     public EnemyStateMachine State => state;
     public Animator Animator => animator;
     public Transform PlayerTransform => Player;
     public MonsterWeapon MonsterWeapon => Weapon;
+    public NavMeshAgent Agent => agent;
     public float TraceDistance => traceDistance;
     public bool TraceMove
     {
@@ -52,15 +52,13 @@ public abstract class LightningHilichurlState : BaseState
 
 public class LightningHilichurlIdle : LightningHilichurlState //기본 상태
 {
-    float timer = 0f;
-    NavMeshAgent agent;
+    private float timer = 0f;
     public LightningHilichurlIdle(LightningHilichurl lightningHilichurl) : base(lightningHilichurl) { }
 
     public override void OnCollisionEnter(Collision collision) { }
 
     public override void StateEnter()
     {
-        agent = lightningHilichurl.gameObject.GetComponent<NavMeshAgent>();
         lightningHilichurl.Animator.SetFloat("Move", 0f);
     }
 
@@ -92,9 +90,7 @@ public class LightningHilichurlIdle : LightningHilichurlState //기본 상태
 
 public class LightningHilichurlMove : LightningHilichurlState //이동 (배회)
 {
-    
     List<Transform> WayPoint = new List<Transform>();
-    NavMeshAgent agent;
     public LightningHilichurlMove(LightningHilichurl lightningHilichurl) : base(lightningHilichurl) { }
 
     public override void OnCollisionEnter(Collision collision)
@@ -104,29 +100,27 @@ public class LightningHilichurlMove : LightningHilichurlState //이동 (배회)
 
     public override void StateEnter()
     {
-        agent = lightningHilichurl.gameObject.GetComponent<NavMeshAgent>();
-        
-        GameObject movePoint = GameObject.FindWithTag("WayPoint");
+        GameObject movePoint = lightningHilichurl.transform.parent.gameObject;
 
         foreach (Transform point in movePoint.transform)
         {
             WayPoint.Add(point);
         }
 
-        agent.SetDestination(WayPoint[Random.Range(0, WayPoint.Count)].transform.position);
-        lightningHilichurl.Animator.SetFloat("Move", agent.speed);
+        lightningHilichurl.Agent.SetDestination(WayPoint[Random.Range(0, WayPoint.Count)].transform.position);
+        lightningHilichurl.Animator.SetFloat("Move", lightningHilichurl.Agent.speed);
     }
 
     public override void StateExit()
     {
-        agent.SetDestination(agent.transform.position);
+        lightningHilichurl.Agent.SetDestination(lightningHilichurl.Agent.transform.position);
     }
 
     public override void StateUpDate()
     {
         Trace();
 
-        if (agent.remainingDistance <= agent.stoppingDistance)
+        if (lightningHilichurl.Agent.remainingDistance <= lightningHilichurl.Agent.stoppingDistance)
         {
             lightningHilichurl.State.ChangeState(EnemyState.Idle);
         }
@@ -143,8 +137,6 @@ public class LightningHilichurlMove : LightningHilichurlState //이동 (배회)
 
 public class LightningHilichurlTrace : LightningHilichurlState //이동 (추적)
 {
-    NavMeshAgent agent;
-
     public LightningHilichurlTrace(LightningHilichurl lightningHilichurl) : base(lightningHilichurl) { }
 
     public override void OnCollisionEnter(Collision collision)
@@ -154,26 +146,25 @@ public class LightningHilichurlTrace : LightningHilichurlState //이동 (추적)
 
     public override void StateEnter()
     {
-        agent = lightningHilichurl.gameObject.GetComponent<NavMeshAgent>();
-        agent.SetDestination(lightningHilichurl.PlayerTransform.position);
-        lightningHilichurl.Animator.SetFloat("Move", agent.speed + 1);
+        lightningHilichurl.Agent.SetDestination(lightningHilichurl.PlayerTransform.position);
+        lightningHilichurl.Animator.SetFloat("Move", lightningHilichurl.Agent.speed + 1);
     }
 
     public override void StateExit()
     {
-        agent.SetDestination(lightningHilichurl.transform.position);
+        lightningHilichurl.Agent.SetDestination(lightningHilichurl.transform.position);
     }
 
     public override void StateUpDate()
     {
         if (lightningHilichurl.TraceMove)
         {
-            if (Vector3.Distance(lightningHilichurl.PlayerTransform.position, lightningHilichurl.transform.position) > agent.stoppingDistance)
+            if (Vector3.Distance(lightningHilichurl.PlayerTransform.position, lightningHilichurl.transform.position) > lightningHilichurl.Agent.stoppingDistance)
             {
                 lightningHilichurl.Animator.SetBool("isAttack", false);
-                agent.SetDestination(lightningHilichurl.PlayerTransform.position);
+                lightningHilichurl.Agent.SetDestination(lightningHilichurl.PlayerTransform.position);
             }
-            else if (Vector3.Distance(lightningHilichurl.PlayerTransform.position, lightningHilichurl.transform.position) <= agent.stoppingDistance)
+            else if (Vector3.Distance(lightningHilichurl.PlayerTransform.position, lightningHilichurl.transform.position) <= lightningHilichurl.Agent.stoppingDistance)
             {
                 lightningHilichurl.TraceMove = false;
             }

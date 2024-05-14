@@ -17,13 +17,13 @@ public class IceHilichurl : Enemy
         //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
         enemyData = new EnemyData(110f, 15f, 2f, 0.1f, 130, Element.Ice);
         EnemyHealthDic.Add(this, enemyData.Health);
-        animator = GetComponent<Animator>();
     }
 
     public EnemyStateMachine State => state;
     public Animator Animator => animator;
     public Transform PlayerTransform => Player;
     public MonsterWeapon MonsterWeapon => Weapon;
+    public NavMeshAgent Agent => agent;
     public float TraceDistance => traceDistance;
     public bool TraceMove
     {
@@ -54,8 +54,7 @@ public abstract class IceHilichurlState : BaseState
 }
 public class IceHilichurlIdle : IceHilichurlState
 {
-    float timer = 0f;
-    NavMeshAgent agent;
+    private float timer = 0f;
     public IceHilichurlIdle(IceHilichurl iceHilichurl) : base(iceHilichurl) { }
 
     public override void OnCollisionEnter(Collision collision)
@@ -65,7 +64,6 @@ public class IceHilichurlIdle : IceHilichurlState
 
     public override void StateEnter()
     {
-        agent = iceHilichurl.gameObject.GetComponent<NavMeshAgent>();
         iceHilichurl.Animator.SetFloat("Move", 0f);
     }
 
@@ -96,9 +94,7 @@ public class IceHilichurlIdle : IceHilichurlState
 
 public class IceHilichurlMove : IceHilichurlState
 {
-    
     List<Transform> WayPoint = new List<Transform>();
-    NavMeshAgent agent;
     public IceHilichurlMove(IceHilichurl iceHilichurl) : base(iceHilichurl) { }
     
     public override void OnCollisionEnter(Collision collision)
@@ -108,29 +104,27 @@ public class IceHilichurlMove : IceHilichurlState
 
     public override void StateEnter()
     {
-        agent = iceHilichurl.gameObject.GetComponent<NavMeshAgent>();
-        
-        GameObject movePoint = GameObject.FindWithTag("WayPoint");
+        GameObject movePoint = iceHilichurl.transform.parent.gameObject;
 
         foreach (Transform point in movePoint.transform)
         {
             WayPoint.Add(point);
         }
 
-        agent.SetDestination(WayPoint[Random.Range(0, WayPoint.Count)].transform.position);
-        iceHilichurl.Animator.SetFloat("Move", agent.speed);
+        iceHilichurl.Agent.SetDestination(WayPoint[Random.Range(0, WayPoint.Count)].transform.position);
+        iceHilichurl.Animator.SetFloat("Move", iceHilichurl.Agent.speed);
     }
 
     public override void StateExit()
     {
-        agent.SetDestination(agent.transform.position);
+        iceHilichurl.Agent.SetDestination(iceHilichurl.Agent.transform.position);
     }
 
     public override void StateUpDate()
     {
         Trace();
 
-        if (agent.remainingDistance <= agent.stoppingDistance)
+        if (iceHilichurl.Agent.remainingDistance <= iceHilichurl.Agent.stoppingDistance)
         {
             iceHilichurl.State.ChangeState(EnemyState.Idle);
         }
@@ -147,7 +141,6 @@ public class IceHilichurlMove : IceHilichurlState
 
 public class IceHilichurlTrace : IceHilichurlState
 {
-    NavMeshAgent agent;
     public IceHilichurlTrace(IceHilichurl iceHilichurl) : base(iceHilichurl) { }
     
     public override void OnCollisionEnter(Collision collision)
@@ -157,26 +150,25 @@ public class IceHilichurlTrace : IceHilichurlState
 
     public override void StateEnter()
     {
-        agent = iceHilichurl.gameObject.GetComponent<NavMeshAgent>();
-        agent.SetDestination(iceHilichurl.PlayerTransform.position);
-        iceHilichurl.Animator.SetFloat("Move", agent.speed + 1);
+        iceHilichurl.Agent.SetDestination(iceHilichurl.PlayerTransform.position);
+        iceHilichurl.Animator.SetFloat("Move", iceHilichurl.Agent.speed + 1);
     }
 
     public override void StateExit()
     {
-        agent.SetDestination(iceHilichurl.transform.position);
+        iceHilichurl.Agent.SetDestination(iceHilichurl.transform.position);
     }
 
     public override void StateUpDate()
     {
         if (iceHilichurl.TraceMove)
         {
-            if (Vector3.Distance(iceHilichurl.PlayerTransform.position, iceHilichurl.transform.position) > agent.stoppingDistance)
+            if (Vector3.Distance(iceHilichurl.PlayerTransform.position, iceHilichurl.transform.position) > iceHilichurl.Agent.stoppingDistance)
             {
                 iceHilichurl.Animator.SetBool("isAttack", false);
-                agent.SetDestination(iceHilichurl.PlayerTransform.position);
+                iceHilichurl.Agent.SetDestination(iceHilichurl.PlayerTransform.position);
             }
-            else if (Vector3.Distance(iceHilichurl.PlayerTransform.position, iceHilichurl.transform.position) <= agent.stoppingDistance)
+            else if (Vector3.Distance(iceHilichurl.PlayerTransform.position, iceHilichurl.transform.position) <= iceHilichurl.Agent.stoppingDistance)
             {
                 iceHilichurl.TraceMove = false;
             }
