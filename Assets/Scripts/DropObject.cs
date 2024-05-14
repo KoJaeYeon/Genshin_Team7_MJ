@@ -9,13 +9,13 @@ public class DropObject : MonoBehaviour,IInteractable
     Item item;
     GetSlot getSlot;
     int id;
-
+    static int idtemp = 1;
     private void Start()
     {
         getSlot = PoolManager.Instance.Get_GetSlot();
 
         //삭제예정
-        item = ItemDatabase.Instance.GetItem(1);
+        item = ItemDatabase.Instance.GetItem(idtemp++);
 
         InitItemSlot();
     }
@@ -33,6 +33,7 @@ public class DropObject : MonoBehaviour,IInteractable
     {
         Debug.Log("RemoveGet");
         UIManager.Instance.RemoveGetSlot();
+        getSlot.transform.SetParent(PoolManager.Instance.PoolParent);
         getSlot.gameObject.SetActive(false);
     }
 
