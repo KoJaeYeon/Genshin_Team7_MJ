@@ -18,32 +18,26 @@ public class FireHilichurl : Enemy
         enemyData = new EnemyData(80f, 20f, 3f, 0.1f, 180, Element.Fire);
         EnemyHealthDic.Add(this, enemyData.Health);
     }
-    private bool attack = true;
+
     public EnemyStateMachine State => state;
     public Animator Animator => animator;
     public Transform PlayerTransform => Player;
     public MonsterWeapon MonsterWeapon => Weapon;
     public NavMeshAgent Agent => agent;
     public float TraceDistance => traceDistance;
+    public EnemyData EnemyData => enemyData;
     public bool TraceAttack
     {
         get { return  attack; }
         set { attack = value; }
     }
-
-    public void UseWeapon() //Animation Event
-    {
-        Weapon.EableSword();
-    }
-
-    public void OnAnimationEnd()
+    public void OnAnimationEnd() //Animation Event
     { 
         if (Vector3.Distance(transform.position, Player.position) > Agent.stoppingDistance)
             State.ChangeState(EnemyState.TraceMove);
 
         attack = true;
     }
-
 }
 
 public abstract class FireHilichurlState : BaseState
@@ -99,14 +93,11 @@ public class FireHilichurlMove : FireHilichurlState //이동 (배회)
     List<Transform> WayPoint = new List<Transform>();
     public FireHilichurlMove(FireHilichurl fireHilichurl) : base(fireHilichurl) { }
 
-    public override void OnCollisionEnter(Collision collision)
-    {
-
-    }
-
+    public override void OnCollisionEnter(Collision collision) { }
+   
     public override void StateEnter()
     {
-        GameObject movePoint = fireHilichurl.transform.parent.gameObject;
+        GameObject movePoint = fireHilichurl.transform.parent.gameObject; //WayPoint Transform
 
         foreach (Transform point in movePoint.transform)
         {
@@ -145,11 +136,8 @@ public class FireHilichurlTraceMove : FireHilichurlState //(추적 : 이동)
 {
     public FireHilichurlTraceMove(FireHilichurl fireHilichurl) : base(fireHilichurl) { }
 
-    public override void OnCollisionEnter(Collision collision)
-    {
-        
-    }
-
+    public override void OnCollisionEnter(Collision collision) { }
+    
     public override void StateEnter()
     {
         fireHilichurl.Agent.SetDestination(fireHilichurl.PlayerTransform.position);
@@ -158,7 +146,8 @@ public class FireHilichurlTraceMove : FireHilichurlState //(추적 : 이동)
 
     public override void StateExit()
     {
-     
+        fireHilichurl.Agent.SetDestination(fireHilichurl.transform.position);
+        fireHilichurl.Animator.SetFloat("Move", 0);
     }
 
     public override void StateUpDate()
@@ -183,18 +172,19 @@ public class FireHilichurlTraceMove : FireHilichurlState //(추적 : 이동)
 }
 
 public class FireHilichurlTraceAttack : FireHilichurlState //(추적 : 공격)
-{   
+{
+    private MonsterWeapon Weapon;
     public FireHilichurlTraceAttack(FireHilichurl fireHilichurl) : base(fireHilichurl) { }
 
-    public override void OnCollisionEnter(Collision collision)
-    {
-
-    }
-
+    public override void OnCollisionEnter(Collision collision) { }
+    
     public override void StateEnter()
     {
         fireHilichurl.Agent.updateRotation = false;
         fireHilichurl.Agent.SetDestination(fireHilichurl.transform.position);
+
+        Weapon = fireHilichurl.transform.GetComponentInChildren<MonsterWeapon>();
+        Weapon.SetAttackPower(fireHilichurl.EnemyData.AttackPower);
     }
 
     public override void StateExit()
@@ -209,6 +199,7 @@ public class FireHilichurlTraceAttack : FireHilichurlState //(추적 : 공격)
         {
             fireHilichurl.TraceAttack = false;
             fireHilichurl.Animator.SetTrigger("Attack");
+            Weapon.EableSword();
         }
 
         Vector3 direction = fireHilichurl.PlayerTransform.position - fireHilichurl.transform.position;
