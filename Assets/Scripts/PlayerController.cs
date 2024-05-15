@@ -17,8 +17,8 @@ public class PlayerController : MonoBehaviour
     [Space(10)]
     [Range(0.0f, 0.3f)]
     public float RotationSmoothTime = 0.12f;
-
     public float SpeedChangeRate = 10.0f;
+    public float LookSensitivity = 1.0f;
 
     [Space(10)]
     public float JumpHeight = 1.2f;
@@ -48,24 +48,26 @@ public class PlayerController : MonoBehaviour
     public float CameraAngleOverride = 0.0f;
     public bool LockCameraPosition = false;
 
-    // cinemachine
+    //cinemachine
     private float _cinemachineTargetYaw;
     private float _cinemachineTargetPitch;
 
-    // player
+    //player
     private float _speed;
     private float _animationBlend;
     private float _targetRotation = 0.0f;
     private float _rotationVelocity;
-    [SerializeField] private float _verticalVelocity;
+    private float _verticalVelocity;
     private float _terminalVelocity = 53.0f;
     private bool _attackTrigger = true;
+    private bool _isClimbing;
+    private Vector3 lastGrabCliffDirection;
 
-    // timeout deltatime
-    [SerializeField] private float _jumpTimeoutDelta;
-    [SerializeField] private float _fallTimeoutDelta;
+    //timeout deltatime
+    private float _jumpTimeoutDelta;
+    private float _fallTimeoutDelta;
 
-    // animation IDs
+    //animation IDs
     private int _animIDSpeed;
     private int _animIDGrounded;
     private int _animIDJump;
@@ -85,7 +87,7 @@ public class PlayerController : MonoBehaviour
     private const float _threshold = 0.01f;
 
     private bool _hasAnimator;
-    
+
     public PlayerSO playerData;
 
     private bool IsCurrentDeviceMouse
@@ -102,7 +104,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        if(_mainCamera == null)
+        if (_mainCamera == null)
         {
             _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         }
@@ -127,24 +129,26 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         _hasAnimator = TryGetComponent(out _animator);
-        
+
 
         JumpAndGravity();
         GroundedCheck();
-        CliffCheck();
+        Move();
 
-        if(Grounded == true)
-        {
-            Move();
-        }
-        
-        if(Cliff == true)
-        {
-            Climb();
-        }
+        //CliffCheck();
 
-        if(_input.attack)
-        { 
+        //if (Grounded == true)
+        //{
+        //    Move();
+        //}
+
+        //if (Cliff == true)
+        //{
+        //    Climb();
+        //}
+
+        if (_input.attack)
+        {
             if (_attackTrigger)
             {
                 Attack();
@@ -179,13 +183,13 @@ public class PlayerController : MonoBehaviour
         Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
             QueryTriggerInteraction.Ignore);
 
-        //Vector3 center = transform.position + Vector3.up * GroundedOffset;
-        //Vector3 halfExtents = new Vector3(GroundedRadius, 0.1f, GroundedRadius);
+        Vector3 center = transform.position + Vector3.up * GroundedOffset;
+        Vector3 halfExtents = new Vector3(GroundedRadius, 0.1f, GroundedRadius);
 
-        //Grounded = Physics.CheckBox(center, halfExtents, Quaternion.identity, GroundLayers,
-        //    QueryTriggerInteraction.Ignore);
+        Grounded = Physics.CheckBox(center, halfExtents, Quaternion.identity, GroundLayers,
+            QueryTriggerInteraction.Ignore);
 
-        if(_hasAnimator)
+        if (_hasAnimator)
         {
             _animator.SetBool(_animIDGrounded, Grounded);
         }
@@ -203,19 +207,13 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetBool(_animIDCliffCheck, Cliff);
 
-            if(Cliff == true)
+            if (Cliff == true)
             {
                 Grounded = false;
                 transform.rotation = Quaternion.identity;
                 _animator.SetBool("Climb_Idle", true);
                 _animator.SetBool(_animIDGrounded, false);
                 _animator.SetBool(_animIDFreeFall, false);
-            }
-            else
-            {
-                _animator.SetBool("Climb_Idle", false);
-                Grounded = true;
-                _animator.SetBool(_animIDGrounded, true);
             }
         }
     }
@@ -226,29 +224,29 @@ public class PlayerController : MonoBehaviour
         {
             float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-            _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier;
-            _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier;
+            _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier * LookSensitivity;
+            _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier * LookSensitivity;
         }
-            _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
-            _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+        _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
+        _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
 
-            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
-                _cinemachineTargetYaw, 0.0f);
-        
+        CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
+            _cinemachineTargetYaw, 0.0f);
+
     }
 
     private void Move()
     {
         float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
-        if(_input.move == Vector2.zero) targetSpeed = 0.0f;
+        if (_input.move == Vector2.zero) targetSpeed = 0.0f;
 
         float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
 
         float speedOffset = 0.1f;
         float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1.0f;
 
-        if(currentHorizontalSpeed < targetSpeed - speedOffset ||
+        if (currentHorizontalSpeed < targetSpeed - speedOffset ||
             currentHorizontalSpeed > targetSpeed + speedOffset)
         {
             _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
@@ -266,7 +264,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
 
-        if(_input.move != Vector2.zero)
+        if (_input.move != Vector2.zero)
         {
             _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                 _mainCamera.transform.eulerAngles.y;
@@ -279,25 +277,97 @@ public class PlayerController : MonoBehaviour
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
+        if(!_isClimbing)
+        {
+            float avoidFloorDistance = 0.1f;
+            float cliffGrabDistance = 0.25f;
+            if (Physics.Raycast(transform.position + Vector3.up * avoidFloorDistance, targetDirection, out RaycastHit raycastHit, cliffGrabDistance))
+            {
+                if (raycastHit.transform.TryGetComponent(out Cliff cliff))
+                {
+                    GrabCliff(targetDirection);
+
+                }
+            }
+        }
+        else
+        {
+            float avoidFloorDistance = 0.1f;
+            float cliffGrabDistance = 0.25f;
+            if (Physics.Raycast(transform.position + Vector3.up * avoidFloorDistance, lastGrabCliffDirection, out RaycastHit raycastHit, cliffGrabDistance))
+            {
+                if (!raycastHit.transform.TryGetComponent(out Cliff cliff))
+                {
+                    DropCliff();
+                    _verticalVelocity = 2f;
+                }
+            }
+            else
+            {
+                DropCliff();
+                _verticalVelocity = 2f;
+            }
+
+            if(Vector3.Dot(targetDirection, lastGrabCliffDirection) < 0)
+            {
+                float cliffFloorDropDistance = 0.1f;
+                if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit floorRaycastHit, cliffFloorDropDistance))
+                {
+                    DropCliff();
+                }
+
+                
+            }
+        }
+
+        
+        if (_isClimbing)
+        {
+            targetDirection.y = targetDirection.z;
+            targetDirection.z = 0.0f;
+            _verticalVelocity = 0.0f;
+            Grounded = true;
+            MoveSpeed = targetSpeed;
+        }
+
         _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
             new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-        
-        if(_hasAnimator)
+
+        if (_hasAnimator)
         {
             _animator.SetFloat(_animIDSpeed, _animationBlend);
             _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
         }
     }
 
-    private void Climb()
+    private void GrabCliff(Vector3 lastGrabCliffDirection)
     {
-        if(Cliff == true)
-        {
-            Vector3 climbDirection = new Vector3(_input.move.x, _input.move.y, 0.0f);
-
-            _controller.Move(climbDirection * (MoveSpeed * Time.deltaTime));
-        }
+        _isClimbing = true;
+        this.lastGrabCliffDirection = lastGrabCliffDirection;
     }
+
+    private void DropCliff()
+    {
+        _isClimbing = false;
+    }
+
+    //private void Climb()
+    //{
+    //    if (Cliff == true)
+    //    {
+    //        Vector3 climbDirection = new Vector3(_input.move.x, _input.move.y, 0.0f);
+
+    //        _controller.Move(climbDirection * (MoveSpeed * Time.deltaTime));
+
+    //        if(_hasAnimator)
+    //        {
+    //            _animator.SetBool("Climbing", true);
+    //            _animator.SetFloat("Horizontal", _input.move.x);
+    //            _animator.SetFloat("Vertical", _input.move.y);
+    //        }
+
+    //    }
+    //}
 
     private void JumpAndGravity()
     {
@@ -316,7 +386,7 @@ public class PlayerController : MonoBehaviour
                 _verticalVelocity = -2.0f;
             }
 
-            if(_input.jump && _jumpTimeoutDelta <= 0.0f)
+            if (_input.jump && _jumpTimeoutDelta <= 0.0f)
             {
                 _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 
@@ -349,7 +419,7 @@ public class PlayerController : MonoBehaviour
             _input.jump = false;
         }
 
-        if(_verticalVelocity < _terminalVelocity)
+        if (_verticalVelocity < _terminalVelocity)
         {
             _verticalVelocity += Gravity * Time.deltaTime;
         }
@@ -369,7 +439,7 @@ public class PlayerController : MonoBehaviour
 
     private void Attack()
     {
-        if(_hasAnimator)
+        if (_hasAnimator)
         {
             _animator.SetTrigger("Attack");
             _animator.SetBool("Attacking", true);
@@ -378,19 +448,16 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetBool("Attacking", false);
         }
-        
+
     }
 
-    private void OnDrawGizmos()
-    {
-        // 레이캐스트를 발사할 위치 계산
-        Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y + CliffCheckOffsetY,
-            transform.position.z + CliffCheckOffsetZ);
+    //private void OnDrawGizmos()
+    //{
+    //    Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y + CliffCheckOffsetY,
+    //        transform.position.z + CliffCheckOffsetZ);
 
-        // 기즈모 색상 설정
-        Gizmos.color = Color.yellow;
+    //    Gizmos.color = Color.yellow;
 
-        // 레이캐스트를 시각적으로 나타내기 위해 구 모양의 기즈모 그리기
-        Gizmos.DrawSphere(spherePosition, CliffCheckRadius);
-    }
+    //    Gizmos.DrawSphere(spherePosition, CliffCheckRadius);
+    //}
 }
