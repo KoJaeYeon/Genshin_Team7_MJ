@@ -8,7 +8,7 @@ public class ElementObject : MonoBehaviour
     private Rigidbody ObjectRigidbody;
     private float Speed = 5f;
     private float ElementGauge = 10f;
-    private float Power = 430.0f;
+    private float Power = 400.0f;
     private bool targetMove = false;
     
     private void Awake()

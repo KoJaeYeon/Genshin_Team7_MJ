@@ -19,6 +19,8 @@ public class IceHilichurl : Enemy
         enemyData = new EnemyData(110f, 15f, 2f, 0.1f, 130, Element.Ice);
         EnemyHealthDic.Add(this, enemyData.Health);
 
+        HpSlider.maxValue = enemyData.Health;
+        HpSlider.value = enemyData.Health;
         //traceDistance = 7.0f;
     }
 

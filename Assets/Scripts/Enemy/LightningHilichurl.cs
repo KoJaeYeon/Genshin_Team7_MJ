@@ -17,6 +17,9 @@ public class LightningHilichurl : Enemy
         //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
         enemyData = new EnemyData(120f, 20f, 5f, 0.5f, 180, Element.Lightning);
         EnemyHealthDic.Add(this, enemyData.Health);
+
+        HpSlider.maxValue = enemyData.Health;
+        HpSlider.value = enemyData.Health;
     }
     public EnemyStateMachine State => state;
     public Animator Animator => animator;

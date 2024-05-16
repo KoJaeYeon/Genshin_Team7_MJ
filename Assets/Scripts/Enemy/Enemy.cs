@@ -26,6 +26,8 @@ public class Enemy : MonoBehaviour
     protected Transform Player;
     protected NavMeshAgent agent;
     protected Dictionary<Enemy, float> EnemyHealthDic;
+    protected GameObject Hp;
+    protected Slider HpSlider;
 
     protected EnemyData enemyData;
     protected float traceDistance = 5.0f;
@@ -39,6 +41,8 @@ public class Enemy : MonoBehaviour
         Weapon = transform.GetComponentInChildren<MonsterWeapon>(); //삭제 예정
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        HpSlider = transform.GetComponentInChildren<Slider>();
+        Hp = HpSlider.gameObject;
 
         EnemyHealthDic = new Dictionary<Enemy, float>();
     }
@@ -47,11 +51,14 @@ public class Enemy : MonoBehaviour
     public void Damaged(Enemy enemy, float damage)
     {
         EnemyHealthDic[enemy] -= (damage - Armor(enemy, damage));
+
+        enemy.HpSlider.value = EnemyHealthDic[enemy];
         enemy.transform.LookAt(Player.transform.position);
         enemy.animator.SetTrigger("Hit");
 
         if (EnemyHealthDic[enemy] <= 0)
         {
+            Hp.SetActive(false);
             //ReturnExp(enemy); 플레이어
             StartCoroutine(Die(enemy));
         }
