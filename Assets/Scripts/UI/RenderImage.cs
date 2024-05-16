@@ -5,48 +5,51 @@ using UnityEngine.EventSystems;
 
 public class RenderImage : MonoBehaviour
 {
-    public float mousespeed = 200f; //마우스감도
-
-    private float MouseY;
-    private float MouseX;
-
-    
-    private void Rotate()
-    {
-        
-        
-
-            MouseX += Input.GetAxisRaw("Mouse X") * mousespeed * Time.deltaTime;
-
-            MouseY -= Input.GetAxisRaw("Mouse Y") * -mousespeed * Time.deltaTime;
-
-            MouseY = Mathf.Clamp(MouseY, -70f, 20f); //Clamp를 통해 최소값 최대값을 넘지 않도록함
-
-            transform.localRotation = Quaternion.Euler(MouseY, MouseX, 0f);// 각 축을 한꺼번에 계산
-        
-    }
-    
-    /*
-    public GameObject camera;
 
     public float speed = 5f;
+    Vector3 mousePos;
+    Vector3 initMousePos;
 
-    void Update()
-    {
+    Vector3 initRotaion;
 
-       Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x,
-       Input.mousePosition.y, -Camera.main.transform.position.z));
 
-       Debug.Log(mousePos.ToString());
-        
-    }
     public void OnPointDrag()
     {
-        Debug.Log("스크롤");
-        camera.transform.Rotate(new Vector3(1 , 0 , 0) * speed);//X좌표 움직임
-    
+        mousePos = Input.mousePosition;
+
+        Vector3 difVec3 = mousePos - initMousePos;
+
+        Vector3 vector3;
+        vector3.x = initRotaion.x + difVec3.y * speed;
+        
+        Debug.Log(vector3.x);
+        vector3.x = Mathf.Clamp(vector3.x , -60f, 20f);
+
+        // 차이 구해서 해당 벡터로 카메라 회전시키기
+        transform.eulerAngles = new Vector3(vector3.x , initRotaion.y + difVec3.x * speed, 0);
+        
     }
-    */
+
+    public void OnBeginDrag()
+    {
+        mousePos = Input.mousePosition;
+
+        initMousePos = mousePos;
+
+        initRotaion = transform.rotation.eulerAngles;
+        if (initRotaion.x <= 360 && initRotaion.x > 20) initRotaion.x -= 360;
+    }
+
+    public void OnEndDrag()
+    {
+        mousePos = Input.mousePosition;
+
+        initMousePos = mousePos;
+
+        initRotaion = transform.rotation.eulerAngles;
+        if (initRotaion.x <= 360 && initRotaion.x > 20) initRotaion.x -= 360;
+    }
+
 
 
 
