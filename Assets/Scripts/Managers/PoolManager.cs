@@ -22,6 +22,7 @@ public class PoolManager : Singleton<PoolManager>
     {
         itemSlotStack = new Stack<GameObject>();
         getSlotStack = new Stack<GameObject>();
+        itemDropStack = new Stack<GameObject>();
         elementQueue = new Queue<GameObject>();
 
         for (int i = 0; i < 200; i++)

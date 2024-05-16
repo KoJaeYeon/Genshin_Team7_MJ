@@ -76,6 +76,7 @@ public class UIManager : Singleton<UIManager>
         }
         getSlot.transform.SetParent(itemGetContent);
         getSlot.transform.SetAsFirstSibling();
+        getSlot.transform.localScale = Vector3.one;
     }
 
     public void RemoveGetSlot()
