@@ -6,18 +6,14 @@ public class ElementObject : MonoBehaviour
 {
     public Transform Player;
     private Rigidbody ObjectRigidbody;
-    private float Speed;
+    private float Speed = 5f;
+    private float ElementGauge = 10f;
     private bool targetMove = false;
     
     private void Awake()
     {
         ObjectRigidbody = GetComponent<Rigidbody>();
     }
-
-    //private void OnEnable()
-    //{
-    //    StartCoroutine(UP());
-    //}
 
     private void Update()
     {
@@ -30,17 +26,17 @@ public class ElementObject : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
-            RetrunObject();
+            gameObject.SetActive(false);            
     }
 
-    //public void SetPlayerTransform(Transform Player)
-    //{
-    //    this.Player = Player;
-    //}
-
-    public void RetrunObject()
+    public void SetPlayerTransform(Transform Player)
     {
-        gameObject.SetActive(false);
+        this.Player = Player;
+    }
+
+    public float FillElement()
+    {
+        return ElementGauge;
     }
 
     public IEnumerator UP()
@@ -50,14 +46,14 @@ public class ElementObject : MonoBehaviour
 
         float randx = Random.Range(-0.5f, 0.5f);
         float randz = Random.Range(-0.5f, 0.5f);
-
-        while (true && Timer < 0.5f)
+        
+        while (true && Timer < 1f)
         {
-            ObjectRigidbody.AddForce(new Vector3(randx,1,randz));
+            ObjectRigidbody.AddForce(new Vector3(randx, 1, randz));
             Timer += Time.deltaTime;
         }
-
-        yield return new WaitForSeconds(1f);
+        
+        yield return new WaitForSeconds(0.7f);
         targetMove = true;
 
         ObjectRigidbody.velocity = Vector3.zero;

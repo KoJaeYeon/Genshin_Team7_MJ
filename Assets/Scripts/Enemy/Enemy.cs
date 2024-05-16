@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
     protected float traceDistance = 5.0f;
     protected bool traceMove = true;
     protected bool attack = true;
-    private int elementCount = 3;
+    private int elementCount = 5;
 
     protected virtual void Awake()
     {
@@ -41,6 +41,7 @@ public class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
 
         EnemyHealthDic = new Dictionary<Enemy, float>();
+        StartCoroutine(TestDie(this));
     }
 
 
@@ -77,12 +78,11 @@ public class Enemy : MonoBehaviour
         for(int i = 0; i < elementCount; i++)
         {
             GameObject dropElement = ElementPool.Instance.GetElementObject();
+            ElementObject elementObject = dropElement.GetComponent<ElementObject>();
             dropElement.transform.position = enemy.transform.position;
             dropElement.SetActive(true);
-            
+            StartCoroutine(elementObject.UP());
         }
-        //GameObject Element = ElementPool.Instance.GetElementObject();
-        //Element.transform.position = enemy.transform.position;
     }
 
     private IEnumerator Die(Enemy enemy)
@@ -94,9 +94,9 @@ public class Enemy : MonoBehaviour
         enemy.gameObject.SetActive(false);
     }
 
-    public IEnumerator TestDie(Enemy enemy)
+    private IEnumerator TestDie(Enemy enemy)
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(6.0f);
         Damaged(enemy, 9999);
     }
 }

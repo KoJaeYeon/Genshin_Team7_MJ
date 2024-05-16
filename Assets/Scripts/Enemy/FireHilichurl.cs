@@ -18,7 +18,7 @@ public class FireHilichurl : Enemy
         enemyData = new EnemyData(80f, 20f, 3f, 0.1f, 180, Element.Fire);
         EnemyHealthDic.Add(this, enemyData.Health);
 
-        StartCoroutine(TestDie(this));
+        
     }
 
     public EnemyStateMachine State => state;

@@ -15,9 +15,9 @@ public class ElementPool : Singleton<ElementPool>
         for(int i = 0; i < 100; i++)
         {
             GameObject elementPrefab = Instantiate(ElementPrefab, transform);
-            elementPrefab.SetActive(false);
             ElementObject element = elementPrefab.GetComponent<ElementObject>();
-            element.Player = Player;
+            element.SetPlayerTransform(Player);
+            elementPrefab.SetActive(false);
             ElementQueue.Enqueue(elementPrefab);
         }
     }
@@ -26,7 +26,6 @@ public class ElementPool : Singleton<ElementPool>
     {
         GameObject element = ElementQueue.Dequeue();
         ElementQueue.Enqueue(element);
-        //element.SetActive(true);
         return element;
     }
 }
