@@ -17,17 +17,19 @@ public class UIManager : Singleton<UIManager>
     float initFtransY;
     float UIscaleY;
     public GameObject mainPanel;
+    IActivePanel mainPanel_IActivePanel;
 
     public Transform UI;
 
     private void Awake()
     {
         settingBar_IActivePanel = settingBar.GetComponent<IActivePanel>();
+        Debug.Log(settingBar_IActivePanel);
         initFtransY = FTrans.position.y;
         UIscaleY = UI.transform.localScale.y;
 
-        activePanel = mainPanel.GetComponent<IActivePanel>();
-        
+        mainPanel_IActivePanel = mainPanel.GetComponent<IActivePanel>();
+        activePanel = mainPanel_IActivePanel;
     }
 
     void Start()
@@ -53,8 +55,8 @@ public class UIManager : Singleton<UIManager>
 
     public void QuitPanel()
     {
-        if (activePanel != null) { activePanel.PanelInactive(); }
-        else { settingBar_IActivePanel.PanelActive(activePanel); }
+        if (activePanel != mainPanel_IActivePanel) { activePanel.PanelInactive(); }
+        else {  settingBar_IActivePanel.PanelActive(activePanel);  }
         
     }
 
