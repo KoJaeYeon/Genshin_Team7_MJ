@@ -9,7 +9,7 @@ public class TestPlayer : MonoBehaviour
     public float Jumpforce;
     private bool isGround;
 
-    public int Atk = 10;
+    public int Atk = 20;
 
     public LayerMask layer;
     Vector3 Movedir = Vector3.zero;
@@ -28,6 +28,8 @@ public class TestPlayer : MonoBehaviour
 
         Movedir.Normalize();
         CheckGround();
+
+        
 
         if (Input.GetButtonDown("Jump") && isGround)
         {
@@ -49,6 +51,7 @@ public class TestPlayer : MonoBehaviour
         }
 
         m_PlayerRigidbody.MovePosition(gameObject.transform.position + Movedir * MoveSpeed * Time.fixedDeltaTime);
+
     }
 
     private void CheckGround()

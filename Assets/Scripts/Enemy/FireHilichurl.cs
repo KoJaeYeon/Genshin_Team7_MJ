@@ -17,6 +17,8 @@ public class FireHilichurl : Enemy
         //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
         enemyData = new EnemyData(80f, 20f, 3f, 0.1f, 180, Element.Fire);
         EnemyHealthDic.Add(this, enemyData.Health);
+
+        
     }
 
     public EnemyStateMachine State => state;
@@ -38,6 +40,7 @@ public class FireHilichurl : Enemy
 
         attack = true;
     }
+
 }
 
 public abstract class FireHilichurlState : BaseState

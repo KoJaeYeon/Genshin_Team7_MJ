@@ -5,7 +5,7 @@ using UnityEngine;
 public class ElementPool : Singleton<ElementPool>
 {
     public GameObject ElementPrefab;
-    public Transform PoolTransform;
+    public Transform Player;
     private Queue<GameObject> ElementQueue;
 
     void Start()
@@ -14,7 +14,9 @@ public class ElementPool : Singleton<ElementPool>
 
         for(int i = 0; i < 100; i++)
         {
-            GameObject elementPrefab = Instantiate(ElementPrefab, PoolTransform);
+            GameObject elementPrefab = Instantiate(ElementPrefab, transform);
+            ElementObject element = elementPrefab.GetComponent<ElementObject>();
+            element.SetPlayerTransform(Player);
             elementPrefab.SetActive(false);
             ElementQueue.Enqueue(elementPrefab);
         }
