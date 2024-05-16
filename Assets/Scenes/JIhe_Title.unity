@@ -242,6 +242,7 @@ MonoBehaviour:
   editorB: {fileID: 1750411638}
   settingBar: {fileID: 1367485649}
   itemGetContent: {fileID: 0}
+  FTrans: {fileID: 0}
   mainPanel: {fileID: 448968511}
 --- !u!4 &17950066
 Transform:
@@ -4231,6 +4232,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 269627655}
   m_CullTransparentMesh: 1
+--- !u!1 &275368889
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 275368891}
+  - component: {fileID: 275368890}
+  m_Layer: 5
+  m_Name: RanderImageScript
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &275368890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275368889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9cf41b69305b7f4ea40e70984f96849, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+--- !u!224 &275368891
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275368889}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.000030517578}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 1139.16, y: 578.09985}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &278562054
 GameObject:
   m_ObjectHideFlags: 0
@@ -7515,7 +7566,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 524980981}
-  m_LocalRotation: {x: -0.48832786, y: 0.000000029802322, z: -0.000000029802322, w: 0.8726603}
+  m_LocalRotation: {x: -0.08306834, y: 0.0041742777, z: 0.00034795597, w: 0.9965351}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7523,7 +7574,7 @@ Transform:
   - {fileID: 645516274}
   m_Father: {fileID: 1295499332}
   m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: -58.461, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -9.53, y: 0.48, z: 0}
 --- !u!114 &524980983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7536,7 +7587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9cf41b69305b7f4ea40e70984f96849, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mousespeed: 300
+  speed: 0.5
 --- !u!1001 &527860020
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11007,13 +11058,45 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 524980981}
-          m_TargetAssemblyTypeName: 
-          m_MethodName: 
+        - m_Target: {fileID: 524980983}
+          m_TargetAssemblyTypeName: RenderImage, Assembly-CSharp
+          m_MethodName: OnPointDrag
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: 
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 524980983}
+          m_TargetAssemblyTypeName: RenderImage, Assembly-CSharp
+          m_MethodName: OnBeginDrag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 14
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 524980983}
+          m_TargetAssemblyTypeName: RenderImage, Assembly-CSharp
+          m_MethodName: OnBeginDrag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -14079,22 +14162,22 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c7c68cc495eb6754291c7dec97afe6e2,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.6652926
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c7c68cc495eb6754291c7dec97afe6e2,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c7c68cc495eb6754291c7dec97afe6e2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7465827
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c7c68cc495eb6754291c7dec97afe6e2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c7c68cc495eb6754291c7dec97afe6e2,
         type: 3}
@@ -14104,7 +14187,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c7c68cc495eb6754291c7dec97afe6e2,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 96.59
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c7c68cc495eb6754291c7dec97afe6e2,
         type: 3}
