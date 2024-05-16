@@ -13,10 +13,13 @@ public class IceHilichurl : Enemy
         state = gameObject.AddComponent<EnemyStateMachine>();
         state.AddState(EnemyState.Idle, new IceHilichurlIdle(this));
         state.AddState(EnemyState.Move, new IceHilichurlMove(this));
-        state.AddState(EnemyState.Trace, new IceHilichurlTrace(this));
+        state.AddState(EnemyState.TraceMove, new IceHilichurlTraceMove(this));
+        State.AddState(EnemyState.TraceAttack,new IceHilichurlTraceAttack(this));
         //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
         enemyData = new EnemyData(110f, 15f, 2f, 0.1f, 130, Element.Ice);
         EnemyHealthDic.Add(this, enemyData.Health);
+
+        //traceDistance = 7.0f;
     }
 
     public EnemyStateMachine State => state;
@@ -25,21 +28,21 @@ public class IceHilichurl : Enemy
     public MonsterWeapon MonsterWeapon => Weapon;
     public NavMeshAgent Agent => agent;
     public float TraceDistance => traceDistance;
-    public bool TraceMove
+    public EnemyData EnemyData => enemyData;
+    public bool TraceAttack
     {
-        get { return traceMove; }
-        set { traceMove = value; }
+        get { return attack; }
+        set { attack = value; }
     }
 
-    public void IsMove() //Animation Event
+    public void OnAnimationEnd()
     {
-        if (Vector3.Distance(transform.position, Player.position) > 2.0f)
-            traceMove = true;
-    }
+        if (Vector3.Distance(transform.position, Player.position) > Agent.stoppingDistance)
+        {
+            State.ChangeState(EnemyState.TraceMove);
+        }
 
-    public void UseWeapon() //Animation Event
-    {
-        Weapon.EableSword();
+        attack = true;
     }
 }
 
@@ -87,7 +90,7 @@ public class IceHilichurlIdle : IceHilichurlState
     {
         if (Vector3.Distance(iceHilichurl.PlayerTransform.position, iceHilichurl.transform.position) <= iceHilichurl.TraceDistance)
         {
-            iceHilichurl.State.ChangeState(EnemyState.Trace);
+            iceHilichurl.State.ChangeState(EnemyState.TraceMove);
         }
     }
 }
@@ -134,14 +137,15 @@ public class IceHilichurlMove : IceHilichurlState
     {
         if (Vector3.Distance(iceHilichurl.PlayerTransform.position, iceHilichurl.transform.position) <= iceHilichurl.TraceDistance)
         {
-            iceHilichurl.State.ChangeState(EnemyState.Trace);
+            iceHilichurl.State.ChangeState(EnemyState.TraceMove);
         }
     }
 }
 
-public class IceHilichurlTrace : IceHilichurlState
+public class IceHilichurlTraceMove : IceHilichurlState
 {
-    public IceHilichurlTrace(IceHilichurl iceHilichurl) : base(iceHilichurl) { }
+ 
+    public IceHilichurlTraceMove(IceHilichurl iceHilichurl) : base(iceHilichurl) { }
     
     public override void OnCollisionEnter(Collision collision)
     {
@@ -157,25 +161,18 @@ public class IceHilichurlTrace : IceHilichurlState
     public override void StateExit()
     {
         iceHilichurl.Agent.SetDestination(iceHilichurl.transform.position);
+        iceHilichurl.Animator.SetFloat("Move", 0);
     }
 
     public override void StateUpDate()
     {
-        if (iceHilichurl.TraceMove)
+        if (Vector3.Distance(iceHilichurl.PlayerTransform.position, iceHilichurl.transform.position) > iceHilichurl.Agent.stoppingDistance)
         {
-            if (Vector3.Distance(iceHilichurl.PlayerTransform.position, iceHilichurl.transform.position) > iceHilichurl.Agent.stoppingDistance)
-            {
-                iceHilichurl.Animator.SetBool("isAttack", false);
-                iceHilichurl.Agent.SetDestination(iceHilichurl.PlayerTransform.position);
-            }
-            else if (Vector3.Distance(iceHilichurl.PlayerTransform.position, iceHilichurl.transform.position) <= iceHilichurl.Agent.stoppingDistance)
-            {
-                iceHilichurl.TraceMove = false;
-            }
+            iceHilichurl.Agent.SetDestination(iceHilichurl.PlayerTransform.position);
         }
-        else
+        else if (Vector3.Distance(iceHilichurl.PlayerTransform.position, iceHilichurl.transform.position) <= iceHilichurl.Agent.stoppingDistance)
         {
-            iceHilichurl.Animator.SetBool("isAttack", true);
+            iceHilichurl.State.ChangeState(EnemyState.TraceAttack);
         }
 
         StopTracking();
@@ -183,7 +180,60 @@ public class IceHilichurlTrace : IceHilichurlState
 
     public void StopTracking()
     {
-        if (Vector3.Distance(iceHilichurl.transform.position, iceHilichurl.PlayerTransform.position) > 15.0f)
+        if (Vector3.Distance(iceHilichurl.transform.position, iceHilichurl.PlayerTransform.position) > iceHilichurl.TraceDistance)
             iceHilichurl.State.ChangeState(EnemyState.Move);
     }
+
+    private IEnumerator Jump()
+    {
+        iceHilichurl.TraceAttack = false;
+
+        iceHilichurl.Agent.SetDestination(iceHilichurl.transform.position);
+
+        yield return new WaitForSeconds(1.0f);
+
+        iceHilichurl.Animator.SetTrigger("JumpAttack");
+    }
+}
+
+public class IceHilichurlTraceAttack : IceHilichurlState
+{
+    private MonsterWeapon Weapon;
+    public IceHilichurlTraceAttack(IceHilichurl iceHilichurl) : base(iceHilichurl) { }
+    
+    public override void OnCollisionEnter(Collision collision)
+    {
+        
+    }
+
+    public override void StateEnter()
+    {
+        iceHilichurl.Agent.updateRotation = false;
+        iceHilichurl.Agent.SetDestination(iceHilichurl.transform.position);
+
+        Weapon = iceHilichurl.transform.GetComponentInChildren<MonsterWeapon>();
+        Weapon.SetAttackPower(iceHilichurl.EnemyData.AttackPower);
+    }
+
+    public override void StateExit()
+    {
+        iceHilichurl.Agent.updateRotation = true;
+        iceHilichurl.TraceAttack = true;
+    }
+
+    public override void StateUpDate()
+    {
+        if (iceHilichurl.TraceAttack)
+        {
+            iceHilichurl.Animator.SetTrigger("GroundAttack");
+            iceHilichurl.TraceAttack = false;
+            Weapon.EableSword();
+        }
+
+        Vector3 direction = iceHilichurl.PlayerTransform.position - iceHilichurl.transform.position;
+        Quaternion rotation = Quaternion.LookRotation(direction);
+        iceHilichurl.transform.rotation = rotation;
+    }
+
+    
 }
