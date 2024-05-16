@@ -15,14 +15,21 @@ public class UIManager : Singleton<UIManager>
     public Transform itemGetContent;
     public Transform FTrans;
     float initFtransY;
+    float UIscaleY;
     public GameObject mainPanel;
+    IActivePanel mainPanel_IActivePanel;
+
+    public Transform UI;
 
     private void Awake()
     {
         settingBar_IActivePanel = settingBar.GetComponent<IActivePanel>();
+        Debug.Log(settingBar_IActivePanel);
         initFtransY = FTrans.position.y;
+        UIscaleY = UI.transform.localScale.y;
 
-        activePanel = mainPanel.GetComponent<IActivePanel>();
+        mainPanel_IActivePanel = mainPanel.GetComponent<IActivePanel>();
+        activePanel = mainPanel_IActivePanel;
     }
 
     void Start()
@@ -48,8 +55,8 @@ public class UIManager : Singleton<UIManager>
 
     public void QuitPanel()
     {
-        if (activePanel != null) { activePanel.PanelInactive(); }
-        else { settingBar_IActivePanel.PanelActive(activePanel); }
+        if (activePanel != mainPanel_IActivePanel) { activePanel.PanelInactive(); }
+        else {  settingBar_IActivePanel.PanelActive(activePanel);  }
         
     }
 
@@ -76,6 +83,7 @@ public class UIManager : Singleton<UIManager>
         }
         getSlot.transform.SetParent(itemGetContent);
         getSlot.transform.SetAsFirstSibling();
+        getSlot.transform.localScale = Vector3.one;
     }
 
     public void RemoveGetSlot()
@@ -88,7 +96,7 @@ public class UIManager : Singleton<UIManager>
 
     public void SetFPoint(int searchPoint)
     {
-        FTrans.position = new Vector3(FTrans.position.x,initFtransY - ((itemGetContent.transform.childCount -1) * 37) + (searchPoint * 75),FTrans.position.z);
+        FTrans.position = new Vector3(FTrans.position.x,initFtransY - ((itemGetContent.transform.childCount -1) * 37 ) + (searchPoint * 75 ) * UIscaleY,FTrans.position.z);
         if (itemGetContent.childCount == 0)
         {
             itemGetContent.transform.parent.parent.gameObject.SetActive(false);

@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class ElementObject : MonoBehaviour
 {
-    private Rigidbody ObjectRigidbody;
     public Transform Player;
+    private Rigidbody ObjectRigidbody;
+    private float Speed = 5f;
+    private float ElementGauge = 10f;
+    private float Power = 430.0f;
     private bool targetMove = false;
-    public float Speed;
-    private Vector3 targetPos;
+    
     private void Awake()
     {
         ObjectRigidbody = GetComponent<Rigidbody>();
-    }
-
-    private void OnEnable()
-    {
-        StartCoroutine(UP());
     }
 
     private void Update()
@@ -24,34 +21,32 @@ public class ElementObject : MonoBehaviour
         if (targetMove)
         {
             transform.position = Vector3.MoveTowards(transform.position, Player.position, Speed * Time.deltaTime);
-
-            //targetPos = (Player.position - transform.position).normalized;
-            //Vector3 Move = targetPos * Speed * Time.deltaTime;
-
-            //transform.Translate(Move);
         }
-        
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Player"))
-            gameObject.SetActive(false);
+        if (other.gameObject.CompareTag("Player"))
+            gameObject.SetActive(false);            
     }
 
-    private IEnumerator UP()
+    public void SetPlayerTransform(Transform Player)
     {
-        float Timer = 0f;
+        this.Player = Player;
+    }
 
-        float randx = Random.Range(0.5f, 1);
-        float randz = Random.Range(0.5f, 1);
+    public float FillElement()
+    {
+        return ElementGauge;
+    }
 
-        while (true && Timer < 0.6f)
-        {
-            ObjectRigidbody.AddForce(new Vector3(randx,1,randz));
-            Timer += Time.deltaTime;
-        }
-
+    public IEnumerator UP()
+    {
+        float randx = Random.Range(-0.5f, 0.5f);
+        float randz = Random.Range(-0.5f, 0.5f);
+        
+        ObjectRigidbody.AddForce(new Vector3(randx, 1, randz) * Power);
+         
         yield return new WaitForSeconds(0.7f);
         targetMove = true;
 

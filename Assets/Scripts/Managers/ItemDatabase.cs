@@ -39,8 +39,6 @@ public class ItemDatabase : Singleton<ItemDatabase>
 
     public Sprite GetItemSprite(int id)
     {
-        Debug.Log("sp" + id);
-        Debug.Log(itemSpriteDictionary[id]);
         return itemSpriteDictionary[id];
     }
 
