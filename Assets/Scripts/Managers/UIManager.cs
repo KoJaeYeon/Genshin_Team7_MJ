@@ -13,12 +13,16 @@ public class UIManager : Singleton<UIManager>
     IActivePanel settingBar_IActivePanel;
 
     public Transform itemGetContent;
-
+    public Transform FTrans;
+    float initFtransY;
     public GameObject mainPanel;
 
     private void Awake()
     {
         settingBar_IActivePanel = settingBar.GetComponent<IActivePanel>();
+        initFtransY = FTrans.position.y;
+
+        activePanel = mainPanel.GetComponent<IActivePanel>();
     }
 
     void Start()
@@ -71,11 +75,21 @@ public class UIManager : Singleton<UIManager>
             itemGetContent.transform.parent.parent.gameObject.SetActive(true);
         }
         getSlot.transform.SetParent(itemGetContent);
+        getSlot.transform.SetAsFirstSibling();
     }
 
     public void RemoveGetSlot()
     {
-        if(transform.childCount == 0)
+        if(itemGetContent.childCount == 0)
+        {
+            itemGetContent.transform.parent.parent.gameObject.SetActive(false);
+        }
+    }
+
+    public void SetFPoint(int searchPoint)
+    {
+        FTrans.position = new Vector3(FTrans.position.x,initFtransY - ((itemGetContent.transform.childCount -1) * 37) + (searchPoint * 75),FTrans.position.z);
+        if (itemGetContent.childCount == 0)
         {
             itemGetContent.transform.parent.parent.gameObject.SetActive(false);
         }
