@@ -26,7 +26,8 @@ public class ActivePanel : MonoBehaviour, IActivePanel
     {
         UIManager.Instance.activePanel = previousPanel;
         gameObject.SetActive(false);
-        previousPanel.EnablePanel();
+        if(previousPanel != null) { previousPanel.EnablePanel(); }
+        
     }
     public virtual void DisablePanel()
     {

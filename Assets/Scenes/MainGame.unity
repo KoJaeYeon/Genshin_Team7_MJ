@@ -5564,7 +5564,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 342093444}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6267,7 +6267,7 @@ RectTransform:
   - {fileID: 136503554}
   - {fileID: 158739639}
   m_Father: {fileID: 342093444}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -20707,7 +20707,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2027553923}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -39351,7 +39351,7 @@ RectTransform:
   - {fileID: 518454258}
   - {fileID: 1712181578}
   m_Father: {fileID: 2027553923}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -54494,6 +54494,7 @@ MonoBehaviour:
   androidB: {fileID: 975242837}
   editorB: {fileID: 1084515834}
   settingBar: {fileID: 311949913}
+  itemGetContent: {fileID: 0}
   mainPanel: {fileID: 2047025353}
 --- !u!1001 &1934364090
 PrefabInstance:
@@ -59213,6 +59214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemSlotPrefab: {fileID: 5229461106578298689, guid: 4809698251e341f41b5a942f0d82b61f,
     type: 3}
+  getSlotPrefab: {fileID: 0}
   itemDropPrefab: {fileID: 6364494222513768652, guid: fa238e39e6e3532489044e953a991e1f,
     type: 3}
   elementPrefab: {fileID: 4764615398886690431, guid: 537b462ac7c34ca41a5ff4c32413dce4,

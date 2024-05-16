@@ -16,9 +16,9 @@ public class ItemSlot : MonoBehaviour
 
     private void Awake()
     {
-        itemImage = transform.GetChild(0).GetComponent<Image>();
-        characterImage = transform.GetChild(0).GetChild(0).GetComponent<Image>();
-        text = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        itemImage = transform.GetChild(0). GetChild(0).GetComponent<Image>();
+        characterImage = transform.GetChild(0).GetChild(2).GetChild(0).GetComponent<Image>();
+        text = transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
     }
     public void InitUpdateSlot(int key, Item item)
     {

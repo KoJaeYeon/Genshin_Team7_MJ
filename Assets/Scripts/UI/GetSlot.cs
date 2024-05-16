@@ -18,7 +18,6 @@ public class GetSlot : MonoBehaviour
     public void Init(Item item)
     {
         image.sprite = ItemDatabase.Instance.GetItemSprite(item.id);
-        Debug.Log(item.itemName);
         itemName.text = item.itemName;
         if (item.count > 1)
         {

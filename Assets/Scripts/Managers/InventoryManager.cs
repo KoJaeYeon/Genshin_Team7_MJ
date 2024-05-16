@@ -96,6 +96,7 @@ public class InventoryManager : Singleton<InventoryManager>
         {
             ItemSlot itemSlot = PoolManager.Instance.Get_ItemSlot();
             itemSlot.transform.SetParent(weaponTrans);
+            itemSlot.transform.localScale = Vector3.one;
             slotWeaponDictionary.Add(key, itemSlot);
             itemSlot.InitUpdateSlot(key,item);
             itemSlot.gameObject.SetActive(true);
@@ -111,6 +112,7 @@ public class InventoryManager : Singleton<InventoryManager>
         {
             ItemSlot itemSlot = PoolManager.Instance.Get_ItemSlot();
             itemSlot.transform.SetParent(defenceTrans);
+            itemSlot.transform.localScale = Vector3.one;
             slotdefenceDictionary.Add(key, itemSlot);
             itemSlot.InitUpdateSlot(key, item);
             itemSlot.gameObject.SetActive(true);
@@ -127,6 +129,7 @@ public class InventoryManager : Singleton<InventoryManager>
         {
             ItemSlot itemSlot = PoolManager.Instance.Get_ItemSlot();
             itemSlot.transform.SetParent(otherTrans);
+            itemSlot.transform.localScale = Vector3.one;
             slototherDictionary.Add(key, itemSlot);
             itemSlot.InitUpdateSlot(key, item);
             itemSlot.gameObject.SetActive(true);
