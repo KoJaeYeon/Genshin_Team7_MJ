@@ -15,14 +15,19 @@ public class UIManager : Singleton<UIManager>
     public Transform itemGetContent;
     public Transform FTrans;
     float initFtransY;
+    float UIscaleY;
     public GameObject mainPanel;
+
+    public Transform UI;
 
     private void Awake()
     {
         settingBar_IActivePanel = settingBar.GetComponent<IActivePanel>();
         initFtransY = FTrans.position.y;
+        UIscaleY = UI.transform.localScale.y;
 
         activePanel = mainPanel.GetComponent<IActivePanel>();
+        
     }
 
     void Start()
@@ -89,7 +94,7 @@ public class UIManager : Singleton<UIManager>
 
     public void SetFPoint(int searchPoint)
     {
-        FTrans.position = new Vector3(FTrans.position.x,initFtransY - ((itemGetContent.transform.childCount -1) * 37) + (searchPoint * 75),FTrans.position.z);
+        FTrans.position = new Vector3(FTrans.position.x,initFtransY - ((itemGetContent.transform.childCount -1) * 37 ) + (searchPoint * 75 ) * UIscaleY,FTrans.position.z);
         if (itemGetContent.childCount == 0)
         {
             itemGetContent.transform.parent.parent.gameObject.SetActive(false);
