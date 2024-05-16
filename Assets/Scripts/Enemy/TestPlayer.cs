@@ -29,6 +29,8 @@ public class TestPlayer : MonoBehaviour
         Movedir.Normalize();
         CheckGround();
 
+        
+
         if (Input.GetButtonDown("Jump") && isGround)
         {
             Vector3 JumpPower = Vector3.up * Jumpforce;
@@ -49,6 +51,7 @@ public class TestPlayer : MonoBehaviour
         }
 
         m_PlayerRigidbody.MovePosition(gameObject.transform.position + Movedir * MoveSpeed * Time.fixedDeltaTime);
+
     }
 
     private void CheckGround()
