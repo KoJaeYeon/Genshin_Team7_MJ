@@ -9,7 +9,7 @@ public class TestPlayer : MonoBehaviour
     public float Jumpforce;
     private bool isGround;
 
-    public int Atk = 10;
+    public int Atk = 20;
 
     public LayerMask layer;
     Vector3 Movedir = Vector3.zero;

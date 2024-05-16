@@ -31,6 +31,7 @@ public class Enemy : MonoBehaviour
     protected float traceDistance = 5.0f;
     protected bool traceMove = true;
     protected bool attack = true;
+    private int elementCount = 3;
 
     protected virtual void Awake()
     {
@@ -42,7 +43,6 @@ public class Enemy : MonoBehaviour
         EnemyHealthDic = new Dictionary<Enemy, float>();
     }
 
-    
 
     public void Damaged(Enemy enemy, float damage)
     {
@@ -72,22 +72,32 @@ public class Enemy : MonoBehaviour
         return Exp;
     }
 
-    //private GameObject DropItem(Enemy enemy)//아이템, 모라
-    //{
-
-    //}
-
+    private void DropElement(Enemy enemy)
+    {
+        for(int i = 0; i < elementCount; i++)
+        {
+            GameObject dropElement = ElementPool.Instance.GetElementObject();
+            dropElement.transform.position = enemy.transform.position;
+            dropElement.SetActive(true);
+            
+        }
+        //GameObject Element = ElementPool.Instance.GetElementObject();
+        //Element.transform.position = enemy.transform.position;
+    }
 
     private IEnumerator Die(Enemy enemy)
     {
         enemy.gameObject.layer = (int)EnemyLayer.isDead;
         enemy.animator.SetTrigger("Die");
-
-        GameObject DropElement = ElementPool.Instance.GetElementObject();
-        DropElement.transform.position = enemy.transform.position;
-        DropElement.SetActive(true);
+        DropElement(enemy);
         yield return new WaitForSeconds(1.05f);
         enemy.gameObject.SetActive(false);
+    }
+
+    public IEnumerator TestDie(Enemy enemy)
+    {
+        yield return new WaitForSeconds(3.0f);
+        Damaged(enemy, 9999);
     }
 }
 
