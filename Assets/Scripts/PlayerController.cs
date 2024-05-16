@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -128,18 +129,19 @@ public class PlayerController : MonoBehaviour
         JumpAndGravity();
         GroundedCheck();
         Move();
+        Climb();
 
-        CliffCheck();
+        //CliffCheck();
 
-        if (Grounded == true)
-        {
-            Move();
-        }
+        //if (Grounded == true)
+        //{
+        //    Move();
+        //}
 
-        if (Cliff == true)
-        {
-            Climb();
-        }
+        //if (Cliff == true)
+        //{
+        //    Climb();
+        //}
 
         if (_input.attack)
         {
@@ -183,28 +185,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void CliffCheck()
-    {
-        Vector3 spherePosiiton = new Vector3(transform.position.x, transform.position.y + CliffCheckOffsetY,
-            transform.position.z + CliffCheckOffsetZ);
+    //private void CliffCheck()
+    //{
+    //    Vector3 spherePosiiton = new Vector3(transform.position.x, transform.position.y + CliffCheckOffsetY,
+    //        transform.position.z + CliffCheckOffsetZ);
 
-        Cliff = Physics.CheckSphere(spherePosiiton, CliffCheckRadius, CliffLayers,
-            QueryTriggerInteraction.Ignore);
+    //    Cliff = Physics.CheckSphere(spherePosiiton, CliffCheckRadius, CliffLayers,
+    //        QueryTriggerInteraction.Ignore);
 
-        if (_hasAnimator)
-        {
-            _animator.SetBool(_animIDCliffCheck, Cliff);
+    //    if (_hasAnimator)
+    //    {
+    //        _animator.SetBool(_animIDCliffCheck, Cliff);
 
-            if (Cliff == true)
-            {
-                Grounded = false;
-                transform.rotation = Quaternion.identity;
-                _animator.SetBool("Climb", true);
-                _animator.SetBool(_animIDGrounded, false);
-                _animator.SetBool(_animIDFreeFall, false);
-            }
-        }
-    }
+    //        if (Cliff)
+    //        {
+    //            Grounded = false;
+    //            transform.rotation = Quaternion.identity;
+    //            _animator.SetBool("Climb", true);
+    //            _animator.SetBool(_animIDGrounded, false);
+    //            _animator.SetBool(_animIDFreeFall, false);
+    //        }
+    //    }
+    //}
 
     private void CameraRotation()
     {
@@ -345,22 +347,75 @@ public class PlayerController : MonoBehaviour
 
     private void Climb()
     {
-        if (Cliff == true)
+        Vector3 spherePosiiton = new Vector3(transform.position.x, transform.position.y + CliffCheckOffsetY,
+            transform.position.z + CliffCheckOffsetZ);
+
+        Cliff = Physics.CheckSphere(spherePosiiton, CliffCheckRadius, CliffLayers,
+            QueryTriggerInteraction.Ignore);
+
+        if (Cliff)
         {
-            _rb.constraints = RigidbodyConstraints.FreezeRotationZ;
+            Grounded = false;
+            _animator.SetBool("Climb", true);
 
-            transform.rotation = Quaternion.Euler(0f, _mainCamera.transform.eulerAngles.y, 0f);
+            float verticalInput = _input.move.y;
+            float horizontalInput = _input.move.x;
 
-            Vector3 climbDirection = new Vector3(_input.move.x, _input.move.y, 0.0f);
+            Vector3 moveDirection = new Vector3(horizontalInput, verticalInput, 0.0f);
 
-            _controller.Move(climbDirection * (_speed * Time.deltaTime));
+            moveDirection = transform.TransformDirection(moveDirection);
+            moveDirection.y = Mathf.Clamp(moveDirection.y, -1f, 1f);
+
+            _controller.Move(moveDirection * MoveSpeed * Time.deltaTime);
 
             if (_hasAnimator)
             {
-                _animator.SetFloat("horizontal", _input.move.x);
-                _animator.SetFloat("vertical", _input.move.y);
+                _animator.SetFloat("horizontal", horizontalInput);
+                _animator.SetFloat("vertical", verticalInput);
             }
         }
+        else
+        {
+            _animator.SetBool("Climb", false);
+        }
+
+        //if (_hasAnimator)
+        //{
+        //    _animator.SetBool(_animIDCliffCheck, Cliff);
+
+        //    if (Cliff)
+        //    {
+        //        Grounded = false;
+        //        transform.rotation = Quaternion.identity;
+        //        _animator.SetBool("Climb", true);
+        //        _animator.SetBool(_animIDGrounded, false);
+        //        _animator.SetBool(_animIDFreeFall, false);
+        //    }
+        //}
+        //if (Cliff == true)
+        //{
+        //    _rb.constraints = RigidbodyConstraints.FreezeRotationZ;
+
+        //    float verticalInput = _input.move.y;
+        //    float horizontalInput = _input.move.x;
+
+        //    Vector3 moveDirection = new Vector3(horizontalInput, verticalInput, 0.0f);
+
+        //    moveDirection = _mainCamera.transform.TransformDirection(moveDirection);
+        //    moveDirection.y = Mathf.Clamp(moveDirection.y, -1f, 1f);
+
+        //    _controller.Move(moveDirection * (MoveSpeed * Time.deltaTime));
+
+        //    if (_hasAnimator)
+        //    {
+        //        _animator.SetFloat("horizontal", horizontalInput);
+        //        _animator.SetFloat("vertical", verticalInput);
+        //    }
+        //}
+        //else
+        //{
+        //    _animator.SetBool("Climb", false);
+        //}
     }
 
     private void JumpAndGravity()
