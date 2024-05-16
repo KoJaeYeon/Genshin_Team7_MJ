@@ -8,7 +8,8 @@ public class TestPlayer : MonoBehaviour
     public float RotSpeed;
     public float Jumpforce;
     private bool isGround;
-
+    private IWeapon weapon;
+    private Element element;
     public int Atk = 20;
 
     public LayerMask layer;
@@ -19,6 +20,7 @@ public class TestPlayer : MonoBehaviour
     void Start()
     {
         m_PlayerRigidbody = GetComponent<Rigidbody>();
+        SetWeapon(Element.Fire);
     }
 
     private void Update()
@@ -31,11 +33,25 @@ public class TestPlayer : MonoBehaviour
 
         
 
-        if (Input.GetButtonDown("Jump") && isGround)
+        //if (Input.GetButtonDown("Jump") && isGround)
+        //{
+        //    Vector3 JumpPower = Vector3.up * Jumpforce;
+        //    m_PlayerRigidbody.AddForce(JumpPower, ForceMode.VelocityChange);
+        //}
+
+        if (Input.GetMouseButtonDown(0))
         {
-            Vector3 JumpPower = Vector3.up * Jumpforce;
-            m_PlayerRigidbody.AddForce(JumpPower, ForceMode.VelocityChange);
+            Debug.Log("´­¸²");
+            weapon.Shoot();
         }
+        else if (Input.GetKeyDown(KeyCode.F1))
+            SetWeapon(Element.Fire);
+        else if (Input.GetKeyDown(KeyCode.F2))
+            SetWeapon(Element.Ice);
+        else if (Input.GetKeyDown(KeyCode.F3))
+            SetWeapon(Element.Lightning);
+        else if(Input.GetKeyDown(KeyCode.F4))
+            SetWeapon(Element.Nomal);
 
     }
 
@@ -68,6 +84,35 @@ public class TestPlayer : MonoBehaviour
         {
             isGround = false;
         }
+    }
+
+    public void SetWeapon(Element element)
+    {
+        this.element = element;
+
+        Component component = gameObject.GetComponent<IWeapon>() as Component;
+
+        if (component != null)
+        {
+            Destroy(component);
+        }
+
+        switch (element)
+        {
+            case Element.Fire:
+                weapon = gameObject.AddComponent<Fire>();
+                break;
+            case Element.Ice:
+                weapon = gameObject.AddComponent<Ice>();
+                break;
+            case Element.Lightning:
+                weapon = gameObject.AddComponent<Lightning>();
+                break;
+            case Element.Nomal:
+                weapon = gameObject.AddComponent<Nomal>();
+                break;
+        }
+
     }
 
     private void OnCollisionEnter(Collision collision)

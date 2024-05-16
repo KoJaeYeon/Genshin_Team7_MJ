@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NomalHilichurl : Enemy
+public class NomalHilichurl : Enemy, IColor
 {
     protected override void Awake()
     {
@@ -30,6 +30,7 @@ public class NomalHilichurl : Enemy
     public NavMeshAgent Agent => agent;
     public float TraceDistance => traceDistance;
     public EnemyData EnemyData => enemyData;
+    private Color color = Color.white;
     public bool TraceAttack
     {
         get { return attack; }
@@ -41,6 +42,23 @@ public class NomalHilichurl : Enemy
             state.ChangeState(EnemyState.TraceMove);
 
         attack = true;
+    }
+
+    public Color GetColor()
+    {
+        return color;   
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("HitObject"))
+        {
+            TestElement hitObject = other.GetComponent<TestElement>();
+            HitElement = hitObject.GetElement();
+            HitDropElement(HitElement, this);
+
+            Damaged(this, hitObject.ReturnDamage());
+        }
     }
 }
 

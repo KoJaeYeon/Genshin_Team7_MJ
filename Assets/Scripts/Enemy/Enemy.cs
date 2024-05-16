@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering.Universal;
@@ -29,6 +30,9 @@ public class Enemy : MonoBehaviour
     protected GameObject Hp;
     protected Slider HpSlider;
 
+    private IColor color;
+    private Color ElementColor;
+    protected Element HitElement;
     protected EnemyData enemyData;
     protected float traceDistance = 5.0f;
     protected bool traceMove = true;
@@ -58,10 +62,15 @@ public class Enemy : MonoBehaviour
 
         if (EnemyHealthDic[enemy] <= 0)
         {
-            Hp.SetActive(false);
             //ReturnExp(enemy); 플레이어
+            Hp.SetActive(false);
             StartCoroutine(Die(enemy));
         }
+    }
+
+    public void TestDamaged()
+    {
+
     }
 
     private float Armor(Enemy enemy,float damage) //원소가 추가되면 원소에 따라 다른 방어력 구현 예정..
@@ -85,10 +94,52 @@ public class Enemy : MonoBehaviour
         {
             GameObject dropElement = ElementPool.Instance.GetElementObject();
             ElementObject elementObject = dropElement.GetComponent<ElementObject>();
+            elementObject.SetColor(SetColor(enemy));
             dropElement.transform.position = enemy.transform.position;
             dropElement.SetActive(true);
             StartCoroutine(elementObject.UP());
         }
+    }
+
+    public void HitDropElement(Element element, Enemy enemy)
+    {
+        HitElement = element;
+
+        switch (HitElement)
+        {
+            case Element.Fire:
+                ElementColor = Color.red;
+                break;
+            case Element.Ice:
+                ElementColor = Color.blue;
+                break;
+            case Element.Lightning:
+                ElementColor = Color.yellow;
+                break;
+            case Element.Nomal:
+                ElementColor = Color.white;
+                break;
+        }
+
+        if (EnemyHealthDic[enemy] <= 0)
+            return;
+
+        for(int i = 0; i < elementCount; i++)
+        {
+            GameObject hitElement = ElementPool.Instance.GetElementObject();
+            ElementObject elementObject = hitElement.GetComponent<ElementObject>();
+            elementObject.SetColor(ElementColor);
+            hitElement.transform.position = transform.position;
+            hitElement.SetActive(true);
+            StartCoroutine(elementObject.UP());
+        }
+    }
+
+    public Color SetColor(Enemy enemy)
+    {
+        color = enemy.GetComponent<IColor>();
+        ElementColor = color.GetColor();
+        return ElementColor;
     }
 
     private void DropItem(Enemy enemy)

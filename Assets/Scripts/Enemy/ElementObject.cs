@@ -6,6 +6,7 @@ public class ElementObject : MonoBehaviour
 {
     public Transform Player;
     private Rigidbody ObjectRigidbody;
+    private MeshRenderer ObjectRenderer;
     private float Speed = 5f;
     private float ElementGauge = 10f;
     private float Power = 400.0f;
@@ -14,6 +15,7 @@ public class ElementObject : MonoBehaviour
     private void Awake()
     {
         ObjectRigidbody = GetComponent<Rigidbody>();
+        ObjectRenderer = GetComponent<MeshRenderer>();
     }
 
     private void Update()
@@ -38,6 +40,11 @@ public class ElementObject : MonoBehaviour
     public float FillElement()
     {
         return ElementGauge;
+    }
+
+    public void SetColor(Color Color)
+    {
+        ObjectRenderer.materials[0].color = Color;
     }
 
     public IEnumerator UP()
