@@ -21,6 +21,8 @@ public class UIManager : Singleton<UIManager>
     {
         settingBar_IActivePanel = settingBar.GetComponent<IActivePanel>();
         initFtransY = FTrans.position.y;
+
+        activePanel = mainPanel.GetComponent<IActivePanel>();
     }
 
     void Start()

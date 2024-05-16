@@ -31,10 +31,12 @@ public class ItemSerachTrigger : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.H)) DownSearchPoint();
         else if (Input.GetKeyDown(KeyCode.F))
         {
+            if (items.Count == 0) return;
             items[searchPoint].UseItemGet();
             items.RemoveAt(searchPoint);
             if (searchPoint > 0) searchPoint--;
             UIManager.Instance.SetFPoint(searchPoint);
+            itemCount = items.Count;
         }
         itemCount = items.Count;
     }
