@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class LightningHilichurl : Enemy
+public class LightningHilichurl : Enemy, IColor
 {
     protected override void Awake()
     {
@@ -17,6 +17,10 @@ public class LightningHilichurl : Enemy
         //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
         enemyData = new EnemyData(120f, 20f, 5f, 0.5f, 180, Element.Lightning);
         EnemyHealthDic.Add(this, enemyData.Health);
+
+        HpSlider.maxValue = enemyData.Health;
+        HpSlider.value = enemyData.Health;
+
     }
     public EnemyStateMachine State => state;
     public Animator Animator => animator;
@@ -25,6 +29,8 @@ public class LightningHilichurl : Enemy
     public NavMeshAgent Agent => agent;
     public float TraceDistance => traceDistance;
     public EnemyData EnemyData => enemyData;
+
+    private Color color = Color.yellow;
     
     public bool TraceAttack
     {
@@ -40,6 +46,10 @@ public class LightningHilichurl : Enemy
         attack = true;
     }
 
+    public Color GetColor()
+    {
+        return color;
+    }
 }
 
 public abstract class LightningHilichurlState : BaseState

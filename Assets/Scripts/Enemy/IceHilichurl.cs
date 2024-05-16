@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class IceHilichurl : Enemy
+public class IceHilichurl : Enemy, IColor
 {
     protected override void Awake()
     {
@@ -19,6 +19,8 @@ public class IceHilichurl : Enemy
         enemyData = new EnemyData(110f, 15f, 2f, 0.1f, 130, Element.Ice);
         EnemyHealthDic.Add(this, enemyData.Health);
 
+        HpSlider.maxValue = enemyData.Health;
+        HpSlider.value = enemyData.Health;
         //traceDistance = 7.0f;
     }
 
@@ -29,6 +31,7 @@ public class IceHilichurl : Enemy
     public NavMeshAgent Agent => agent;
     public float TraceDistance => traceDistance;
     public EnemyData EnemyData => enemyData;
+    private Color color = Color.blue;
     public bool TraceAttack
     {
         get { return attack; }
@@ -43,6 +46,11 @@ public class IceHilichurl : Enemy
         }
 
         attack = true;
+    }
+
+    public Color GetColor()
+    {
+        return color;
     }
 }
 

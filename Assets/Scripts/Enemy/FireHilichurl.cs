@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class FireHilichurl : Enemy
+public class FireHilichurl : Enemy,IColor
 {
     protected override void Awake()
     {
@@ -18,7 +18,8 @@ public class FireHilichurl : Enemy
         enemyData = new EnemyData(80f, 20f, 3f, 0.1f, 180, Element.Fire);
         EnemyHealthDic.Add(this, enemyData.Health);
 
-        
+        HpSlider.maxValue = enemyData.Health;
+        HpSlider.value = enemyData.Health;
     }
 
     public EnemyStateMachine State => state;
@@ -28,6 +29,7 @@ public class FireHilichurl : Enemy
     public NavMeshAgent Agent => agent;
     public float TraceDistance => traceDistance;
     public EnemyData EnemyData => enemyData;
+    private Color color = Color.red;
     public bool TraceAttack
     {
         get { return  attack; }
@@ -41,6 +43,10 @@ public class FireHilichurl : Enemy
         attack = true;
     }
 
+    public Color GetColor()
+    {
+        return color;
+    }
 }
 
 public abstract class FireHilichurlState : BaseState
