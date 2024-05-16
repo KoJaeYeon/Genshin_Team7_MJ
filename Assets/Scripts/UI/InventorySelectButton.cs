@@ -21,6 +21,11 @@ public class InventorySelectButton : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        InventoryActive(0);
+    }
+
     public void InventoryActive(int index)
     {
         for (int i = 0; i < inventoryPanel.Length; i++)
