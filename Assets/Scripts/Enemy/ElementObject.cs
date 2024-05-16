@@ -8,6 +8,7 @@ public class ElementObject : MonoBehaviour
     private Rigidbody ObjectRigidbody;
     private float Speed = 5f;
     private float ElementGauge = 10f;
+    private float Power = 430.0f;
     private bool targetMove = false;
     
     private void Awake()
@@ -41,18 +42,11 @@ public class ElementObject : MonoBehaviour
 
     public IEnumerator UP()
     {
-        Debug.Log("»£√‚");
-        float Timer = 0f;
-
         float randx = Random.Range(-0.5f, 0.5f);
         float randz = Random.Range(-0.5f, 0.5f);
         
-        while (true && Timer < 1f)
-        {
-            ObjectRigidbody.AddForce(new Vector3(randx, 1, randz));
-            Timer += Time.deltaTime;
-        }
-        
+        ObjectRigidbody.AddForce(new Vector3(randx, 1, randz) * Power);
+         
         yield return new WaitForSeconds(0.7f);
         targetMove = true;
 

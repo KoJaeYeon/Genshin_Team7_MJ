@@ -41,7 +41,6 @@ public class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
 
         EnemyHealthDic = new Dictionary<Enemy, float>();
-        StartCoroutine(TestDie(this));
     }
 
 
@@ -75,7 +74,7 @@ public class Enemy : MonoBehaviour
 
     private void DropElement(Enemy enemy)
     {
-        for(int i = 0; i < elementCount; i++)
+        for(int i = 0; i < elementCount; i++) //나중에 풀매니저에서 끌어오는 코드로 변경해야함!!
         {
             GameObject dropElement = ElementPool.Instance.GetElementObject();
             ElementObject elementObject = dropElement.GetComponent<ElementObject>();
@@ -85,20 +84,22 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void DropItem(Enemy enemy)
+    {
+
+    }
+
     private IEnumerator Die(Enemy enemy)
     {
         enemy.gameObject.layer = (int)EnemyLayer.isDead;
         enemy.animator.SetTrigger("Die");
         DropElement(enemy);
+        DropItem(enemy);
+
         yield return new WaitForSeconds(1.05f);
         enemy.gameObject.SetActive(false);
     }
 
-    private IEnumerator TestDie(Enemy enemy)
-    {
-        yield return new WaitForSeconds(6.0f);
-        Damaged(enemy, 9999);
-    }
 }
 
 public struct EnemyData
