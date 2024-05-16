@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -19,7 +20,7 @@ public enum Element
     Ice,
     Lightning
 }
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
     protected EnemyStateMachine state;
     protected MonsterWeapon Weapon;
@@ -51,34 +52,102 @@ public class Enemy : MonoBehaviour
         EnemyHealthDic = new Dictionary<Enemy, float>();
     }
 
+    public abstract void Damaged(Enemy enemy, float damage, Element element);
+    public abstract void Splash(float damage);
 
-    public void Damaged(Enemy enemy, float damage)
+    //public void Damaged(Enemy enemy, float damage)
+    //{
+    //    EnemyHealthDic[enemy] -= (damage - Armor(enemy, damage));
+
+    //    enemy.HpSlider.value = EnemyHealthDic[enemy];
+    //    enemy.transform.LookAt(Player.transform.position);
+    //    enemy.animator.SetTrigger("Hit");
+
+    //    if (EnemyHealthDic[enemy] <= 0)
+    //    {
+    //        ReturnExp(enemy); 플레이어
+    //        Hp.SetActive(false);
+    //        StartCoroutine(Die(enemy));
+    //    }
+    //}
+
+
+    protected float Armor(Enemy enemy,float damage, Element element) //원소가 추가되면 원소에 따라 다른 방어력 구현 예정..
     {
-        EnemyHealthDic[enemy] -= (damage - Armor(enemy, damage));
-
-        enemy.HpSlider.value = EnemyHealthDic[enemy];
-        enemy.transform.LookAt(Player.transform.position);
-        enemy.animator.SetTrigger("Hit");
-
-        if (EnemyHealthDic[enemy] <= 0)
+        switch (element)
         {
-            //ReturnExp(enemy); 플레이어
-            Hp.SetActive(false);
-            StartCoroutine(Die(enemy));
+            case Element.Fire:
+                if(enemy.enemyData.element == Element.Ice)
+                {
+                    Debug.Log("융해");
+                    damage *= 2f;
+                }
+                else if(enemy.enemyData.element == Element.Lightning)
+                {
+                    Debug.Log("과부화");
+                    damage -= damage * enemy.enemyData.Defence;
+                    SplashAttack(enemy);
+                }
+                else
+                {
+                    damage -= damage * enemy.enemyData.Defence;
+                }
+                break;
+            case Element.Ice:
+                if(enemy.enemyData.element == Element.Fire)
+                {
+                    Debug.Log("융해");
+                    damage *= 1.5f;
+                }
+                else if(enemy.enemyData.element == Element.Lightning)
+                {
+                    Debug.Log("초전도");
+                    damage -= damage * enemy.enemyData.Defence;
+                    SplashAttack(enemy);
+                }
+                else
+                {
+                    damage -= damage * enemy.enemyData.Defence;
+                }
+                break;
+            case Element.Lightning:
+                if(enemy.enemyData.element == Element.Fire)
+                {
+                    Debug.Log("과부화");
+                    damage -= damage * enemy.enemyData.Defence;
+                    SplashAttack(enemy);
+                }
+                else if(enemy.enemyData.element == Element.Ice)
+                {
+                    Debug.Log("초전도");
+                    damage -= damage * enemy.enemyData.Defence;
+                    SplashAttack(enemy);
+                }
+                else
+                {
+                    damage -= damage * enemy.enemyData.Defence;
+                }
+                break;
+            case Element.Nomal:
+                damage -= damage * enemy.enemyData.Defence;
+                break;
         }
+        return damage;
     }
 
-    public void TestDamaged()
+    private void SplashAttack(Enemy enemy)
     {
+        Collider[] collider = Physics.OverlapSphere(enemy.transform.position, 2.0f, LayerMask.GetMask("Monster"));
 
-    }
+        for(int i = 0; i < collider.Length; i++)
+        {
+            Enemy checkEnemy = collider[i].GetComponent<Enemy>();
 
-    private float Armor(Enemy enemy,float damage) //원소가 추가되면 원소에 따라 다른 방어력 구현 예정..
-    {
-        float armor;
-
-        armor = damage * enemy.enemyData.Defence;
-        return armor;
+            if (checkEnemy != null)
+            {
+                checkEnemy.Splash(5f);
+            }
+        }
     }
 
     private int ReturnExp(Enemy enemy) //경험치
@@ -101,11 +170,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void HitDropElement(Element element, Enemy enemy)
+    public void HitDropElement(Element element)
     {
-        HitElement = element;
-
-        switch (HitElement)
+        switch (element)
         {
             case Element.Fire:
                 ElementColor = Color.red;
@@ -120,9 +187,6 @@ public class Enemy : MonoBehaviour
                 ElementColor = Color.white;
                 break;
         }
-
-        if (EnemyHealthDic[enemy] <= 0)
-            return;
 
         for(int i = 0; i < elementCount; i++)
         {
@@ -147,7 +211,7 @@ public class Enemy : MonoBehaviour
 
     }
 
-    private IEnumerator Die(Enemy enemy)
+    protected IEnumerator Die(Enemy enemy)
     {
         enemy.gameObject.layer = (int)EnemyLayer.isDead;
         enemy.animator.SetTrigger("Die");

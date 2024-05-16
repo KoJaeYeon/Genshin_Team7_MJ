@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7110056663367603545}
   - component: {fileID: 2800094405455363334}
   - component: {fileID: 853960009684462117}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: MonsterHp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: 8344319690080032338}
   - component: {fileID: 6480511545740325886}
   - component: {fileID: 8225821685492667181}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: HpFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -231,7 +231,7 @@ GameObject:
   - component: {fileID: 3916163528900873521}
   - component: {fileID: 2082027808363863511}
   - component: {fileID: 4948265998965693332}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -330,7 +330,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8846695457601794188}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: WayPoint (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -361,7 +361,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8846695457846551817}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: WayPoint (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -392,7 +392,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8846695458164846042}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: WayPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -423,7 +423,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8846695458480901995}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: WayPoint (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -454,7 +454,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8846695458967376236}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: NomalMonsterWayPoints
   m_TagString: WayPoint
   m_Icon: {fileID: 0}
@@ -491,6 +491,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: a6d313c754b039b4dbefc4fdc8265e55, type: 3}
       propertyPath: m_Name
       value: Sword_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: a6d313c754b039b4dbefc4fdc8265e55, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: a6d313c754b039b4dbefc4fdc8265e55, type: 3}
       propertyPath: m_RootOrder

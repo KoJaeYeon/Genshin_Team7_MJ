@@ -21,4 +21,9 @@ public class TestElement : MonoBehaviour
     {
         return Damage;
     }
+
+    public void Return()
+    {
+        gameObject.SetActive(false);
+    }
 }
