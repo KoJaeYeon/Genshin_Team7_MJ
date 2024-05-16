@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 #endif
 
 [RequireComponent(typeof(CharacterController))]
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [Range(0.0f, 0.3f)]
     public float RotationSmoothTime = 0.12f;
     public float SpeedChangeRate = 10.0f;
+    public float baseSensitivity = 0.12f;
     public float LookSensitivity = 1.0f;
 
     [Space(10)]
@@ -83,24 +85,14 @@ public class PlayerController : MonoBehaviour
     private CharacterController _controller;
     private PlayerInputHandler _input;
     private GameObject _mainCamera;
+    private Rigidbody _rb;
 
     private const float _threshold = 0.01f;
 
     private bool _hasAnimator;
+    private bool rotateOnMove = true;
 
     public PlayerSO playerData;
-
-    private bool IsCurrentDeviceMouse
-    {
-        get
-        {
-#if ENABLE_INPUT_SYSTEM
-            return _playerInput.currentControlScheme == "PC";
-#else
-            return false;
-#endif
-        }
-    }
 
     private void Awake()
     {
@@ -120,6 +112,8 @@ public class PlayerController : MonoBehaviour
 #if ENABLE_INPUT_SYSTEM
         _playerInput = GetComponent<PlayerInput>();
 #endif
+        _rb = GetComponent<Rigidbody>();
+
         AssignAnimationIDs();
 
         _jumpTimeoutDelta = JumpTimeout;
@@ -135,17 +129,17 @@ public class PlayerController : MonoBehaviour
         GroundedCheck();
         Move();
 
-        //CliffCheck();
+        CliffCheck();
 
-        //if (Grounded == true)
-        //{
-        //    Move();
-        //}
+        if (Grounded == true)
+        {
+            Move();
+        }
 
-        //if (Cliff == true)
-        //{
-        //    Climb();
-        //}
+        if (Cliff == true)
+        {
+            Climb();
+        }
 
         if (_input.attack)
         {
@@ -183,12 +177,6 @@ public class PlayerController : MonoBehaviour
         Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
             QueryTriggerInteraction.Ignore);
 
-        Vector3 center = transform.position + Vector3.up * GroundedOffset;
-        Vector3 halfExtents = new Vector3(GroundedRadius, 0.1f, GroundedRadius);
-
-        Grounded = Physics.CheckBox(center, halfExtents, Quaternion.identity, GroundLayers,
-            QueryTriggerInteraction.Ignore);
-
         if (_hasAnimator)
         {
             _animator.SetBool(_animIDGrounded, Grounded);
@@ -211,7 +199,7 @@ public class PlayerController : MonoBehaviour
             {
                 Grounded = false;
                 transform.rotation = Quaternion.identity;
-                _animator.SetBool("Climb_Idle", true);
+                _animator.SetBool("Climb", true);
                 _animator.SetBool(_animIDGrounded, false);
                 _animator.SetBool(_animIDFreeFall, false);
             }
@@ -222,10 +210,8 @@ public class PlayerController : MonoBehaviour
     {
         if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
         {
-            float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
-
-            _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier * LookSensitivity;
-            _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier * LookSensitivity;
+            _cinemachineTargetYaw += _input.look.x * baseSensitivity * LookSensitivity;
+            _cinemachineTargetPitch += _input.look.y * baseSensitivity * LookSensitivity;
         }
         _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
         _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
@@ -244,7 +230,7 @@ public class PlayerController : MonoBehaviour
         float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
 
         float speedOffset = 0.1f;
-        float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1.0f;
+        float inputMagnitude = 1.0f;
 
         if (currentHorizontalSpeed < targetSpeed - speedOffset ||
             currentHorizontalSpeed > targetSpeed + speedOffset)
@@ -260,7 +246,6 @@ public class PlayerController : MonoBehaviour
         }
 
         _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-        if (_animationBlend < 0.01f) _animationBlend = 0.0f;
 
         Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
 
@@ -271,103 +256,112 @@ public class PlayerController : MonoBehaviour
 
             float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
                 RotationSmoothTime);
-
-            transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            if (rotateOnMove) transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
         }
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+        
 
-        if(!_isClimbing)
-        {
-            float avoidFloorDistance = 0.1f;
-            float cliffGrabDistance = 0.25f;
-            if (Physics.Raycast(transform.position + Vector3.up * avoidFloorDistance, targetDirection, out RaycastHit raycastHit, cliffGrabDistance))
-            {
-                if (raycastHit.transform.TryGetComponent(out Cliff cliff))
-                {
-                    GrabCliff(targetDirection);
+    //    if(!_isClimbing)
+    //    {
+    //        float avoidFloorDistance = 0.1f;
+    //        float cliffGrabDistance = 0.3f;
+    //        if (Physics.Raycast(transform.position + Vector3.up * avoidFloorDistance, targetDirection, out RaycastHit raycastHit, cliffGrabDistance))
+    //        {
+    //            if (raycastHit.transform.TryGetComponent(out Cliff cliff))
+    //            {
+    //                GrabCliff(targetDirection);
 
-                }
-            }
-        }
-        else
-        {
-            float avoidFloorDistance = 0.1f;
-            float cliffGrabDistance = 0.25f;
-            if (Physics.Raycast(transform.position + Vector3.up * avoidFloorDistance, lastGrabCliffDirection, out RaycastHit raycastHit, cliffGrabDistance))
-            {
-                if (!raycastHit.transform.TryGetComponent(out Cliff cliff))
-                {
-                    DropCliff();
-                    _verticalVelocity = 2f;
-                }
-            }
-            else
-            {
-                DropCliff();
-                _verticalVelocity = 2f;
-            }
+    //                if (_hasAnimator)
+    //                {
+    //                    _animator.SetBool("Climb", true);
+    //                }
 
-            if(Vector3.Dot(targetDirection, lastGrabCliffDirection) < 0)
-            {
-                float cliffFloorDropDistance = 0.1f;
-                if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit floorRaycastHit, cliffFloorDropDistance))
-                {
-                    DropCliff();
-                }
+    //                transform.rotation = Quaternion.Euler(0.0f, _mainCamera.transform.eulerAngles.y, 0.0f);
+    //            }
+    //        }
+    //    }
+    //    else
+    //    {
+    //        float avoidFloorDistance = 0.1f;
+    //        float cliffGrabDistance = 0.3f;
+    //        if (Physics.Raycast(transform.position + Vector3.up * avoidFloorDistance, lastGrabCliffDirection, out RaycastHit raycastHit, cliffGrabDistance))
+    //        {
+    //            if (!raycastHit.transform.TryGetComponent(out Cliff cliff))
+    //            {
+    //                DropCliff();
+    //                _verticalVelocity = 2f;
+    //            }
+    //        }
+    //        else
+    //        {
+    //            DropCliff();
+    //            _verticalVelocity = 2f;
+    //        }
 
-                
-            }
-        }
+    //        if(Vector3.Dot(targetDirection, lastGrabCliffDirection) < 0)
+    //        {
+    //            float cliffFloorDropDistance = 0.1f;
+    //            if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit floorRaycastHit, cliffFloorDropDistance))
+    //            {
+    //                DropCliff();
+    //            }
+    //        }
+    //    }
 
         
-        if (_isClimbing)
-        {
-            targetDirection.y = targetDirection.z;
-            targetDirection.z = 0.0f;
-            _verticalVelocity = 0.0f;
-            Grounded = true;
-            MoveSpeed = targetSpeed;
-        }
+    //    if (_isClimbing)
+    //    {
+    //        targetDirection.x = 0.0f;
+    //        targetDirection.y = targetDirection.z;
+    //        targetDirection.z = 0.0f;
+    //        _verticalVelocity = 0.0f;
+    //        Grounded = true;
+    //        _speed = targetSpeed;
+    //    }
 
         _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
             new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
         if (_hasAnimator)
         {
-            _animator.SetFloat(_animIDSpeed, _animationBlend);
-            _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+            _animator.SetFloat(_animIDSpeed, _animationBlend, 0.05f, Time.deltaTime);
+            _animator.SetFloat(_animIDMotionSpeed, inputMagnitude, 0.1f, Time.deltaTime);
         }
     }
 
-    private void GrabCliff(Vector3 lastGrabCliffDirection)
-    {
-        _isClimbing = true;
-        this.lastGrabCliffDirection = lastGrabCliffDirection;
-    }
-
-    private void DropCliff()
-    {
-        _isClimbing = false;
-    }
-
-    //private void Climb()
+    //private void GrabCliff(Vector3 lastGrabCliffDirection)
     //{
-    //    if (Cliff == true)
-    //    {
-    //        Vector3 climbDirection = new Vector3(_input.move.x, _input.move.y, 0.0f);
-
-    //        _controller.Move(climbDirection * (MoveSpeed * Time.deltaTime));
-
-    //        if(_hasAnimator)
-    //        {
-    //            _animator.SetBool("Climbing", true);
-    //            _animator.SetFloat("Horizontal", _input.move.x);
-    //            _animator.SetFloat("Vertical", _input.move.y);
-    //        }
-
-    //    }
+    //    _isClimbing = true;
+    //    _animator.SetBool("Climb", _isClimbing);
+    //    this.lastGrabCliffDirection = lastGrabCliffDirection;
     //}
+
+    //private void DropCliff()
+    //{
+    //    _isClimbing = false;
+    //    _animator.SetBool("Climb", _isClimbing);
+    //}
+
+    private void Climb()
+    {
+        if (Cliff == true)
+        {
+            _rb.constraints = RigidbodyConstraints.FreezeRotationZ;
+
+            transform.rotation = Quaternion.Euler(0f, _mainCamera.transform.eulerAngles.y, 0f);
+
+            Vector3 climbDirection = new Vector3(_input.move.x, _input.move.y, 0.0f);
+
+            _controller.Move(climbDirection * (_speed * Time.deltaTime));
+
+            if (_hasAnimator)
+            {
+                _animator.SetFloat("horizontal", _input.move.x);
+                _animator.SetFloat("vertical", _input.move.y);
+            }
+        }
+    }
 
     private void JumpAndGravity()
     {
@@ -423,12 +417,17 @@ public class PlayerController : MonoBehaviour
         {
             _verticalVelocity += Gravity * Time.deltaTime;
         }
+
+        //if (_isClimbing)
+        //{
+        //    if(_hasAnimator)
+        //    {
+        //        _animator.SetTrigger("ClimbDash");
+        //    }
+        //}
     }
 
-    private void FlyAndGravity()
-    {
-
-    }
+    
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
     {

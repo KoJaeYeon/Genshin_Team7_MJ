@@ -3269,7 +3269,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: d042ed37ac6e27d45a9b459bae49f2fb, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
@@ -3278,8 +3278,12 @@ Animator:
     'Bip001 L Finger01'\n\tTransform 'Bip001 R Finger01'\n\tTransform 'Bip001 L Finger0'\n\tTransform
     'Bip001 R Finger0'\n\tTransform 'Bip001 L Finger02'\n\tTransform 'Bip001 R Finger02'\n\tTransform
     'Bip001 L Finger01'\n\tTransform 'Bip001 R Finger01'\n\tand more ...\n\tFrom
-    animation clip 'Ani_Avatar_Girl_FallToGroundL'\n\tFrom animation clip 'Ani_Avatar_Girl_FallToGroundSprintBS'\n\tFrom
-    animation clip 'Ani_Avatar_Girl_FallToGroundRunBS'"
+    animation clip 'Ani_Avatar_Girl_ClimbIdleU'\n\tFrom animation clip 'Ani_Avatar_Girl_ClimbU'\n\tFrom
+    animation clip 'Ani_Avatar_Girl_ClimbD'\n\tFrom animation clip 'Ani_Avatar_Girl_ClimbL'\n\tFrom
+    animation clip 'Ani_Avatar_Girl_ClimbR'\n\tFrom animation clip 'Ani_Avatar_Girl_Bow_WeaponStandby'\n\tFrom
+    animation clip 'Ani_Avatar_Girl_FlySlow'\n\tFrom animation clip 'Ani_Avatar_Girl_FlyNormal+Mirror'\n\tFrom
+    animation clip 'Ani_Avatar_Girl_FlyFast'\n\tFrom animation clip 'Ani_Avatar_Girl_Bow_Yoimiya_Attack_01'\n\tand
+    more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -3296,7 +3300,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 1.7
-  m_Radius: 0.4
+  m_Radius: 0.25
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.02
@@ -3317,7 +3321,9 @@ MonoBehaviour:
   MoveSpeed: 2
   SprintSpeed: 5.335
   RotationSmoothTime: 0.12
-  SpeedChangeRate: 120
+  SpeedChangeRate: 10
+  baseSensitivity: 0.12
+  LookSensitivity: 1
   JumpHeight: 1.2
   Gravity: -15
   JumpTimeout: 0.3
@@ -3340,9 +3346,6 @@ MonoBehaviour:
   BottomClamp: -30
   CameraAngleOverride: 0
   LockCameraPosition: 0
-  _verticalVelocity: 0
-  _jumpTimeoutDelta: 0
-  _fallTimeoutDelta: 0
   playerData: {fileID: 11400000, guid: 147edf8bbd403e7498cc923ca354aa34, type: 2}
 --- !u!114 &1857943135
 MonoBehaviour:
