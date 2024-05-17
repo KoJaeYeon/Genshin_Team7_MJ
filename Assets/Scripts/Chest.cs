@@ -59,8 +59,8 @@ public class Chest : MonoBehaviour,IInteractable
     public override bool Equals(object obj)
     {
         if (obj == null) return false;
-        if (!(obj is DropObject)) return false;
-        DropObject other = (DropObject)obj;
+        if (!(obj is Chest)) return false;
+        Chest other = (Chest)obj;
         if(other.id == id) return true;
         return false;
     }
