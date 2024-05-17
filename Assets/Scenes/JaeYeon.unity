@@ -7987,7 +7987,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &530604184
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9592,7 +9592,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 694384516}
-  m_LocalRotation: {x: 0.27929458, y: 0.0064794836, z: -0.0018847313, w: 0.9601818}
+  m_LocalRotation: {x: 0.2792946, y: 0.006479437, z: -0.001884718, w: 0.9601818}
   m_LocalPosition: {x: 1.78, y: 6.18, z: 8.68}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -21554,7 +21554,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1405910522}
-  m_LocalRotation: {x: 0.27929458, y: 0.0064794836, z: -0.0018847313, w: 0.9601818}
+  m_LocalRotation: {x: 0.2792946, y: 0.006479437, z: -0.001884718, w: 0.9601818}
   m_LocalPosition: {x: 1.78, y: 6.18, z: 8.68}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -31238,10 +31238,12 @@ MonoBehaviour:
   MoveSpeed: 10
   RotSpeed: 10
   Jumpforce: 0
+  isGround: 0
   Atk: 10
   layer:
-    serializedVersion: 2
     m_Bits: 0
+  Movedir: {x: 0, y: 0, z: 0}
+  m_PlayerRigidbody: {fileID: 0}
 --- !u!54 &2079069512
 Rigidbody:
   m_ObjectHideFlags: 0
