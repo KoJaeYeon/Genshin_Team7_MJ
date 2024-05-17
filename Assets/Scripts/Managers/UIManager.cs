@@ -14,6 +14,7 @@ public class UIManager : Singleton<UIManager>
 
     public Transform itemGetContent;
     // Transform 받는 변수 선언
+    public Transform itemGetContent_J;
     public Transform FTrans;
     float initFtransY;
     float UIscaleY;
@@ -87,6 +88,17 @@ public class UIManager : Singleton<UIManager>
         getSlot.transform.localScale = Vector3.one;
 
     }
+
+    public void AddGetSlot_J(ItemGetPanelSlot itemGetPanelSlot)
+    {
+
+        itemGetPanelSlot.transform.SetParent(itemGetContent_J);
+    
+    }
+
+
+
+
 
     public void RemoveGetSlot()
     {
