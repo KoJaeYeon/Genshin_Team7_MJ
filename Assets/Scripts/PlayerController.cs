@@ -136,18 +136,6 @@ public class PlayerController : MonoBehaviour
         Move();
         Climb();
 
-        //CliffCheck();
-
-        //if (Grounded == true)
-        //{
-        //    Move();
-        //}
-
-        //if (Cliff == true)
-        //{
-        //    Climb();
-        //}
-
         if (_input.attack)
         {
             if (_attackTrigger)
