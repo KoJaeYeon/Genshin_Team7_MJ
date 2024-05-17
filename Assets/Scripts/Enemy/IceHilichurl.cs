@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class IceHilichurl : Enemy
+public class IceHilichurl : Enemy, IColor
 {
     protected override void Awake()
     {
@@ -19,6 +19,8 @@ public class IceHilichurl : Enemy
         enemyData = new EnemyData(110f, 15f, 2f, 0.1f, 130, Element.Ice);
         EnemyHealthDic.Add(this, enemyData.Health);
 
+        HpSlider.maxValue = enemyData.Health;
+        HpSlider.value = enemyData.Health;
         //traceDistance = 7.0f;
     }
 
@@ -29,6 +31,7 @@ public class IceHilichurl : Enemy
     public NavMeshAgent Agent => agent;
     public float TraceDistance => traceDistance;
     public EnemyData EnemyData => enemyData;
+    private Color color = Color.blue;
     public bool TraceAttack
     {
         get { return attack; }
@@ -43,6 +46,48 @@ public class IceHilichurl : Enemy
         }
 
         attack = true;
+    }
+
+    public Color GetColor()
+    {
+        return color;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("HitObject") && this.gameObject.layer == LayerMask.GetMask("Monster"))
+        {
+            TestElement hitObject = other.GetComponent<TestElement>();
+            HitElement = hitObject.GetElement();
+            Damaged(this, hitObject.ReturnDamage(), HitElement);
+
+            hitObject.Return();
+        }
+    }
+
+    public override void Damaged(Enemy enemy, float damage, Element element)
+    {
+        EnemyHealthDic[this] -= Armor(enemy, damage, element);
+        HpSlider.value = EnemyHealthDic[this];
+        transform.LookAt(Player.position);
+        animator.SetTrigger("Hit");
+
+        if (EnemyHealthDic[this] <= 0)
+        {
+            Hp.SetActive(false);
+            StartCoroutine(Die(this));
+        }
+        else
+            HitDropElement(element);
+    }
+
+    public override void Splash(float damage)
+    {
+        EnemyHealthDic[this] -= damage;
+        HpSlider.value = EnemyHealthDic[this];
+        if (EnemyHealthDic[this] <= 0)
+        {
+            StartCoroutine(Die(this));
+        }
     }
 }
 
