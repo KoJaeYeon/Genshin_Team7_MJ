@@ -15,6 +15,8 @@ public class InventoryManager : Singleton<InventoryManager>
     public Transform defenceTrans;
     public Transform otherTrans;
 
+    List<ItemSlot> show_Slots;
+
     private void Awake()
     {
         weaponDictionary = new Dictionary<int, Item>();
@@ -24,6 +26,8 @@ public class InventoryManager : Singleton<InventoryManager>
         slotWeaponDictionary = new Dictionary<int, ItemSlot>();
         slotdefenceDictionary = new Dictionary<int, ItemSlot>();
         slototherDictionary = new Dictionary<int, ItemSlot>();
+        
+        show_Slots = new List<ItemSlot>();
     }
 
     private void Update()
@@ -47,6 +51,47 @@ public class InventoryManager : Singleton<InventoryManager>
         {
             GetItem(ItemDatabase.Instance.GetItem(4));
             Debug.Log("GetItem");
+        }
+    }
+
+    public void Load_Weapon(Transform weaponContent)
+    {
+        foreach(ItemSlot itemSlot in slotWeaponDictionary.Values)
+        {
+            itemSlot.transform.SetParent(weaponContent);
+            itemSlot.transform.localScale = Vector3.one;
+
+            show_Slots.Add(itemSlot);
+        }
+    }
+
+    public void Load_Relic(Transform relicContent, DefenceType defenceType)
+    {
+        foreach (ItemSlot itemSlot in slotdefenceDictionary.Values)
+        {
+            if (itemSlot.GetRelicType() != defenceType) continue;
+            itemSlot.transform.SetParent(relicContent);
+            itemSlot.transform.localScale = Vector3.one;
+
+            show_Slots.Add(itemSlot);
+        }
+    }
+
+    public void UnLoad_Weapon()
+    {
+        while(show_Slots.Count > 0)
+        {
+            show_Slots[0].transform.SetParent(weaponTrans);
+            show_Slots.RemoveAt(0);
+        }
+    }
+
+    public void UnLoad_Relic()
+    {
+        while (show_Slots.Count > 0)
+        {
+            show_Slots[0].transform.SetParent(defenceTrans);
+            show_Slots.RemoveAt(0);
         }
     }
 

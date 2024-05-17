@@ -1,0 +1,152 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!74 &7400000
+AnimationClip:
+  m_Name: Eff_Ani_Yoimiya_Arrow_Fire_Particle
+  serializedVersion: 6
+  m_Legacy: 1
+  m_Compressed: 0
+  m_UseHighQualityCurve: 1
+  m_RotationCurves: []
+  m_CompressedRotationCurves: []
+  m_EulerCurves: []
+  m_PositionCurves: []
+  m_ScaleCurves: []
+  m_FloatCurves:
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.05
+        inSlope: 7.38863
+        outSlope: 7.38863
+      - serializedVersion: 2
+        time: 0.6666667
+        value: 2
+        inSlope: 0
+        outSlope: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: InitialModule.startSize.scalar
+    path: FireCenter
+    classID: 198
+    script: {fileID: 0}
+    flags: 0
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 2.2527869
+        outSlope: 2.2527869
+      - serializedVersion: 2
+        time: 0.6666667
+        value: 0.5
+        inSlope: 0
+        outSlope: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: InitialModule.startSize.minScalar
+    path: FireSpray
+    classID: 198
+    script: {fileID: 0}
+    flags: 0
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 4.3479724
+        outSlope: 4.3479724
+      - serializedVersion: 2
+        time: 0.6666667
+        value: 1.5
+        inSlope: 0
+        outSlope: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: InitialModule.startSize.scalar
+    path: FireSpray
+    classID: 198
+    script: {fileID: 0}
+    flags: 0
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0.16666667
+        value: 0.3
+        inSlope: 0.7082965
+        outSlope: 0.7082965
+      - serializedVersion: 2
+        time: 2.6666667
+        value: 3.9450307
+        inSlope: 0
+        outSlope: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: InitialModule.startLifetime.scalar
+    path: FireCenter
+    classID: 198
+    script: {fileID: 0}
+    flags: 0
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0.16666667
+        value: 0.4
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 2.6666667
+        value: 4.5
+        inSlope: 0
+        outSlope: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: InitialModule.startLifetime.minScalar
+    path: FireSpray
+    classID: 198
+    script: {fileID: 0}
+    flags: 0
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0.16666667
+        value: 0.25
+        inSlope: 0
+        outSlope: 0
+      - serializedVersion: 2
+        time: 2.6666667
+        value: 2.9450307
+        inSlope: 0
+        outSlope: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: InitialModule.startLifetime.scalar
+    path: FireSpray
+    classID: 198
+    script: {fileID: 0}
+    flags: 0
+  m_PPtrCurves: []
+  m_SampleRate: 30
+  m_WrapMode: 1
+  m_Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_ClipBindingConstant:
+    genericBindings: []
+    pptrCurveMapping: []
+  m_AnimationClipSettings: {}
+  m_Events: []
