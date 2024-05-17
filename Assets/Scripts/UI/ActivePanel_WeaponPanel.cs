@@ -28,7 +28,7 @@ public class ActivePanel_WeaponPanel : MonoBehaviour, IActivePanel
         UIManager.Instance.activePanel = previousPanel;
         gameObject.SetActive(false);
         if(previousPanel != null) { previousPanel.EnablePanel(); }
-        InventoryManager.Instance.UnLoad();
+        InventoryManager.Instance.UnLoad_Weapon();
         
     }
     public virtual void DisablePanel()

@@ -46,4 +46,9 @@ public class ItemDatabase : Singleton<ItemDatabase>
     {
         return characterSpriteDictionary[character];
     }
+
+    public DefenceType GetRelicType(int id)
+    {
+        return itemDictionary[id].defenceType;
+    }
 }

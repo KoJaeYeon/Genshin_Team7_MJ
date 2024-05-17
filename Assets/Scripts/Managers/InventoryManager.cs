@@ -56,38 +56,41 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public void Load_Weapon(Transform weaponContent)
     {
-        foreach(int key in weaponDictionary.Keys)
+        foreach(ItemSlot itemSlot in slotWeaponDictionary.Values)
         {
-            ItemSlot newItemSlot = PoolManager.Instance.Get_ItemSlot();
-            newItemSlot.InitUpdateSlot(key, weaponDictionary[key]);
-            newItemSlot.transform.SetParent(weaponContent);
-            newItemSlot.transform.localScale = Vector3.one;
-            newItemSlot.gameObject.SetActive(true);
+            itemSlot.transform.SetParent(weaponContent);
+            itemSlot.transform.localScale = Vector3.one;
 
-            show_Slots.Add(newItemSlot);
+            show_Slots.Add(itemSlot);
         }
     }
 
     public void Load_Relic(Transform relicContent, DefenceType defenceType)
     {
-        foreach (int key in defenceDictionary.Keys)
+        foreach (ItemSlot itemSlot in slotdefenceDictionary.Values)
         {
-            if (defenceDictionary[key].defenceType != defenceType) continue;
-            ItemSlot newItemSlot = PoolManager.Instance.Get_ItemSlot();
-            newItemSlot.InitUpdateSlot(key, defenceDictionary[key]);
-            newItemSlot.transform.SetParent(relicContent);
-            newItemSlot.transform.localScale = Vector3.one;
-            newItemSlot.gameObject.SetActive(true);
+            if (itemSlot.GetRelicType() != defenceType) continue;
+            itemSlot.transform.SetParent(relicContent);
+            itemSlot.transform.localScale = Vector3.one;
 
-            show_Slots.Add(newItemSlot);
+            show_Slots.Add(itemSlot);
         }
     }
 
-    public void UnLoad()
+    public void UnLoad_Weapon()
     {
         while(show_Slots.Count > 0)
         {
-            PoolManager.Instance.Return_itemSlot(show_Slots[0]);
+            show_Slots[0].transform.SetParent(weaponTrans);
+            show_Slots.RemoveAt(0);
+        }
+    }
+
+    public void UnLoad_Relic()
+    {
+        while (show_Slots.Count > 0)
+        {
+            show_Slots[0].transform.SetParent(defenceTrans);
             show_Slots.RemoveAt(0);
         }
     }

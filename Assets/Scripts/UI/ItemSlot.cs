@@ -8,7 +8,7 @@ public class ItemSlot : MonoBehaviour
 {
     int key;
     int id;
-    string name;
+    string itemName;
     int count;
     Image itemImage;
     Image characterImage;
@@ -24,7 +24,7 @@ public class ItemSlot : MonoBehaviour
     {
         this.key = key;
         this.id = item.id;
-        this.name = item.id.ToString();
+        this.itemName = item.itemName;
         this.count = item.count;
         this.itemImage.sprite = ItemDatabase.Instance.GetItemSprite(id);
         if (item.isEquip == false)
@@ -48,5 +48,10 @@ public class ItemSlot : MonoBehaviour
     public void OwnerChange(Character character)
     {
 
+    }
+
+    public DefenceType GetRelicType()
+    {
+        return ItemDatabase.Instance.GetRelicType(id);
     }
 }
