@@ -9,4 +9,6 @@ public interface IActivePanel
     void DisablePanel();
 
     abstract void EnablePanel();
+
+    
 }
