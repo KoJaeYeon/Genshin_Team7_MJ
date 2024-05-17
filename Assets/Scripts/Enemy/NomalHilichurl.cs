@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NomalHilichurl : Enemy
+public class NomalHilichurl : Enemy, IColor
 {
     protected override void Awake()
     {
@@ -18,6 +18,9 @@ public class NomalHilichurl : Enemy
                         //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
         enemyData = new EnemyData(100f, 10f, 3f, 0.1f, 100, Element.Nomal);
         EnemyHealthDic.Add(this, enemyData.Health);
+
+        HpSlider.maxValue = enemyData.Health;
+        HpSlider.value = enemyData.Health;
     }
 
     public EnemyStateMachine State => state;
@@ -27,6 +30,7 @@ public class NomalHilichurl : Enemy
     public NavMeshAgent Agent => agent;
     public float TraceDistance => traceDistance;
     public EnemyData EnemyData => enemyData;
+    private Color color = Color.white;
     public bool TraceAttack
     {
         get { return attack; }
@@ -38,6 +42,49 @@ public class NomalHilichurl : Enemy
             state.ChangeState(EnemyState.TraceMove);
 
         attack = true;
+    }
+
+    public Color GetColor()
+    {
+        return color;   
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("HitObject"))
+        {
+            TestElement hitObject = other.GetComponent<TestElement>();
+            HitElement = hitObject.GetElement();
+            Damaged(this, hitObject.ReturnDamage(), HitElement);
+
+            hitObject.Return();
+        }
+    }
+
+    public override void Damaged(Enemy enemy, float damage, Element element)
+    {
+        EnemyHealthDic[this] -= Armor(enemy, damage, element);
+        HpSlider.value = EnemyHealthDic[this];
+        transform.LookAt(Player.position);
+        animator.SetTrigger("Hit");
+
+        if (EnemyHealthDic[this] <= 0)
+        {
+            Hp.SetActive(false);
+            StartCoroutine(Die(this));
+        }
+        else
+            HitDropElement(element);
+    }
+
+    public override void Splash(float damage)
+    {
+        EnemyHealthDic[this] -= damage;
+        HpSlider.value = EnemyHealthDic[this];
+        if (EnemyHealthDic[this] <= 0)
+        {
+            StartCoroutine(Die(this));
+        }
     }
 }
 
