@@ -13,6 +13,7 @@ using UnityEngine.Rendering;
 public class PlayerController : MonoBehaviour
 {
     [Header("Player")]
+    public float ClimbingSpeed = 1.0f;
     public float MoveSpeed = 2.0f;
     public float SprintSpeed = 5.335f;
 
@@ -42,6 +43,8 @@ public class PlayerController : MonoBehaviour
     public float CliffCheckOffsetY = 0.09f;
     public float CliffCheckOffsetZ = 0.09f;
     public float CliffCheckRadius = 0.18f;
+    private bool _isClimbingUp = false;
+    public float ClimbingFinishedHeight = 0.5f;
     public LayerMask CliffLayers;
 
     [Header("Cinemachine")]
@@ -63,8 +66,9 @@ public class PlayerController : MonoBehaviour
     private float _verticalVelocity;
     private float _terminalVelocity = 53.0f;
     private bool _attackTrigger = true;
-    private bool _isClimbing;
-    private Vector3 lastGrabCliffDirection;
+    private bool _isClimbing = false;
+    private bool _isGliding = false;
+    
 
     //timeout deltatime
     private float _jumpTimeoutDelta;
@@ -128,6 +132,7 @@ public class PlayerController : MonoBehaviour
 
         JumpAndGravity();
         GroundedCheck();
+        CliffCheck();
         Move();
         Climb();
 
@@ -185,28 +190,33 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //private void CliffCheck()
-    //{
-    //    Vector3 spherePosiiton = new Vector3(transform.position.x, transform.position.y + CliffCheckOffsetY,
-    //        transform.position.z + CliffCheckOffsetZ);
+    private void CliffCheck()
+    {
+        Vector3 spherePosiiton = new Vector3(transform.position.x, transform.position.y + CliffCheckOffsetY,
+            transform.position.z + CliffCheckOffsetZ);
 
-    //    Cliff = Physics.CheckSphere(spherePosiiton, CliffCheckRadius, CliffLayers,
-    //        QueryTriggerInteraction.Ignore);
+        Cliff = Physics.CheckSphere(spherePosiiton, CliffCheckRadius, CliffLayers,
+            QueryTriggerInteraction.Ignore);
 
-    //    if (_hasAnimator)
-    //    {
-    //        _animator.SetBool(_animIDCliffCheck, Cliff);
+        if (_hasAnimator)
+        {
+            _animator.SetBool(_animIDCliffCheck, Cliff);
 
-    //        if (Cliff)
-    //        {
-    //            Grounded = false;
-    //            transform.rotation = Quaternion.identity;
-    //            _animator.SetBool("Climb", true);
-    //            _animator.SetBool(_animIDGrounded, false);
-    //            _animator.SetBool(_animIDFreeFall, false);
-    //        }
-    //    }
-    //}
+            if (Cliff)
+            {
+                Grounded = false;
+                transform.rotation = Quaternion.identity;
+                _animator.SetBool("Climb", true);
+                _animator.SetBool(_animIDGrounded, false);
+                _animator.SetBool(_animIDFreeFall, false);
+            }
+        }
+
+        if(!Cliff && _isClimbing)
+        {
+            StartClimbUpAnimation();
+        }
+    }
 
     private void CameraRotation()
     {
@@ -225,6 +235,8 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
+        if (_isClimbing) return;
+
         float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
         if (_input.move == Vector2.zero) targetSpeed = 0.0f;
@@ -262,65 +274,6 @@ public class PlayerController : MonoBehaviour
         }
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-        
-
-    //    if(!_isClimbing)
-    //    {
-    //        float avoidFloorDistance = 0.1f;
-    //        float cliffGrabDistance = 0.3f;
-    //        if (Physics.Raycast(transform.position + Vector3.up * avoidFloorDistance, targetDirection, out RaycastHit raycastHit, cliffGrabDistance))
-    //        {
-    //            if (raycastHit.transform.TryGetComponent(out Cliff cliff))
-    //            {
-    //                GrabCliff(targetDirection);
-
-    //                if (_hasAnimator)
-    //                {
-    //                    _animator.SetBool("Climb", true);
-    //                }
-
-    //                transform.rotation = Quaternion.Euler(0.0f, _mainCamera.transform.eulerAngles.y, 0.0f);
-    //            }
-    //        }
-    //    }
-    //    else
-    //    {
-    //        float avoidFloorDistance = 0.1f;
-    //        float cliffGrabDistance = 0.3f;
-    //        if (Physics.Raycast(transform.position + Vector3.up * avoidFloorDistance, lastGrabCliffDirection, out RaycastHit raycastHit, cliffGrabDistance))
-    //        {
-    //            if (!raycastHit.transform.TryGetComponent(out Cliff cliff))
-    //            {
-    //                DropCliff();
-    //                _verticalVelocity = 2f;
-    //            }
-    //        }
-    //        else
-    //        {
-    //            DropCliff();
-    //            _verticalVelocity = 2f;
-    //        }
-
-    //        if(Vector3.Dot(targetDirection, lastGrabCliffDirection) < 0)
-    //        {
-    //            float cliffFloorDropDistance = 0.1f;
-    //            if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit floorRaycastHit, cliffFloorDropDistance))
-    //            {
-    //                DropCliff();
-    //            }
-    //        }
-    //    }
-
-        
-    //    if (_isClimbing)
-    //    {
-    //        targetDirection.x = 0.0f;
-    //        targetDirection.y = targetDirection.z;
-    //        targetDirection.z = 0.0f;
-    //        _verticalVelocity = 0.0f;
-    //        Grounded = true;
-    //        _speed = targetSpeed;
-    //    }
 
         _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
             new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
@@ -332,90 +285,48 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //private void GrabCliff(Vector3 lastGrabCliffDirection)
-    //{
-    //    _isClimbing = true;
-    //    _animator.SetBool("Climb", _isClimbing);
-    //    this.lastGrabCliffDirection = lastGrabCliffDirection;
-    //}
-
-    //private void DropCliff()
-    //{
-    //    _isClimbing = false;
-    //    _animator.SetBool("Climb", _isClimbing);
-    //}
-
     private void Climb()
     {
-        Vector3 spherePosiiton = new Vector3(transform.position.x, transform.position.y + CliffCheckOffsetY,
-            transform.position.z + CliffCheckOffsetZ);
-
-        Cliff = Physics.CheckSphere(spherePosiiton, CliffCheckRadius, CliffLayers,
-            QueryTriggerInteraction.Ignore);
-
         if (Cliff)
         {
             Grounded = false;
+            _isClimbing = true;
             _animator.SetBool("Climb", true);
+            _controller.enabled = true;
+
+            _verticalVelocity = 0.0f;
 
             float verticalInput = _input.move.y;
             float horizontalInput = _input.move.x;
 
             Vector3 moveDirection = new Vector3(horizontalInput, verticalInput, 0.0f);
-
             moveDirection = transform.TransformDirection(moveDirection);
-            moveDirection.y = Mathf.Clamp(moveDirection.y, -1f, 1f);
-
-            _controller.Move(moveDirection * MoveSpeed * Time.deltaTime);
+            moveDirection.y = Mathf.Clamp(moveDirection.y, -1f, 1f);            
+           
+            _controller.Move(moveDirection * ClimbingSpeed * Time.deltaTime);
 
             if (_hasAnimator)
             {
                 _animator.SetFloat("horizontal", horizontalInput);
                 _animator.SetFloat("vertical", verticalInput);
             }
+            
         }
         else
         {
+            _isClimbing = false;
             _animator.SetBool("Climb", false);
+            _controller.enabled = true;
         }
+    }
 
-        //if (_hasAnimator)
-        //{
-        //    _animator.SetBool(_animIDCliffCheck, Cliff);
-
-        //    if (Cliff)
-        //    {
-        //        Grounded = false;
-        //        transform.rotation = Quaternion.identity;
-        //        _animator.SetBool("Climb", true);
-        //        _animator.SetBool(_animIDGrounded, false);
-        //        _animator.SetBool(_animIDFreeFall, false);
-        //    }
-        //}
-        //if (Cliff == true)
-        //{
-        //    _rb.constraints = RigidbodyConstraints.FreezeRotationZ;
-
-        //    float verticalInput = _input.move.y;
-        //    float horizontalInput = _input.move.x;
-
-        //    Vector3 moveDirection = new Vector3(horizontalInput, verticalInput, 0.0f);
-
-        //    moveDirection = _mainCamera.transform.TransformDirection(moveDirection);
-        //    moveDirection.y = Mathf.Clamp(moveDirection.y, -1f, 1f);
-
-        //    _controller.Move(moveDirection * (MoveSpeed * Time.deltaTime));
-
-        //    if (_hasAnimator)
-        //    {
-        //        _animator.SetFloat("horizontal", horizontalInput);
-        //        _animator.SetFloat("vertical", verticalInput);
-        //    }
-        //}
-        //else
-        //{
-        //    _animator.SetBool("Climb", false);
-        //}
+    private void StartClimbUpAnimation()
+    {
+        _isClimbing = false;
+        _isClimbingUp = true;
+        _verticalVelocity = 4.0f;
+        _animator.SetBool("Climb", false);
+        _animator.SetTrigger("ClimbUp");
     }
 
     private void JumpAndGravity()
@@ -428,6 +339,7 @@ public class PlayerController : MonoBehaviour
             {
                 _animator.SetBool(_animIDJump, false);
                 _animator.SetBool(_animIDFreeFall, false);
+                _animator.SetBool("Glide", false);
             }
 
             if (_verticalVelocity < 0.0f)
@@ -452,6 +364,23 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            if(_verticalVelocity <0.0f && !_isGliding)
+            {
+                if (_hasAnimator)
+                {
+                    _animator.SetBool(_animIDJump, false);
+                    _animator.SetBool(_animIDFreeFall, true);
+                }
+            }
+
+            if(_input.jump && _verticalVelocity < 0.0f)
+            {
+                if (_isGliding)
+                    StopGliding();
+                else
+                    StartGliding();
+            }
+
             _jumpTimeoutDelta = JumpTimeout;
 
             if (_fallTimeoutDelta >= 0.0f)
@@ -473,16 +402,53 @@ public class PlayerController : MonoBehaviour
             _verticalVelocity += Gravity * Time.deltaTime;
         }
 
-        //if (_isClimbing)
-        //{
-        //    if(_hasAnimator)
-        //    {
-        //        _animator.SetTrigger("ClimbDash");
-        //    }
-        //}
+        if (_isGliding)
+        {
+            Gliding();
+        }
     }
 
-    
+    private void StartGliding()
+    {
+        _isGliding = true;
+        if(_hasAnimator)
+        {
+            _animator.SetBool("Glide", true);
+            _animator.SetBool(_animIDJump, false);
+        }
+    }
+
+    private void StopGliding()
+    {
+        _isGliding = false;
+        if (_hasAnimator)
+        {
+            _animator.SetBool("Glide", false);
+            _animator.SetBool(_animIDJump, true);
+        }
+    }
+
+    private void Gliding()
+    {
+        _verticalVelocity = -0.5f;
+
+        Vector3 move = new Vector3(_input.move.x, 0, _input.move.y);
+
+        move = transform.TransformDirection(move);
+
+        _controller.Move(move * MoveSpeed * Time.deltaTime);
+
+        _controller.Move(new Vector3(0, _verticalVelocity, 0) * Time.deltaTime);
+
+        if (Grounded)
+        {
+            _isGliding = false;
+            if (_hasAnimator)
+            {
+                _animator.SetBool("Glide", false);
+            }
+        }
+    }
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
     {
@@ -505,13 +471,5 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y + CliffCheckOffsetY,
-    //        transform.position.z + CliffCheckOffsetZ);
-
-    //    Gizmos.color = Color.yellow;
-
-    //    Gizmos.DrawSphere(spherePosition, CliffCheckRadius);
-    //}
+    
 }

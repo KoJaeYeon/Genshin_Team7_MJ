@@ -3232,7 +3232,6 @@ GameObject:
   - component: {fileID: 1857943134}
   - component: {fileID: 1857943135}
   - component: {fileID: 1857943137}
-  - component: {fileID: 2094379174427574942}
   m_Layer: 6
   m_Name: Yoimiya
   m_TagString: Player
@@ -3282,7 +3281,7 @@ Animator:
     animation clip 'Ani_Avatar_Girl_ClimbD'\n\tFrom animation clip 'Ani_Avatar_Girl_ClimbL'\n\tFrom
     animation clip 'Ani_Avatar_Girl_ClimbR'\n\tFrom animation clip 'Ani_Avatar_Girl_Bow_WeaponStandby'\n\tFrom
     animation clip 'Ani_Avatar_Girl_FlySlow'\n\tFrom animation clip 'Ani_Avatar_Girl_FlyNormal+Mirror'\n\tFrom
-    animation clip 'Ani_Avatar_Girl_FlyFast'\n\tFrom animation clip 'Ani_Avatar_Girl_Bow_Yoimiya_Attack_01'\n\tand
+    animation clip 'Ani_Avatar_Girl_FlyFast'\n\tFrom animation clip 'Ani_Avatar_Girl_Bow_Hit_H'\n\tand
     more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -3318,11 +3317,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6439d5e4d4c9a43bb19d6494b9c133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ClimbingSpeed: 1
   MoveSpeed: 2
   SprintSpeed: 5.335
   RotationSmoothTime: 0.12
   SpeedChangeRate: 10
-  baseSensitivity: 0.12
+  baseSensitivity: 0.8
   LookSensitivity: 1
   JumpHeight: 1.2
   Gravity: -15
@@ -3333,11 +3333,12 @@ MonoBehaviour:
   GroundedRadius: 0.28
   GroundLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 256
   Cliff: 0
   CliffCheckOffsetY: 0.9
   CliffCheckOffsetZ: 0.3
   CliffCheckRadius: 0.15
+  ClimbingFinishedHeight: 0.5
   CliffLayers:
     serializedVersion: 2
     m_Bits: 128
@@ -3398,22 +3399,6 @@ MonoBehaviour:
   analogMovement: 1
   cursorLocked: 1
   cursorInputForLook: 1
---- !u!54 &2094379174427574942
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5107360928631601069}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
 --- !u!1 &5170450464515790031
 GameObject:
   m_ObjectHideFlags: 0
