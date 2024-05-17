@@ -8,16 +8,20 @@ public class DropObject : MonoBehaviour,IInteractable
 {
     Item item;
     GetSlot getSlot;
+    //아이템패널 클래스랑 변수선언해서 받아오기 GetSlot처럼
+    ItemGetPanelSlot getpanelSlot;
     int id;
     static int idtemp = 1;
     private void Start()
     {
         getSlot = PoolManager.Instance.Get_GetSlot();
+        getpanelSlot = PoolManager.Instance.Get_ItemGetPanelSlot();
 
         //삭제예정
         item = ItemDatabase.Instance.GetItem(idtemp++);
 
         InitItemSlot();
+
     }
 
     public void SetId(int id)
@@ -28,6 +32,8 @@ public class DropObject : MonoBehaviour,IInteractable
     public void InitItemSlot()
     {
        getSlot.Init(item);
+        //초기화해주기 해당아이템으로
+       getpanelSlot.Init_J(item);
     }
     public void RemoveItemGet()
     {
@@ -46,15 +52,37 @@ public class DropObject : MonoBehaviour,IInteractable
     {
         Debug.Log("UpdateItemGet");
         UIManager.Instance.AddGetSlot(getSlot);
+        
         getSlot.gameObject.SetActive(true);
+
+    
     }
+
+ 
 
     public void UseItemGet()
     {
         InventoryManager.Instance.GetItem(item);
-        PoolManager.Instance.Return_GetSlot(getSlot);
+        // 여기다가 호출
+        UIManager.Instance.AddGetSlot_J(getpanelSlot);
+        getpanelSlot.gameObject.SetActive(true);
+
+
+       PoolManager.Instance.Return_GetSlot(getSlot);
         PoolManager.Instance.Return_itemDrop(gameObject);
+
+        Invoke("Destroy", 1);
     }
+
+    public void Destroy()
+    {
+
+        PoolManager.Instance.Return_ItemGetPanelSlot(getpanelSlot);
+    }
+
+
+
+
 
     public override bool Equals(object obj)
     {
@@ -69,4 +97,5 @@ public class DropObject : MonoBehaviour,IInteractable
     {
         return base.GetHashCode();
     }
+
 }

@@ -13,6 +13,8 @@ public class UIManager : Singleton<UIManager>
     IActivePanel settingBar_IActivePanel;
 
     public Transform itemGetContent;
+    // Transform 받는 변수 선언
+    public Transform itemGetContent_J;
     public Transform FTrans;
     float initFtransY;
     float UIscaleY;
@@ -34,15 +36,15 @@ public class UIManager : Singleton<UIManager>
 
     void Start()
     {
-        //#if UNITY_ANDROID
-        ////안드로이드
-        //androidB.gameObject.SetActive(true);
-        //editorB.gameObject.SetActive(false);
-        //#elif UNITY_EDITOR
-        ////에디터
-        //androidB.gameObject.SetActive(false);
-        //editorB.gameObject.SetActive(true);
-        //#endif
+        #if UNITY_ANDROID
+        //안드로이드
+        androidB.gameObject.SetActive(true);
+        editorB.gameObject.SetActive(false);
+        #elif UNITY_EDITOR
+        //에디터
+        androidB.gameObject.SetActive(false);
+        editorB.gameObject.SetActive(true);
+        #endif
     }
 
     private void Update()
@@ -84,7 +86,19 @@ public class UIManager : Singleton<UIManager>
         getSlot.transform.SetParent(itemGetContent);
         getSlot.transform.SetAsFirstSibling();
         getSlot.transform.localScale = Vector3.one;
+
     }
+
+    public void AddGetSlot_J(ItemGetPanelSlot itemGetPanelSlot)
+    {
+
+        itemGetPanelSlot.transform.SetParent(itemGetContent_J);
+    
+    }
+
+
+
+
 
     public void RemoveGetSlot()
     {
