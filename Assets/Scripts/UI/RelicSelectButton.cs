@@ -5,41 +5,42 @@ using UnityEngine.UI;
 
 public class RelicSelectButton : MonoBehaviour
 {
-    public GameObject inventoryPanel_Panret;
-    GameObject[] inventoryPanel;
-    GameObject selectImage;
-    Image[] inventory_Panel_Icon_Image;
+    public GameObject relic_Content;
+    Transform selectImage;
+    Transform barImage;
+    Image[] relic_Panel_Icon_Image;
     private void Awake()
     {
-        inventoryPanel = new GameObject[3];
-        inventory_Panel_Icon_Image = new Image[3];
-        selectImage = transform.GetChild(0).gameObject;
-        for(int i = 0; i < 3; i++)
+        relic_Panel_Icon_Image = new Image[5];
+
+        selectImage = transform.GetChild(0);
+        barImage = transform.GetChild(6).GetChild(0);
+        for (int i = 0; i < 5; i++)
         {
-            inventoryPanel[i] = inventoryPanel_Panret.transform.GetChild(i).gameObject;
-            inventory_Panel_Icon_Image[i] = transform.GetChild(i+1).GetComponent<Image>();
+            relic_Panel_Icon_Image[i] = transform.GetChild(i+1).GetComponent<Image>();
         }
     }
 
     private void Start()
     {
-        InventoryActive(0);
+        relicPanelActive(0);
     }
 
-    public void InventoryActive(int index)
+    public void relicPanelActive(int index)
     {
-        for (int i = 0; i < inventoryPanel.Length; i++)
+        for (int i = 0; i < 5; i++)
         {
             if (i == index)
             {
-                inventoryPanel[i].SetActive(true);
-                inventory_Panel_Icon_Image[i].color = new Color(0.3665005f, 0.3791829f, 0.5471698f);
-                selectImage.transform.position = inventory_Panel_Icon_Image[i].transform.position;
+                relic_Panel_Icon_Image[i].color = new Color(0.3665005f, 0.3791829f, 0.5471698f);
+                selectImage.transform.position = relic_Panel_Icon_Image[i].transform.position;
+                Vector3 vector3 = barImage.transform.position;
+                vector3.x = relic_Panel_Icon_Image[i].transform.position.x;
+                barImage.transform.position = vector3;
             }
             else
             {
-                inventoryPanel[i].SetActive(false);
-                inventory_Panel_Icon_Image[i].color = Color.white;
+                relic_Panel_Icon_Image[i].color = Color.white;
             }
         }
     }
