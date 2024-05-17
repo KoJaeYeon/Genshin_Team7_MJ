@@ -1,11 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class RelicSelectButton : MonoBehaviour
 {
-    public GameObject relic_Content;
+    public Transform relic_Content;
     Transform selectImage;
     Transform barImage;
     Image[] relic_Panel_Icon_Image;
@@ -21,13 +23,9 @@ public class RelicSelectButton : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        relicPanelActive(0);
-    }
-
     public void relicPanelActive(int index)
     {
+        InventoryManager.Instance.UnLoad();
         for (int i = 0; i < 5; i++)
         {
             if (i == index)
@@ -37,6 +35,8 @@ public class RelicSelectButton : MonoBehaviour
                 Vector3 vector3 = barImage.transform.position;
                 vector3.x = relic_Panel_Icon_Image[i].transform.position.x;
                 barImage.transform.position = vector3;
+
+                InventoryManager.Instance.Load_Relic(relic_Content, 0);
             }
             else
             {

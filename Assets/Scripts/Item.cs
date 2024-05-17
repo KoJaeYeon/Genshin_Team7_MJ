@@ -6,10 +6,10 @@ using UnityEngine;
 
 public enum DefenceType
 {
-    Head,
-    Attack,
-    Clock,
-    Grail,
+    Flower,
+    Feather,
+    SandTime,
+    Trophy,
     Crown
 }
 

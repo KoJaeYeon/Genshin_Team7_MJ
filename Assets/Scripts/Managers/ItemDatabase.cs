@@ -21,10 +21,10 @@ public class ItemDatabase : Singleton<ItemDatabase>
         itemSpriteDictionary = new Dictionary<int, Sprite>();
         characterSpriteDictionary = new Dictionary<Character, Sprite>();
 
-        itemDictionary.Add(1, new Item(1, "진주를 문 해황", 1, true, 70, DefenceType.Head, 0));
-        itemDictionary.Add(2, new Item(2, "성배", 1, true, 0, DefenceType.Head, 10));
-        itemDictionary.Add(3, new Item(3, "여행자1", 1, false, 0, DefenceType.Head, 0));
-        itemDictionary.Add(4, new Item(4, "여행자2", 1, false, 0, DefenceType.Head, 0));
+        itemDictionary.Add(1, new Item(1, "진주를 문 해황", 1, true, 70, DefenceType.Flower, 0));
+        itemDictionary.Add(2, new Item(2, "성배", 1, true, 0, DefenceType.Trophy, 10));
+        itemDictionary.Add(3, new Item(3, "여행자1", 1, false, 0, DefenceType.Flower, 0));
+        itemDictionary.Add(4, new Item(4, "여행자2", 1, false, 0, DefenceType.Flower, 0));
 
         itemSpriteDictionary.Add(1, sprites[0]);
         itemSpriteDictionary.Add(2, sprites[1]);

@@ -15,6 +15,8 @@ public class InventoryManager : Singleton<InventoryManager>
     public Transform defenceTrans;
     public Transform otherTrans;
 
+    List<ItemSlot> show_Slots;
+
     private void Awake()
     {
         weaponDictionary = new Dictionary<int, Item>();
@@ -24,6 +26,8 @@ public class InventoryManager : Singleton<InventoryManager>
         slotWeaponDictionary = new Dictionary<int, ItemSlot>();
         slotdefenceDictionary = new Dictionary<int, ItemSlot>();
         slototherDictionary = new Dictionary<int, ItemSlot>();
+        
+        show_Slots = new List<ItemSlot>();
     }
 
     private void Update()
@@ -47,6 +51,44 @@ public class InventoryManager : Singleton<InventoryManager>
         {
             GetItem(ItemDatabase.Instance.GetItem(4));
             Debug.Log("GetItem");
+        }
+    }
+
+    public void Load_Weapon(Transform weaponContent)
+    {
+        foreach(int key in weaponDictionary.Keys)
+        {
+            ItemSlot newItemSlot = PoolManager.Instance.Get_ItemSlot();
+            newItemSlot.InitUpdateSlot(key, weaponDictionary[key]);
+            newItemSlot.transform.SetParent(weaponContent);
+            newItemSlot.transform.localScale = Vector3.one;
+            newItemSlot.gameObject.SetActive(true);
+
+            show_Slots.Add(newItemSlot);
+        }
+    }
+
+    public void Load_Relic(Transform relicContent, DefenceType defenceType)
+    {
+        foreach (int key in defenceDictionary.Keys)
+        {
+            if (defenceDictionary[key].defenceType != defenceType) continue;
+            ItemSlot newItemSlot = PoolManager.Instance.Get_ItemSlot();
+            newItemSlot.InitUpdateSlot(key, defenceDictionary[key]);
+            newItemSlot.transform.SetParent(relicContent);
+            newItemSlot.transform.localScale = Vector3.one;
+            newItemSlot.gameObject.SetActive(true);
+
+            show_Slots.Add(newItemSlot);
+        }
+    }
+
+    public void UnLoad()
+    {
+        while(show_Slots.Count > 0)
+        {
+            PoolManager.Instance.Return_itemSlot(show_Slots[0]);
+            show_Slots.RemoveAt(0);
         }
     }
 
