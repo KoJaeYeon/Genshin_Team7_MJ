@@ -37,14 +37,23 @@ public class Wolf : Enemy
         enemyData = new EnemyData(1000000f, 50f, 4f, 0.3f, 9999, Element.Ice);
         EnemyHealthDic.Add(this, enemyData.Health);
     }
-    
+
+    private bool start = true;
     private IPattern bossAttack;
     private BossPattern Pattern;
     private Rigidbody bossRigid;
+
+    public GameObject Head;
+
     public BossPattern BossPattern
     {
         get { return Pattern; }
         set { Pattern = value; }
+    }
+    public bool Start
+    {
+        get { return  start; }
+        set { start = value; }
     }
     public IPattern Attack => bossAttack;
     public BossStateMachine State => bossState;
@@ -125,20 +134,21 @@ public class WolfIdle : WolfState
     }
     public override void StateFixedUpdate()
     {
-        if (m_Wolf.BossAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        if (m_Wolf.BossAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime == 1.0f)
             m_Wolf.State.ChangeState(BossState.Move);
     }
+
+
 }
 
 public class WolfMove : WolfState
 {
-    private bool Move;
+
     public WolfMove(Wolf wolf) : base(wolf) { }
     
     public override void StateEnter()
     {
-        Move = true;
-        m_Wolf.BossAnimator.SetBool("isMove", Move);
+        
     }
 
     public override void StateExit()
@@ -148,8 +158,7 @@ public class WolfMove : WolfState
 
     public override void StateFixedUpdate()
     {
-        m_Wolf.BossAnimator.SetFloat("MovePosX", m_Wolf.transform.forward.x);
-        
+       
     }
 }
 
