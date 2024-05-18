@@ -43,8 +43,6 @@ public class Wolf : Enemy
     private BossPattern Pattern;
     private Rigidbody bossRigid;
 
-    public GameObject Head;
-
     public BossPattern BossPattern
     {
         get { return Pattern; }
@@ -118,24 +116,21 @@ public abstract class WolfState : BossBaseState
 
 public class WolfIdle : WolfState
 {
-    int SelectIdle = 0;
     
     public WolfIdle(Wolf wolf) : base(wolf) { }
 
     public override void StateEnter()
     {
-        SelectIdle = Random.Range(0, 3);
-        m_Wolf.BossAnimator.SetFloat("Idle", SelectIdle);
+       
     }
 
     public override void StateExit()
     {
-        SelectIdle = 0;
+        
     }
     public override void StateFixedUpdate()
     {
-        if (m_Wolf.BossAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime == 1.0f)
-            m_Wolf.State.ChangeState(BossState.Move);
+        
     }
 
 
