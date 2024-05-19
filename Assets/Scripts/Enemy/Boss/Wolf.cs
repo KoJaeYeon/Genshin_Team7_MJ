@@ -27,8 +27,9 @@ public class Wolf : Enemy
         bossRigid = GetComponent<Rigidbody>();
 
         bossState = gameObject.AddComponent<BossStateMachine>();
+        bossState.AddState(BossState.Ready, new WolfReady(this));
         bossState.AddState(BossState.Idle, new WolfIdle(this));
-        bossState.AddState(BossState.Move, new WolfMove(this));
+        bossState.AddState(BossState.Battle, new WolfBattle(this));
         bossState.AddState(BossState.TailState, new WolfTailState(this));
         bossState.AddState(BossState.ClawState, new WolfClawState(this));
         bossState.AddState(BossState.JumpState, new WolfJumpState(this));
@@ -39,6 +40,7 @@ public class Wolf : Enemy
     }
 
     private bool start = true;
+    private bool enemyCommand = false;
     private IPattern bossAttack;
     private BossPattern Pattern;
     private Rigidbody bossRigid;
@@ -52,6 +54,11 @@ public class Wolf : Enemy
     {
         get { return  start; }
         set { start = value; }
+    }
+    public bool EnemyCommand
+    {
+        get { return enemyCommand; }
+        set { enemyCommand = value; }
     }
     public IPattern Attack => bossAttack;
     public BossStateMachine State => bossState;
@@ -99,9 +106,13 @@ public class Wolf : Enemy
     }
 
     // Animation Event ----------------------------------------------
-    public void SetDestination()
+    public void MoveAnimation()
     {
-        agent.SetDestination(Player.position);
+        if(Vector3.Distance(transform.position, Player.position) < 40.0f)
+        {
+            animator.SetBool("isReady", false);
+            animator.SetBool("isMove", true);
+        }
     }
 }
 
@@ -114,14 +125,46 @@ public abstract class WolfState : BossBaseState
     }
 }
 
+public class WolfReady : WolfState
+{
+    public WolfReady(Wolf wolf) : base(wolf) { }
+
+    private float StopDistance = 10.0f;
+    
+    public override void StateEnter()
+    {
+        m_Wolf.BossAnimator.SetBool("isReady", true);
+    }
+    public override void StateExit()
+    {
+        m_Wolf.BossAnimator.SetBool("isMove", false);
+    }
+
+    public override void StateFixedUpdate()
+    {
+        float currentDistance = Distance();
+
+        if(currentDistance <= StopDistance)
+        {
+            m_Wolf.State.ChangeState(BossState.Idle);
+        }
+    }
+    private float Distance()
+    {
+        return Vector3.Distance(m_Wolf.transform.position, m_Wolf.PlayerTransform.position);
+    }
+}
+
 public class WolfIdle : WolfState
 {
-    
     public WolfIdle(Wolf wolf) : base(wolf) { }
+
+    private int SelectIdle;
 
     public override void StateEnter()
     {
-       
+        SelectIdle = Random.Range(0, 3);
+        m_Wolf.BossAnimator.SetFloat("Idle", SelectIdle);
     }
 
     public override void StateExit()
@@ -131,15 +174,17 @@ public class WolfIdle : WolfState
     public override void StateFixedUpdate()
     {
         
+
+
     }
 
-
+    
 }
 
-public class WolfMove : WolfState
+public class WolfBattle : WolfState
 {
 
-    public WolfMove(Wolf wolf) : base(wolf) { }
+    public WolfBattle(Wolf wolf) : base(wolf) { }
     
     public override void StateEnter()
     {

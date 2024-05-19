@@ -53,8 +53,9 @@ public class EnemyStateMachine : MonoBehaviour
 
 public enum BossState
 {
+    Ready,
     Idle,
-    Move,
+    Battle,
     JumpState,
     TailState,
     ClawState,
@@ -77,7 +78,7 @@ public class BossStateMachine : MonoBehaviour
 
     public void InitState()
     {
-        State = BossStateDic[BossState.Idle];
+        State = BossStateDic[BossState.Ready];
         State.StateEnter();
     }
 
