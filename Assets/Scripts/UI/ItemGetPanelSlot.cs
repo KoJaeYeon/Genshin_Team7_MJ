@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,5 +21,16 @@ public class ItemGetPanelSlot : MonoBehaviour
         image_J.sprite = ItemDatabase.Instance.GetItemSprite(item.id);
         itemName_J.text = $"{item.itemName} x {item.count}";
        
+    }
+
+    public void Destroy()
+    {
+        StartCoroutine(Return_Panel());
+    }
+    IEnumerator Return_Panel()
+    {
+        yield return new WaitForSeconds(1);
+        PoolManager.Instance.Return_ItemGetPanelSlot(this);
+        yield break;
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class GetSlot : MonoBehaviour
 {
@@ -28,5 +29,21 @@ public class GetSlot : MonoBehaviour
             itemCount.transform.parent.gameObject.SetActive(false);
         }
         itemCount.text = item.count.ToString();
+    }
+
+    public void Init(ChestType chestType)
+    {
+        switch (chestType)
+        {
+            case ChestType.Jungyo:
+                image.sprite = ItemDatabase.Instance.GetItemSprite(5);
+                itemName.text = "정교한 보물상자";
+                break;
+            case ChestType.Jingui:
+                image.sprite = ItemDatabase.Instance.GetItemSprite(6);
+                itemName.text = "진귀한 보물상자";
+                break;
+        }
+        itemCount.transform.parent.gameObject.SetActive(false);
     }
 }
