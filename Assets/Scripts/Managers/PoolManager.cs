@@ -111,6 +111,25 @@ public class PoolManager : Singleton<PoolManager>
         }
     }
 
+    public DropObject Get_DropObject(int id)
+    {
+        DropObject dropObject;
+        GameObject prefab;
+        if (itemDropStack.TryPop(out prefab))
+        {
+            dropObject = prefab.GetComponent<DropObject>();
+            dropObject.SetItem(id);
+            return dropObject;
+        }
+        else
+        {
+            prefab = Instantiate(itemDropPrefab, PoolParent.transform);
+            dropObject = prefab.GetComponent<DropObject>();
+            dropObject.SetItem(id);
+            return dropObject;
+        }
+    }
+
     public ItemGetPanelSlot Get_ItemGetPanelSlot()
     {
         ItemGetPanelSlot itemGetPanelSlot;
