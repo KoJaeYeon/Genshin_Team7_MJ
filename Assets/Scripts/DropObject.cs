@@ -52,17 +52,37 @@ public class DropObject : MonoBehaviour,IInteractable
     {
         Debug.Log("UpdateItemGet");
         UIManager.Instance.AddGetSlot(getSlot);
+        
         getSlot.gameObject.SetActive(true);
+
+    
     }
+
+ 
 
     public void UseItemGet()
     {
         InventoryManager.Instance.GetItem(item);
         // 여기다가 호출
-            
-        PoolManager.Instance.Return_GetSlot(getSlot);
+        UIManager.Instance.AddGetSlot_J(getpanelSlot);
+        getpanelSlot.gameObject.SetActive(true);
+
+
+       PoolManager.Instance.Return_GetSlot(getSlot);
         PoolManager.Instance.Return_itemDrop(gameObject);
+
+        Invoke("Destroy", 1);
     }
+
+    public void Destroy()
+    {
+
+        PoolManager.Instance.Return_ItemGetPanelSlot(getpanelSlot);
+    }
+
+
+
+
 
     public override bool Equals(object obj)
     {
