@@ -43,8 +43,8 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Awake()
     {
-        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();//플레이어 Transform 참조 변경시 여기만 변경하면 됩니다.
-        Weapon = transform.GetComponentInChildren<MonsterWeapon>(); //삭제 예정
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        Weapon = transform.GetComponentInChildren<MonsterWeapon>(); 
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         HpSlider = transform.GetComponentInChildren<Slider>();
@@ -143,9 +143,12 @@ public abstract class Enemy : MonoBehaviour
 
     private void DropElement(Enemy enemy)
     {
+        if (enemy == null)
+            return;
+
         for(int i = 0; i < elementCount; i++) //나중에 풀매니저에서 끌어오는 코드로 변경해야함!!
         {
-            GameObject dropElement = ElementPool.Instance.GetElementObject();
+            GameObject dropElement = PoolManager.Instance.GetElementObject();
             ElementObject elementObject = dropElement.GetComponent<ElementObject>();
             elementObject.SetColor(EnemyGetColor(enemy));
             dropElement.transform.position = enemy.transform.position;
@@ -170,11 +173,14 @@ public abstract class Enemy : MonoBehaviour
             case Element.Nomal:
                 ElementColor = Color.white;
                 break;
-        }
+            default:
+                ElementColor = Color.white;
+                break;
+            }
 
         for(int i = 0; i < elementCount; i++)
         {
-            GameObject hitElement = ElementPool.Instance.GetElementObject();
+            GameObject hitElement = PoolManager.Instance.GetElementObject();
             ElementObject elementObject = hitElement.GetComponent<ElementObject>();
             elementObject.SetColor(ElementColor);
             hitElement.transform.position = transform.position;
