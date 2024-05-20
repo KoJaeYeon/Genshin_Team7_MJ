@@ -52,7 +52,7 @@ public class ItemSerachTrigger : MonoBehaviour
         {
             interactable.UpdateItemGet();
             items.Add(interactable);
-            UIManager.Instance.SetFPoint(searchPoint);
+            UIManager.Instance.SetFPoint(searchPoint);            
         }
     }
 
