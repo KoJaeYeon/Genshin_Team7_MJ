@@ -30,6 +30,8 @@ public class ItemDatabase : Singleton<ItemDatabase>
         itemSpriteDictionary.Add(2, sprites[1]);
         itemSpriteDictionary.Add(3, sprites[2]);
         itemSpriteDictionary.Add(4, sprites[3]);
+        itemSpriteDictionary.Add(5, sprites[4]);
+        itemSpriteDictionary.Add(6, sprites[5]);
     }
 
     public Item GetItem(int id)
