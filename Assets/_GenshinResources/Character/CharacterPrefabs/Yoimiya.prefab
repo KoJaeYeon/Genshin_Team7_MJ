@@ -1207,37 +1207,6 @@ Transform:
   m_Father: {fileID: 7624480731954769107}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1650347005364510315
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3371448598073993090}
-  m_Layer: 7
-  m_Name: CameraLook
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3371448598073993090
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1650347005364510315}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.15, z: -0.000000059999984}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 9100418616508247902}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1685651752885800629
 GameObject:
   m_ObjectHideFlags: 0
@@ -6632,7 +6601,6 @@ Transform:
   - {fileID: 5820243564066699851}
   - {fileID: 655005380050895853}
   - {fileID: 7408008325063189067}
-  - {fileID: 3371448598073993090}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6652,17 +6620,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'Bip001 L Finger02'\n\tTransform 'Bip001 R Finger02'\n\tTransform
-    'Bip001 L Finger01'\n\tTransform 'Bip001 R Finger01'\n\tTransform 'Bip001 L Finger0'\n\tTransform
-    'Bip001 R Finger0'\n\tTransform 'Bip001 L Finger02'\n\tTransform 'Bip001 R Finger02'\n\tTransform
-    'Bip001 L Finger01'\n\tTransform 'Bip001 R Finger01'\n\tand more ...\n\tFrom
-    animation clip 'Ani_Avatar_Girl_Bow_WeaponStandby'\n\tFrom animation clip 'Ani_Avatar_Girl_Bow_Hit_H'\n\tFrom
-    animation clip 'Ani_Avatar_Girl_Bow_Yoimiya_Attack_01'\n\tFrom animation clip
-    'Ani_Avatar_Girl_Bow_Yoimiya_Attack_02'\n\tFrom animation clip 'Ani_Avatar_Girl_Bow_Yoimiya_Attack_03'\n\tFrom
-    animation clip 'Ani_Avatar_Girl_Bow_Yoimiya_Attack_04'\n\tFrom animation clip
-    'Ani_Avatar_Girl_Bow_Yoimiya_Attack_05'"
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0

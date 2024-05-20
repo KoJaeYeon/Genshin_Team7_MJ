@@ -10,6 +10,12 @@ public class PartyManager : MonoBehaviour
     private GameObject[] activeCharacters;
     private int currentCharacterIndex = 0;
 
+    public CameraSetting FollowCamera;
+
+    private Animator currentAnimator;
+    private AnimatorStateInfo currentStateInfo;
+    private float currentAnimatorTime;
+
     private void Start()
     {
         activeCharacters = new GameObject[characterPrefabs.Length];
@@ -19,6 +25,9 @@ public class PartyManager : MonoBehaviour
             activeCharacters[i] = Instantiate(characterPrefabs[i]);
             activeCharacters[i].SetActive(i == currentCharacterIndex);
         }
+
+        FollowCamera.SetTarget(activeCharacters[currentCharacterIndex].transform);
+        currentAnimator = activeCharacters[currentCharacterIndex].GetComponent<Animator>();
     }
 
     private void Update()
@@ -33,11 +42,28 @@ public class PartyManager : MonoBehaviour
     {
         if (characterIndex >= 0 && characterIndex < activeCharacters.Length)
         {
+            currentStateInfo = currentAnimator.GetCurrentAnimatorStateInfo(0);
+            currentAnimatorTime = currentStateInfo.normalizedTime;
+
+            Vector3 currentPosition = activeCharacters[currentCharacterIndex].transform.position;
+            Quaternion currentRotation = activeCharacters[currentCharacterIndex].transform.rotation;
+
+            Vector3 cameraPosition = FollowCamera.transform.position;
+            Quaternion cameraRotation = FollowCamera.transform.rotation;
+
             activeCharacters[currentCharacterIndex].SetActive(false);
 
             currentCharacterIndex = characterIndex;
-
             activeCharacters[currentCharacterIndex].SetActive(true);
+
+            activeCharacters[currentCharacterIndex].transform.position = currentPosition;
+            activeCharacters[currentCharacterIndex].transform.rotation = currentRotation;
+
+            FollowCamera.SetTarget(activeCharacters[currentCharacterIndex].transform);
+            FollowCamera.SetCameraSettings(cameraPosition, cameraRotation);
+
+            currentAnimator = activeCharacters[currentCharacterIndex].GetComponent<Animator>();
+            currentAnimator.Play(currentStateInfo.fullPathHash, 0, currentAnimatorTime);
         }
         else
         {
@@ -45,8 +71,8 @@ public class PartyManager : MonoBehaviour
         }
     }
 
-    public CharacterInfo GetCurrentCharacter()
+    public Character GetCurrentCharacter()
     {
-        return activeCharacters[currentCharacterIndex].GetComponent<CharacterInfo>();
+        return activeCharacters[currentCharacterIndex].GetComponent<Character>();
     }
 }

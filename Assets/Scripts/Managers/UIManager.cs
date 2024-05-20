@@ -13,6 +13,8 @@ public class UIManager : Singleton<UIManager>
     IActivePanel settingBar_IActivePanel;
 
     public Transform itemGetContent;
+    // Transform 받는 변수 선언
+    public Transform itemGetContent_J;
     public Transform FTrans;
     float initFtransY;
     float UIscaleY;
@@ -20,6 +22,7 @@ public class UIManager : Singleton<UIManager>
     IActivePanel mainPanel_IActivePanel;
 
     public Transform UI;
+    public GameObject DataPanel;
 
     private void Awake()
     {
@@ -84,7 +87,24 @@ public class UIManager : Singleton<UIManager>
         getSlot.transform.SetParent(itemGetContent);
         getSlot.transform.SetAsFirstSibling();
         getSlot.transform.localScale = Vector3.one;
+
     }
+
+    public void AddGetSlot_J(ItemGetPanelSlot itemGetPanelSlot)
+    {
+
+        itemGetPanelSlot.transform.SetParent(itemGetContent_J);
+        itemGetPanelSlot.transform.localScale = Vector3.one;
+
+    }
+
+    public void showDataUpdate(int id)
+    {
+        IItemPanel itemPanel = DataPanel.GetComponent<IItemPanel>();
+        itemPanel.UpdateItemPanel(id);
+    }
+
+
 
     public void RemoveGetSlot()
     {

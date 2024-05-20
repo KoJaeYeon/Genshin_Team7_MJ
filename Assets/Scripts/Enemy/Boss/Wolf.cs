@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEditor;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -147,7 +148,7 @@ public class WolfMove : WolfState
 
     public override void StateFixedUpdate()
     {
-     //   m_Wolf.BossAnimator.SetFloat("MovePosY", m_Wolf.BossRigid.angularVelocity.y);
+        m_Wolf.BossAnimator.SetFloat("MovePosX", m_Wolf.transform.forward.x);
         
     }
 }

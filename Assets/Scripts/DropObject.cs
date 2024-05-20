@@ -8,27 +8,43 @@ public class DropObject : MonoBehaviour,IInteractable
 {
     Item item;
     GetSlot getSlot;
-    int id;
+    ItemGetPanelSlot getpanelSlot;
     static int idtemp = 1;
-    private void Start()
+    int id; //드랍오브젝트 비교를 위한 고유 id
+
+    public void InitItemSlot()
     {
         getSlot = PoolManager.Instance.Get_GetSlot();
+        getpanelSlot = PoolManager.Instance.Get_ItemGetPanelSlot();
 
-        //삭제예정
-        item = ItemDatabase.Instance.GetItem(idtemp++);
+        getSlot.Init(item);
+        getpanelSlot.Init_J(item);
+    }
 
+    public void SetItem(int id) // 드랍 오브젝트의 아이템을 설정해주는 함수
+    {
+        item = ItemDatabase.Instance.GetItem(id);
         InitItemSlot();
     }
 
-    public void SetId(int id)
+    public void SetItemCount(int count)
+    {
+        this.item.count = count;
+        UpdateItemSlot();
+    }
+
+    private void UpdateItemSlot()
+    {
+        getSlot.Init(item);
+        getpanelSlot.Init_J(item);
+    }
+
+    public void SetId(int id) // 드랍 오브젝트의 아이디를 설정해주는 함수
     {
         this.id = id;
     }
 
-    public void InitItemSlot()
-    {
-       getSlot.Init(item);
-    }
+
     public void RemoveItemGet()
     {
         Debug.Log("RemoveGet");
@@ -37,23 +53,28 @@ public class DropObject : MonoBehaviour,IInteractable
         getSlot.gameObject.SetActive(false);
     }
 
-    public void SetItem(Item item)
-    {
-        this.item = item;
-    }
+
 
     public void UpdateItemGet()
     {
         Debug.Log("UpdateItemGet");
         UIManager.Instance.AddGetSlot(getSlot);
-        getSlot.gameObject.SetActive(true);
-    }
 
+        getSlot.gameObject.SetActive(true);
+
+
+    }
     public void UseItemGet()
     {
         InventoryManager.Instance.GetItem(item);
+        UIManager.Instance.AddGetSlot_J(getpanelSlot);
+        getpanelSlot.gameObject.SetActive(true);
+
+
         PoolManager.Instance.Return_GetSlot(getSlot);
         PoolManager.Instance.Return_itemDrop(gameObject);
+
+        getpanelSlot.Destroy();
     }
 
     public override bool Equals(object obj)
@@ -69,4 +90,5 @@ public class DropObject : MonoBehaviour,IInteractable
     {
         return base.GetHashCode();
     }
+
 }

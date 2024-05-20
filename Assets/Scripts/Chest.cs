@@ -1,59 +1,79 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 
+public enum ChestType
+{
+    Jungyo,
+    Jingui
+}
 public class Chest : MonoBehaviour,IInteractable
 {
-    Item item;
+    DropObject[] dropObjects;
     GetSlot getSlot;
-    int id;
     static int idtemp = 1;
+    public int[] keys;
+    public ChestType chestType;
+    int id;
     private void Start()
     {
+        dropObjects = new DropObject[keys.Length];
+
         getSlot = PoolManager.Instance.Get_GetSlot();
-
-        //삭제예정
-        item = ItemDatabase.Instance.GetItem(idtemp++);
-
+        for (int i = 0;  i < keys.Length; i++)
+        {
+            dropObjects[i] = PoolManager.Instance.Get_DropObject(keys[i]);
+        }
         InitItemSlot();
+
+    }
+
+    public void InitItemSlot()
+    {
+        getSlot.Init(chestType);
     }
 
     public void SetId(int id)
     {
         this.id = id;
     }
-
-    public void InitItemSlot()
-    {
-       getSlot.Init(item);
-    }
-    public void RemoveItemGet()
-    {
-        Debug.Log("RemoveGet");
-        UIManager.Instance.RemoveGetSlot();
-        getSlot.transform.SetParent(PoolManager.Instance.PoolParent);
-        getSlot.gameObject.SetActive(false);
-    }
-
-    public void SetItem(Item item)
-    {
-        this.item = item;
-    }
-
     public void UpdateItemGet()
     {
-        Debug.Log("UpdateItemGet");
+        Debug.Log("UpdateItemGet_Chest");
         UIManager.Instance.AddGetSlot(getSlot);
         getSlot.gameObject.SetActive(true);
     }
 
     public void UseItemGet()
     {
-        InventoryManager.Instance.GetItem(item);
+        Debug.Log("UseItem_Chest");
         PoolManager.Instance.Return_GetSlot(getSlot);
-        PoolManager.Instance.Return_itemDrop(gameObject);
+        foreach(DropObject dropObject in dropObjects)
+        {
+            dropObject.gameObject.SetActive(true);
+            dropObject.transform.position = transform.position + new Vector3(Random.Range(0.1f,0.3f),0,Random.Range(0.1f,0.3f));
+        }
+        StartCoroutine(DisappearChest());
+    }
+
+    IEnumerator DisappearChest()
+    {
+        Animator animator = GetComponent<Animator>();
+        animator.Play("Chest_Open");
+        BoxCollider collider = GetComponent<BoxCollider>();
+        collider.enabled = false;
+        yield return new WaitForSeconds(2f);
+        //animator.Play("Chest_Disppear");
+        yield return null;
+        collider.enabled = true;
+        gameObject.SetActive(false);
+
+    }
+    public void RemoveItemGet()
+    {
+        Debug.Log("RemoveGet_Chest");
+        UIManager.Instance.RemoveGetSlot();
+        getSlot.transform.SetParent(PoolManager.Instance.PoolParent);
+        getSlot.gameObject.SetActive(false);
     }
 
     public override bool Equals(object obj)

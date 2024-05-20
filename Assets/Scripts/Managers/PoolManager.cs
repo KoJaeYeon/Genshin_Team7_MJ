@@ -6,11 +6,13 @@ public class PoolManager : Singleton<PoolManager>
 {
     public GameObject itemSlotPrefab;
     public GameObject getSlotPrefab;
+    public GameObject itemGetPanelSlotPrefab;
     public GameObject itemDropPrefab;
     public GameObject elementPrefab;
 
     Stack<GameObject> itemSlotStack;
     Stack<GameObject> getSlotStack;
+    Stack<GameObject> itemGetPanelSlotStack;
     Stack<GameObject> itemDropStack;
     Queue<GameObject> elementQueue;
 
@@ -22,6 +24,7 @@ public class PoolManager : Singleton<PoolManager>
     {
         itemSlotStack = new Stack<GameObject>();
         getSlotStack = new Stack<GameObject>();
+        itemGetPanelSlotStack = new Stack<GameObject>();
         itemDropStack = new Stack<GameObject>();
         elementQueue = new Queue<GameObject>();
 
@@ -33,11 +36,19 @@ public class PoolManager : Singleton<PoolManager>
             prefab.SetActive(false);
         }
 
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < 15; i++)
         {
             GameObject prefab = Instantiate(getSlotPrefab, PoolParent.transform);
             prefab.name = $"getSlot[{i}]";
             getSlotStack.Push(prefab);
+            prefab.SetActive(false);
+        }
+
+        for (int i = 0; i < 15; i++)
+        {
+            GameObject prefab = Instantiate(itemGetPanelSlotPrefab, PoolParent.transform);
+            prefab.name = $"itemGetPanelSlot[{i}]";
+            itemGetPanelSlotStack.Push(prefab);
             prefab.SetActive(false);
         }
 
@@ -100,6 +111,42 @@ public class PoolManager : Singleton<PoolManager>
         }
     }
 
+    public DropObject Get_DropObject(int id)
+    {
+        DropObject dropObject;
+        GameObject prefab;
+        if (itemDropStack.TryPop(out prefab))
+        {
+            dropObject = prefab.GetComponent<DropObject>();
+            dropObject.SetItem(id);
+            return dropObject;
+        }
+        else
+        {
+            prefab = Instantiate(itemDropPrefab, PoolParent.transform);
+            dropObject = prefab.GetComponent<DropObject>();
+            dropObject.SetItem(id);
+            return dropObject;
+        }
+    }
+
+    public ItemGetPanelSlot Get_ItemGetPanelSlot()
+    {
+        ItemGetPanelSlot itemGetPanelSlot;
+        GameObject prefab;
+        if (itemGetPanelSlotStack.TryPop(out prefab))
+        {
+            itemGetPanelSlot = prefab.GetComponent<ItemGetPanelSlot>();
+            return itemGetPanelSlot;
+        }
+        else
+        {
+            prefab = Instantiate(itemGetPanelSlotPrefab, PoolParent.transform);
+            itemGetPanelSlot = prefab.GetComponent<ItemGetPanelSlot>();
+            return itemGetPanelSlot;
+        }
+    }
+
     public void Return_itemSlot(ItemSlot itemSlot)
     {
         itemSlotStack.Push(itemSlot.gameObject);
@@ -113,6 +160,13 @@ public class PoolManager : Singleton<PoolManager>
         getSlotStack.Push(getSlot.gameObject);
         getSlot.gameObject.SetActive(false);
         getSlot.transform.SetParent(PoolParent);
+    }
+
+    public void Return_ItemGetPanelSlot(ItemGetPanelSlot itemGetPanelSlot)
+    {
+        itemGetPanelSlotStack.Push(itemGetPanelSlot.gameObject);
+        itemGetPanelSlot.gameObject.SetActive(false);
+        itemGetPanelSlot.transform.SetParent(PoolParent);
     }
 
     public void Return_itemDrop(GameObject itemDrop)

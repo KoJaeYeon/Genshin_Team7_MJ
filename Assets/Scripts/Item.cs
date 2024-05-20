@@ -23,6 +23,7 @@ public class Item
     float _weaponDamage;
     DefenceType _defenceType;
     float _value;
+    string _description;
     int indexId;
 
     #region Property
@@ -33,9 +34,10 @@ public class Item
     public float weaponDamage { get => _weaponDamage; set => _weaponDamage = value; }
     public DefenceType defenceType {  get => _defenceType; set => _defenceType = value; }
     public float value { get => _value; set => _value = value; }
+    public string description { get => _description; set => _description = value; }
     #endregion
 
-    public Item(int id, string itemname , int count, bool isEquip, float weaponDamage, DefenceType defenceType, float value)
+    public Item(int id, string itemname , int count, bool isEquip, float weaponDamage, DefenceType defenceType, float value, string description)
     {
         _id = id;
         _itemName = itemname;
@@ -44,6 +46,7 @@ public class Item
         _weaponDamage = weaponDamage;
         _defenceType = defenceType;
         _value = value;
+        _description=description;
     }
 
     public Item(Item item)
@@ -55,6 +58,7 @@ public class Item
         _weaponDamage = item._weaponDamage;
         _defenceType = item._defenceType;
         _value = item._value;
+        _description = item._description;
     }
 
     public override bool Equals(object obj)

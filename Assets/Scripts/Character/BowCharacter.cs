@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class BowCharacter : CharacterInfo
+public class BowCharacter : Character
 {
     public GameObject arrowPrefab;
     public Transform arrowSpawnPoint;
