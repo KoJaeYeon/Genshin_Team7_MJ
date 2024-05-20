@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class characterSettingButton : MonoBehaviour
+public class characterItemSettingButton : MonoBehaviour
 {
     public Transform TextPanel_Parent;
     GameObject[] TextPanel;
-    public Transform select_Parent;
     GameObject selectAnimateImage;
     GameObject[] select_Panel_Icon_Image;
     private void Awake()
     {
-        select_Parent = transform;
         TextPanel = new GameObject[3];
         select_Panel_Icon_Image = new GameObject[3];
-        selectAnimateImage = select_Parent.transform.GetChild(3).gameObject;
+        selectAnimateImage = transform.GetChild(3).gameObject;
+        Debug.Log(selectAnimateImage.name);
         for(int i = 0; i < 3; i++)
         {
-            TextPanel[i] = TextPanel_Parent.transform.GetChild(i).gameObject;
-            select_Panel_Icon_Image[i] = select_Parent.transform.GetChild(i).GetChild(0).gameObject;
+            TextPanel[i] = TextPanel_Parent.GetChild(i).gameObject;
+            select_Panel_Icon_Image[i] = transform.GetChild(i).GetChild(0).gameObject;
         }
     }
 
@@ -36,6 +35,7 @@ public class characterSettingButton : MonoBehaviour
             {
                 TextPanel[i].SetActive(true);
                 select_Panel_Icon_Image[i].gameObject.SetActive(false);
+                Debug.Log(select_Panel_Icon_Image[i].transform.position);
                 selectAnimateImage.transform.position = select_Panel_Icon_Image[i].transform.position;
             }
             else
