@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public enum EnemyLayer
@@ -56,7 +53,7 @@ public abstract class Enemy : MonoBehaviour
     public abstract void Damaged(Enemy enemy, float damage, Element element);
     public abstract void Splash(float damage);
 
-    protected float Armor(Enemy enemy,float damage, Element element) //원소가 추가되면 원소에 따라 다른 방어력 구현 예정..
+    protected float Armor(Enemy enemy,float damage, Element element) 
     {
         switch (element)
         {
@@ -198,7 +195,8 @@ public abstract class Enemy : MonoBehaviour
 
     private void DropItem(Enemy enemy)
     {
-
+        DropObject dropObject = PoolManager.Instance.Get_DropObject(Random.Range(1001, 1007));
+        dropObject.gameObject.transform.position = transform.position + Vector3.up*1.5f;
     }
 
     protected IEnumerator Die(Enemy enemy)

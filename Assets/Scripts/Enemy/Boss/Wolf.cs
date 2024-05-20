@@ -21,8 +21,11 @@ public enum BossPattern
 public class Wolf : Enemy
 {
     private bool enemyCommand = true;
+    private bool turn = true;
     private BossPattern Pattern;
     private Rigidbody bossRigid;
+    private Vector3 currentTrans;
+    
 
     //Pattern----------------------------------------------------------
     private IPattern bossAttack;
@@ -50,7 +53,7 @@ public class Wolf : Enemy
     {
         bossState = gameObject.AddComponent<BossStateMachine>();
         bossState.AddState(BossState.Idle, new WolfIdle(this));
-        bossState.AddState(BossState.Move, new WolfMove(this));
+        bossState.AddState(BossState.Attack, new WolfAttackState(this));
         bossState.AddState(BossState.Tail, new WolfAttackState_Tail(this));
         bossState.AddState(BossState.Claw, new WolfAttackState_Claw(this));
         bossState.AddState(BossState.Jump, new WolfAttackState_Jump(this));
@@ -96,6 +99,12 @@ public class Wolf : Enemy
     public NavMeshAgent BossAgent => agent;
     public Transform PlayerTransform => Player;
     public Rigidbody BossRigid => bossRigid;
+    public Vector3 CurrentTrans => currentTrans;
+    public bool Turn
+    {
+        get { return turn; }
+        set { turn = value; }
+    }
 
     public override void Damaged(Enemy enemy, float damage, Element element)
     {
@@ -108,30 +117,15 @@ public class Wolf : Enemy
     }
 
     // Animation Event ----------------------------------------------
-    public void SetAttack() // 1Phase -------------------------------
+    
+    public void CurrentTransform()
     {
-        int random = Random.Range(0, 4);
-
-        switch (random)
-        {
-            case (int)BossPattern.JumpAttack:
-                bossState.ChangeState(BossState.Jump);
-                break;
-            case (int)BossPattern.TailAttack:
-                bossState.ChangeState(BossState.Tail);
-                break;
-            case (int)BossPattern.ClawAttack:
-                bossState.ChangeState(BossState.Claw);
-                break;
-            case (int)BossPattern.ChargeAttack:
-                bossState.ChangeState(BossState.Charge);
-                break;
-        }
+        currentTrans = transform.position;
     }
 
-    public void Rotation()
+    public void OnTurn()
     {
-
+        turn = true;
     }
 }
 
@@ -144,113 +138,101 @@ public abstract class WolfState : BossBaseState
     }
 }
 
-public class WolfMove : WolfState
+public class WolfIdle : WolfState
 {
-    public WolfMove(Wolf wolf) : base(wolf) { }
+    public WolfIdle(Wolf wolf) : base(wolf) { }
 
     float timer = 0;
 
     public override void StateEnter()
     {
-        m_Wolf.BossAnimator.SetBool("isMove", true);
+        m_Wolf.BossAgent.SetDestination(m_Wolf.PlayerTransform.position);
     }
 
     public override void StateExit()
     {
         m_Wolf.BossAnimator.SetBool("isMove", false);
-        timer = 0;
+        m_Wolf.BossAgent.SetDestination(m_Wolf.transform.position);
     }
-
     public override void StateFixedUpdate()
     {
         timer += Time.fixedDeltaTime;
-        m_Wolf.BossAgent.SetDestination(m_Wolf.PlayerTransform.position);
 
-        if(timer >= 5.0f)
+        if (Distance() > m_Wolf.BossAgent.stoppingDistance && timer <= 7.0f)
         {
-            m_Wolf.State.ChangeState(BossState.Idle);
+            m_Wolf.BossAgent.SetDestination(m_Wolf.PlayerTransform.position);
+            m_Wolf.BossAnimator.SetBool("isMove", true);
         }
         else
-        {
-            if (Vector3.Distance(m_Wolf.transform.position, m_Wolf.PlayerTransform.position) <= m_Wolf.BossAgent.stoppingDistance)
-            {
-                m_Wolf.State.ChangeState(BossState.Idle);
-            }
-        }
+            m_Wolf.State.ChangeState(BossState.Attack);
     }
-}
-
-
-public class WolfIdle : WolfState
-{
-    public WolfIdle(Wolf wolf) : base(wolf) { }
-
-    public override void StateEnter()
-    {
-        m_Wolf.BossAgent.SetDestination(m_Wolf.transform.position);
-    }
-
-    public override void StateExit()
-    {
-    
-    }
-    public override void StateFixedUpdate()
-    {
-        
-        //m_Wolf.BossAgent.SetDestination(m_Wolf.PlayerTransform.position);
-        //AnimatorStateInfo StateInfo = m_Wolf.BossAnimator.GetCurrentAnimatorStateInfo(0);
-
-        //if(StateInfo.IsName("Idle") && StateInfo.normalizedTime >= 1.0f)
-        //{
-        //    //if(Distance() > 6.0f)
-        //    //{
-        //    //    m_Wolf.State.ChangeState(BossState.Jump);
-        //    //}
-        //    //else
-        //    //{
-        //    //    RandomPattern();
-        //    //}
-        //    m_Wolf.BossAnimator.SetTrigger("TurnLeft");
-            
-
-        //}
-    }
-
-    private void RandomPattern()
-    {
-        //int randomPattern = Random.Range(0, 3);
-        int randomPattern = 2;
-        switch (randomPattern)
-        {
-            case 0:
-                m_Wolf.State.ChangeState(BossState.Stamp);
-                break;
-            case 1:
-                m_Wolf.State.ChangeState(BossState.Tail);
-                break;
-            case 2:
-                m_Wolf.State.ChangeState(BossState.Claw);
-                break;
-        }
-    }
-
-
 
     private float Distance()
     {
         return Vector3.Distance(m_Wolf.transform.position, m_Wolf.PlayerTransform.position);
     }
+}
 
-    private bool Left()
+public class WolfAttackState : WolfState
+{
+    public WolfAttackState(Wolf wolf) : base(wolf) { }
+
+  
+
+    public override void StateEnter()
+    {
+        m_Wolf.BossAgent.enabled = false;
+    }
+
+    public override void StateExit()
+    {
+        
+    }
+
+    public override void StateFixedUpdate()
+    {
+        Angle();
+    }
+    
+    //private void Rot()
+    //{
+    //    m_Wolf.BossAnimator.SetTrigger("TurnLeft");
+
+    //    Vector3 dir = (m_Wolf.PlayerTransform.position - m_Wolf.transform.position).normalized;
+
+    //    Quaternion targetRot = Quaternion.LookRotation(dir);
+
+    //    m_Wolf.transform.rotation = Quaternion.Slerp(m_Wolf.transform.rotation, targetRot, 1.0f * Time.fixedDeltaTime);
+    //}
+
+    private void Angle()
+    {
+        Vector3 targetDirection = (m_Wolf.PlayerTransform.position - m_Wolf.transform.position).normalized;
+        Vector3 selfDirection = m_Wolf.transform.forward;
+
+        float angle = Vector3.SignedAngle(selfDirection, targetDirection, Vector3.up);
+
+        if (angle >= 120.0f && m_Wolf.Turn)
+            m_Wolf.BossAnimator.SetTrigger("TurnRight");
+        else if (angle <= -120.0f && m_Wolf.Turn)
+            m_Wolf.BossAnimator.SetTrigger("TurnLeft");
+    }
+    private void Rot()
     {
         Vector3 targetPos = m_Wolf.PlayerTransform.position - m_Wolf.transform.position;
         float Dot = Vector3.Dot(m_Wolf.transform.right, targetPos);
 
-        return Dot < 0;
-    }
-    private bool Right()
-    {
-        return !Left();
+        if(Dot < 0)
+        {
+            Quaternion targetRot = Quaternion.LookRotation(-targetPos, Vector3.up);
+            m_Wolf.transform.rotation = Quaternion.Slerp(m_Wolf.transform.rotation, targetRot, 1.0f * Time.fixedDeltaTime);
+        }
+        else
+        {
+            Quaternion targetRot = Quaternion.LookRotation(targetPos, Vector3.up);
+            m_Wolf.transform.rotation = Quaternion.Slerp(m_Wolf.transform.rotation, targetRot, 1.0f * Time.fixedDeltaTime);
+        }
+        
     }
     
 }

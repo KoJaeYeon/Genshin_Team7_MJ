@@ -119,6 +119,7 @@ public class PoolManager : Singleton<PoolManager>
         {
             dropObject = prefab.GetComponent<DropObject>();
             dropObject.SetItem(id);
+            dropObject.gameObject.SetActive(true);
             return dropObject;
         }
         else

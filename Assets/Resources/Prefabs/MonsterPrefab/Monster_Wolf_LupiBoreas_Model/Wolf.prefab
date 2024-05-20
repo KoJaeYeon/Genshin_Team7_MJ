@@ -3567,7 +3567,7 @@ Animator:
   m_Avatar: {fileID: 9000000, guid: c0d40f457a3307a489905fc733945d94, type: 3}
   m_Controller: {fileID: 9100000, guid: 1836e657c99883143a2335bffe2aecfc, type: 2}
   m_CullingMode: 1
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -3588,6 +3588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10428ad5a7584442a5662ca552e16f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RotTransform: {fileID: 0}
 --- !u!195 &616660749
 NavMeshAgent:
   m_ObjectHideFlags: 0

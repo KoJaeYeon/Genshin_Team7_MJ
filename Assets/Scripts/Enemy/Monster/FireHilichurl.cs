@@ -47,17 +47,18 @@ public class FireHilichurl : Enemy,IColor
     {
         return color;
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("HitObject"))
-        {
-            TestElement hitObject = other.GetComponent<TestElement>();
-            HitElement = hitObject.GetElement();
-            Damaged(this, hitObject.ReturnDamage(), HitElement);
 
-            hitObject.Return();
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("HitObject") && gameObject.layer == (int)EnemyLayer.isAlive)
+    //    {
+    //        TestElement hitObject = other.GetComponent<TestElement>();
+    //        HitElement = hitObject.GetElement();
+    //        Damaged(this, hitObject.ReturnDamage(), HitElement);
+
+    //        hitObject.Return();
+    //    }
+    //}
 
     public override void Damaged(Enemy enemy, float damage, Element element)
     {
