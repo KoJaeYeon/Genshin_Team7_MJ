@@ -11,6 +11,7 @@ public class PartyManager : MonoBehaviour
     private int currentCharacterIndex = 0;
 
     public CameraSetting FollowCamera;
+    public Transform spawnPosition;
 
     private Animator currentAnimator;
     private AnimatorStateInfo currentStateInfo;
@@ -25,9 +26,13 @@ public class PartyManager : MonoBehaviour
             activeCharacters[i] = Instantiate(characterPrefabs[i]);
             activeCharacters[i].SetActive(i == currentCharacterIndex);
         }
-
+        if(spawnPosition != null )
+        {
+            activeCharacters[0].transform.position = spawnPosition.position;
+        }        
         FollowCamera.SetTarget(activeCharacters[currentCharacterIndex].transform);
         currentAnimator = activeCharacters[currentCharacterIndex].GetComponent<Animator>();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
@@ -36,6 +41,10 @@ public class PartyManager : MonoBehaviour
         if (Keyboard.current.digit2Key.isPressed) SwitchCharacter(1);
         if (Keyboard.current.digit3Key.isPressed) SwitchCharacter(2);
         if (Keyboard.current.digit4Key.isPressed) SwitchCharacter(3);
+        if(Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            Cursor.lockState = Cursor.lockState == CursorLockMode.Locked ? CursorLockMode.None :CursorLockMode.Locked;
+        }
     }
 
     public void SwitchCharacter(int characterIndex)
