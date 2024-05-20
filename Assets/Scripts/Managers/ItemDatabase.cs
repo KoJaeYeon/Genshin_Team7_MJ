@@ -15,23 +15,57 @@ public class ItemDatabase : Singleton<ItemDatabase>
     Dictionary<Character, Sprite> characterSpriteDictionary;
 
     public Sprite[] sprites;
+    public Sprite[] characterSprites;
+    public Sprite[] chestSprites;
     private void Awake()
     {
         itemDictionary = new Dictionary<int, Item>();
         itemSpriteDictionary = new Dictionary<int, Sprite>();
         characterSpriteDictionary = new Dictionary<Character, Sprite>();
 
-        itemDictionary.Add(1, new Item(1, "진주를 문 해황", 1, true, 70, DefenceType.Flower, 0));
-        itemDictionary.Add(2, new Item(2, "성배", 1, true, 0, DefenceType.Trophy, 10));
-        itemDictionary.Add(3, new Item(3, "여행자1", 1, false, 0, DefenceType.Flower, 0));
-        itemDictionary.Add(4, new Item(4, "여행자2", 1, false, 0, DefenceType.Flower, 0));
+        List<Dictionary<string, object>> data = CSVReader.Read("Genshin_Data");
 
-        itemSpriteDictionary.Add(1, sprites[0]);
-        itemSpriteDictionary.Add(2, sprites[1]);
-        itemSpriteDictionary.Add(3, sprites[2]);
-        itemSpriteDictionary.Add(4, sprites[3]);
-        itemSpriteDictionary.Add(5, sprites[4]);
-        itemSpriteDictionary.Add(6, sprites[5]);
+        for (var i = 0; i < data.Count; i++)
+        {
+            bool isTrue = data[i]["isEquip"].ToString() == "TRUE" ? true : false;
+            DefenceType defenceType;
+            switch(data[i]["relicType"].ToString())
+            {
+                case "Flower":
+                    defenceType = DefenceType.Flower;
+                    break;
+                case "Feather":
+                    defenceType = DefenceType.Feather;
+                    break;
+                case "SandTime":
+                    defenceType = DefenceType.SandTime;
+                    break;
+                case "Trophy":
+                    defenceType = DefenceType.Trophy;
+                    break;
+                case "Crown":
+                    defenceType = DefenceType.Crown;
+                    break;
+                default:
+                    defenceType = DefenceType.Flower;
+                    break;
+            }
+            itemDictionary.Add(int.Parse(data[i]["id"].ToString()), new Item(int.Parse(data[i]["id"].ToString()), data[i]["name"].ToString(), int.Parse(data[i]["count"].ToString()), isTrue, float.Parse(data[i]["weaponDamage"].ToString()), defenceType, float.Parse(data[i]["value"].ToString()), data[i]["description"].ToString()));
+        }
+
+        int index = 0;
+        for(int i = 1; i <= 21; i++)
+        {
+            itemSpriteDictionary.Add(i, sprites[index++]);
+        }
+        for (int i = 101; i <= 110; i++)
+        {
+            itemSpriteDictionary.Add(i, sprites[index++]);
+        }
+        for (int i = 1001; i <= 1009; i++)
+        {
+            itemSpriteDictionary.Add(i, sprites[index++]);
+        }
     }
 
     public Item GetItem(int id)
@@ -47,6 +81,11 @@ public class ItemDatabase : Singleton<ItemDatabase>
     public Sprite GetCharacterSprite(Character character)
     {
         return characterSpriteDictionary[character];
+    }
+
+    public Sprite GetChestSprite(int num)
+    {
+        return chestSprites[num];
     }
 
     public DefenceType GetRelicType(int id)
