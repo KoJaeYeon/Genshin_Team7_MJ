@@ -1207,6 +1207,37 @@ Transform:
   m_Father: {fileID: 7624480731954769107}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1650347005364510315
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3371448598073993090}
+  m_Layer: 7
+  m_Name: CameraLook
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3371448598073993090
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650347005364510315}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.15, z: -0.000000059999984}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9100418616508247902}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1685651752885800629
 GameObject:
   m_ObjectHideFlags: 0
@@ -6055,7 +6086,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3093003166472818775
 Transform:
   m_ObjectHideFlags: 0
@@ -6576,6 +6607,7 @@ GameObject:
   - component: {fileID: 733120592}
   - component: {fileID: 733120593}
   - component: {fileID: 733120594}
+  - component: {fileID: 5393258596654616675}
   m_Layer: 7
   m_Name: Yoimiya
   m_TagString: Player
@@ -6600,6 +6632,7 @@ Transform:
   - {fileID: 5820243564066699851}
   - {fileID: 655005380050895853}
   - {fileID: 7408008325063189067}
+  - {fileID: 3371448598073993090}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6746,6 +6779,29 @@ MonoBehaviour:
   m_DefaultActionMap: PlayerControl
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &5393258596654616675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8431017952788297188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7e36e343110bf341ad4993dc41be273, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterData: {fileID: 11400000, guid: 4f7e5ca0e38f0c3409db470f11738466, type: 2}
+  animator: {fileID: 2930438527389709604}
+  arrowPrefab: {fileID: 0}
+  arrowSpawnPoint: {fileID: 0}
+  arrowSpeed: 0
+  playerCamera: {fileID: 0}
+  aimLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  thirdPersonCamera: {fileID: 0}
+  firstPersonCamera: {fileID: 0}
 --- !u!1 &8535172552779807839
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,53 +2,51 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PartyManager : MonoBehaviour
 {
-    public List<CharacterInfo> party = new List<CharacterInfo>();
-    public int maxPartySize = 4;
-    private int activeCharacterIndex = 0;
-    public CinemachineVirtualCamera cinemachineVirtualCamera;
+    public GameObject[] characterPrefabs;
+    private GameObject[] activeCharacters;
+    private int currentCharacterIndex = 0;
 
     private void Start()
     {
-        
-    }
+        activeCharacters = new GameObject[characterPrefabs.Length];
 
-    public void AddCharacterToParty(CharacterInfo newCharacter)
-    {
-        if(party.Count < maxPartySize)
+        for(int i = 0; i < characterPrefabs.Length; i++)
         {
-            party.Add(newCharacter);
+            activeCharacters[i] = Instantiate(characterPrefabs[i]);
+            activeCharacters[i].SetActive(i == currentCharacterIndex);
         }
     }
 
-    public void RemoveCharacterFromParty(CharacterInfo character)
+    private void Update()
     {
-        if (party.Contains(character))
+        if (Keyboard.current.digit1Key.isPressed) SwitchCharacter(0);
+        if (Keyboard.current.digit2Key.isPressed) SwitchCharacter(1);
+        if (Keyboard.current.digit3Key.isPressed) SwitchCharacter(2);
+        if (Keyboard.current.digit4Key.isPressed) SwitchCharacter(3);
+    }
+
+    public void SwitchCharacter(int characterIndex)
+    {
+        if (characterIndex >= 0 && characterIndex < activeCharacters.Length)
         {
-            party.Remove(character);
+            activeCharacters[currentCharacterIndex].SetActive(false);
+
+            currentCharacterIndex = characterIndex;
+
+            activeCharacters[currentCharacterIndex].SetActive(true);
+        }
+        else
+        {
+            Debug.Log("Invalid character index");
         }
     }
 
-    public void SwitchActiveCharacter(int newIndex)
+    public CharacterInfo GetCurrentCharacter()
     {
-        if (newIndex >= 0 && newIndex < party.Count)
-        {
-            party[activeCharacterIndex].SetActive(false);
-            activeCharacterIndex = newIndex;
-            party[activeCharacterIndex].SetActive(true);
-
-            Transform cameraLook = party[activeCharacterIndex].transform.Find("CameraLook");
-            if(cameraLook != null)
-            {
-                cinemachineVirtualCamera.Follow = cameraLook;
-            }
-        }
-    }
-
-    public CharacterInfo GetActiveCharacter()
-    {
-        return party[activeCharacterIndex]; 
+        return activeCharacters[currentCharacterIndex].GetComponent<CharacterInfo>();
     }
 }
