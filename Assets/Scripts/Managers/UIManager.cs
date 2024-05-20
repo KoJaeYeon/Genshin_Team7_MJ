@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +23,12 @@ public class UIManager : Singleton<UIManager>
     IActivePanel mainPanel_IActivePanel;
 
     public Transform UI;
+
+    public GameObject damageTextPrefap;
+    public Transform MonsterPoint;
+    public TextMeshPro damageText;
+
+
 
     private void Awake()
     {
@@ -98,9 +105,6 @@ public class UIManager : Singleton<UIManager>
     }
 
 
-
-
-
     public void RemoveGetSlot()
     {
         if(itemGetContent.childCount == 0)
@@ -117,4 +121,15 @@ public class UIManager : Singleton<UIManager>
             itemGetContent.transform.parent.parent.gameObject.SetActive(false);
         }
     }
+
+    public void DamageText(float damage)
+    {
+
+        damageText.text = damage.ToString();
+        GameObject next = Instantiate(damageTextPrefap, MonsterPoint.position, Quaternion.identity);
+        next.transform.SetParent(MonsterPoint);
+
+      
+    }
+
 }

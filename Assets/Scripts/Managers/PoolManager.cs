@@ -168,7 +168,11 @@ public class PoolManager : Singleton<PoolManager>
         itemGetPanelSlotStack.Push(itemGetPanelSlot.gameObject);
         itemGetPanelSlot.gameObject.SetActive(false);
         itemGetPanelSlot.transform.SetParent(PoolParent);
+
+       
     }
+
+   
 
     public void Return_itemDrop(GameObject itemDrop)
     {

@@ -66,6 +66,7 @@ public class FireHilichurl : Enemy,IColor
         HpSlider.value = EnemyHealthDic[this];
         transform.LookAt(Player.position);
         animator.SetTrigger("Hit");
+        UIManager.Instance.DamageText(damage);
 
         if (EnemyHealthDic[this] <= 0)
         {
