@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
     private bool _hasAnimator;
     private bool rotateOnMove = true;
 
-    public PlayerSO playerData;
+    public CharacterData characterData;
 
     private void Awake()
     {
