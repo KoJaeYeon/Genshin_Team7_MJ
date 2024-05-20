@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,4 +17,5 @@ public abstract class BossBaseState
     public abstract void StateEnter();
     public abstract void StateFixedUpdate();
     public abstract void StateExit();
+    public virtual void StateLateUpdate() { }
 }
