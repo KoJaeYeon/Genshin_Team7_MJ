@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Character
+public enum CharacterItemSprite
 {
-    None,
+    Beidu,
+    Kokomi,
+    Wriothesley,
     Yoimiya,
-    Beidu
+        None
 }
 public class ItemDatabase : Singleton<ItemDatabase>
 {
     Dictionary<int, Item> itemDictionary;
     Dictionary<int, Sprite> itemSpriteDictionary;
-    Dictionary<Character, Sprite> characterSpriteDictionary;
+    Dictionary<CharacterItemSprite, Sprite> characterSpriteDictionary;
 
     public Sprite[] sprites;
     public Sprite[] characterSprites;
@@ -21,7 +23,7 @@ public class ItemDatabase : Singleton<ItemDatabase>
     {
         itemDictionary = new Dictionary<int, Item>();
         itemSpriteDictionary = new Dictionary<int, Sprite>();
-        characterSpriteDictionary = new Dictionary<Character, Sprite>();
+        characterSpriteDictionary = new Dictionary<CharacterItemSprite, Sprite>();
 
         List<Dictionary<string, object>> data = CSVReader.Read("Genshin_Data");
 
@@ -78,7 +80,7 @@ public class ItemDatabase : Singleton<ItemDatabase>
         return itemSpriteDictionary[id];
     }
 
-    public Sprite GetCharacterSprite(Character character)
+    public Sprite GetCharacterSprite(CharacterItemSprite character)
     {
         return characterSpriteDictionary[character];
     }

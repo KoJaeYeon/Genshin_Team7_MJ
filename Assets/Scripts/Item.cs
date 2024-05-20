@@ -58,6 +58,7 @@ public class Item
         _weaponDamage = item._weaponDamage;
         _defenceType = item._defenceType;
         _value = item._value;
+        _description = item._description;
     }
 
     public override bool Equals(object obj)

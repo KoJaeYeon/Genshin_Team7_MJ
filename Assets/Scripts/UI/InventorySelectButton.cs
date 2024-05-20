@@ -25,7 +25,6 @@ public class InventorySelectButton : MonoBehaviour
     {
         InventoryActive(0);
     }
-
     public void InventoryActive(int index)
     {
         for (int i = 0; i < inventoryPanel.Length; i++)
@@ -35,6 +34,10 @@ public class InventorySelectButton : MonoBehaviour
                 inventoryPanel[i].SetActive(true);
                 inventory_Panel_Icon_Image[i].color = new Color(0.3665005f, 0.3791829f, 0.5471698f);
                 selectImage.transform.position = inventory_Panel_Icon_Image[i].transform.position;
+                if (inventoryPanel[i].transform.GetChild(0).GetChild(0).childCount > 0)
+                {
+                    inventoryPanel[i].transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<ItemSlot>().ShowData();
+                }
             }
             else
             {

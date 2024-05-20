@@ -27,9 +27,16 @@ public class DropObject : MonoBehaviour,IInteractable
         InitItemSlot();
     }
 
-    public void SetItem(Item item)
+    public void SetItemCount(int count)
     {
-        this.item = item;
+        this.item.count = count;
+        UpdateItemSlot();
+    }
+
+    private void UpdateItemSlot()
+    {
+        getSlot.Init(item);
+        getpanelSlot.Init_J(item);
     }
 
     public void SetId(int id) // 드랍 오브젝트의 아이디를 설정해주는 함수

@@ -22,6 +22,7 @@ public class UIManager : Singleton<UIManager>
     IActivePanel mainPanel_IActivePanel;
 
     public Transform UI;
+    public GameObject DataPanel;
 
     private void Awake()
     {
@@ -97,7 +98,11 @@ public class UIManager : Singleton<UIManager>
 
     }
 
-
+    public void showDataUpdate(int id)
+    {
+        IItemPanel itemPanel = DataPanel.GetComponent<IItemPanel>();
+        itemPanel.UpdateItemPanel(id);
+    }
 
 
 

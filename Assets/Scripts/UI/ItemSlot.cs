@@ -10,6 +10,7 @@ public class ItemSlot : MonoBehaviour
     int id;
     string itemName;
     int count;
+    CharacterItemSprite character;
     Image itemImage;
     Image characterImage;
     TextMeshProUGUI text;
@@ -39,15 +40,31 @@ public class ItemSlot : MonoBehaviour
         {
             text.text = "+20";
         }
+        characterImage.transform.parent.gameObject.SetActive(false);
     }
     public void UpdateSlot(Item item)
     {
         this.count = item.count;
         text.text = item.count.ToString();
     }
-    public void OwnerChange(Character character)
-    {
 
+    public void ShowData()
+    {
+        UIManager.Instance.showDataUpdate(id);
+    }
+
+    public void OwnerChange(CharacterItemSprite character)
+    {
+        switch(character)
+        {
+            case CharacterItemSprite.None:
+                characterImage.transform.parent.gameObject.SetActive(false);
+                break;
+            default:
+                this.character = character;
+                characterImage.transform.parent.gameObject.SetActive(true);
+                break;
+        }        
     }
 
     public DefenceType GetRelicType()
