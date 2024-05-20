@@ -54,17 +54,18 @@ public class EnemyStateMachine : MonoBehaviour
 public enum BossState
 {
     Idle,
-    Move,
-    JumpState,
-    TailState,
-    ClawState,
-    ChargeState
+    Attack,
+    Jump,
+    Tail,
+    Claw,
+    Charge,
+    Stamp
 }
 
 public class BossStateMachine : MonoBehaviour
 {
-    Dictionary<BossState, WolfState> BossStateDic = new Dictionary<BossState, WolfState>();
-    WolfState State;
+    Dictionary<BossState, BossBaseState> BossStateDic = new Dictionary<BossState, BossBaseState>();
+    BossBaseState State;
 
     private void Start()
     {
@@ -75,20 +76,20 @@ public class BossStateMachine : MonoBehaviour
         State.StateFixedUpdate();
     }
 
+    private void LateUpdate()
+    {
+        State.StateLateUpdate();
+    }
+
     public void InitState()
     {
         State = BossStateDic[BossState.Idle];
         State.StateEnter();
     }
 
-    public void AddState(BossState state, WolfState baseState)
+    public void AddState(BossState state, BossBaseState baseState)
     {
         BossStateDic.Add(state, baseState);
-    }
-
-    public WolfState GetState(BossState state)
-    {
-        return BossStateDic[state];
     }
 
     public void ChangeState(BossState changeState)
