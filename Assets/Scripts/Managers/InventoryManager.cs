@@ -39,17 +39,17 @@ public class InventoryManager : Singleton<InventoryManager>
         }
         else if (Input.GetKeyDown(KeyCode.F1))
         {
-            GetItem(ItemDatabase.Instance.GetItem(2));
+            GetItem(ItemDatabase.Instance.GetItem(21));
             Debug.Log("GetItem");
         }
         else if (Input.GetKeyDown(KeyCode.F2))
         {
-            GetItem(ItemDatabase.Instance.GetItem(3));
+            GetItem(ItemDatabase.Instance.GetItem(101));
             Debug.Log("GetItem");
         }
         else if (Input.GetKeyDown(KeyCode.F3))
         {
-            GetItem(ItemDatabase.Instance.GetItem(4));
+            GetItem(ItemDatabase.Instance.GetItem(1001));
             Debug.Log("GetItem");
         }
     }
@@ -180,6 +180,4 @@ public class InventoryManager : Singleton<InventoryManager>
             itemSlot.gameObject.SetActive(true);
         }
     }
-
-
 }
