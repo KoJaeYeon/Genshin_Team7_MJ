@@ -62,6 +62,7 @@ public class ItemSlot : MonoBehaviour
                 break;
             default:
                 this.character = character;
+                characterImage.sprite = ItemDatabase.Instance.GetCharacterSprite(character);
                 characterImage.transform.parent.gameObject.SetActive(true);
                 break;
         }        

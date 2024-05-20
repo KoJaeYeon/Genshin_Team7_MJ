@@ -23,6 +23,7 @@ public class UIManager : Singleton<UIManager>
     IActivePanel mainPanel_IActivePanel;
 
     public Transform UI;
+    public GameObject DataPanel;
 
     public GameObject damageTextPrefap;
     public Transform MonsterPoint;
@@ -93,17 +94,33 @@ public class UIManager : Singleton<UIManager>
         getSlot.transform.SetParent(itemGetContent);
         getSlot.transform.SetAsFirstSibling();
         getSlot.transform.localScale = Vector3.one;
-
     }
 
     public void AddGetSlot_J(ItemGetPanelSlot itemGetPanelSlot)
     {
 
         itemGetPanelSlot.transform.SetParent(itemGetContent_J);
+        itemGetContent_J.transform.parent.parent.parent.gameObject.SetActive(true);
         itemGetPanelSlot.transform.localScale = Vector3.one;
-
     }
 
+    public void Check_GetSlot_J()
+    {
+        if (itemGetContent_J.childCount == 0)
+        {
+            itemGetContent_J.transform.parent.parent.parent.gameObject.SetActive(false);
+        }
+        else
+        {
+            itemGetContent_J.transform.parent.parent.parent.gameObject.SetActive(true);
+        }
+    }
+
+    public void showDataUpdate(int id)
+    {
+        IItemPanel itemPanel = DataPanel.GetComponent<IItemPanel>();
+        itemPanel.UpdateItemPanel(id);
+    }
 
     public void RemoveGetSlot()
     {

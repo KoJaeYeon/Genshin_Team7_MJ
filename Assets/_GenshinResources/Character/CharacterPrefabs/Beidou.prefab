@@ -4185,6 +4185,64 @@ Transform:
   m_Father: {fileID: 7361699762086553909}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5100149163978629187
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8896188535755103592}
+  - component: {fileID: 2892239729007201115}
+  - component: {fileID: 4625721130850992693}
+  m_Layer: 7
+  m_Name: ItemSearchTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8896188535755103592
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5100149163978629187}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5121054518333311147}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &2892239729007201115
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5100149163978629187}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4625721130850992693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5100149163978629187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66f51ec584340d7449fafc9bad2f46d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5106798362162406308
 GameObject:
   m_ObjectHideFlags: 0
@@ -4518,6 +4576,7 @@ Transform:
   - {fileID: 7610843507314073022}
   - {fileID: 3480586089639355416}
   - {fileID: 6887135387508983230}
+  - {fileID: 8896188535755103592}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4537,7 +4596,16 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'Bip001 R Finger0'\n\tTransform 'Bip001 L Finger0'\n\tTransform
+    'Bip001 R Finger02'\n\tTransform 'Bip001 L Finger02'\n\tTransform 'Bip001 R Finger01'\n\tTransform
+    'Bip001 L Finger01'\n\tTransform 'Bip001 R Finger0'\n\tTransform 'Bip001 L Finger0'\n\tTransform
+    'Bip001 R Finger02'\n\tTransform 'Bip001 L Finger02'\n\tand more ...\n\tFrom
+    animation clip 'Ani_Avatar_Lady_Claymore_Beidou_Attack_01'\n\tFrom animation
+    clip 'Ani_Avatar_Lady_Claymore_Beidou_Attack_02'\n\tFrom animation clip 'Ani_Avatar_Lady_Claymore_Beidou_Attack_03'\n\tFrom
+    animation clip 'Ani_Avatar_Lady_Claymore_Beidou_Attack_04'\n\tFrom animation
+    clip 'Ani_Avatar_Lady_Claymore_Beidou_Attack_05'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0

@@ -7250,6 +7250,9 @@ MonoBehaviour:
   mainPanel: {fileID: 1191969279}
   UI: {fileID: 944395860}
   DataPanel: {fileID: 0}
+  damageTextPrefap: {fileID: 0}
+  MonsterPoint: {fileID: 0}
+  damageText: {fileID: 0}
 --- !u!4 &327949959
 Transform:
   m_ObjectHideFlags: 0
@@ -18006,8 +18009,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fe3b395bb59c37469ef46ee3c8446e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TextPanel_Parent: {fileID: 1275344501}
-  select_Parent: {fileID: 1094323353}
+  TextPanel_Parent: {fileID: 1275344502}
 --- !u!1 &1095076650
 GameObject:
   m_ObjectHideFlags: 0
@@ -68500,7 +68502,8 @@ Animator:
     'Bip001 R Finger02'\n\tTransform 'Bip001 L Finger02'\n\tTransform 'Bip001 R Finger01'\n\tTransform
     'Bip001 L Finger01'\n\tTransform 'Bip001 R Finger0'\n\tTransform 'Bip001 L Finger0'\n\tTransform
     'Bip001 R Finger02'\n\tTransform 'Bip001 L Finger02'\n\tand more ...\n\tFrom
-    animation clip 'Ani_Avatar_Girl_Bow_Yoimiya_Show_01'\n\tFrom animation clip 'Ani_Avatar_Girl_Bow_Yoimiya_Show_01'"
+    animation clip 'Ani_Avatar_Girl_Bow_Yoimiya_Show_01'\n\tFrom animation clip 'Ani_Avatar_Girl_Bow_Yoimiya_Show_02'\n\tFrom
+    animation clip 'Ani_Avatar_Girl_Bow_Yoimiya_Show_01'\n\tFrom animation clip 'Ani_Avatar_Girl_Bow_Yoimiya_Show_02'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
