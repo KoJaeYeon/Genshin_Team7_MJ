@@ -14,7 +14,8 @@ public enum BossPattern
     JumpAttack,
     TailAttack,
     ClawAttack,
-    ChargeAttack
+    ChargeAttack,
+    StampAttack
 }
 
 public class Wolf : Enemy
@@ -49,10 +50,12 @@ public class Wolf : Enemy
     {
         bossState = gameObject.AddComponent<BossStateMachine>();
         bossState.AddState(BossState.Idle, new WolfIdle(this));
+        bossState.AddState(BossState.Move, new WolfMove(this));
         bossState.AddState(BossState.Tail, new WolfAttackState_Tail(this));
         bossState.AddState(BossState.Claw, new WolfAttackState_Claw(this));
         bossState.AddState(BossState.Jump, new WolfAttackState_Jump(this));
         bossState.AddState(BossState.Charge, new WolfAttackState_Charge(this));
+        bossState.AddState(BossState.Stamp, new WolfAttackState_Stamp(this));
     }
 
     public void SetPattern(BossPattern bossPattern)
@@ -70,6 +73,9 @@ public class Wolf : Enemy
                 break;
             case BossPattern.ChargeAttack:
                 bossAttack = new ChargeAttack(this);
+                break;
+            case BossPattern.StampAttack:
+                bossAttack = new StampAttack(this);
                 break;
         }
     }
@@ -138,57 +144,97 @@ public abstract class WolfState : BossBaseState
     }
 }
 
+public class WolfMove : WolfState
+{
+    public WolfMove(Wolf wolf) : base(wolf) { }
+
+    float timer = 0;
+
+    public override void StateEnter()
+    {
+        m_Wolf.BossAnimator.SetBool("isMove", true);
+    }
+
+    public override void StateExit()
+    {
+        m_Wolf.BossAnimator.SetBool("isMove", false);
+        timer = 0;
+    }
+
+    public override void StateFixedUpdate()
+    {
+        timer += Time.fixedDeltaTime;
+        m_Wolf.BossAgent.SetDestination(m_Wolf.PlayerTransform.position);
+
+        if(timer >= 5.0f)
+        {
+            m_Wolf.State.ChangeState(BossState.Idle);
+        }
+        else
+        {
+            if (Vector3.Distance(m_Wolf.transform.position, m_Wolf.PlayerTransform.position) <= m_Wolf.BossAgent.stoppingDistance)
+            {
+                m_Wolf.State.ChangeState(BossState.Idle);
+            }
+        }
+    }
+}
+
 
 public class WolfIdle : WolfState
 {
     public WolfIdle(Wolf wolf) : base(wolf) { }
 
-    private int SelectIdle;
-
     public override void StateEnter()
     {
-        SelectIdle = Random.Range(0, 3);
-        m_Wolf.BossAnimator.SetFloat("Idle", SelectIdle);
+        m_Wolf.BossAgent.SetDestination(m_Wolf.transform.position);
     }
 
     public override void StateExit()
     {
-        m_Wolf.EnemyCommand = true;
+    
     }
     public override void StateFixedUpdate()
     {
-        if(m_Wolf.BossAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
-        {
-            if (Distance() >= 10.0f && m_Wolf.EnemyCommand)
-            {
-                m_Wolf.EnemyCommand = false;
-
-                int attack = Random.Range(0, 1);
-
-                switch (attack)
-                {
-                    case 0:
-                        m_Wolf.State.ChangeState(BossState.Jump);
-                        break;
-                    case 1:
-                        m_Wolf.State.ChangeState(BossState.Charge);
-                        break;
-                }
-            }
-            else if(Distance() < 10.0f)
-            {
-                
-
-
-
-            }
-        }
         
+        //m_Wolf.BossAgent.SetDestination(m_Wolf.PlayerTransform.position);
+        //AnimatorStateInfo StateInfo = m_Wolf.BossAnimator.GetCurrentAnimatorStateInfo(0);
 
+        //if(StateInfo.IsName("Idle") && StateInfo.normalizedTime >= 1.0f)
+        //{
+        //    //if(Distance() > 6.0f)
+        //    //{
+        //    //    m_Wolf.State.ChangeState(BossState.Jump);
+        //    //}
+        //    //else
+        //    //{
+        //    //    RandomPattern();
+        //    //}
+        //    m_Wolf.BossAnimator.SetTrigger("TurnLeft");
+            
 
-        
-
+        //}
     }
+
+    private void RandomPattern()
+    {
+        //int randomPattern = Random.Range(0, 3);
+        int randomPattern = 2;
+        switch (randomPattern)
+        {
+            case 0:
+                m_Wolf.State.ChangeState(BossState.Stamp);
+                break;
+            case 1:
+                m_Wolf.State.ChangeState(BossState.Tail);
+                break;
+            case 2:
+                m_Wolf.State.ChangeState(BossState.Claw);
+                break;
+        }
+    }
+
+
 
     private float Distance()
     {
@@ -207,6 +253,27 @@ public class WolfIdle : WolfState
         return !Left();
     }
     
+}
+
+public class WolfAttackState_Stamp : WolfState
+{
+    public WolfAttackState_Stamp(Wolf wolf) : base(wolf) { }
+    
+    public override void StateEnter()
+    {
+        m_Wolf.BossPattern = BossPattern.StampAttack;
+        m_Wolf.SetPattern(m_Wolf.BossPattern);
+    }
+
+    public override void StateExit()
+    {
+        
+    }
+
+    public override void StateFixedUpdate()
+    {
+        m_Wolf.Attack.BossAttack();
+    }
 }
 
 public class WolfAttackState_Jump : WolfState
