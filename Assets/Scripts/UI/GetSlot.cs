@@ -36,11 +36,11 @@ public class GetSlot : MonoBehaviour
         switch (chestType)
         {
             case ChestType.Jungyo:
-                image.sprite = ItemDatabase.Instance.GetItemSprite(5);
+                image.sprite = ItemDatabase.Instance.GetChestSprite(0);
                 itemName.text = "정교한 보물상자";
                 break;
             case ChestType.Jingui:
-                image.sprite = ItemDatabase.Instance.GetItemSprite(6);
+                image.sprite = ItemDatabase.Instance.GetChestSprite(1);
                 itemName.text = "진귀한 보물상자";
                 break;
         }
