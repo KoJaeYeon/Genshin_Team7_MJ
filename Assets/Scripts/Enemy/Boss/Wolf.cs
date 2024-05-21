@@ -24,7 +24,7 @@ public class Wolf : Enemy
     private bool enemyCommand = true;
     private bool battleStart = true;
     private bool turn = true;
-    private bool coolTime = true;
+    private bool onSkill = true;
     private bool jumpBack = true;
     private int phase = 1;
     private float Timer;
@@ -127,21 +127,13 @@ public class Wolf : Enemy
     }
     public bool OnSkill
     {
-        get { return coolTime; }
-        set { coolTime = value; }
+        get { return onSkill; }
+        set { onSkill = value; }
     }
     public bool JumpBack
     {
         get { return jumpBack; }
         set { jumpBack = value; }
-    }
-
-    public IEnumerator SkillCoolTime()
-    {
-        Debug.Log("쿨타임 진행중");
-        yield return new WaitForSeconds(6.0f);
-
-        coolTime = true;
     }
 
     public override void Damaged(Enemy enemy, float damage, Element element)
@@ -163,17 +155,23 @@ public class Wolf : Enemy
 
     public void OnTurn()
     {
+        Debug.Log("OnTurn");
         turn = true;
+        onSkill = true;
     }
 
     public void OnJumpBack()
     {
+        Debug.Log("OnJumpBack");
         jumpBack = true;
+        onSkill = true;
     }
     public void ChangeAttack()
     {
         bossState.ChangeState(BossState.Attack);
     }
+
+    
 }
 
 public abstract class WolfState : BossBaseState
@@ -229,7 +227,7 @@ public class WolfAttackState : WolfState
 {
     public WolfAttackState(Wolf wolf) : base(wolf) { }
 
-    private float meleeDistance = 7.0f;
+    private float meleeDistance = 10.0f;
     public override void StateEnter()
     {
         
@@ -245,27 +243,23 @@ public class WolfAttackState : WolfState
         float angle = Angle();
         float distance = Distance();
 
-        //if(distance <= meleeDistance && m_Wolf.OnSkill)
-        //{
-        //    m_Wolf.State.ChangeState(BossState.Claw);
-        //    m_Wolf.OnSkill = false;
-        //    m_Wolf.StartCoroutine(m_Wolf.SkillCoolTime());
-        //}
+
+
         //if (!m_Wolf.OnSkill)
         //    Turn(angle);
 
-        JumpBack(angle, distance);
 
 
 
-        //if(m_Wolf.Phase == 1)
-        //{
-        //    PhaseOneAttack(angle, distance);
-        //}
-        //else
-        //{
+        //Debug.Log(m_Wolf.OnSkill);
+        if (m_Wolf.Phase == 1)
+        {
+            PhaseOneAttack(angle, distance);
+        }
+        else
+        {
 
-        //}
+        }
     }
 
     private void PhaseOneAttack(float Angle, float Distance)
@@ -278,13 +272,16 @@ public class WolfAttackState : WolfState
             }
             else
             {
-                RangedAttack(Distance);
+                //RangedAttack(Distance);
             }
-            m_Wolf.OnSkill = false;
-            m_Wolf.StartCoroutine(m_Wolf.SkillCoolTime());
+            Debug.Log("실행");            
         }
         else
+        {
             Turn(Angle);
+            JumpBack(Angle, Distance);
+        }
+            
     }
 
     private void MeleeAttack(float Angle)
@@ -293,16 +290,18 @@ public class WolfAttackState : WolfState
 
         if(Abs <= 60)
         {
+            m_Wolf.OnSkill = false;
             m_Wolf.State.ChangeState(BossState.Claw);
         }
         else if(Abs <= 120)
         {
+            m_Wolf.OnSkill = false;
             m_Wolf.State.ChangeState(BossState.Drift);
         }
-        else
-        {
-            m_Wolf.State.ChangeState(BossState.Tail);
-        }
+        //else
+        //{
+        //    m_Wolf.State.ChangeState(BossState.Tail);
+        //}
     }
 
     private void RangedAttack(float Distance)
@@ -334,25 +333,21 @@ public class WolfAttackState : WolfState
 
     private void JumpBack(float Angle, float Distance)
     {
-        float Abs = Mathf.Abs(Angle);
-
-        bool Back = Abs < 90 && Distance <= 4.0f && m_Wolf.JumpBack;
-
-        if (Back)
+        if(Distance <= 4.0f && m_Wolf.JumpBack)
         {
-            Vector3 targetDirection = m_Wolf.PlayerTransform.position - m_Wolf.transform.position;
+            if (Angle > -90.0f && Angle < 90.0f)
+            {
+                Vector3 targetDirection = m_Wolf.PlayerTransform.position - m_Wolf.transform.position;
 
-            targetDirection.y = 0;
-            
-            float angle = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg;
+                targetDirection.y = 0;
 
-            m_Wolf.transform.rotation = Quaternion.Euler(0, angle, 0);
+                float angle = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg;
 
-            //Quaternion targetRot = Quaternion.Euler(0, Angle, 0);
-            //m_Wolf.transform.rotation = Quaternion.RotateTowards(m_Wolf.transform.rotation, targetRot, Time.fixedDeltaTime * 0.5f);
+                m_Wolf.transform.rotation = Quaternion.Euler(0, angle, 0);
 
-            m_Wolf.BossAnimator.SetTrigger("JumpBack");
-            m_Wolf.JumpBack = false;
+                m_Wolf.BossAnimator.SetTrigger("JumpBack");
+            }
+                
         }
     }
 
