@@ -4,25 +4,18 @@ using UnityEngine;
 
 public class RangedCatalystCharacter : CatalystCharacter
 {
-    public GameObject projectilePrefab;
-    public Transform launchPoint;
-    public float projectileSpeed;
-
-    public override void Attack()
+    protected override void Start()
     {
-        base.Attack();
-        ShootProjectile();
-    }
-
-    private void ShootProjectile()
-    {
-        GameObject projectile = Instantiate(projectilePrefab, launchPoint.position, launchPoint.rotation);
-        Rigidbody rb = projectile.GetComponent<Rigidbody>();
-        rb.velocity = launchPoint.forward * projectileSpeed;
-    }
-
-    protected override void Update()
-    {
-        base.Update();
+        characterType = CharacterType.Ranged;
+        base.Start();
+        foreach(var weapon in weapons)
+        {
+            if(weapon is Catalyst)
+            {
+                weapon.gameObject.SetActive(true);
+                currentWeaponIndex = System.Array.IndexOf(weapons, weapon);
+                break;
+            }
+        }
     }
 }

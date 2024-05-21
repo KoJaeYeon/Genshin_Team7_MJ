@@ -1,4 +1,3 @@
-using Cinemachine;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -84,6 +83,9 @@ public abstract class Character : MonoBehaviour
 
     protected virtual void Update()
     {
-        
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            Attack();
+        }
     }
 }

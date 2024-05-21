@@ -136,7 +136,7 @@ public class Wolf : Enemy
         set { jumpBack = value; }
     }
 
-    public override void Damaged(Enemy enemy, float damage, Element element)
+    public override void TakeDamage(float damage, Element element)
     {
         
     }

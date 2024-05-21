@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class MeleeCatalystCharacter : CatalystCharacter
 {
-    private void OnTriggerEnter(Collider other)
+    protected override void Start()
     {
-        if(weapons.Length > 0 && weapons[currentWeaponIndex].gameObject.activeSelf)
+        characterType = CharacterType.Melee;
+        base.Start();
+        foreach(var weapon in weapons)
         {
-            
+            if(weapon is Catalyst)
+            {
+                weapon.gameObject.SetActive(true);
+                currentWeaponIndex = System.Array.IndexOf(weapons, weapon);
+                break;
+            }
         }
-    }
-
-    protected override void Update()
-    {
-        base.Update();
     }
 }

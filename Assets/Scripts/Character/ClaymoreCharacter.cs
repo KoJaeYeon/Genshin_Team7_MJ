@@ -4,31 +4,18 @@ using UnityEngine;
 
 public class ClaymoreCharacter : Character
 {
-    //private MeleeWeapon meleeWeapon;
-    private Animator animator;
-
-    private void Awake()
+    protected override void Start()
     {
-        animator = GetComponent<Animator>();
-        //meleeWeapon = GetComponent<MeleeWeapon>();
-    }
-    public override void Attack()
-    {
-        weapons[currentWeaponIndex].gameObject.SetActive(true);
-        weapons[currentWeaponIndex].UseWeapon();
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-        UpdateAttackState();
-    }
-
-    private void UpdateAttackState()
-    {
-        if(animator != null)
+        characterType = CharacterType.Melee;
+        base.Start();
+        foreach(var weapon in weapons)
         {
-            weapons[currentWeaponIndex].Attack = animator.GetBool("Attacking");
+            if(weapon is Claymore)
+            {
+                weapon.gameObject.SetActive(true);
+                currentWeaponIndex = System.Array.IndexOf(weapons, weapon);
+                break;
+            }
         }
     }
 }

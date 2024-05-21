@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Claymore : Weapon
 {
+    public float attackRange = 2.0f;
+    public float attackDamge = 30f;
+    public Transform attackPoint;
+    public LayerMask enemyLayer;
+
     public override void UseWeapon()
     {
         PerformMeleeAttack();
@@ -11,14 +16,17 @@ public class Claymore : Weapon
 
     public void PerformMeleeAttack()
     {
-
+        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayer);
+        foreach(Collider enemy in hitEnemies)
+        {
+            enemy.GetComponent<Enemy>().TakeDamage(attackDamge, Element.Nomal);
+        }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnDrawGizmosSelected()
     {
-        if (other.CompareTag("Enemy"))
-        {
-            
-        }
+        if (attackPoint == null) return;
+
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }
