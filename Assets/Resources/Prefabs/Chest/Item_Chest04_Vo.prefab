@@ -77,7 +77,8 @@ GameObject:
   - component: {fileID: 1905951666054551718}
   - component: {fileID: -3293772923106468771}
   - component: {fileID: -1797817316569084903}
-  m_Layer: 0
+  - component: {fileID: -6696726418070305094}
+  m_Layer: 10
   m_Name: Item_Chest04_Vo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,6 +149,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keys: 
   chestType: 1
+--- !u!54 &-6696726418070305094
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3179360449371237533}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &5751074792533914264
 GameObject:
   m_ObjectHideFlags: 0
