@@ -49,6 +49,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Zoom",
+                    "type": "Value",
+                    "id": "bdb1688f-a8e3-4425-9e53-0849cb222b09",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -142,6 +151,17 @@
                 },
                 {
                     "name": "",
+                    "id": "a7e75bdc-76b7-4d67-bbdc-7631dfb58228",
+                    "path": "<Touchscreen>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mobile",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c01b2d2a-f148-43be-943e-0dc9b7bfdd23",
                     "path": "<Keyboard>/space",
                     "interactions": "",
@@ -159,6 +179,17 @@
                     "processors": "",
                     "groups": "PC",
                     "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f3be890b-b081-4790-9eb7-f32b253c0b4e",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Zoom",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

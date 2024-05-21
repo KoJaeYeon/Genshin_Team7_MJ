@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Threading;
 using UnityEngine;
@@ -6,11 +7,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 #endif
 
-[RequireComponent(typeof(CharacterController))]
-#if ENABLE_INPUT_SYSTEM
-[RequireComponent(typeof(PlayerInput))]
-#endif
-[RequireComponent(typeof(PlayerInputHandler))]
 public class PlayerController : MonoBehaviour
 {
     [Header("Player")]
@@ -56,8 +52,10 @@ public class PlayerController : MonoBehaviour
     public bool LockCameraPosition = false;
 
     //cinemachine
+    public CinemachineVirtualCamera virtualCamera;
     private float _cinemachineTargetYaw;
     private float _cinemachineTargetPitch;
+    private float _cinemachineDistance;
 
     //player
     private float _speed;
@@ -82,6 +80,8 @@ public class PlayerController : MonoBehaviour
     private int _animIDFreeFall;
     private int _animIDMotionSpeed;
     private int _animIDCliffCheck;
+    private int _animIDAttack = Animator.StringToHash("Attack");
+    private int _animIDAttacking = Animator.StringToHash("Attacking");
 
 #if ENABLE_INPUT_SYSTEM
     private PlayerInput _playerInput;
@@ -91,12 +91,13 @@ public class PlayerController : MonoBehaviour
     private CharacterController _controller;
     private PlayerInputHandler _input;
     private GameObject _mainCamera;
-    private Rigidbody _rb;
 
     private const float _threshold = 0.01f;
 
     private bool _hasAnimator;
     private bool rotateOnMove = true;
+
+    
 
     public CharacterData characterData;
 
@@ -106,24 +107,28 @@ public class PlayerController : MonoBehaviour
         {
             _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         }
+
+        _animator = GetComponent<Animator>();
+        _hasAnimator = TryGetComponent(out _animator);
     }
 
     private void Start()
     {
-        _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-
-        _hasAnimator = TryGetComponent(out _animator);
-        _controller = GetComponent<CharacterController>();
-        _input = GetComponent<PlayerInputHandler>();
+        
+        _controller = transform.parent.GetComponent<CharacterController>();
+        _input = transform.parent.GetComponent<PlayerInputHandler>();
 #if ENABLE_INPUT_SYSTEM
         _playerInput = GetComponent<PlayerInput>();
 #endif
-        _rb = GetComponent<Rigidbody>();
 
         AssignAnimationIDs();
 
         _jumpTimeoutDelta = JumpTimeout;
         _fallTimeoutDelta = FallTimeout;
+
+        CinemachineCameraTarget = GameObject.FindWithTag("Look");
+
+        _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
     }
 
     private void Update()
@@ -164,6 +169,8 @@ public class PlayerController : MonoBehaviour
         _animIDFreeFall = Animator.StringToHash("FreeFall");
         _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
         _animIDCliffCheck = Animator.StringToHash("Cliff");
+        _animIDAttack = Animator.StringToHash("Attack");
+        _animIDAttacking = Animator.StringToHash("Attacking");
     }
 
     private void GroundedCheck()
@@ -219,6 +226,11 @@ public class PlayerController : MonoBehaviour
 
         CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
             _cinemachineTargetYaw, 0.0f);
+        if(_input.zoom != 0)
+        {
+            Cinemachine3rdPersonFollow cinemachine3RdPersonFollow = virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+            cinemachine3RdPersonFollow.ShoulderOffset += new Vector3(0, 0, _input.zoom) / 120; 
+        }
 
     }
 
@@ -450,13 +462,12 @@ public class PlayerController : MonoBehaviour
     {
         if (_hasAnimator)
         {
-            _animator.SetTrigger("Attack");
-            _animator.SetBool("Attacking", true);
+            _animator.SetTrigger(_animIDAttack);
+            _animator.SetBool(_animIDAttacking, true);
         }
         else
         {
-            _animator.SetBool("Attacking", false);
+            _animator.SetBool(_animIDAttacking, false);
         }
-
     }
 }

@@ -5,7 +5,11 @@ public class CharacterData : ScriptableObject
 {
     public string characterName;
     public int level;
-    public int hp;
-    public int atk;
-    public RuntimeAnimatorController controller;
+    public float baseHp;
+    public float baseAtk;
+    public float baseDef;  
+
+    public Vector3 controllerCenter;
+    public float controllerRadius;
+    public float controllerHeight;
 }

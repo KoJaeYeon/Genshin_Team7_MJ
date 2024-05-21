@@ -64,9 +64,9 @@ public class IceHilichurl : Enemy, IColor
     //    }
     //}
 
-    public override void Damaged(Enemy enemy, float damage, Element element)
+    public override void TakeDamage(float damage, Element element)
     {
-        EnemyHealthDic[this] -= Armor(enemy, damage, element);
+        EnemyHealthDic[this] -= CalculateDamage(damage, element);
         HpSlider.value = EnemyHealthDic[this];
         transform.LookAt(Player.position);
         animator.SetTrigger("Hit");
