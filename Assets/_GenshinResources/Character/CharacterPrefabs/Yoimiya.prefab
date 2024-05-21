@@ -5004,10 +5004,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6717645907853128726}
   - component: {fileID: 853981370157690476}
-  - component: {fileID: 2554369851834553115}
-  - component: {fileID: 2554369851834553112}
   - component: {fileID: 2554369851834553113}
-  - component: {fileID: 2554369851834553114}
   - component: {fileID: 7613974840542350123}
   m_Layer: 7
   m_Name: Yoimiya
@@ -5068,44 +5065,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!143 &2554369851834553115
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6229058758253833900}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Height: 1.7
-  m_Radius: 0.25
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.02
-  m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 0.82, z: 0}
---- !u!114 &2554369851834553112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6229058758253833900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b0885a7a0013a140a9f067d519bd6b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  move: {x: 0, y: 0}
-  look: {x: 0, y: 0}
-  attack: 0
-  jump: 0
-  sprint: 0
-  analogMovement: 1
-  cursorLocked: 1
-  cursorInputForLook: 1
 --- !u!114 &2554369851834553113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5149,37 +5108,6 @@ MonoBehaviour:
   CameraAngleOverride: 0
   LockCameraPosition: 0
   characterData: {fileID: 0}
---- !u!114 &2554369851834553114
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6229058758253833900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: e4cf4e07d86029144bb4a059d40f5cd8,
-    type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: PC
-  m_DefaultActionMap: PlayerControl
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &7613974840542350123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5192,8 +5120,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7e36e343110bf341ad4993dc41be273, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterData: {fileID: 11400000, guid: 4f7e5ca0e38f0c3409db470f11738466, type: 2}
-  animator: {fileID: 853981370157690476}
+  weapons: []
+  detectionRange: 10
+  detectionAngle: 45
   arrowPrefab: {fileID: 0}
   arrowSpawnPoint: {fileID: 0}
   arrowSpeed: 0

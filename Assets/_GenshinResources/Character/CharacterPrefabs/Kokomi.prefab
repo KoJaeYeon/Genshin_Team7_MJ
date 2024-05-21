@@ -1058,11 +1058,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1984413875241949931}
   - component: {fileID: 5578307592928280721}
-  - component: {fileID: 5174772219023750309}
   - component: {fileID: 5174772219023750310}
-  - component: {fileID: 5174772219023750311}
-  - component: {fileID: 5174772219023750308}
-  - component: {fileID: 3413357674243470005}
+  - component: {fileID: 649958327676029090}
   m_Layer: 0
   m_Name: Kokomi
   m_TagString: Player
@@ -1112,24 +1109,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!143 &5174772219023750309
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1207489490438275153}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Height: 1.7
-  m_Radius: 0.25
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.02
-  m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 0.82, z: 0}
 --- !u!114 &5174772219023750310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1173,7 +1152,7 @@ MonoBehaviour:
   CameraAngleOverride: 0
   LockCameraPosition: 0
   characterData: {fileID: 0}
---- !u!114 &5174772219023750311
+--- !u!114 &649958327676029090
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1182,62 +1161,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1207489490438275153}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b0885a7a0013a140a9f067d519bd6b2, type: 3}
+  m_Script: {fileID: 11500000, guid: 19de678458917c94495ebe6c93787f57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  move: {x: 0, y: 0}
-  look: {x: 0, y: 0}
-  attack: 0
-  jump: 0
-  sprint: 0
-  analogMovement: 1
-  cursorLocked: 1
-  cursorInputForLook: 1
---- !u!114 &5174772219023750308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1207489490438275153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: e4cf4e07d86029144bb4a059d40f5cd8,
-    type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: PC
-  m_DefaultActionMap: PlayerControl
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
---- !u!114 &3413357674243470005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1207489490438275153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93b944d04416a504f844887f207ed8be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterData: {fileID: 11400000, guid: ef27d79d443a8894a9f31a4f7235b25d, type: 2}
-  animator: {fileID: 5578307592928280721}
+  weapons: []
+  detectionRange: 10
+  detectionAngle: 45
+  attackType: 1
+  projectilePrefab: {fileID: 0}
+  launchPoint: {fileID: 0}
+  projectileSpeed: 0
 --- !u!1 &1210534338772980927
 GameObject:
   m_ObjectHideFlags: 0
