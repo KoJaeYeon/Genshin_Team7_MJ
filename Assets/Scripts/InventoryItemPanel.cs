@@ -17,7 +17,7 @@ public class InventoryItemPanel : MonoBehaviour,IItemPanel
         itemType = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
         itemDescription = transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
     }
-    public void UpdateItemPanel(int id)
+    public void UpdateItemPanel(int id, CharacterItemSprite c)
     {
         Item item = ItemDatabase.Instance.GetItem(id);
         itemName.text = item.itemName;

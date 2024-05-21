@@ -4,11 +4,11 @@ using UnityEngine;
 
 public enum CharacterItemSprite
 {
-    Beidu,
+    Beidou,
     Kokomi,
     Wriothesley,
     Yoimiya,
-        None
+    None
 }
 public class ItemDatabase : Singleton<ItemDatabase>
 {
@@ -30,29 +30,34 @@ public class ItemDatabase : Singleton<ItemDatabase>
         for (var i = 0; i < data.Count; i++)
         {
             bool isTrue = data[i]["isEquip"].ToString() == "TRUE" ? true : false;
-            DefenceType defenceType;
-            switch(data[i]["relicType"].ToString())
+            EqiupType eqiupType;
+            switch(data[i]["equipType"].ToString())
             {
                 case "Flower":
-                    defenceType = DefenceType.Flower;
+                    eqiupType = EqiupType.Flower;
                     break;
                 case "Feather":
-                    defenceType = DefenceType.Feather;
+                    eqiupType = EqiupType.Feather;
                     break;
                 case "SandTime":
-                    defenceType = DefenceType.SandTime;
+                    eqiupType = EqiupType.SandTime;
                     break;
                 case "Trophy":
-                    defenceType = DefenceType.Trophy;
+                    eqiupType = EqiupType.Trophy;
                     break;
                 case "Crown":
-                    defenceType = DefenceType.Crown;
+                    eqiupType = EqiupType.Crown;
                     break;
                 default:
-                    defenceType = DefenceType.Flower;
+                    eqiupType = EqiupType.Flower;
                     break;
             }
-            itemDictionary.Add(int.Parse(data[i]["id"].ToString()), new Item(int.Parse(data[i]["id"].ToString()), data[i]["name"].ToString(), int.Parse(data[i]["count"].ToString()), isTrue, float.Parse(data[i]["weaponDamage"].ToString()), defenceType, float.Parse(data[i]["value"].ToString()), data[i]["description"].ToString()));
+            itemDictionary.Add(int.Parse(data[i]["id"].ToString()), new Item(int.Parse(data[i]["id"].ToString()), data[i]["name"].ToString(), int.Parse(data[i]["count"].ToString()), isTrue, eqiupType, float.Parse(data[i]["value"].ToString()), data[i]["description"].ToString()));
+        }
+
+        for(int i = 0; i < characterSprites.Length; i++)
+        {
+            characterSpriteDictionary.Add((CharacterItemSprite)i, characterSprites[i]);
         }
 
         int index = 0;
@@ -60,7 +65,7 @@ public class ItemDatabase : Singleton<ItemDatabase>
         {
             itemSpriteDictionary.Add(i, sprites[index++]);
         }
-        for (int i = 101; i <= 110; i++)
+        for (int i = 101; i <= 115; i++)
         {
             itemSpriteDictionary.Add(i, sprites[index++]);
         }
@@ -90,8 +95,8 @@ public class ItemDatabase : Singleton<ItemDatabase>
         return chestSprites[num];
     }
 
-    public DefenceType GetRelicType(int id)
+    public EqiupType GetRelicType(int id)
     {
-        return itemDictionary[id].defenceType;
+        return itemDictionary[id].equipType;
     }
 }

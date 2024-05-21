@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EquipManager : Singleton<EquipManager>
 {
+    public CharacterItemSprite character = CharacterItemSprite.None;
     public EquipStats beidou_Equip;
     public EquipStats kokomi_Equip;
     public EquipStats wrio_Equip;
@@ -18,4 +19,6 @@ public struct EquipStats
     public float sandTime_HelathPercent;
     public float trohphy_AttackPercent;
     public float crown_defencePercent;
+
+    public int[] itemSlotKeys;
 }

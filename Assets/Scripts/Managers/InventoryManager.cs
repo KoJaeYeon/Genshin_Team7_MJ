@@ -65,11 +65,11 @@ public class InventoryManager : Singleton<InventoryManager>
         }
     }
 
-    public void Load_Relic(Transform relicContent, DefenceType defenceType)
+    public void Load_Relic(Transform relicContent, EqiupType equipType)
     {
         foreach (ItemSlot itemSlot in slotdefenceDictionary.Values)
         {
-            if (itemSlot.GetRelicType() != defenceType) continue;
+            if (itemSlot.GetRelicType() != equipType) continue;
             itemSlot.transform.SetParent(relicContent);
             itemSlot.transform.localScale = Vector3.one;
 
@@ -109,7 +109,7 @@ public class InventoryManager : Singleton<InventoryManager>
                 SetOtherSlot(item.id, otherDictionary[item.id]);
             }
         }
-        else if(item.weaponDamage > 0)
+        else if((int)item.equipType < 5)
         {
             int index = 0;
             while(weaponDictionary.ContainsKey(index))
@@ -178,6 +178,44 @@ public class InventoryManager : Singleton<InventoryManager>
             slototherDictionary.Add(key, itemSlot);
             itemSlot.InitUpdateSlot(key, item);
             itemSlot.gameObject.SetActive(true);
+        }
+    }
+
+    public void InitItemSet()
+    {
+        //성유물
+        for (int i = 0; i < 3; i++)
+        {
+            GetItem(ItemDatabase.Instance.GetItem(101));
+            GetItem(ItemDatabase.Instance.GetItem(102));
+            GetItem(ItemDatabase.Instance.GetItem(103));
+            GetItem(ItemDatabase.Instance.GetItem(104));
+            GetItem(ItemDatabase.Instance.GetItem(105));
+        }
+        for (int i = 0; i < 1; i++)
+        {
+            GetItem(ItemDatabase.Instance.GetItem(106));
+            GetItem(ItemDatabase.Instance.GetItem(107));
+            GetItem(ItemDatabase.Instance.GetItem(108));
+            GetItem(ItemDatabase.Instance.GetItem(109));
+            GetItem(ItemDatabase.Instance.GetItem(110));
+        }
+        for (int i = 0; i < 1; i++)
+        {
+            GetItem(ItemDatabase.Instance.GetItem(111));
+            GetItem(ItemDatabase.Instance.GetItem(112));
+            GetItem(ItemDatabase.Instance.GetItem(113));
+            GetItem(ItemDatabase.Instance.GetItem(114));
+            GetItem(ItemDatabase.Instance.GetItem(115));
+        }
+        //초상화 적용
+        for (int i = 0;i < 4;i++)
+        {
+            slotdefenceDictionary[0 +5*i].OwnerChange((CharacterItemSprite)i);
+            slotdefenceDictionary[1 +5*i].OwnerChange((CharacterItemSprite)i);
+            slotdefenceDictionary[2 +5*i].OwnerChange((CharacterItemSprite)i);
+            slotdefenceDictionary[3 +5*i].OwnerChange((CharacterItemSprite)i);
+            slotdefenceDictionary[4 +5*i].OwnerChange((CharacterItemSprite)i);
         }
     }
 }

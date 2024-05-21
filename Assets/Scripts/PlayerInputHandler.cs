@@ -24,7 +24,6 @@ public class PlayerInputHandler : MonoBehaviour
     public void OnMove(InputValue value)
     {
         MoveInput(value.Get<Vector2>());
-        Debug.Log(value.Get<Vector2>());
     }
 
     public void OnLook(InputValue value)

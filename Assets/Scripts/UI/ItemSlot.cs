@@ -32,7 +32,7 @@ public class ItemSlot : MonoBehaviour
         {
             text.text = item.count.ToString();
         }
-        else if (item.weaponDamage > 0)
+        else if ((int)item.equipType < 5)
         {
             text.text = "Lv.90";
         }
@@ -50,25 +50,30 @@ public class ItemSlot : MonoBehaviour
 
     public void ShowData()
     {
-        UIManager.Instance.showDataUpdate(id);
+        UIManager.Instance.showDataUpdate(id, character);
     }
 
     public void OwnerChange(CharacterItemSprite character)
     {
-        switch(character)
+        this.character = character;
+        switch (character)
         {
             case CharacterItemSprite.None:
-                characterImage.transform.parent.gameObject.SetActive(false);
+                characterImage.transform.parent.gameObject.SetActive(false);                
                 break;
             default:
-                this.character = character;
                 characterImage.sprite = ItemDatabase.Instance.GetCharacterSprite(character);
                 characterImage.transform.parent.gameObject.SetActive(true);
                 break;
         }        
     }
 
-    public DefenceType GetRelicType()
+    public void UnEquip()
+    {
+
+    }
+
+    public EqiupType GetRelicType()
     {
         return ItemDatabase.Instance.GetRelicType(id);
     }

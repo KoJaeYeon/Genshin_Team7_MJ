@@ -36,7 +36,7 @@ public class RelicSelectButton : MonoBehaviour
                 vector3.x = relic_Panel_Icon_Image[i].transform.position.x;
                 barImage.transform.position = vector3;
 
-                InventoryManager.Instance.Load_Relic(relic_Content, (DefenceType)i);
+                InventoryManager.Instance.Load_Relic(relic_Content, (EqiupType)i+5);
             }
             else
             {
