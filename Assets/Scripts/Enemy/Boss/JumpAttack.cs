@@ -13,12 +13,7 @@ public class JumpAttack : IPattern
     public void BossAttack()
     {
         Debug.Log("Jump ½ÇÇà");
-        m_Wolf.State.ChangeState(BossState.Attack);
-
-
-
-        
-
+       
     }
 
 }
