@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RangedCatalystCharacter : CatalystCharacter
+public class RangedWeapon : Weapon
 {
     public GameObject projectilePrefab;
     public Transform launchPoint;
     public float projectileSpeed;
 
-    public override void Attack()
+    public override void UseWeapon()
     {
-        base.Attack();
         ShootProjectile();
     }
 
@@ -19,10 +18,5 @@ public class RangedCatalystCharacter : CatalystCharacter
         GameObject projectile = Instantiate(projectilePrefab, launchPoint.position, launchPoint.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         rb.velocity = launchPoint.forward * projectileSpeed;
-    }
-
-    protected override void Update()
-    {
-        base.Update();
     }
 }

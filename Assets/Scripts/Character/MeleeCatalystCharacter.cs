@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeCatalystCharacter : MonoBehaviour
+public class MeleeCatalystCharacter : CatalystCharacter
 {
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if(weapons.Length > 0 && weapons[currentWeaponIndex].gameObject.activeSelf)
+        {
+            
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-        
+        base.Update();
     }
 }
