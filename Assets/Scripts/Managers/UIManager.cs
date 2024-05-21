@@ -145,8 +145,6 @@ public class UIManager : Singleton<UIManager>
         damageText.text = damage.ToString();
         GameObject next = Instantiate(damageTextPrefap, MonsterPoint.position, Quaternion.identity);
         next.transform.SetParent(MonsterPoint);
-
-      
     }
 
 }
