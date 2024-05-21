@@ -21,7 +21,10 @@ public enum BossPattern
 public class Wolf : Enemy
 {
     private bool enemyCommand = true;
+    private bool battleStart = true;
     private bool turn = true;
+    private bool coolTime = false;
+    private float Timer;
     private BossPattern Pattern;
     private Rigidbody bossRigid;
     private Vector3 currentTrans;
@@ -105,6 +108,24 @@ public class Wolf : Enemy
         get { return turn; }
         set { turn = value; }
     }
+    public bool BattleStart
+    {
+        get { return battleStart; }
+        set { battleStart = value; }
+    }
+    public bool OnSkill
+    {
+        get { return coolTime; }
+        set { coolTime = value; }
+    }
+
+    public IEnumerator SkillCoolTime()
+    {
+        Debug.Log("쿨타임 진행중");
+        yield return new WaitForSeconds(5.0f);
+
+        coolTime = true;
+    }
 
     public override void Damaged(Enemy enemy, float damage, Element element)
     {
@@ -146,6 +167,7 @@ public class WolfIdle : WolfState
 
     public override void StateEnter()
     {
+        m_Wolf.BossAgent.enabled = true;
         m_Wolf.BossAgent.SetDestination(m_Wolf.PlayerTransform.position);
     }
 
@@ -153,18 +175,22 @@ public class WolfIdle : WolfState
     {
         m_Wolf.BossAnimator.SetBool("isMove", false);
         m_Wolf.BossAgent.SetDestination(m_Wolf.transform.position);
+        m_Wolf.BossAgent.enabled = false;
     }
     public override void StateFixedUpdate()
     {
-        timer += Time.fixedDeltaTime;
-
-        if (Distance() > m_Wolf.BossAgent.stoppingDistance && timer <= 7.0f)
+        if (m_Wolf.BattleStart)
         {
-            m_Wolf.BossAgent.SetDestination(m_Wolf.PlayerTransform.position);
-            m_Wolf.BossAnimator.SetBool("isMove", true);
+            timer += Time.fixedDeltaTime;
+
+            if (Distance() > m_Wolf.BossAgent.stoppingDistance && timer <= 7.0f)
+            {
+                m_Wolf.BossAgent.SetDestination(m_Wolf.PlayerTransform.position);
+                m_Wolf.BossAnimator.SetBool("isMove", true);
+            }
+            else
+                m_Wolf.State.ChangeState(BossState.Attack);
         }
-        else
-            m_Wolf.State.ChangeState(BossState.Attack);
     }
 
     private float Distance()
@@ -177,11 +203,9 @@ public class WolfAttackState : WolfState
 {
     public WolfAttackState(Wolf wolf) : base(wolf) { }
 
-  
-
     public override void StateEnter()
     {
-        m_Wolf.BossAgent.enabled = false;
+        m_Wolf.StartCoroutine(m_Wolf.SkillCoolTime());
     }
 
     public override void StateExit()
@@ -191,20 +215,16 @@ public class WolfAttackState : WolfState
 
     public override void StateFixedUpdate()
     {
-        Angle();
+        if (Distance() <= 7.0f && m_Wolf.OnSkill)
+        {
+            m_Wolf.State.ChangeState(BossState.Claw);
+        }
+        if (!m_Wolf.OnSkill)
+        {
+            Angle();
+        }
     }
     
-    //private void Rot()
-    //{
-    //    m_Wolf.BossAnimator.SetTrigger("TurnLeft");
-
-    //    Vector3 dir = (m_Wolf.PlayerTransform.position - m_Wolf.transform.position).normalized;
-
-    //    Quaternion targetRot = Quaternion.LookRotation(dir);
-
-    //    m_Wolf.transform.rotation = Quaternion.Slerp(m_Wolf.transform.rotation, targetRot, 1.0f * Time.fixedDeltaTime);
-    //}
-
     private void Angle()
     {
         Vector3 targetDirection = (m_Wolf.PlayerTransform.position - m_Wolf.transform.position).normalized;
@@ -213,26 +233,22 @@ public class WolfAttackState : WolfState
         float angle = Vector3.SignedAngle(selfDirection, targetDirection, Vector3.up);
 
         if (angle >= 120.0f && m_Wolf.Turn)
+        {
             m_Wolf.BossAnimator.SetTrigger("TurnRight");
+            m_Wolf.Turn = false;
+        }
         else if (angle <= -120.0f && m_Wolf.Turn)
+        {
             m_Wolf.BossAnimator.SetTrigger("TurnLeft");
+            m_Wolf.Turn = false;
+        }
     }
-    private void Rot()
-    {
-        Vector3 targetPos = m_Wolf.PlayerTransform.position - m_Wolf.transform.position;
-        float Dot = Vector3.Dot(m_Wolf.transform.right, targetPos);
 
-        if(Dot < 0)
-        {
-            Quaternion targetRot = Quaternion.LookRotation(-targetPos, Vector3.up);
-            m_Wolf.transform.rotation = Quaternion.Slerp(m_Wolf.transform.rotation, targetRot, 1.0f * Time.fixedDeltaTime);
-        }
-        else
-        {
-            Quaternion targetRot = Quaternion.LookRotation(targetPos, Vector3.up);
-            m_Wolf.transform.rotation = Quaternion.Slerp(m_Wolf.transform.rotation, targetRot, 1.0f * Time.fixedDeltaTime);
-        }
-        
+
+
+    private float Distance()
+    {
+        return Vector3.Distance(m_Wolf.transform.position, m_Wolf.PlayerTransform.position);
     }
     
 }
