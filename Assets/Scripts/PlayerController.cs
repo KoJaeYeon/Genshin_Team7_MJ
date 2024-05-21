@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Threading;
 using UnityEngine;
@@ -51,8 +52,10 @@ public class PlayerController : MonoBehaviour
     public bool LockCameraPosition = false;
 
     //cinemachine
+    public CinemachineVirtualCamera virtualCamera;
     private float _cinemachineTargetYaw;
     private float _cinemachineTargetPitch;
+    private float _cinemachineDistance;
 
     //player
     private float _speed;
@@ -223,6 +226,11 @@ public class PlayerController : MonoBehaviour
 
         CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
             _cinemachineTargetYaw, 0.0f);
+        if(_input.zoom != 0)
+        {
+            Cinemachine3rdPersonFollow cinemachine3RdPersonFollow = virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+            cinemachine3RdPersonFollow.ShoulderOffset += new Vector3(0, 0, _input.zoom) / 120; 
+        }
 
     }
 
