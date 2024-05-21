@@ -831,7 +831,7 @@ GameObject:
   - component: {fileID: 376300041808720554}
   - component: {fileID: 6041805607642917072}
   - component: {fileID: 7563140758634980061}
-  - component: {fileID: 8766290361693556696}
+  - component: {fileID: -3963240903054677831}
   m_Layer: 7
   m_Name: Beidou
   m_TagString: Player
@@ -933,7 +933,7 @@ MonoBehaviour:
   CameraAngleOverride: 0
   LockCameraPosition: 0
   characterData: {fileID: 11400000, guid: 4872aac53079cc4429ab0ba52d84d7ef, type: 2}
---- !u!114 &8766290361693556696
+--- !u!114 &-3963240903054677831
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -945,10 +945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 231c0c20345c7c64ab7144fdfcc2ea66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapons:
-  - {fileID: 8062249680392649851, guid: d52628e1a79baed4f89f28b6b6afbdbf, type: 3}
-  - {fileID: -629663087521792052, guid: 062ef618b4111f34e9603fc9847f1411, type: 3}
-  - {fileID: 1307554870381414379, guid: 3ae37513818701e4baf85fce8b9d3f83, type: 3}
+  weapons: []
   detectionRange: 10
   detectionAngle: 45
 --- !u!1 &1053165515183153184
@@ -7552,7 +7549,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -4632077408275849323, guid: 3ae37513818701e4baf85fce8b9d3f83, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3ae37513818701e4baf85fce8b9d3f83, type: 3}
 --- !u!4 &8761874740643883908 stripped
 Transform:
@@ -7632,7 +7630,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -3102258662047475868, guid: d52628e1a79baed4f89f28b6b6afbdbf, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d52628e1a79baed4f89f28b6b6afbdbf, type: 3}
 --- !u!4 &7130968608776826400 stripped
 Transform:
@@ -7707,7 +7706,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6443029320821895241, guid: 062ef618b4111f34e9603fc9847f1411, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 062ef618b4111f34e9603fc9847f1411, type: 3}
 --- !u!4 &4320874725439969852 stripped
 Transform:
