@@ -10,6 +10,7 @@ using UnityEngine.Rendering;
 #if ENABLE_INPUT_SYSTEM
 [RequireComponent(typeof(PlayerInput))]
 #endif
+[RequireComponent(typeof(PlayerInputHandler))]
 public class PlayerController : MonoBehaviour
 {
     [Header("Player")]
@@ -97,7 +98,7 @@ public class PlayerController : MonoBehaviour
     private bool _hasAnimator;
     private bool rotateOnMove = true;
 
-    public PlayerSO playerData;
+    public CharacterData characterData;
 
     private void Awake()
     {
@@ -135,18 +136,6 @@ public class PlayerController : MonoBehaviour
         CliffCheck();
         Move();
         Climb();
-
-        //CliffCheck();
-
-        //if (Grounded == true)
-        //{
-        //    Move();
-        //}
-
-        //if (Cliff == true)
-        //{
-        //    Climb();
-        //}
 
         if (_input.attack)
         {
@@ -470,6 +459,4 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-
-    
 }

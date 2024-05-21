@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -23,6 +22,7 @@ public class Chest : MonoBehaviour,IInteractable
         for (int i = 0;  i < keys.Length; i++)
         {
             dropObjects[i] = PoolManager.Instance.Get_DropObject(keys[i]);
+            dropObjects[i].gameObject.SetActive(false);
         }
         InitItemSlot();
 
@@ -51,7 +51,7 @@ public class Chest : MonoBehaviour,IInteractable
         foreach(DropObject dropObject in dropObjects)
         {
             dropObject.gameObject.SetActive(true);
-            dropObject.transform.position = transform.position;
+            dropObject.transform.position = transform.position + new Vector3(Random.Range(0.1f,0.3f),0,Random.Range(0.1f,0.3f));
         }
         StartCoroutine(DisappearChest());
     }

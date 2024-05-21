@@ -29,7 +29,7 @@ public class ItemGetPanelSlot : MonoBehaviour
     }
     IEnumerator Return_Panel()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         PoolManager.Instance.Return_ItemGetPanelSlot(this);
         yield break;
     }
