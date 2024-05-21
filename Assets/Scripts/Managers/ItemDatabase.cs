@@ -111,7 +111,7 @@ public class ItemDatabase : Singleton<ItemDatabase>
         return chestSprites[num];
     }
 
-    public EqiupType GetRelicType(int id)
+    public EqiupType GetEquipType(int id)
     {
         return itemDictionary[id].equipType;
     }

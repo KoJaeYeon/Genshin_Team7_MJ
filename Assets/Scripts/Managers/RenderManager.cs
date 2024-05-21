@@ -11,6 +11,8 @@ public class RenderManager : MonoBehaviour
     MeshRenderer[] meshRenderers;
     public Transform barTrans_Parent;
     Transform barTrans;
+    public PropertyText_Weapon weaponPropertyText;
+    public PropertyText_Relic relicPropertyText;
 
     private void Awake()
     {
@@ -30,6 +32,8 @@ public class RenderManager : MonoBehaviour
     public void ChangeCharacter(int index)
     {
         EquipManager.Instance.character = (CharacterItemSprite)index;
+        weaponPropertyText.UpdatePanel();
+        relicPropertyText.UpdatePanel();
         renderImage.touched = false;
         for (int i = 0; i < Manekins.Length; i++)
         {

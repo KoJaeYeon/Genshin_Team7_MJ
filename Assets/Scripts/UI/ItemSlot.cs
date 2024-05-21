@@ -10,7 +10,7 @@ public class ItemSlot : MonoBehaviour
     int id;
     string itemName;
     int count;
-    CharacterItemSprite character;
+    public CharacterItemSprite character;
     Image backgrondColor;
     Image itemImage;
     TextMeshProUGUI text;
@@ -22,6 +22,7 @@ public class ItemSlot : MonoBehaviour
         itemImage = transform.GetChild(0). GetChild(1).GetComponent<Image>();
         text = transform.GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
         characterImage = transform.GetChild(0).GetChild(3).GetChild(0).GetComponent<Image>();
+        character = CharacterItemSprite.None;
     }
     public void InitUpdateSlot(int key, Item item)
     {
@@ -54,6 +55,7 @@ public class ItemSlot : MonoBehaviour
     public void ShowData()
     {
         UIManager.Instance.showDataUpdate(id, character);
+        EquipManager.Instance.itemSlot = this;
     }
 
     public void OwnerChange(CharacterItemSprite character)
@@ -76,8 +78,18 @@ public class ItemSlot : MonoBehaviour
 
     }
 
-    public EqiupType GetRelicType()
+    public int GetId()
     {
-        return ItemDatabase.Instance.GetRelicType(id);
+        return id;
+    }
+
+    public int GetKey()
+    {
+        return key;
+    }
+
+    public EqiupType GetEquipType()
+    {
+        return ItemDatabase.Instance.GetEquipType(id);
     }
 }

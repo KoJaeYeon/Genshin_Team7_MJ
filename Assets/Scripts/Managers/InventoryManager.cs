@@ -58,6 +58,21 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         foreach(ItemSlot itemSlot in slotWeaponDictionary.Values)
         {
+            switch( EquipManager.Instance.character)
+            {
+                case CharacterItemSprite.Beidou:
+                    if (itemSlot.GetEquipType() != EqiupType.Claymore) continue;
+                    break;
+                case CharacterItemSprite.Kokomi:
+                    if (itemSlot.GetEquipType() != EqiupType.Catalyst) continue;
+                    break;
+                case CharacterItemSprite.Wriothesley:
+                    if (itemSlot.GetEquipType() != EqiupType.Catalyst) continue;
+                    break;
+                case CharacterItemSprite.Yoimiya:
+                    if (itemSlot.GetEquipType() != EqiupType.Bow) continue;
+                    break;
+            }
             itemSlot.transform.SetParent(weaponContent);
             itemSlot.transform.localScale = Vector3.one;
 
@@ -69,7 +84,7 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         foreach (ItemSlot itemSlot in slotdefenceDictionary.Values)
         {
-            if (itemSlot.GetRelicType() != equipType) continue;
+            if (itemSlot.GetEquipType() != equipType) continue;
             itemSlot.transform.SetParent(relicContent);
             itemSlot.transform.localScale = Vector3.one;
 
@@ -97,7 +112,6 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public void GetItem(Item item)
     {
-        Debug.Log((int)item.equipType);
         if (item.isEquip == false)
         {
             if (otherDictionary.TryAdd(item.id, item))
@@ -187,9 +201,9 @@ public class InventoryManager : Singleton<InventoryManager>
         //무기
         {
             GetItem(ItemDatabase.Instance.GetItem(5));
-            GetItem(ItemDatabase.Instance.GetItem(6));
-            GetItem(ItemDatabase.Instance.GetItem(9));
             GetItem(ItemDatabase.Instance.GetItem(10));
+            GetItem(ItemDatabase.Instance.GetItem(9));
+            GetItem(ItemDatabase.Instance.GetItem(6));
             GetItem(ItemDatabase.Instance.GetItem(13));
         }
 
@@ -222,11 +236,36 @@ public class InventoryManager : Singleton<InventoryManager>
         for (int i = 0;i < 4;i++)
         {
             slotWeaponDictionary[i].OwnerChange((CharacterItemSprite)i);
-            slotdefenceDictionary[0 +5*i].OwnerChange((CharacterItemSprite)i);
+            slotdefenceDictionary[0 +5*i].OwnerChange((CharacterItemSprite)i);            
             slotdefenceDictionary[1 +5*i].OwnerChange((CharacterItemSprite)i);
             slotdefenceDictionary[2 +5*i].OwnerChange((CharacterItemSprite)i);
             slotdefenceDictionary[3 +5*i].OwnerChange((CharacterItemSprite)i);
             slotdefenceDictionary[4 +5*i].OwnerChange((CharacterItemSprite)i);
+
+            //장비착용
+            EquipManager.Instance.Equip(slotWeaponDictionary[i]);
+            EquipManager.Instance.Equip(slotdefenceDictionary[0 + 5 * i]);
+            EquipManager.Instance.Equip(slotdefenceDictionary[1 + 5 * i]);
+            EquipManager.Instance.Equip(slotdefenceDictionary[2 + 5 * i]);
+            EquipManager.Instance.Equip(slotdefenceDictionary[3 + 5 * i]);
+            EquipManager.Instance.Equip(slotdefenceDictionary[4 + 5 * i]);
         }
+    }
+
+    public ItemSlot GetWeaponItemSlot(int key)
+    {
+        return slotWeaponDictionary[key];
+    }
+    public ItemSlot GetRelicItemSlot(int key)
+    {
+        return slotdefenceDictionary[key];
+    }
+    public Item GetWeaponItem(int key)
+    {
+        return weaponDictionary[key];
+    }
+    public Item GetRelicItem(int key)
+    {
+        return defenceDictionary[key];
     }
 }
