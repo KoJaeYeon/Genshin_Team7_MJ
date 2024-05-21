@@ -110,10 +110,9 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
         _hasAnimator = TryGetComponent(out _animator);
-        _controller = GetComponent<CharacterController>();
+        _controller = transform.parent.GetComponent<CharacterController>();
         _input = GetComponent<PlayerInputHandler>();
 #if ENABLE_INPUT_SYSTEM
         _playerInput = GetComponent<PlayerInput>();
@@ -124,6 +123,10 @@ public class PlayerController : MonoBehaviour
 
         _jumpTimeoutDelta = JumpTimeout;
         _fallTimeoutDelta = FallTimeout;
+
+        CinemachineCameraTarget = GameObject.FindWithTag("Look");
+
+        _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
     }
 
     private void Update()

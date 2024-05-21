@@ -8,4 +8,8 @@ public class CharacterData : ScriptableObject
     public int hp;
     public int atk;
     public RuntimeAnimatorController controller;
+
+    public Vector3 controllerCenter;
+    public float controllerRadius;
+    public float controllerHeight;
 }
