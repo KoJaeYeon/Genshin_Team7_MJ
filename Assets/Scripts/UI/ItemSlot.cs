@@ -11,15 +11,17 @@ public class ItemSlot : MonoBehaviour
     string itemName;
     int count;
     CharacterItemSprite character;
+    Image backgrondColor;
     Image itemImage;
-    Image characterImage;
     TextMeshProUGUI text;
+    Image characterImage;
 
     private void Awake()
     {
-        itemImage = transform.GetChild(0). GetChild(0).GetComponent<Image>();
-        characterImage = transform.GetChild(0).GetChild(2).GetChild(0).GetComponent<Image>();
-        text = transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+        backgrondColor = transform.GetChild(0).GetComponent<Image>();
+        itemImage = transform.GetChild(0). GetChild(1).GetComponent<Image>();
+        text = transform.GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        characterImage = transform.GetChild(0).GetChild(3).GetChild(0).GetComponent<Image>();
     }
     public void InitUpdateSlot(int key, Item item)
     {
@@ -40,6 +42,7 @@ public class ItemSlot : MonoBehaviour
         {
             text.text = "+20";
         }
+        backgrondColor.color = ItemDatabase.Instance.GetColor(item.star);
         characterImage.transform.parent.gameObject.SetActive(false);
     }
     public void UpdateSlot(Item item)

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum EqiupType
 {
-    ClayMore,
+    Claymore,
     Catalyst,
     Bow,
     Pole,
@@ -28,6 +28,7 @@ public class Item
     float _value;
     string _description;
     int indexId;
+    int _star;
 
     #region Property
     public int id { get => _id; set => _id = value; }
@@ -37,9 +38,10 @@ public class Item
     public EqiupType equipType {  get => _equipType; set => _equipType = value; }
     public float value { get => _value; set => _value = value; }
     public string description { get => _description; set => _description = value; }
+    public int star { get => _star; set => _star = value; }
     #endregion
 
-    public Item(int id, string itemname , int count, bool isEquip, EqiupType defenceType, float value, string description)
+    public Item(int id, string itemname , int count, bool isEquip, EqiupType defenceType, float value, string description, int star)
     {
         _id = id;
         _itemName = itemname;
@@ -48,6 +50,7 @@ public class Item
         _equipType = defenceType;
         _value = value;
         _description=description;
+        _star = star;
     }
 
     public Item(Item item)
@@ -59,6 +62,7 @@ public class Item
         _equipType = item._equipType;
         _value = item._value;
         _description = item._description;
+        _star = item._star;
     }
 
     public override bool Equals(object obj)

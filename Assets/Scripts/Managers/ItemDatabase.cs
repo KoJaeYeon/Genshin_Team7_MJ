@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public enum CharacterItemSprite
 {
@@ -33,6 +34,21 @@ public class ItemDatabase : Singleton<ItemDatabase>
             EqiupType eqiupType;
             switch(data[i]["equipType"].ToString())
             {
+                case "Claymore":
+                    eqiupType = EqiupType.Claymore;
+                    break;
+                case "Bow":
+                    eqiupType = EqiupType.Bow;
+                    break;
+                case "Catalyst":
+                    eqiupType = EqiupType.Catalyst;
+                    break;
+                case "Pole":
+                    eqiupType = EqiupType.Pole;
+                    break;
+                case "Sword":
+                    eqiupType = EqiupType.Sword;
+                    break;
                 case "Flower":
                     eqiupType = EqiupType.Flower;
                     break;
@@ -52,7 +68,7 @@ public class ItemDatabase : Singleton<ItemDatabase>
                     eqiupType = EqiupType.Flower;
                     break;
             }
-            itemDictionary.Add(int.Parse(data[i]["id"].ToString()), new Item(int.Parse(data[i]["id"].ToString()), data[i]["name"].ToString(), int.Parse(data[i]["count"].ToString()), isTrue, eqiupType, float.Parse(data[i]["value"].ToString()), data[i]["description"].ToString()));
+            itemDictionary.Add(int.Parse(data[i]["id"].ToString()), new Item(int.Parse(data[i]["id"].ToString()), data[i]["name"].ToString(), int.Parse(data[i]["count"].ToString()), isTrue, eqiupType, float.Parse(data[i]["value"].ToString()), data[i]["description"].ToString(), int.Parse(data[i]["star"].ToString())));
         }
 
         for(int i = 0; i < characterSprites.Length; i++)
@@ -98,5 +114,25 @@ public class ItemDatabase : Singleton<ItemDatabase>
     public EqiupType GetRelicType(int id)
     {
         return itemDictionary[id].equipType;
+    }
+
+    public Color GetColor(int star)
+    {
+        switch (star)
+        {
+            case 1:
+                return new Color(123 / 255f, 123 / 255f, 123 / 255f);
+            case 2:
+                return new Color(89 / 255f, 149 / 255f, 128 / 255f);
+            case 3:
+                return new Color(84 / 255f, 129 / 255f, 166 / 255f);
+            case 4:
+                return new Color(138 / 255f, 105 / 255f, 170 / 255f);
+            case 5:
+                return new Color(166 / 255f, 108 / 255f, 42 / 255f);
+            default:
+                return Color.white;
+        }
+        
     }
 }

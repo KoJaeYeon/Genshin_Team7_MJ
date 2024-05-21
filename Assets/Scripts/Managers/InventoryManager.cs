@@ -97,6 +97,7 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public void GetItem(Item item)
     {
+        Debug.Log((int)item.equipType);
         if (item.isEquip == false)
         {
             if (otherDictionary.TryAdd(item.id, item))
@@ -183,6 +184,15 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public void InitItemSet()
     {
+        //무기
+        {
+            GetItem(ItemDatabase.Instance.GetItem(5));
+            GetItem(ItemDatabase.Instance.GetItem(6));
+            GetItem(ItemDatabase.Instance.GetItem(9));
+            GetItem(ItemDatabase.Instance.GetItem(10));
+            GetItem(ItemDatabase.Instance.GetItem(13));
+        }
+
         //성유물
         for (int i = 0; i < 3; i++)
         {
@@ -211,6 +221,7 @@ public class InventoryManager : Singleton<InventoryManager>
         //초상화 적용
         for (int i = 0;i < 4;i++)
         {
+            slotWeaponDictionary[i].OwnerChange((CharacterItemSprite)i);
             slotdefenceDictionary[0 +5*i].OwnerChange((CharacterItemSprite)i);
             slotdefenceDictionary[1 +5*i].OwnerChange((CharacterItemSprite)i);
             slotdefenceDictionary[2 +5*i].OwnerChange((CharacterItemSprite)i);
