@@ -22,6 +22,7 @@ public class Chest : MonoBehaviour,IInteractable
         for (int i = 0;  i < keys.Length; i++)
         {
             dropObjects[i] = PoolManager.Instance.Get_DropObject(keys[i]);
+            dropObjects[i].gameObject.SetActive(false);
         }
         InitItemSlot();
 
