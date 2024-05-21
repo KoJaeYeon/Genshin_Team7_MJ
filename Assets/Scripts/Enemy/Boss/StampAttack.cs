@@ -13,7 +13,8 @@ public class StampAttack : IPattern
 
     public void BossAttack()
     {
-        
+        Debug.Log("Stamp ½ÇÇà");
+        m_Wolf.State.ChangeState(BossState.Attack);
     }
 
 }

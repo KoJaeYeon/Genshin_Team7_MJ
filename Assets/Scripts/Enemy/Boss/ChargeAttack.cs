@@ -12,6 +12,7 @@ public class ChargeAttack : IPattern
 
     public void BossAttack()
     {
-        
+        Debug.Log("Charge ½ÇÇà");
+        m_Wolf.State.ChangeState(BossState.Attack); 
     }
 }

@@ -12,12 +12,12 @@ public class JumpAttack : IPattern
 
     public void BossAttack()
     {
-        m_Wolf.BossAnimator.SetTrigger("JumpAttack");
+        Debug.Log("Jump ½ÇÇà");
+        m_Wolf.State.ChangeState(BossState.Attack);
 
 
 
-        if (m_Wolf.BossAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
-            m_Wolf.State.ChangeState(BossState.Idle);
+        
 
     }
 
