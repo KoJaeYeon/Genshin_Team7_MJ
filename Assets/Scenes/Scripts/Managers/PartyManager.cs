@@ -47,7 +47,6 @@ public class PartyManager : MonoBehaviour
 
         //FollowCamera.SetTarget(activeCharacters[currentCharacterIndex].transform);
         currentAnimator = activeCharacters[currentCharacterIndex].GetComponent<Animator>();
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()

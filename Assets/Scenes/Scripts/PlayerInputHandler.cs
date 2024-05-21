@@ -9,6 +9,7 @@ public class PlayerInputHandler : MonoBehaviour
     [Header("Player Input Values")]
     public Vector2 move;
     public Vector2 look;
+    public float zoom;
     public bool attack;
     public bool jump;
     public bool sprint;
@@ -29,6 +30,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnLook(InputValue value)
     {
+        Debug.Log("value" + value.ToString());
         if (cursorInputForLook)
         {
             LookInput(value.Get<Vector2>());
@@ -49,6 +51,15 @@ public class PlayerInputHandler : MonoBehaviour
     public void OnAttack(InputValue value)
     {
         AttackInput(value.isPressed);
+    }
+
+    public void OnZoom(InputValue value)
+    {
+        if (cursorInputForLook)
+        {
+            ZoomInput(value.Get<float>());
+            Debug.Log(value.Get<float>());
+        }
     }
 #endif
 
@@ -75,6 +86,11 @@ public class PlayerInputHandler : MonoBehaviour
     public void AttackInput(bool newAttackState)
     {
         attack = newAttackState;
+    }
+
+    public void ZoomInput(float newZoom)
+    {
+        zoom = newZoom;
     }
 
     private void OnApplicationFocus(bool hasFocus)

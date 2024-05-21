@@ -7,11 +7,10 @@ public class JoystickMove : MonoBehaviour  , IDragHandler , IEndDragHandler
 {
     //기준점을 기준으로 크기와 회전을 조정해야함
     //회전 : 
-
+    public PlayerInputHandler playerInputHandler;
 
     public  RectTransform joy; //움직일 조이스틱
     public  RectTransform pointJoy; //중심이 될 조이
-
 
     private void Start()
     {
@@ -31,7 +30,7 @@ public class JoystickMove : MonoBehaviour  , IDragHandler , IEndDragHandler
         Debug.Log("Rot :" + Rot);
         
         //위치 따라가기 
-
+        playerInputHandler.move = Rot;
         //각도 돌리는거
         float rad = math.acos(Rot.x) / math.PI * 180;
         if (Rot.y < 0) rad = 360 - rad;
@@ -42,7 +41,8 @@ public class JoystickMove : MonoBehaviour  , IDragHandler , IEndDragHandler
     {
         Debug.Log("End");
        
-       joy.rotation = Quaternion.identity;
+       joy.eulerAngles = new Vector3 (0, 0,90);
+        playerInputHandler.move = Vector2.zero;
         
     }
 
