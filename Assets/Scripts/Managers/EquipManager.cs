@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class EquipManager : Singleton<EquipManager>
 {
-    EquipStats beidou_Equip;
-    EquipStats kokomi_Equip;
-    EquipStats wrio_Equip;
-    EquipStats yoimiya_Equip;
+    public EquipStats beidou_Equip;
+    public EquipStats kokomi_Equip;
+    public EquipStats wrio_Equip;
+    public EquipStats yoimiya_Equip;
 }
 
 public struct EquipStats
 {
-    float weaponDamage;
-    float flowerHealth;
-    float featherDamage;
-    float sandTime_HelathPercent;
-    float trohphy_AttackPercent;
-    float crown_defencePercent;
+    public float weaponDamage;
+    public float flowerHealth;
+    public float featherDamage;
+    public float sandTime_HelathPercent;
+    public float trohphy_AttackPercent;
+    public float crown_defencePercent;
 }

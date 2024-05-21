@@ -6,4 +6,5 @@ public class RenderManager : Singleton<RenderManager>
 {
     public GameObject[] Manekins;
 
+
 }
