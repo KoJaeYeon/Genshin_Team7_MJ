@@ -15,8 +15,11 @@ public class RenderImage : MonoBehaviour
 
     public void OnPointDrag()
     {
+#if !UNITY_ANDROID
         mousePos = Input.mousePosition;
-
+#else
+        mousePos = Input.GetTouch(0).position;
+#endif
         Vector3 difVec3 = mousePos - initMousePos;
 
         Vector3 vector3;
@@ -32,8 +35,11 @@ public class RenderImage : MonoBehaviour
 
     public void OnBeginDrag()
     {
+#if !UNITY_ANDROID
         mousePos = Input.mousePosition;
-
+#else
+        mousePos = Input.GetTouch(0).position;
+#endif
         initMousePos = mousePos;
 
         initRotaion = transform.rotation.eulerAngles;
@@ -42,8 +48,12 @@ public class RenderImage : MonoBehaviour
 
     public void OnEndDrag()
     {
+#if !UNITY_ANDROID
         mousePos = Input.mousePosition;
-
+#else
+        mousePos = Input.GetTouch(0).position;
+#endif
+        mousePos = Input.GetTouch(0).position;
         initMousePos = mousePos;
 
         initRotaion = transform.rotation.eulerAngles;
