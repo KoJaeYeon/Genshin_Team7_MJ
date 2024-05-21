@@ -12,7 +12,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
@@ -158,7 +157,6 @@ public partial class @NewControls: IInputActionCollection2, IDisposable
 
         private void UnregisterCallbacks(ITestPlayerActions instance)
         {
-            Debug.Log("adffd");
             @OnLook.started -= instance.OnOnLook;
             @OnLook.performed -= instance.OnOnLook;
             @OnLook.canceled -= instance.OnOnLook;
