@@ -52,10 +52,12 @@ public class PlayerController : MonoBehaviour
     public bool LockCameraPosition = false;
 
     //cinemachine
-    public CinemachineVirtualCamera virtualCamera;
+    [SerializeField] private CinemachineVirtualCamera virtualCamera;
     private float _cinemachineTargetYaw;
     private float _cinemachineTargetPitch;
-    private float _cinemachineDistance;
+    private float minFOV = 20f;
+    private float maxFOV = 60f;
+    //private float _cinemachineDistance;
 
     //player
     private float _speed;
@@ -110,6 +112,8 @@ public class PlayerController : MonoBehaviour
 
         _animator = GetComponent<Animator>();
         _hasAnimator = TryGetComponent(out _animator);
+
+        virtualCamera = GameObject.FindObjectOfType<CinemachineVirtualCamera>();
     }
 
     private void Start()
@@ -126,7 +130,7 @@ public class PlayerController : MonoBehaviour
         _jumpTimeoutDelta = JumpTimeout;
         _fallTimeoutDelta = FallTimeout;
 
-        CinemachineCameraTarget = GameObject.FindWithTag("Look");
+        CinemachineCameraTarget = transform.parent.GetChild(0).gameObject;
 
         _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
     }
@@ -226,12 +230,13 @@ public class PlayerController : MonoBehaviour
 
         CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
             _cinemachineTargetYaw, 0.0f);
-        if(_input.zoom != 0)
-        {
-            Cinemachine3rdPersonFollow cinemachine3RdPersonFollow = virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
-            cinemachine3RdPersonFollow.ShoulderOffset += new Vector3(0, 0, _input.zoom) / 120; 
-        }
 
+        if (_input.zoom != 0)
+        {
+            float newFOV = virtualCamera.m_Lens.FieldOfView - (_input.zoom / 120f);
+            virtualCamera.m_Lens.FieldOfView = Mathf.Clamp(newFOV, minFOV, maxFOV);
+            _input.zoom = 0;
+        }
     }
 
     private void Move()
