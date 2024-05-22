@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ChargeAttack : IPattern
 {
     private Wolf m_Wolf;
     private float currentAngle;
-    Vector3 targetPos;
+    private float distance;
+    private Vector3 targetPos;
     public ChargeAttack(Wolf wolf)
     {
         m_Wolf = wolf;
@@ -17,18 +19,19 @@ public class ChargeAttack : IPattern
 
     public void BossAttack()
     {
+        distance = Vector3.Distance(m_Wolf.transform.position, targetPos);
 
-        if (Vector3.Distance(m_Wolf.transform.position, targetPos) <= 2.0f)
+        if (distance > 2.0f)
+        {
+            Rotation();
+        }
+        else
         {
             m_Wolf.BossAnimator.SetBool("isRun", false);
             SelectAnimation();
-
             m_Wolf.BossRigid.velocity = Vector3.zero;
-            m_Wolf.State.ChangeState(BossState.Idle);
+            m_Wolf.State.ChangeState(BossState.Attack);
         }
-        else if (Vector3.Distance(m_Wolf.transform.position, targetPos) > 2.0f)
-            Rotation();
-            
     }
 
     private void Rotation()
@@ -47,11 +50,17 @@ public class ChargeAttack : IPattern
     private void SelectAnimation()
     {
         if (currentAngle > 0 && currentAngle <= 180)
+        {
             m_Wolf.BossAnimator.SetTrigger("RunStopR");
+        }
         else if (currentAngle < 0 && currentAngle >= -180)
+        {
             m_Wolf.BossAnimator.SetTrigger("RunStopL");
+        }
         else
+        {
             m_Wolf.BossAnimator.SetTrigger("RunStopL");
+        }
     }
 
 }

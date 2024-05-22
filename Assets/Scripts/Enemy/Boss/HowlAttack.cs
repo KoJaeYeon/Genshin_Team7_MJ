@@ -17,6 +17,7 @@ public class HowlAttack : IPattern
 
         if (stateInfo.IsName("HowlAS") && stateInfo.normalizedTime >= 1.0f)
         {
+            Debug.Log("Howl Ż�⹮");
             m_Wolf.BossAnimator.SetBool("isHowl", false);
             m_Wolf.State.ChangeState(BossState.Attack);
         }
