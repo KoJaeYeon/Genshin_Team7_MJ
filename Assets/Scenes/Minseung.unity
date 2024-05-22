@@ -211,6 +211,18 @@ Transform:
   m_Father: {fileID: 1340648448}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &288668989 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2070925441746177913, guid: a1a802ecaf6775746bb2a929fb554ad8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1402827283}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &303132832
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -222,6 +234,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FireMonsterWayPoints
+      objectReference: {fileID: 0}
+    - target: {fileID: 63195540430246934, guid: 7d4e262756ec9bc4ea9e0681f4ece49c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 63195540430246935, guid: 7d4e262756ec9bc4ea9e0681f4ece49c,
         type: 3}
@@ -305,6 +322,7 @@ GameObject:
   m_Component:
   - component: {fileID: 313165809}
   - component: {fileID: 313165808}
+  - component: {fileID: 313165810}
   m_Layer: 0
   m_Name: PartyManager
   m_TagString: Untagged
@@ -334,7 +352,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ef27d79d443a8894a9f31a4f7235b25d, type: 2}
   - {fileID: 11400000, guid: 809c4441eeb29c544b004b22f659d40c, type: 2}
   - {fileID: 11400000, guid: 4f7e5ca0e38f0c3409db470f11738466, type: 2}
-  spawnPosition: {fileID: 0}
+  spawnPosition: {fileID: 386926288}
   playerParent: {fileID: 386926283}
 --- !u!4 &313165809
 Transform:
@@ -351,6 +369,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &313165810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313165807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 824d0d30ca930294a92e533c92044ee1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  virtualCamera: {fileID: 288668989}
+  zoomSpeed: 30
+  minZoom: -2
+  maxZoom: 2
 --- !u!1 &386926283
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,11 +452,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   move: {x: 0, y: 0}
   look: {x: 0, y: 0}
+  zoom: 0
   attack: 0
   jump: 0
   sprint: 0
   analogMovement: 1
-  cursorLocked: 1
+  cursorLocked: 0
   cursorInputForLook: 1
 --- !u!114 &386926290
 MonoBehaviour:
@@ -872,8 +907,7 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 1207818799}
-    m_RemovedComponents:
-    - {fileID: 1308422138, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
 --- !u!850595691 &1737498572
 LightingSettings:
