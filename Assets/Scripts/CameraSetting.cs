@@ -1,68 +1,37 @@
 using Cinemachine;
-using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraSetting : MonoBehaviour
 {
-    private CinemachineVirtualCamera virtualCamera;
+    public CinemachineVirtualCamera virtualCamera;
+    public float zoomSpeed = 2f;
+    public float minZoom = -2f;
+    public float maxZoom = 2f;
 
-    private void Awake()
+    private Cinemachine3rdPersonFollow cinemachine3RdPersonFollow;
+    private Vector3 originalShoulderOffset;
+
+    private void Start()
     {
-        virtualCamera = GetComponent<CinemachineVirtualCamera>();
-    }
-
-    public void SetTarget(Transform newTarget)
-    {
-        Transform cameraLookTransform = FindChildByName(newTarget, "CameraLook");
-
-        if(cameraLookTransform != null)
+        if(virtualCamera == null)
         {
-            virtualCamera.Follow = cameraLookTransform;
+            virtualCamera = GetComponent<CinemachineVirtualCamera>();
+            cinemachine3RdPersonFollow = virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();   
+            originalShoulderOffset = cinemachine3RdPersonFollow.ShoulderOffset;
         }
     }
 
-    public void SetCameraSettings(Vector3 position, Quaternion rotation)
+    private void Update()
     {
-        StartCoroutine(SmoothCameraTransition(position, rotation, 0.01f));
-
-        //virtualCamera.transform.position = position;
-        //virtualCamera.transform.rotation = rotation;
-    }
-
-    private IEnumerator SmoothCameraTransition(Vector3 targetPosition, Quaternion targetRotation, float duration)
-    {
-        Vector3 startPosition = virtualCamera.transform.position;
-        Quaternion startRotation = virtualCamera.transform.rotation;
-        float elapsed = 0f;
-
-        while(elapsed < duration)
+        float scrollData = Mouse.current.scroll.ReadValue().y;
+        if(scrollData != 0)
         {
-            virtualCamera.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsed / duration);
-            virtualCamera.transform.rotation = Quaternion.Lerp(startRotation, targetRotation, elapsed / duration);
-            elapsed += Time.deltaTime;
-            yield return null;
+            Vector3 newOffset = cinemachine3RdPersonFollow.ShoulderOffset;
+            newOffset.z += (scrollData * zoomSpeed) / 120f;
+            newOffset.z = Mathf.Clamp(newOffset.z, originalShoulderOffset.z + minZoom, originalShoulderOffset.z + maxZoom);
+
+            cinemachine3RdPersonFollow.ShoulderOffset = newOffset;  
         }
-
-        virtualCamera.transform.position = targetPosition;
-        virtualCamera.transform.rotation = targetRotation;
     }
-
-    private Transform FindChildByName(Transform parent, string name)
-    {
-        foreach(Transform child in parent)
-        {
-            if(child.name == name)
-            {
-                return child;
-            }
-            Transform result = FindChildByName(child, name);
-            if(result != null)
-            {
-                return result;
-            }
-        }
-        return null;
-    }
-
-
 }
