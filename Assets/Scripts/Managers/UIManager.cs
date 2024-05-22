@@ -116,10 +116,10 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    public void showDataUpdate(int id)
+    public void showDataUpdate(int id, CharacterItemSprite character)
     {
         IItemPanel itemPanel = DataPanel.GetComponent<IItemPanel>();
-        itemPanel.UpdateItemPanel(id);
+        itemPanel.UpdateItemPanel(id, character);
     }
 
     public void RemoveGetSlot()

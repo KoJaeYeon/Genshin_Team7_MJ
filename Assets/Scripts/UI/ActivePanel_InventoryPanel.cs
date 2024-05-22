@@ -19,7 +19,7 @@ public class ActivePanel_InventoryPanel : MonoBehaviour, IActivePanel
         previousPanel.DisablePanel();
         gameObject.SetActive(true);
         UIManager.Instance.activePanel = this;
-        UIManager.Instance.DataPanel = transform.GetChild(5).gameObject;
+        UIManager.Instance.DataPanel = transform.GetChild(4).gameObject;
         transform.GetChild(0).transform.GetChild(3).GetComponent<InventorySelectButton>().InventoryActive(0);
     }
 
