@@ -53,8 +53,8 @@ public class PlayerController : MonoBehaviour
 
     //cinemachine
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
-    private float _cinemachineTargetYaw;
-    private float _cinemachineTargetPitch;
+    private static float _cinemachineTargetYaw;
+    private static float _cinemachineTargetPitch;
     private float minFOV = 20f;
     private float maxFOV = 60f;
     //private float _cinemachineDistance;
@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
 #if ENABLE_INPUT_SYSTEM
     private PlayerInput _playerInput;
 #endif
-
+    public Animator _wingAnimator;
     private Animator _animator;
     private CharacterController _controller;
     private PlayerInputHandler _input;
@@ -99,6 +99,7 @@ public class PlayerController : MonoBehaviour
     private bool _hasAnimator;
     private bool rotateOnMove = true;
 
+    
     
 
     public CharacterData characterData;
@@ -421,6 +422,7 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetBool("Glide", true);
             _animator.SetBool(_animIDJump, false);
+            _wingAnimator.SetTrigger("Glide");
         }
     }
 
