@@ -371,7 +371,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if(_verticalVelocity <0.0f && !_isGliding)
+            if((_verticalVelocity <0.0f && !_isGliding))
             {
                 if (_hasAnimator)
                 {
@@ -380,7 +380,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if(_input.jump && _verticalVelocity < 0.0f)
+            if(_input.jump && (_verticalVelocity < 0.0f || _input.windfield))
             {
                 if (_isGliding)
                     StopGliding();

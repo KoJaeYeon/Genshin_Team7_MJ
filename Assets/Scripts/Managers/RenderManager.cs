@@ -45,9 +45,12 @@ public class RenderManager : MonoBehaviour
                 foreach (MeshRenderer meshRenderer in meshRenderers)
                 {
                     meshRenderer.material = materials[i];
-                    particle.startColor = meshRenderer.material.color;
-               
-                }                
+                    if (particle != null)
+                    {
+                        particle.startColor = meshRenderer.material.color;
+                    }
+
+                }
             }
             else
             {

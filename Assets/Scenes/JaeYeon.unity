@@ -658,7 +658,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 61d47b192daf9cf4c9f1d7b38ae16c65, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -3612,7 +3612,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: d0ab9beb58ac07846bc10e953d717241, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -9602,7 +9602,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 546670525}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 480.18784, y: 3.2443416, z: 265.94833}
+  m_LocalPosition: {x: 481.199, y: 3.2443416, z: 259.666}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12029,7 +12029,7 @@ MonoBehaviour:
   sprint: 0
   windfield: 0
   analogMovement: 1
-  cursorLocked: 0
+  cursorLocked: 1
   cursorInputForLook: 1
 --- !u!143 &653313439
 CharacterController:
@@ -12057,7 +12057,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 653313436}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 479.98782, y: 1.9943416, z: 269.94833}
+  m_LocalPosition: {x: 480.999, y: 1.9943416, z: 263.666}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -22416,7 +22416,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1242592840}
   - component: {fileID: 1242592839}
-  - component: {fileID: 1242592838}
+  - component: {fileID: 1242592841}
   - component: {fileID: 1242592837}
   m_Layer: 5
   m_Name: MainPanel
@@ -22437,7 +22437,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 606a548e7b5277c44acc57e88491149b, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -22446,18 +22446,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1242592838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1242592836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9936177eec4249d48864bcfc716a0eef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &1242592839
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -22498,6 +22486,20 @@ RectTransform:
   m_AnchoredPosition: {x: 1.3999023, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1242592841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242592836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf56c0c26e6f6994e9c58c69940c48e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInput: {fileID: 653313437}
+  playerInputHandler: {fileID: 653313438}
 --- !u!1 &1242681319
 GameObject:
   m_ObjectHideFlags: 0
@@ -62062,7 +62064,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 8231f12136e81fa4a8884b6bf60bb12d, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -64885,7 +64887,7 @@ PrefabInstance:
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 480.18784
+      value: 481.199
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8,
         type: 3}
@@ -64895,7 +64897,7 @@ PrefabInstance:
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 265.94833
+      value: 259.666
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8,
         type: 3}
@@ -67475,6 +67477,7 @@ MonoBehaviour:
   barTrans_Parent: {fileID: 909111204}
   weaponPropertyText: {fileID: 1433178220}
   relicPropertyText: {fileID: 65603750}
+  particle: {fileID: 0}
 --- !u!1 &1879843185
 GameObject:
   m_ObjectHideFlags: 0
@@ -71331,36 +71334,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 418540792232535064, guid: e6ba86d369651eb44baa5e5d2cb06fc6,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2414754939695849906, guid: e6ba86d369651eb44baa5e5d2cb06fc6,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2414754939695849906, guid: e6ba86d369651eb44baa5e5d2cb06fc6,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -5.59
-      objectReference: {fileID: 0}
-    - target: {fileID: 2414754939695849906, guid: e6ba86d369651eb44baa5e5d2cb06fc6,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 5.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2637571249221424303, guid: e6ba86d369651eb44baa5e5d2cb06fc6,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3639445529576645976, guid: e6ba86d369651eb44baa5e5d2cb06fc6,
-        type: 3}
-      propertyPath: maxTime
-      value: 60
-      objectReference: {fileID: 0}
     - target: {fileID: 8104441448670033057, guid: e6ba86d369651eb44baa5e5d2cb06fc6,
         type: 3}
       propertyPath: m_Name

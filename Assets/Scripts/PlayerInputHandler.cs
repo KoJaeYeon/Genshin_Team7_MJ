@@ -1,6 +1,7 @@
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
+using static UnityEngine.Rendering.DebugUI;
 #endif
 
 public class PlayerInputHandler : MonoBehaviour
@@ -59,6 +60,11 @@ public class PlayerInputHandler : MonoBehaviour
             ZoomInput(value.Get<float>());
         }
     }
+
+    public void OnCursor(InputValue value)
+    {
+        CursorInput(value.isPressed);
+    }
 #endif
 
     public void MoveInput(Vector2 newMoveDirection)
@@ -89,6 +95,21 @@ public class PlayerInputHandler : MonoBehaviour
     public void ZoomInput(float newZoomValue)
     {
         zoom += newZoomValue;
+    }
+
+    public void CursorInput(bool cursorValue)
+    {
+        cursorLocked = cursorValue;
+        cursorInputForLook = !cursorValue;
+        if(cursorValue)
+        {
+            Cursor.lockState = CursorLockMode.None;            
+            look = Vector2.zero;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     private void OnApplicationFocus(bool hasFocus)

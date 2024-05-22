@@ -9,6 +9,7 @@ public class WindField : MonoBehaviour
     public void Active()
     {
         trigger = true;
+        transform.GetChild(0).gameObject.SetActive(true);
     }
 
     public void Deactive()
@@ -18,6 +19,7 @@ public class WindField : MonoBehaviour
             inputHandler.windfield = false;
         }
         trigger=false;
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 
     public void DestroyField()

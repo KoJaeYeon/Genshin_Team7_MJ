@@ -80,6 +80,15 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Cursor"",
+                    ""type"": ""Value"",
+                    ""id"": ""4a50d7d8-1754-472d-9a9f-3078e6a6f1ff"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -214,6 +223,17 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                     ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5191a19f-c0b7-424c-a00e-194b461b62d9"",
+                    ""path"": ""<Keyboard>/leftAlt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cursor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -261,6 +281,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         m_PlayerControl_Sprint = m_PlayerControl.FindAction("Sprint", throwIfNotFound: true);
         m_PlayerControl_Attack = m_PlayerControl.FindAction("Attack", throwIfNotFound: true);
         m_PlayerControl_Zoom = m_PlayerControl.FindAction("Zoom", throwIfNotFound: true);
+        m_PlayerControl_Cursor = m_PlayerControl.FindAction("Cursor", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -328,6 +349,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerControl_Sprint;
     private readonly InputAction m_PlayerControl_Attack;
     private readonly InputAction m_PlayerControl_Zoom;
+    private readonly InputAction m_PlayerControl_Cursor;
     public struct PlayerControlActions
     {
         private @PlayerAction m_Wrapper;
@@ -338,6 +360,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_PlayerControl_Sprint;
         public InputAction @Attack => m_Wrapper.m_PlayerControl_Attack;
         public InputAction @Zoom => m_Wrapper.m_PlayerControl_Zoom;
+        public InputAction @Cursor => m_Wrapper.m_PlayerControl_Cursor;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControl; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -365,6 +388,9 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
             @Zoom.started += instance.OnZoom;
             @Zoom.performed += instance.OnZoom;
             @Zoom.canceled += instance.OnZoom;
+            @Cursor.started += instance.OnCursor;
+            @Cursor.performed += instance.OnCursor;
+            @Cursor.canceled += instance.OnCursor;
         }
 
         private void UnregisterCallbacks(IPlayerControlActions instance)
@@ -387,6 +413,9 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
             @Zoom.started -= instance.OnZoom;
             @Zoom.performed -= instance.OnZoom;
             @Zoom.canceled -= instance.OnZoom;
+            @Cursor.started -= instance.OnCursor;
+            @Cursor.performed -= instance.OnCursor;
+            @Cursor.canceled -= instance.OnCursor;
         }
 
         public void RemoveCallbacks(IPlayerControlActions instance)
@@ -430,5 +459,6 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
+        void OnCursor(InputAction.CallbackContext context);
     }
 }
