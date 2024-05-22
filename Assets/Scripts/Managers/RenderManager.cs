@@ -13,6 +13,7 @@ public class RenderManager : MonoBehaviour
     Transform barTrans;
     public PropertyText_Weapon weaponPropertyText;
     public PropertyText_Relic relicPropertyText;
+    public ParticleSystem particle;
 
     private void Awake()
     {
@@ -44,6 +45,8 @@ public class RenderManager : MonoBehaviour
                 foreach (MeshRenderer meshRenderer in meshRenderers)
                 {
                     meshRenderer.material = materials[i];
+                    particle.startColor = meshRenderer.material.color;
+               
                 }                
             }
             else
@@ -53,5 +56,7 @@ public class RenderManager : MonoBehaviour
         }
         
     }
+
+    
 
 }

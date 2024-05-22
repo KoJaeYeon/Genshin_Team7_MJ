@@ -9,26 +9,21 @@ public class CameraController : MonoBehaviour
 {
     private PlayerInputHandler playerInputHandler; 
 
-
     //카메라 움직임
     public float cameraSensitvity;//카메라 회전 민감도 
     public float perspectiveZoomSpeed = 0.5f; //perspective : 줌 속도 
 
-    Vector2 lookInput;
-    float cameraPitch;//회전
-
-
     //공간 분리
     int leftFingerId, rightFingerId;
-    float halfScreenWidth, halfScreenHeight;
 
-   
+    float halfScreenWidth, halfScreenHeight;
+  
 
     private void Awake()
     {
-#if !UNITY_ANDROID
+        #if !UNITY_ANDROID
         Destroy(this);
-#endif
+        #endif
         playerInputHandler = GetComponent<PlayerInputHandler>();
     }
 
@@ -45,8 +40,6 @@ public class CameraController : MonoBehaviour
     private void Update()
     {
         GetTouchInput();
-
-
     }
 
 
@@ -71,14 +64,13 @@ public class CameraController : MonoBehaviour
                     {
                         leftFingerId = t.fingerId;
                         Debug.Log("오른쪽아래");
+
                     }
                     else if (t.position.x > halfScreenWidth && rightFingerId == -1)
                     {
-
                            rightFingerId = t.fingerId;
-                           Debug.Log("오른쪽터치");
-                        
-
+                           Debug.Log("오른쪽");
+                       
                     }
                     else if (t.position.y > halfScreenHeight && rightFingerId == -1)
                     {
@@ -87,7 +79,6 @@ public class CameraController : MonoBehaviour
 
                     }
                 break;
-
                 case TouchPhase.Ended:
                 case TouchPhase.Canceled:
                     if (t.fingerId == leftFingerId)
@@ -102,7 +93,7 @@ public class CameraController : MonoBehaviour
                         playerInputHandler.look = Vector2.zero;
                     }
                 break;
-                    //카메라
+                   
                     //움직일때
                 case TouchPhase.Moved:
 
@@ -112,10 +103,10 @@ public class CameraController : MonoBehaviour
                         Vector2 input_Look = t.deltaPosition;
                         input_Look.y *= -1;
                         playerInputHandler.look = input_Look *cameraSensitvity * Time.deltaTime;
-                        //Debug.Log(t.deltaPosition);
+                        
                     }
 
-                    if (t.fingerId == rightFingerId && Input.touchCount == 2)
+                    if (t.fingerId == rightFingerId && Input.touchCount > 1 && leftFingerId == -1)
                     {
 
                         Touch touchZero = Input.GetTouch(0);
@@ -138,21 +129,11 @@ public class CameraController : MonoBehaviour
 
                         playerInputHandler.zoom += touchZoom * perspectiveZoomSpeed * Time.deltaTime * minus; 
 
-
-                        Debug.Log("touchZoom :" + touchZoom);
-
-
+                        //Debug.Log("touchZoom :" + touchZoom);
+                      
                     }
-
                     break;
-                    //고정되어 있을때
-                case TouchPhase.Stationary:
-                    if (t.fingerId == rightFingerId)
-                    {
-                        //회전 초기화 
-                        lookInput = Vector2.zero;
-                    }
-                break;
+               
 
 
             }
