@@ -1,10 +1,11 @@
 using System.Collections;
 using UnityEngine;
 
-public enum ChestType
+public enum InteractableType
 {
     Jungyo,
-    Jingui
+    Jingui,
+    Mission
 }
 public class Chest : MonoBehaviour,IInteractable
 {
@@ -12,7 +13,7 @@ public class Chest : MonoBehaviour,IInteractable
     GetSlot getSlot;
     static int idtemp = 1;
     public int[] keys;
-    public ChestType chestType;
+    public InteractableType chestType;
     int id;
     private void Start()
     {
