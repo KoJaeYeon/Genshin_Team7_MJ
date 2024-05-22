@@ -25,12 +25,12 @@ public class Bow : Weapon
 
     private void PerformNormalShot()
     {
-        PoolManager.Instance.Get_Arrow();
+        
     }
 
     private void PerformAimedShot()
     {
-        //Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+        
     }
 
     private void Update()

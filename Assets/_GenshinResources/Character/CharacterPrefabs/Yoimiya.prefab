@@ -2505,9 +2505,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 3374969541774404041}
-  projectilePrefab: {fileID: 4766542514737433830, guid: 7274f976d04986346a9314299638dac1,
-    type: 3}
-  projectileSpawnPoint: {fileID: 9062758251571049347}
+  arrowPrefab: {fileID: 0}
+  arrowSpawnPoint: {fileID: 0}
 --- !u!1 &3437258106325316712
 GameObject:
   m_ObjectHideFlags: 0
@@ -2555,9 +2554,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 3374969541774404041}
-  projectilePrefab: {fileID: 4766542514737433830, guid: 7274f976d04986346a9314299638dac1,
-    type: 3}
-  projectileSpawnPoint: {fileID: 9062758251571049347}
+  arrowPrefab: {fileID: 0}
+  arrowSpawnPoint: {fileID: 0}
 --- !u!1 &3437258106916969567
 GameObject:
   m_ObjectHideFlags: 0
@@ -2605,9 +2603,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 3374969541774404041}
-  projectilePrefab: {fileID: 4766542514737433830, guid: 7274f976d04986346a9314299638dac1,
-    type: 3}
-  projectileSpawnPoint: {fileID: 9062758251571049347}
+  arrowPrefab: {fileID: 0}
+  arrowSpawnPoint: {fileID: 0}
 --- !u!1 &3439149477534761813
 GameObject:
   m_ObjectHideFlags: 0
@@ -5000,6 +4997,7 @@ GameObject:
   - component: {fileID: 853981370157690476}
   - component: {fileID: 2554369851834553113}
   - component: {fileID: 3374969541774404041}
+  - component: {fileID: 2029071941189310559}
   m_Layer: 7
   m_Name: Yoimiya
   m_TagString: Player
@@ -5122,6 +5120,25 @@ MonoBehaviour:
   - {fileID: 3101878418714321502}
   detectionRange: 10
   detectionAngle: 45
+--- !u!114 &2029071941189310559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6229058758253833900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6fef5869ae2474398d3c27f4a109a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aimVirtualCamera: {fileID: 0}
+  normalSensitivity: 0
+  aimSensitivity: 0
+  aimColliderLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  debugTransform: {fileID: 0}
 --- !u!1 &6292605143367896526
 GameObject:
   m_ObjectHideFlags: 0

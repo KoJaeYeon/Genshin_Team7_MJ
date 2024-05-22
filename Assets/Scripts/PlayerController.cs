@@ -69,7 +69,6 @@ public class PlayerController : MonoBehaviour
     private bool _attackTrigger = true;
     private bool _isClimbing = false;
     private bool _isGliding = false;
-    
 
     //timeout deltatime
     private float _jumpTimeoutDelta;
@@ -140,6 +139,7 @@ public class PlayerController : MonoBehaviour
     {
         _hasAnimator = TryGetComponent(out _animator);
 
+        
 
         JumpAndGravity();
         GroundedCheck();
@@ -476,5 +476,15 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetBool(_animIDAttacking, false);
         }
+    }
+
+    public void SetSensitivity(float newSensitivity)
+    {
+        LookSensitivity = newSensitivity;
+    }
+
+    public void SetRotateOnMove(bool newRotateOnMove)
+    {
+        rotateOnMove = newRotateOnMove;
     }
 }
