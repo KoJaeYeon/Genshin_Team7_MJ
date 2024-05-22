@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
     private float _terminalVelocity = 53.0f;
     private bool _attackTrigger = true;
     private bool _isClimbing = false;
-    private bool _isGliding = false;
+    public static bool _isGliding = false;
     
 
     //timeout deltatime

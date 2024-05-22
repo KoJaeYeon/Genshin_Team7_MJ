@@ -27,7 +27,7 @@ public class WindField : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (trigger && other.gameObject.layer.Equals(LayerMask.GetMask("Player")))
+        if (trigger && other.gameObject.layer.Equals(LayerMask.NameToLayer("Player")))
         {
             if (inputHandler == null) inputHandler = other.GetComponent<PlayerInputHandler>();
             inputHandler.windfield = true;
@@ -36,7 +36,7 @@ public class WindField : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (trigger && other.gameObject.layer.Equals(LayerMask.GetMask("Player")))
+        if (trigger && other.gameObject.layer.Equals(LayerMask.NameToLayer("Player")))
         {
             inputHandler.windfield = true;
         }
@@ -44,6 +44,7 @@ public class WindField : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        Debug.Log("exit");
         if (inputHandler != null) inputHandler.windfield=false;
     }
 }
