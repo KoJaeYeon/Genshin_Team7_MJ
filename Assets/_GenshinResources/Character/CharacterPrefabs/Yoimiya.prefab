@@ -535,7 +535,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8380172551711050834
 Transform:
   m_ObjectHideFlags: 0
@@ -547,7 +547,8 @@ Transform:
   m_LocalPosition: {x: -0.19264449, y: -0.029310264, z: -0.00000015258789}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4696848790627508411}
   m_Father: {fileID: 7807517713565369918}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2467,6 +2468,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2663959056229521477}
+  - component: {fileID: 3101878418714321502}
   m_Layer: 0
   m_Name: Equip_Bow_Narukami_Model
   m_TagString: Untagged
@@ -2490,6 +2492,21 @@ Transform:
   m_Father: {fileID: 693127897508416287}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3101878418714321502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3437258105573769983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 334ac2644a83bb949bd0a1cd2fdcfd22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 3374969541774404041}
+  projectilePrefab: {fileID: 0}
+  projectileSpawnPoint: {fileID: 0}
 --- !u!1 &3437258106325316712
 GameObject:
   m_ObjectHideFlags: 0
@@ -2499,6 +2516,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2663959056693751506}
+  - component: {fileID: 6460406863269768477}
   m_Layer: 0
   m_Name: Equip_Bow_Dvalin_Model
   m_TagString: Untagged
@@ -2523,6 +2541,21 @@ Transform:
   m_Father: {fileID: 693127897508416287}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6460406863269768477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3437258106325316712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 334ac2644a83bb949bd0a1cd2fdcfd22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 3374969541774404041}
+  projectilePrefab: {fileID: 0}
+  projectileSpawnPoint: {fileID: 0}
 --- !u!1 &3437258106916969567
 GameObject:
   m_ObjectHideFlags: 0
@@ -2532,6 +2565,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2663959057033742053}
+  - component: {fileID: 1621301649298359359}
   m_Layer: 0
   m_Name: Equip_Bow_Amos_Model
   m_TagString: Untagged
@@ -2556,6 +2590,21 @@ Transform:
   m_Father: {fileID: 693127897508416287}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1621301649298359359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3437258106916969567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 334ac2644a83bb949bd0a1cd2fdcfd22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 3374969541774404041}
+  projectilePrefab: {fileID: 0}
+  projectileSpawnPoint: {fileID: 0}
 --- !u!1 &3439149477534761813
 GameObject:
   m_ObjectHideFlags: 0
@@ -5107,6 +5156,8 @@ MonoBehaviour:
   BottomClamp: -30
   CameraAngleOverride: 0
   LockCameraPosition: 0
+  virtualCamera: {fileID: 0}
+  _wingAnimator: {fileID: 3337143316573465380}
   characterData: {fileID: 0}
 --- !u!114 &3374969541774404041
 MonoBehaviour:
@@ -5120,18 +5171,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7e36e343110bf341ad4993dc41be273, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapons: []
+  weapons:
+  - {fileID: 1621301649298359359}
+  - {fileID: 6460406863269768477}
+  - {fileID: 3101878418714321502}
   detectionRange: 10
   detectionAngle: 45
-  arrowPrefab: {fileID: 0}
-  arrowSpawnPoint: {fileID: 0}
-  arrowSpeed: 0
-  playerCamera: {fileID: 0}
-  aimLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  thirdPersonCamera: {fileID: 0}
-  firstPersonCamera: {fileID: 0}
 --- !u!1 &6292605143367896526
 GameObject:
   m_ObjectHideFlags: 0
@@ -7859,3 +7904,84 @@ Transform:
   m_Father: {fileID: 7047354172051371159}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &8292511460465631173
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8380172551711050834}
+    m_Modifications:
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4139288025841264068, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_Name
+      value: Flycloak_Normal_Iustitia
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 74cbfac9e19e05f4cb0666083e220237, type: 3}
+--- !u!95 &3337143316573465380 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6726971664623924449, guid: 74cbfac9e19e05f4cb0666083e220237,
+    type: 3}
+  m_PrefabInstance: {fileID: 8292511460465631173}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4696848790627508411 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+    type: 3}
+  m_PrefabInstance: {fileID: 8292511460465631173}
+  m_PrefabAsset: {fileID: 0}

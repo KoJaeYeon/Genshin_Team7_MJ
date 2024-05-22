@@ -10,7 +10,7 @@ public class MeleeCatalystCharacter : CatalystCharacter
         base.Start();
         foreach(var weapon in weapons)
         {
-            if(weapon is Catalyst)
+            if(weapon is Catalyst_Melee)
             {
                 weapon.gameObject.SetActive(true);
                 currentWeaponIndex = System.Array.IndexOf(weapons, weapon);

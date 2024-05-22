@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
 #if ENABLE_INPUT_SYSTEM
     private PlayerInput _playerInput;
 #endif
-
+    public Animator _wingAnimator;
     private Animator _animator;
     private CharacterController _controller;
     private PlayerInputHandler _input;
@@ -99,6 +99,7 @@ public class PlayerController : MonoBehaviour
     private bool _hasAnimator;
     private bool rotateOnMove = true;
 
+    
     
 
     public CharacterData characterData;
@@ -421,6 +422,7 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetBool("Glide", true);
             _animator.SetBool(_animIDJump, false);
+            _wingAnimator.SetTrigger("Glide");
         }
     }
 
