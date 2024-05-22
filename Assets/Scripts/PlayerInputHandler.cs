@@ -56,7 +56,6 @@ public class PlayerInputHandler : MonoBehaviour
         if (cursorInputForLook)
         {
             ZoomInput(value.Get<float>());
-            Debug.Log(value.Get<float>());
         }
     }
 #endif
@@ -86,9 +85,9 @@ public class PlayerInputHandler : MonoBehaviour
         attack = newAttackState;
     }
 
-    public void ZoomInput(float newZoom)
+    public void ZoomInput(float newZoomValue)
     {
-        zoom = newZoom;
+        zoom += newZoomValue;
     }
 
     private void OnApplicationFocus(bool hasFocus)
