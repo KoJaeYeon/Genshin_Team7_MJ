@@ -43,4 +43,17 @@ public class GetSlot : MonoBehaviour
         }
         itemCount.transform.parent.gameObject.SetActive(false);
     }
+
+    public void SearchIndexAndSend() //아이템 서치 트리거에 아이템 획득하라고 명령하는 함수
+    {
+        for(int i = 0; i < transform.parent.childCount; i++)
+        {
+            if(transform == transform.parent.GetChild(i))
+            {
+                ItemSerachTrigger.Instance.GetItemIndex(i);
+            }
+        }
+
+        
+    }
 }

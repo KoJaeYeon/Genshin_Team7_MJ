@@ -22,7 +22,10 @@ public class EquipManager : Singleton<EquipManager>
     {
         if (Input.GetKeyDown(KeyCode.N))
         {
-            for(ForEach)
+            foreach(int i in beidou_Equip.itemSlotKeys)
+            {
+                Debug.Log(i);
+            }
             //Debug.Log(beidou_Equip.weaponDamage);
             //Debug.Log(beidou_Equip.flowerHealth);
             //Debug.Log(beidou_Equip.featherDamage);
@@ -42,8 +45,8 @@ public class EquipManager : Singleton<EquipManager>
     }
 
     public void Equip()
-    {
-        itemSlot.UnEquip();
+    {        
+        UnEquip(itemSlot.character,itemSlot.GetEquipType());
         itemSlot.OwnerChange(CharacterItemSprite.None); //사용할 아이템 선 장착해제
         int id = itemSlot.GetId();
         Item item = ItemDatabase.Instance.GetItem(id);
@@ -142,7 +145,7 @@ public class EquipManager : Singleton<EquipManager>
     public void UnEquip(CharacterItemSprite character, EqiupType equipType)
     {
         Debug.Log("unequip1" + this.character + character);
-        if (this.character == character) return;
+        if (this.character == character || character == CharacterItemSprite.None) return;
         Debug.Log("unequip2" + this.character + character);
         EquipStats equipStats = GetEquip(character);
         {
