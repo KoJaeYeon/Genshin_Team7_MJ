@@ -13,6 +13,7 @@ public class PlayerInputHandler : MonoBehaviour
     public bool attack;
     public bool jump;
     public bool sprint;
+    public bool windfield;
 
     [Header("Movement Settings")]
     public bool analogMovement;

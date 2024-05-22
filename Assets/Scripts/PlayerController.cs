@@ -439,7 +439,10 @@ public class PlayerController : MonoBehaviour
     private void Gliding()
     {
         _verticalVelocity = -0.5f;
-
+        if(_input.windfield)
+        {
+            _verticalVelocity = 0.5f;
+        }
         Vector3 move = new Vector3(_input.move.x, 0, _input.move.y);
 
         move = transform.TransformDirection(move);
