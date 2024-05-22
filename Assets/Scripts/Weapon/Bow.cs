@@ -7,8 +7,8 @@ using UnityEngine.InputSystem;
 
 public class Bow : Weapon
 {
-    public GameObject projectilePrefab;
-    public Transform projectileSpawnPoint;
+    public GameObject arrowPrefab;
+    public Transform arrowSpawnPoint;
     private bool isAiming = false;
 
     public override void UseWeapon()
@@ -25,12 +25,12 @@ public class Bow : Weapon
 
     private void PerformNormalShot()
     {
-        Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+        PoolManager.Instance.Get_Arrow();
     }
 
     private void PerformAimedShot()
     {
-        Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+        //Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
     }
 
     private void Update()
