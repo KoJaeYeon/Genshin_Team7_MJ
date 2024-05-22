@@ -74,7 +74,7 @@ public partial class @PlayerAction: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Zoom"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""bdb1688f-a8e3-4425-9e53-0849cb222b09"",
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",

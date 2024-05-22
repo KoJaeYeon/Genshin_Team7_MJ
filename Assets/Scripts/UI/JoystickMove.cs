@@ -14,7 +14,7 @@ public class JoystickMove : MonoBehaviour  , IDragHandler , IEndDragHandler
 
     private void Start()
     {
-        Debug.Log(pointJoy.position);
+       // Debug.Log(pointJoy.position);
     }
     public void OnDrag(PointerEventData eventData)
     {
