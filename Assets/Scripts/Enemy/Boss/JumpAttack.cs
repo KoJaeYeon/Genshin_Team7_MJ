@@ -6,51 +6,48 @@ public class JumpAttack : IPattern
 {
     private Wolf m_Wolf;
     private Vector3 EndPos;
-    private bool isJump;
+    private float Speed = 12.0f;
     private AnimatorStateInfo animatorStateInfo;
     public JumpAttack(Wolf wolf)
     {
         m_Wolf = wolf;
-        //AnimationStart();
-        
+        m_Wolf.BossAnimator.SetTrigger("JumpAttack");
+        EndPos = m_Wolf.PlayerTransform.position;
     }
 
     public void BossAttack()
     {
-        //if (isJump)
-        //{
-        //    Rotation();
-        //}
-        m_Wolf.BossAnimator.SetTrigger("JumpAttack");
-
         animatorStateInfo = m_Wolf.BossAnimator.GetCurrentAnimatorStateInfo(0);
 
-        if (animatorStateInfo.normalizedTime < 0.4f)
+        if (animatorStateInfo.normalizedTime < 0.3f)
+        {
             Rotation();
+            Move();
+        }
     }
     private void Rotation()
     {
-        Vector3 targetPos = m_Wolf.PlayerTransform.position - m_Wolf.transform.position;
+        Vector3 targetPos = EndPos - m_Wolf.transform.position;
 
         float angle = Mathf.Atan2(targetPos.x, targetPos.z) * Mathf.Rad2Deg;
 
         Quaternion Rot = Quaternion.Euler(0, angle, 0);
 
-        m_Wolf.transform.rotation = Quaternion.Slerp(m_Wolf.transform.rotation, Rot, 5.0f * Time.fixedDeltaTime);
+        m_Wolf.transform.rotation = Quaternion.Slerp(m_Wolf.transform.rotation, Rot, 5f * Time.fixedDeltaTime);
     }
 
-    private void AnimationStart()
+    private void Move()
     {
-        m_Wolf.BossAnimator.SetTrigger("JumpAttack");
-        isJump = true;
-        m_Wolf.StartCoroutine(AnimationStop());
-    }
+        Vector3 Dir = (EndPos - m_Wolf.transform.position).normalized;
 
-    private IEnumerator AnimationStop()
-    {
-        yield return new WaitForSeconds(m_Wolf.BossAnimator.GetCurrentAnimatorStateInfo(0).length);
-        isJump = false;
-        m_Wolf.State.ChangeState(BossState.Attack);
-    }
+        Vector3 move = Dir * Speed * Time.fixedDeltaTime;
 
+        if (Vector3.Distance(m_Wolf.transform.position, EndPos) > move.magnitude)
+        {
+            m_Wolf.transform.Translate(move, Space.World);
+        }
+        else
+            m_Wolf.transform.position = EndPos;
+        
+    }
 }
