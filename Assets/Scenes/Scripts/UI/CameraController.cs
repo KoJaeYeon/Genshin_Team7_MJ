@@ -90,6 +90,9 @@ public class CameraController : MonoBehaviour
                             float touchZoom = touchDaltaMag - touchMag;
 
                             Debug.Log("touchZoom :" + touchZoom);
+
+
+
                         }
                         else 
                         {
