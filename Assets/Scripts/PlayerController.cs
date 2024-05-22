@@ -53,8 +53,8 @@ public class PlayerController : MonoBehaviour
 
     //cinemachine
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
-    private float _cinemachineTargetYaw;
-    private float _cinemachineTargetPitch;
+    private static float _cinemachineTargetYaw;
+    private static float _cinemachineTargetPitch;
     private float minFOV = 20f;
     private float maxFOV = 60f;
     //private float _cinemachineDistance;

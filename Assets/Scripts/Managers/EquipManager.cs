@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EquipManager : Singleton<EquipManager>
@@ -21,12 +22,13 @@ public class EquipManager : Singleton<EquipManager>
     {
         if (Input.GetKeyDown(KeyCode.N))
         {
-            Debug.Log(beidou_Equip.weaponDamage);
-            Debug.Log(beidou_Equip.flowerHealth);
-            Debug.Log(beidou_Equip.featherDamage);
-            Debug.Log(beidou_Equip.sandTime_HelathPercent);
-            Debug.Log(beidou_Equip.trohphy_AttackPercent);
-            Debug.Log(beidou_Equip.crown_defencePercent);
+            for(ForEach)
+            //Debug.Log(beidou_Equip.weaponDamage);
+            //Debug.Log(beidou_Equip.flowerHealth);
+            //Debug.Log(beidou_Equip.featherDamage);
+            //Debug.Log(beidou_Equip.sandTime_HelathPercent);
+            //Debug.Log(beidou_Equip.trohphy_AttackPercent);
+            //Debug.Log(beidou_Equip.crown_defencePercent);
         }
         if (Input.GetKeyDown(KeyCode.M))
         {
