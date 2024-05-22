@@ -30,10 +30,12 @@ public class EquipManager : Singleton<EquipManager>
         }
         if (Input.GetKeyDown(KeyCode.M))
         {
-            foreach (int i in kokomi_Equip.itemSlotKeys)
-            {
-                Debug.Log(i);
-            }
+            Debug.Log(yoimiya_Equip.weaponDamage);
+            Debug.Log(yoimiya_Equip.flowerHealth);
+            Debug.Log(yoimiya_Equip.featherDamage);
+            Debug.Log(yoimiya_Equip.sandTime_HelathPercent);
+            Debug.Log(yoimiya_Equip.trohphy_AttackPercent);
+            Debug.Log(yoimiya_Equip.crown_defencePercent);
         }
     }
 
@@ -49,32 +51,32 @@ public class EquipManager : Singleton<EquipManager>
         {
             case EqiupType.Flower:
                 tempKey = equipStats.itemSlotKeys[1];
-                equipStats.weaponDamage = item.value;
+                equipStats.flowerHealth = item.value;
                 equipStats.itemSlotKeys[1] = itemSlot.GetKey();
                 break;
             case EqiupType.Feather:
                 tempKey = equipStats.itemSlotKeys[2];
-                equipStats.flowerHealth = item.value;
+                equipStats.featherDamage = item.value;
                 equipStats.itemSlotKeys[2] = itemSlot.GetKey();
                 break;
             case EqiupType.SandTime:
                 tempKey = equipStats.itemSlotKeys[3];
-                equipStats.featherDamage = item.value;
+                equipStats.sandTime_HelathPercent = item.value;
                 equipStats.itemSlotKeys[3] = itemSlot.GetKey();
                 break;
             case EqiupType.Trophy:
                 tempKey = equipStats.itemSlotKeys[4];
-                equipStats.sandTime_HelathPercent = item.value;
+                equipStats.trohphy_AttackPercent = item.value;
                 equipStats.itemSlotKeys[4] = itemSlot.GetKey();
                 break;
             case EqiupType.Crown:
                 tempKey = equipStats.itemSlotKeys[5];
-                equipStats.trohphy_AttackPercent = item.value;
+                equipStats.crown_defencePercent = item.value;
                 equipStats.itemSlotKeys[5] = itemSlot.GetKey();
                 break;
             default:
                 tempKey = equipStats.itemSlotKeys[0];
-                equipStats.crown_defencePercent = item.value;
+                equipStats.weaponDamage = item.value;
                 equipStats.itemSlotKeys[0] = itemSlot.GetKey();
                 break;
         }
@@ -104,27 +106,27 @@ public class EquipManager : Singleton<EquipManager>
         switch (item.equipType)
         {
             case EqiupType.Flower:
-                equipStats.weaponDamage = item.value;
+                equipStats.flowerHealth = item.value;
                 equipStats.itemSlotKeys[1] = itemSlot.GetKey();
                 break;
             case EqiupType.Feather:
-                equipStats.flowerHealth = item.value;
+                equipStats.featherDamage = item.value;
                 equipStats.itemSlotKeys[2] = itemSlot.GetKey();
                 break;
             case EqiupType.SandTime:
-                equipStats.featherDamage = item.value;
+                equipStats.sandTime_HelathPercent = item.value;
                 equipStats.itemSlotKeys[3] = itemSlot.GetKey();
                 break;
             case EqiupType.Trophy:
-                equipStats.sandTime_HelathPercent = item.value;
+                equipStats.trohphy_AttackPercent = item.value;
                 equipStats.itemSlotKeys[4] = itemSlot.GetKey();
                 break;
             case EqiupType.Crown:
-                equipStats.trohphy_AttackPercent = item.value;
+                equipStats.crown_defencePercent = item.value;
                 equipStats.itemSlotKeys[5] = itemSlot.GetKey();
                 break;
             default:
-                equipStats.crown_defencePercent = item.value;
+                equipStats.weaponDamage = item.value;
                 equipStats.itemSlotKeys[0] = itemSlot.GetKey();
                 break;
         }
@@ -145,27 +147,27 @@ public class EquipManager : Singleton<EquipManager>
             switch (equipType)
             {
             case EqiupType.Flower:
-                    equipStats.weaponDamage = 0;
+                    equipStats.flowerHealth = 0;
                     equipStats.itemSlotKeys[1] = -1;
                     break;
                 case EqiupType.Feather:
-                    equipStats.flowerHealth = 0;
+                    equipStats.featherDamage = 0;
                     equipStats.itemSlotKeys[2] = -1;
                     break;
                 case EqiupType.SandTime:
-                    equipStats.featherDamage = 0;
+                    equipStats.sandTime_HelathPercent = 0;
                     equipStats.itemSlotKeys[3] = -1;
                     break;
                 case EqiupType.Trophy:
-                    equipStats.sandTime_HelathPercent = 0;
+                    equipStats.trohphy_AttackPercent = 0;
                     equipStats.itemSlotKeys[4] = -1;
                     break;
                 case EqiupType.Crown:
-                    equipStats.trohphy_AttackPercent = 0;
+                    equipStats.crown_defencePercent = 0;
                     equipStats.itemSlotKeys[5] = -1;
                     break;
                 default:
-                    equipStats.crown_defencePercent = 0;
+                    equipStats.weaponDamage = 0;
                     equipStats.itemSlotKeys[0] = -1;
                     break;
                 }
