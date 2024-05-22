@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IItemPanel
 {
-    public void UpdateItemPanel(int id);
+    public void UpdateItemPanel(int id, CharacterItemSprite character);
 }

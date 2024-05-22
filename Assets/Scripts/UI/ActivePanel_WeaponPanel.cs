@@ -20,6 +20,11 @@ public class ActivePanel_WeaponPanel : MonoBehaviour, IActivePanel
         gameObject.SetActive(true);
         UIManager.Instance.activePanel = this;
         InventoryManager.Instance.Load_Weapon(transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0));
+        UIManager.Instance.DataPanel = transform.GetChild(1).gameObject;
+        if(transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).childCount != 0 )
+        {
+            transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetComponent<ItemSlot>().ShowData();
+        }
 
     }
 
@@ -29,6 +34,7 @@ public class ActivePanel_WeaponPanel : MonoBehaviour, IActivePanel
         gameObject.SetActive(false);
         if(previousPanel != null) { previousPanel.EnablePanel(); }
         InventoryManager.Instance.UnLoad_Weapon();
+        UIManager.Instance.DataPanel = null;
         
     }
     public virtual void DisablePanel()
