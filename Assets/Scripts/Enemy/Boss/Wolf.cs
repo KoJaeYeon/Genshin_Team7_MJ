@@ -24,8 +24,9 @@ public class Wolf : Enemy
     private bool enemyCommand = true;
     private bool battleStart = true;
     private bool turn = true;
-    private bool onSkill = true;
+    private bool moveStop = false;
     private bool jumpBack = true;
+    private bool isJump = true;
     private int phase = 1;
     private float paralyzation;
     private BossPattern Pattern;
@@ -40,10 +41,9 @@ public class Wolf : Enemy
     {
         InitWolf();
         InitState();
-        SetPattern(BossPattern.JumpAttack);
+        SetPattern(BossPattern.TailAttack);
     }
 
-    
     public void InitWolf()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -132,15 +132,20 @@ public class Wolf : Enemy
         get { return battleStart; }
         set { battleStart = value; }
     }
-    public bool OnSkill
+    public bool MoveStop
     {
-        get { return onSkill; }
-        set { onSkill = value; }
+        get { return moveStop; }
+        set { moveStop = value; }
     }
     public bool JumpBack
     {
         get { return jumpBack; }
         set { jumpBack = value; }
+    }
+    public bool IsJump
+    {
+        get { return isJump; }
+        set { isJump = value; }
     }
 
     public override void TakeDamage(float damage, Element element)
@@ -163,20 +168,23 @@ public class Wolf : Enemy
     public void OnTurn()
     {
         turn = true;
-        onSkill = true;
+        moveStop = false;
+    }
+    public void Stop()
+    {
+        moveStop = true;
     }
 
     public void OnJumpBack()
     {
-        onSkill = true;
         jumpBack = true;
+        moveStop = false;
     }
     public void ChangeAttack()
     {
         bossState.ChangeState(BossState.Attack);
     }
 
-    
 }
 
 public abstract class WolfState : BossBaseState
@@ -234,9 +242,9 @@ public class WolfMove : WolfState
 
     public override void StateExit()
     {
-        m_Wolf.BossAnimator.SetBool("isMove", false);
         m_Wolf.BossAgent.SetDestination(m_Wolf.transform.position);
         m_Wolf.BossAgent.enabled = false;
+        m_Wolf.BossAnimator.applyRootMotion = true;
     }
 
     public override void StateFixedUpdate()
@@ -248,7 +256,6 @@ public class WolfMove : WolfState
             if (Distance() > m_Wolf.BossAgent.stoppingDistance && timer <= 7.0f)
             {
                 m_Wolf.BossAgent.SetDestination(m_Wolf.PlayerTransform.position);
-                m_Wolf.BossAnimator.SetBool("isMove", true);
             }
             else
                 m_Wolf.State.ChangeState(BossState.Attack);
@@ -286,55 +293,56 @@ public class WolfAttackState : WolfState
         float distance = Distance();
 
         Debug.Log(distance);
-        
-        if (m_Wolf.Phase == 1)
-        {
-            PhaseOneAttack(angle, distance);
-        }
-        else
-        {
 
-        }
+        Attack(angle, distance);
     }
 
-    private void PhaseOneAttack(float Angle, float Distance)
+    private void Attack(float Angle, float Distance)
     {
-        //if (Distance <= 15f)
-        //    m_Wolf.State.ChangeState(BossState.Jump);
-
-
         JumpBack(Angle, Distance);
+        Turn(Angle);
 
-        if (Distance <= 8.0f)
-            MeleeAttack(Angle);
-        else if (Distance <= 15.0f)
-            m_Wolf.State.ChangeState(BossState.Jump);
-        ////else
-        //    //m_Wolf.State.ChangeState(BossState.Charge);
-
-
+        if (!m_Wolf.MoveStop)
+        {
+            if (Distance <= 10.0f)
+            {
+                m_Wolf.IsJump = true;
+                MeleeAttack(Angle);
+            }
+            else if (Distance <= 15.0f && m_Wolf.IsJump)
+            {
+                m_Wolf.IsJump = false;
+                m_Wolf.State.ChangeState(BossState.Jump);
+            }
+            else
+            {
+                m_Wolf.IsJump = true;
+                m_Wolf.State.ChangeState(BossState.Charge);
+            }
+        }
     }
 
     private void MeleeAttack(float Angle)
     {
         float Abs = Mathf.Abs(Angle);
 
-        if(Abs <= 60)
+        if (Abs <= 60)
         {
             m_Wolf.State.ChangeState(BossState.Claw);
         }
-        else if(Abs <= 110)
+        else if (Abs <= 100)
         {
             m_Wolf.State.ChangeState(BossState.Drift);
         }
         else
             Turn(Angle);
-        
+
     }
 
     private float Angle()
     {
         Vector3 targetDirection = (m_Wolf.PlayerTransform.position - m_Wolf.transform.position).normalized;
+
         Vector3 selfDirection = m_Wolf.transform.forward;
 
         float angle = Vector3.SignedAngle(selfDirection, targetDirection, Vector3.up);
