@@ -149,7 +149,7 @@ public class Wolf : Enemy
 
     public IEnumerator ChargeCoolTime()
     {
-        yield return new WaitForSeconds(7.5f);
+        yield return new WaitForSeconds(10f);
      
         isCharge = true;
     }
@@ -365,8 +365,14 @@ public class WolfAttackState : WolfState
                 m_Wolf.State.ChangeState(BossState.Charge);
             }
             else if (!m_Wolf.IsJump && !m_Wolf.IsCharge)
+            {
                 m_Wolf.State.ChangeState(BossState.Howl);
-            
+            }
+            else
+            {
+                m_Wolf.State.ChangeState(BossState.Move);
+            }
+                
         }
     }
 
