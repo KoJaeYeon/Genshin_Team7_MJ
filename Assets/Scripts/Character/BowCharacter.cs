@@ -22,9 +22,19 @@ public class BowCharacter : Character
         }
     }
 
+    public override void Attack()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override void UseElementalSkill()
     {
         EnchantWeapon(Element.Fire);
+    }
+
+    public override void UseElementalBurst()
+    {
+        throw new System.NotImplementedException();
     }
 
     private void EnchantWeapon(Element element)

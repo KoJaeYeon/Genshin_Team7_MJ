@@ -145,18 +145,18 @@ public class PlayerController : MonoBehaviour
 
         Climb();
 
-        if (_input.attack)
-        {
-            if (_attackTrigger)
-            {
-                Attack();
-                _attackTrigger = false;
-            }
-        }
-        else
-        {
-            _attackTrigger = true;
-        }
+        //if (_input.attack)
+        //{
+        //    if (_attackTrigger)
+        //    {
+        //        Attack();
+        //        _attackTrigger = false;
+        //    }
+        //}
+        //else
+        //{
+        //    _attackTrigger = true;
+        //}
     }
 
     private void LateUpdate()
@@ -172,8 +172,8 @@ public class PlayerController : MonoBehaviour
         _animIDFreeFall = Animator.StringToHash("FreeFall");
         _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
         _animIDCliffCheck = Animator.StringToHash("Cliff");
-        _animIDAttack = Animator.StringToHash("Attack");
-        _animIDAttacking = Animator.StringToHash("Attacking");
+        //_animIDAttack = Animator.StringToHash("Attack");
+        //_animIDAttacking = Animator.StringToHash("Attacking");
     }
 
     private void GroundedCheck()
@@ -491,18 +491,18 @@ public class PlayerController : MonoBehaviour
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
 
-    private void Attack()
-    {
-        if (_hasAnimator)
-        {
-            _animator.SetTrigger(_animIDAttack);
-            _animator.SetBool(_animIDAttacking, true);
-        }
-        else
-        {
-            _animator.SetBool(_animIDAttacking, false);
-        }
-    }
+    //private void Attack()
+    //{
+    //    if (_hasAnimator)
+    //    {
+    //        _animator.SetTrigger(_animIDAttack);
+    //        _animator.SetBool(_animIDAttacking, true);
+    //    }
+    //    else
+    //    {
+    //        _animator.SetBool(_animIDAttacking, false);
+    //    }
+    //}
 
     public void SetSensitivity(float newSensitivity)
     {

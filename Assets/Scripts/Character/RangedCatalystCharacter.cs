@@ -18,10 +18,19 @@ public class RangedCatalystCharacter : Character
             }
         }
     }
+    public override void Attack()
+    {
+        throw new System.NotImplementedException();
+    }
 
     public override void UseElementalSkill()
     {
         EnchantWeapon(Element.Water);
+    }
+
+    public override void UseElementalBurst()
+    {
+        throw new System.NotImplementedException();
     }
 
     private void EnchantWeapon(Element element)

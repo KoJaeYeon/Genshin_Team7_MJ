@@ -19,9 +19,19 @@ public class MeleeCatalystCharacter : Character
         }
     }
 
+    public override void Attack()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override void UseElementalSkill()
     {
         EnchantWeapon(Element.Ice);
+    }
+
+    public override void UseElementalBurst()
+    {
+        throw new System.NotImplementedException();
     }
 
     private void EnchantWeapon(Element element)
