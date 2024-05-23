@@ -64,8 +64,6 @@ public class Chest : MonoBehaviour,IInteractable
         BoxCollider collider = GetComponent<BoxCollider>();
         collider.enabled = false;
         yield return new WaitForSeconds(2f);
-        //animator.Play("Chest_Disppear");
-        yield return null;
         collider.enabled = true;
         gameObject.SetActive(false);
 

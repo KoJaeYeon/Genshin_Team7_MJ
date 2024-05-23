@@ -87,6 +87,7 @@ public class Mission : MonoBehaviour, IInteractable
             PoolManager.Instance.Return_GetSlot(getSlot);
             transform.GetChild(1).gameObject.SetActive(true);
             transform.GetChild(2).gameObject.SetActive(false);
+            animator.Play("Succes");
         }
     }
 

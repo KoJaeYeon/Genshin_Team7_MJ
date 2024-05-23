@@ -14,7 +14,6 @@ public class RenderManager : MonoBehaviour
     public PropertyText_Weapon weaponPropertyText;
     public PropertyText_Relic relicPropertyText;
     public ParticleSystem particle;
-    public ParticleSystem smoke;
 
     private void Awake()
     {
@@ -40,8 +39,12 @@ public class RenderManager : MonoBehaviour
     public void ChangeCharacter(int index) // 캐릭터 패널에서 캐릭터 누를때 캐릭터 변경 
     {
         EquipManager.Instance.character = (CharacterItemSprite)index; //소환되어야 하는 캐릭터 설정
-        weaponPropertyText.UpdatePanel(); // 장비창 패널 해당 캐릭터로 업데이트
-        relicPropertyText.UpdatePanel(); // 성유물창 업데이트
+        try
+        {
+            weaponPropertyText.UpdatePanel(); // 장비창 패널 해당 캐릭터로 업데이트
+            relicPropertyText.UpdatePanel(); // 성유물창 업데이트
+        }
+        catch { }
         renderImage.touched = false; // 캐릭터 바뀔때 카메라 초기화
 
         for (int i = 0; i < Manekins.Length; i++)
