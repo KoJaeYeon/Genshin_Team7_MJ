@@ -21,6 +21,7 @@ public class PoolManager : Singleton<PoolManager>
     public Transform PoolParent;
     public Transform ElementPool;
     public Transform PlayerTransform;
+    public Transform arrowSpawnPoint;
 
     private void Awake()
     {
@@ -75,7 +76,7 @@ public class PoolManager : Singleton<PoolManager>
 
         for (int i = 0; i < 20; i++)
         {
-            GameObject prefab = Instantiate(arrowPrefab, PoolParent);
+            GameObject prefab = Instantiate(arrowPrefab, arrowSpawnPoint);
             arrowQueue.Enqueue(prefab);
             prefab.SetActive(false);
         }
@@ -162,8 +163,9 @@ public class PoolManager : Singleton<PoolManager>
     {
         GameObject arrow = arrowQueue.Dequeue();
         arrowQueue.Enqueue(arrow);
-        transform.GetChild(0).localPosition = Vector3.zero;
-        transform.localPosition = Vector3.zero;
+        arrow.transform.GetChild(0).localPosition = Vector3.zero;
+        arrow.transform.localPosition = Vector3.zero;
+        arrow.GetComponent<Rigidbody>().velocity = Vector3.zero;
         return arrow;
     }
 

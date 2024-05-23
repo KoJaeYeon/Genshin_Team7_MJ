@@ -49,24 +49,13 @@ public class NomalHilichurl : Enemy, IColor
         return color;   
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject.CompareTag("HitObject") && gameObject.layer == (int)EnemyLayer.isAlive)
-    //    {
-    //        TestElement hitObject = other.GetComponent<TestElement>();
-    //        HitElement = hitObject.GetElement();
-    //        Damaged(this, hitObject.ReturnDamage(), HitElement);
-
-    //        hitObject.Return();
-    //    }
-    //}
-
     public override void TakeDamage(float damage, Element element)
     {
         EnemyHealthDic[this] -= CalculateDamage(damage, element);
         HpSlider.value = EnemyHealthDic[this];
         transform.LookAt(Player.position);
         animator.SetTrigger("Hit");
+        UIManager.Instance.DamageText(damage);
 
         if (EnemyHealthDic[this] <= 0)
         {

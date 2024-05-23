@@ -484,6 +484,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &528669863395376548
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1514006173080361581}
+  m_Layer: 7
+  m_Name: ProjectileSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1514006173080361581
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528669863395376548}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.1, z: 0.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1984413875241949931}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &531034696022703576
 GameObject:
   m_ObjectHideFlags: 0
@@ -711,8 +742,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 3741402583970940202}
-  rangedProjectilePrefab: {fileID: 0}
-  projectileSpawnPoint: {fileID: 0}
+  rangedProjectilePrefab: {fileID: 7517079330416549230, guid: 118cdf263f6919341b0d63a33a907b44,
+    type: 3}
+  projectileSpawnPoint: {fileID: 1514006173080361581}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -1100,6 +1132,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1514006173080361581}
   - {fileID: 3261507116027983553}
   - {fileID: 3539523986478658734}
   - {fileID: 3820332096082579454}
@@ -1193,7 +1226,6 @@ MonoBehaviour:
   - {fileID: 1834142975414254697}
   detectionRange: 10
   detectionAngle: 45
-  attackType: 0
 --- !u!1 &1210534338772980927
 GameObject:
   m_ObjectHideFlags: 0
@@ -2240,7 +2272,7 @@ Transform:
   - {fileID: 1873936115408242756}
   - {fileID: 1678196128122690236}
   m_Father: {fileID: 1984413875241949931}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2605351270760738532
 GameObject:
@@ -2650,7 +2682,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1984413875241949931}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3124741350743967747
 GameObject:
@@ -3316,8 +3348,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 3741402583970940202}
-  rangedProjectilePrefab: {fileID: 0}
-  projectileSpawnPoint: {fileID: 0}
+  rangedProjectilePrefab: {fileID: 7517079330416549230, guid: 118cdf263f6919341b0d63a33a907b44,
+    type: 3}
+  projectileSpawnPoint: {fileID: 1514006173080361581}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -4663,7 +4696,7 @@ Transform:
   m_Children:
   - {fileID: 4086458472574277424}
   m_Father: {fileID: 1984413875241949931}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5224405423991437212
 GameObject:
@@ -6084,7 +6117,7 @@ Transform:
   - {fileID: 3413684007564448907}
   - {fileID: 2360497696075698504}
   m_Father: {fileID: 1984413875241949931}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6988755528848475320
 GameObject:
@@ -6218,7 +6251,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1984413875241949931}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &4128288891867944039
 SphereCollider:
@@ -7019,7 +7052,7 @@ Transform:
   - {fileID: 1004225362032956370}
   - {fileID: 3220395000383558957}
   m_Father: {fileID: 1984413875241949931}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7859549338317888847
 GameObject:
@@ -7286,8 +7319,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 3741402583970940202}
-  rangedProjectilePrefab: {fileID: 0}
-  projectileSpawnPoint: {fileID: 0}
+  rangedProjectilePrefab: {fileID: 7517079330416549230, guid: 118cdf263f6919341b0d63a33a907b44,
+    type: 3}
+  projectileSpawnPoint: {fileID: 1514006173080361581}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8

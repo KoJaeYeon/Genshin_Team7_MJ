@@ -15,6 +15,7 @@ public class PlayerInputHandler : MonoBehaviour
     public bool jump;
     public bool sprint;
     public bool windfield;
+    public bool aim;
 
     [Header("Movement Settings")]
     public bool analogMovement;
@@ -65,6 +66,12 @@ public class PlayerInputHandler : MonoBehaviour
     {
         CursorInput(value.isPressed);
     }
+
+    public void OnAim(InputValue value)
+    {
+        Debug.Log("Aim");
+        AimInput(value.isPressed);
+    }
 #endif
 
     public void MoveInput(Vector2 newMoveDirection)
@@ -101,15 +108,20 @@ public class PlayerInputHandler : MonoBehaviour
     {
         cursorLocked = cursorValue;
         cursorInputForLook = !cursorValue;
-        if(cursorValue)
+        if (cursorValue)
         {
-            Cursor.lockState = CursorLockMode.None;            
+            Cursor.lockState = CursorLockMode.None;
             look = Vector2.zero;
         }
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
+    }
+
+    public void AimInput(bool newAimState)
+    {
+        aim = newAimState;
     }
 
     private void OnApplicationFocus(bool hasFocus)

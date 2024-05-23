@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RangedCatalystCharacter : CatalystCharacter
+public class RangedCatalystCharacter : Character
 {
     protected override void Start()
     {

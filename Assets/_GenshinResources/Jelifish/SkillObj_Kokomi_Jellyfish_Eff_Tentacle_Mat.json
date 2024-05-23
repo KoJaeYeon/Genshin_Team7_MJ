@@ -1,0 +1,461 @@
+{
+  "m_Shader": {
+    "m_FileID": 3,
+    "m_PathID": 2854121428418910931,
+    "Name": "miHoYo/Effects/Dissolve_Add",
+    "IsNull": false
+  },
+  "m_SavedProperties": {
+    "m_TexEnvs": {
+      "_AddTex": {
+        "m_Texture": {
+          "m_FileID": 1,
+          "m_PathID": -2248648076548032695,
+          "Name": "SkillObj_Kokomi_Jellyfish_00_Tex_Eff",
+          "IsNull": false
+        },
+        "m_Scale": {
+          "X": 1.0,
+          "Y": 1.0
+        },
+        "m_Offset": {
+          "X": 0.0,
+          "Y": 0.0
+        }
+      },
+      "_AddTexUvmoveTex": {
+        "m_Texture": {
+          "m_FileID": 2,
+          "m_PathID": 7313211513819129698,
+          "Name": "Eff_Lightning_12",
+          "IsNull": false
+        },
+        "m_Scale": {
+          "X": 1.3,
+          "Y": 1.3
+        },
+        "m_Offset": {
+          "X": 0.0,
+          "Y": 0.0
+        }
+      },
+      "_DissolveTex": {
+        "m_Texture": {
+          "m_FileID": 4,
+          "m_PathID": -9151591525885060806,
+          "Name": "Eff_Noise_13",
+          "IsNull": false
+        },
+        "m_Scale": {
+          "X": 3.0,
+          "Y": 3.0
+        },
+        "m_Offset": {
+          "X": 0.0,
+          "Y": 0.0
+        }
+      },
+      "_MainTex012Texs": {
+        "m_Texture": {
+          "m_FileID": 1,
+          "m_PathID": -2248648076548032695,
+          "Name": "SkillObj_Kokomi_Jellyfish_00_Tex_Eff",
+          "IsNull": false
+        },
+        "m_Scale": {
+          "X": 1.0,
+          "Y": 1.0
+        },
+        "m_Offset": {
+          "X": 0.0,
+          "Y": 0.0
+        }
+      },
+      "_UVmoveTex": {
+        "m_Texture": {
+          "m_FileID": 1,
+          "m_PathID": -2248648076548032695,
+          "Name": "SkillObj_Kokomi_Jellyfish_00_Tex_Eff",
+          "IsNull": false
+        },
+        "m_Scale": {
+          "X": 1.0,
+          "Y": 1.0
+        },
+        "m_Offset": {
+          "X": 0.0,
+          "Y": 0.0
+        }
+      },
+      "_texcoord": {
+        "m_Texture": {
+          "m_FileID": 0,
+          "m_PathID": 0,
+          "Name": "",
+          "IsNull": true
+        },
+        "m_Scale": {
+          "X": 1.0,
+          "Y": 1.0
+        },
+        "m_Offset": {
+          "X": 0.0,
+          "Y": 0.0
+        }
+      }
+    },
+    "m_Ints": null,
+    "m_Floats": {
+      "_2ColorToggle": 0.0,
+      "_2MaskTexBlendModeToggle": 1.0,
+      "_A_Base_Speed": 0.0,
+      "_AddTexBrightness": 50.0,
+      "_AddTexColorChannelSwitch": 1.0,
+      "_AddTexUvmoveTexBrightness": 20.0,
+      "_AddTexUvmoveTex_Uspeed": 0.7,
+      "_AddTexUvmoveTex_Vspeed": 0.5,
+      "_AlphaBrightness": 6.0,
+      "_AlphaEdgeFade": 0.35,
+      "_AlphaFadeByDistanceToggle": 0.0,
+      "_AlphaFadeDistance": 2.0,
+      "_AlphaFadeDistanceInvertToggle": 0.0,
+      "_AlphaFadeOffset": 0.0,
+      "_AlphaScale": 1.0,
+      "_AlphaSoftedgePower": 1.0,
+      "_AlphaSoftedgeScale": 3.4,
+      "_AlphaSoftedgeToggle": 0.0,
+      "_B_Base_Speed": 0.0,
+      "_BaseTexAlphaBrightness": 1.0,
+      "_BaseTexAlphaChannelSwitch": 1.0,
+      "_BaseTexAlphaChannelToggle": 0.0,
+      "_BaseTexAlphaScaler": 1.0,
+      "_BaseTexColorChannelSwitch": 0.0,
+      "_BaseTexColorChannelToggle": 0.0,
+      "_BaseTexURandomToggle": 0.0,
+      "_BaseTexVRandomToggle": 0.0,
+      "_BaseTex_USlantPower": 0.0,
+      "_BaseTex_Uspeed": 0.0,
+      "_BaseTex_VSlantPower": 0.0,
+      "_BaseTex_Vspeed": 0.0,
+      "_BlendOP": 0.0,
+      "_BumpOffsetHeight": 14.89,
+      "_BumpTexIntensity": 1.0,
+      "_C_Base_Speed": 0.0,
+      "_ColorBrightness": 60.0,
+      "_ColorScale": 2.0,
+      "_CubeMapBrightness": 4.0,
+      "_CubeMapIntensity": 0.007757068,
+      "_Cull": 0.0,
+      "_CutOff": 0.0,
+      "_DepthBrightnessColorScale": 1.0,
+      "_DepthBrightnessScale": 1.0,
+      "_DepthBrightnessThrshold": 0.0,
+      "_DepthFade": 1.0,
+      "_DepthFadeOutLine": 1.0,
+      "_DepthScale": 1.0,
+      "_DepthThresh": 0.005,
+      "_DissloveChannelNum": 1.0,
+      "_Dissolve": 0.5,
+      "_DissolveChannelNum": 1.0,
+      "_DissolveHardScale": 10.0,
+      "_DissolveScale": 1.0,
+      "_DissolveTexChannelSwitch": 1.0,
+      "_DissolveTexUVRandomToggle": 0.0,
+      "_DissolveTex_Uspeed": 0.4,
+      "_DissolveTex_Vspeed": 0.7,
+      "_DistanceInvert": 0.0,
+      "_DistortionGScaler": -2.0,
+      "_DistortionMaskChannelToggle": 1.0,
+      "_DistortionOpacity": 1.0,
+      "_DistortionRScaler": 2.0,
+      "_DistortionTexRG_Uspeed": 0.0,
+      "_DistortionTexRG_Vspeed": 0.0,
+      "_DitherAlpha": 1.0,
+      "_DstBlendMode": 10.0,
+      "_EdgePower": 0.99,
+      "_EdgeWidth": 1.48,
+      "_EffectedByFog": 0.0,
+      "_ElementPatternIntensity": 0.0,
+      "_ElementViewEleID": 0.0,
+      "_EmissiveIntensity": 1.0,
+      "_EnableAlphaTest": 0.0,
+      "_FadeMain": 1.0,
+      "_FadeTotal": 1.0,
+      "_Fresnal_Power": 0.9,
+      "_Fresnal_Scale": 3.0,
+      "_GlintAdd": 0.5,
+      "_GlintBrightness": 0.35,
+      "_GlintFrequency": 5.0,
+      "_GlintToggle": 0.0,
+      "_GlobalBightness": 1.0,
+      "_GrainTexChannelSwitch": 0.0,
+      "_GrainTexToggle": 1.0,
+      "_GrainTex_Uspeed": 0.0,
+      "_GrainTex_Vspeed": 0.0,
+      "_Inner": 3.62,
+      "_InteractionBrightness": 1.0,
+      "_InteractionSize": 1.0,
+      "_Lerp": 1.0,
+      "_LerpAlphaScaler": 1.0,
+      "_LerpColorScale": 1.0,
+      "_MHYZBias": 0.0,
+      "_MainColorScale": 1.0,
+      "_MainTex1Brightness": 20.0,
+      "_MainTex1ColorChannelSwitch": 1.0,
+      "_MainTex2Brightness": 0.0,
+      "_MainTex2ColorChannelSwitch": 1.0,
+      "_Mask01_Normal": 0.0,
+      "_MaskChannelNum": 1.0,
+      "_MaskScale": 1.0,
+      "_MaskTex02ChannelToggle": 1.0,
+      "_MaskTex02Scaler": 1.0,
+      "_MaskTex02_Uspeed": 0.0,
+      "_MaskTex02_Vspeed": 0.0,
+      "_MaskTexBlendModeToggle": 1.0,
+      "_MaskTexBrightness": 1.0,
+      "_MaskTexChannelSwitch": 1.0,
+      "_MaskTexChannelToggle": 3.0,
+      "_MaskTexScaler": 1.0,
+      "_MaskTexToggle": 1.0,
+      "_MaskTexURandomToggle": 0.0,
+      "_MaskTexVRandomToggle": 0.0,
+      "_MaskTex_Uspeed": 0.0,
+      "_MaskTex_Vspeed": 0.0,
+      "_MaxOutlineZOffset": 1.0,
+      "_MotionVectorsAlphaCutoff": 0.1,
+      "_NoiseIntensityOnMask": 0.0,
+      "_NoiseIntensityOnMask02": 0.0,
+      "_NoiseScale": 0.0,
+      "_NoiseTex01ChannelToggle": 0.0,
+      "_NoiseTex01UVmoveRandomToggle": 0.0,
+      "_NoiseTex01_Uspeed": 1.0,
+      "_NoiseTex01_Vspeed": 1.0,
+      "_NoiseTexChannelSwitch": 0.0,
+      "_NoiseTexToggle": 0.0,
+      "_NoiseTexToggleOnBaseTex": 0.0,
+      "_NoiseTexUVRandomToggle": 1.0,
+      "_NoiseTex_USlantPower": 0.0,
+      "_NoiseTex_Uspeed": 0.98,
+      "_NoiseTex_VSlantPower": 0.0,
+      "_NoiseTex_Vspeed": 0.0,
+      "_Noise_Brightness": 0.1,
+      "_Noise_Offset": 0.0,
+      "_NormalIntensity": 1.0,
+      "_NormalMapToggle": 0.0,
+      "_Opacity": 0.0,
+      "_OpacityRange": 0.0,
+      "_OutlineColorScale": 1.0,
+      "_OutlineOn": 0.0,
+      "_OutlineWidth": 0.05,
+      "_ParticleSystem": 0.0,
+      "_PatternBrightness": 2.0,
+      "_PatternTexChannelSwitch": 1.0,
+      "_PatternTexToggle": 1.0,
+      "_Perturbance": 0.0,
+      "_PolygonOffsetFactor": 0.0,
+      "_PolygonOffsetUnit": 0.0,
+      "_ReceiveShadow": 0.0,
+      "_SOFTPARTICLES": 0.0,
+      "_Scale": 0.01,
+      "_SetLerpColor": 0.0,
+      "_ShapeChannelNumScale": 1.0,
+      "_ShapeTexChannelNum": 1.0,
+      "_Speed_A_U": 0.0,
+      "_Speed_A_V": 0.0,
+      "_Speed_B_U": 0.0,
+      "_Speed_B_V": 0.0,
+      "_SrcBlendMode": 5.0,
+      "_TillingNormalToggle": 1.0,
+      "_TimeScale": 1.0,
+      "_UVmoveTexAlphaChannelSwitch": 2.0,
+      "_UVmoveTexColorBrightness": 0.2,
+      "_UVmoveTexColorChannelSwitch": 0.0,
+      "_UVmoveTex_Uspeed": 0.0,
+      "_UVmoveTex_Vspeed": 0.0,
+      "_UmoveRandomToggle": 0.0,
+      "_UseCustom2ColorToggle": 0.0,
+      "_UsingDitherAlpha": 0.0,
+      "_VmoveRandomToggle": 0.0,
+      "_Ztest": 4.0,
+      "_Zwrite": 0.0
+    },
+    "m_Colors": {
+      "_AB_UorV": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "_A_BaseTexColor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 0.0
+      },
+      "_AddTexColor": {
+        "r": 0.3184582,
+        "g": 0.29411763,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "_B_BaseTexColor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 0.0
+      },
+      "_C_BaseTexColor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 0.0
+      },
+      "_DarkColor": {
+        "r": 0.05482264,
+        "g": 0.11218528,
+        "b": 0.19117647,
+        "a": 0.0
+      },
+      "_DayColor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "_DepthBrightnessColor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "_DissolvePannerXY": {
+        "r": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 0.0
+      },
+      "_DissolveTex_UVXY": {
+        "r": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 0.0
+      },
+      "_EdgeColor": {
+        "r": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 0.0
+      },
+      "_ElementPatternColor": {
+        "r": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 0.0
+      },
+      "_Highlight_Color": {
+        "r": 0.7334559,
+        "g": 0.8970082,
+        "b": 0.9779412,
+        "a": 0.0
+      },
+      "_LerpColor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "_LerpColorDark": {
+        "r": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 1.0
+      },
+      "_LerpColorLight": {
+        "r": 0.428,
+        "g": 0.428,
+        "b": 0.428,
+        "a": 1.0
+      },
+      "_LightColor": {
+        "r": 0.5073529,
+        "g": 0.9692103,
+        "b": 1.0,
+        "a": 0.0
+      },
+      "_MainColor": {
+        "r": 0.20588228,
+        "g": 0.3756591,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "_MainNormalIntensity": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 0.0
+      },
+      "_MainTex1DarkColor": {
+        "r": 0.0,
+        "g": 0.08384038,
+        "b": 0.5882353,
+        "a": 1.0
+      },
+      "_MainTex1LightColor": {
+        "r": 0.20588222,
+        "g": 0.37565905,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "_MainTex2Color": {
+        "r": 0.20588225,
+        "g": 0.37565908,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "_MeshParticleColorArray": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "_NormalIntensity": {
+        "r": 0.6589999,
+        "g": 0.672,
+        "b": 1.0,
+        "a": 0.0
+      },
+      "_OutlineColor": {
+        "r": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 1.0
+      },
+      "_OutlineColorA2Width": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "_ParticleCustomProp0": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "_ParticleCustomProp1": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "_UVmoveTexColor": {
+        "r": 1.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 1.0
+      }
+    }
+  },
+  "m_Name": "SkillObj_Kokomi_Jellyfish_Eff_Tentacle_Mat",
+  "Name": "SkillObj_Kokomi_Jellyfish_Eff_Tentacle_Mat"
+}
