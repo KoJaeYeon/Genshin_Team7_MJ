@@ -146,7 +146,7 @@ public class PlayerController : MonoBehaviour
         GroundedCheck();
         CliffCheck();
 
-        Debug.Log(_isAiming);
+        //Debug.Log(_isAiming);
 
         if (_input.aim)
         {
