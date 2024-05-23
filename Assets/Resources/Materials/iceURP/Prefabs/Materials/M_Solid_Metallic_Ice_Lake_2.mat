@@ -132,14 +132,14 @@ Material:
     - _BackgroundColorPower: 0.1
     - _BaseAO: 1
     - _BaseMetallic: 0.245
-    - _BaseNormalScale: 0.6
-    - _BaseSpecular: 0.118
+    - _BaseNormalScale: 3
+    - _BaseSpecular: 1
     - _BaseUsePlanarUV: 0
     - _Blend: 0
     - _BlendMode: 0
-    - _CleanColorPower: 0.7
-    - _CleanFalloffMultiply: 4.51
-    - _CleanFalloffPower: 0.77
+    - _CleanColorPower: 0.368
+    - _CleanFalloffMultiply: 0
+    - _CleanFalloffPower: 0
     - _CullMode: 2
     - _CullModeForward: 2
     - _Depth: 0.98
@@ -174,29 +174,29 @@ Material:
     - _GlossyReflections: 1
     - _IceAmountOpacity: 1
     - _IceCrackSmoothness: 1
-    - _IceDepth: -0.2
-    - _IceDistortion: 4.47
-    - _IceNoiseContrast: 1.5
-    - _IceNoisePower: 0.91
-    - _IceNoiseScale: 2.9
-    - _IceNoiseSmoothness: 0.9
+    - _IceDepth: 0
+    - _IceDistortion: 0
+    - _IceNoiseContrast: 2.43
+    - _IceNoisePower: 0.48
+    - _IceNoiseScale: -3.73
+    - _IceNoiseSmoothness: 0.86
     - _IceNoiseTiling: 15
     - _IceNormalScale: 1.4
-    - _IceParallaxNoiseMax: 1
-    - _IceParallaxNoiseMin: 0.733
-    - _IceParallaxNoiseScale: 4
-    - _IceParallaxSteps: 40
-    - _IceSmoothness: 0.9
-    - _Ice_Noise_Distortion: 5.58
+    - _IceParallaxNoiseMax: 0
+    - _IceParallaxNoiseMin: 0
+    - _IceParallaxNoiseScale: 0
+    - _IceParallaxSteps: 0
+    - _IceSmoothness: 1
+    - _Ice_Noise_Distortion: 0
     - _Ice_Thickness: 9
     - _MaskClipValue: 0.5
     - _MetalicPower: 0.3
     - _NoiseBlend: 0.244
-    - _NoiseNormalScale: 0.13
+    - _NoiseNormalScale: 0.98
     - _NoisePower: 1
     - _NormalScale: 0.7
     - _ParalaxOffset: 0
-    - _ParallaxFalloff: 1
+    - _ParallaxFalloff: 0
     - _QueueControl: 1
     - _QueueOffset: 0
     - _ReceivesSSR: 1
@@ -209,8 +209,8 @@ Material:
     - _ShadowSpecularOcclusion: 0
     - _ShadowSpecularOcclusionPower: 2
     - _ShadowSpecularPower: 0
-    - _ShalowFalloffMultiply: 1.43
-    - _ShalowFalloffPower: 3.3
+    - _ShalowFalloffMultiply: 0
+    - _ShalowFalloffPower: 0
     - _Smoothness: 0.9
     - _Smothness: 0.869
     - _SpecPower: 1
@@ -240,8 +240,8 @@ Material:
     - _TransparentCullMode: 2
     - _TransparentSortPriority: 1
     - _UseShadowThreshold: 0
-    - _WaterAlphaMultiply: 0.66
-    - _WaterAlphaPower: 1.39
+    - _WaterAlphaMultiply: 0
+    - _WaterAlphaPower: 0
     - _WaterDepth: 0.3
     - _WaterFalloff: 0.65
     - _WaterSmoothness: 0.9
@@ -256,11 +256,11 @@ Material:
     m_Colors:
     - _BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
-    - _BaseTilingOffset: {r: 1, g: 1, b: 0, a: 0}
+    - _BaseTilingOffset: {r: -0.78, g: 0.53, b: -0.78, a: -0.36}
     - _Color0: {r: 0.83823526, g: 0.83823526, b: 0.83823526, a: 0}
     - _Color1: {r: 0, g: 0.048731543, b: 0.22794023, a: 0}
     - _DeepColor: {r: 0, g: 0, b: 0, a: 0}
-    - _DetailTilingOffset: {r: 1, g: 1, b: 0, a: 0}
+    - _DetailTilingOffset: {r: 0, g: 0, b: 0, a: 0}
     - _DiffusionProfileAsset: {r: -1.845205e-10, g: 0.00000016402193, b: 1.2515078e+26,
         a: 1.3716078e-30}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
