@@ -9,7 +9,7 @@ public class Nomal : MonoBehaviour, IWeapon
 
     private void Awake()
     {
-        element = Element.Nomal;
+        element = Element.Normal;
         FirePosition = new Vector3(0, 1, 0);
     }
     public void Shoot()
