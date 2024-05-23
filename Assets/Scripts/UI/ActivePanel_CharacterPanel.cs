@@ -21,9 +21,9 @@ public class ActivePanel_CharacterPanel : MonoBehaviour, IActivePanel
     public void PanelActive(IActivePanel previousPanel)
     {
         this.previousPanel = previousPanel;
+        UIManager.Instance.activePanel = this;
         previousPanel.DisablePanel();
         gameObject.SetActive(true);
-        UIManager.Instance.activePanel = this;
         renderManager.ChangeCharacter(0);
         characterItemSettingButton.SelectActive(0);
     }
@@ -42,6 +42,11 @@ public class ActivePanel_CharacterPanel : MonoBehaviour, IActivePanel
     public virtual void EnablePanel()
     {
         if(_hasAnimator) animator.Play("Enable_Panel");
+    }
+
+    public void TimeRenew()
+    {
+        Time.timeScale = 1;
     }
 
 }

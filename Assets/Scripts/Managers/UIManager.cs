@@ -22,6 +22,8 @@ public class UIManager : Singleton<UIManager>
     public GameObject mainPanel;
     IActivePanel mainPanel_IActivePanel;
 
+    public GameObject characterPanel;
+
     public Transform UI;
     public GameObject DataPanel;
 
