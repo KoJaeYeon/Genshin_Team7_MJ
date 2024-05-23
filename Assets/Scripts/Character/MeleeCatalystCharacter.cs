@@ -18,4 +18,22 @@ public class MeleeCatalystCharacter : Character
             }
         }
     }
+
+    public override void UseSkill()
+    {
+        EnchantWeapon(Element.Ice);
+    }
+
+    private void EnchantWeapon(Element element)
+    {
+        if (weapons.Length > 0)
+        {
+            weapons[currentWeaponIndex].element = element;
+        }
+    }
+
+    protected override void ResetSkill()
+    {
+        base.ResetSkill();
+    }
 }
