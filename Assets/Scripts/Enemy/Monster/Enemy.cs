@@ -65,7 +65,7 @@ public abstract class Enemy : MonoBehaviour
             StartCoroutine(Die(this));
         }
         else
-            if (element != Element.Nomal) HitDropElement(element);
+            if (element != Element.Normal) HitDropElement(element);
     }
 
     public abstract void Splash(float damage);
@@ -229,7 +229,7 @@ public abstract class Enemy : MonoBehaviour
 
 }
 
-[System.Serializable]
+
 public struct EnemyData
 {
     public float Health { get; }

@@ -11,18 +11,21 @@ public class WolfEffectScript : MonoBehaviour
         Frost_Wave,
         Frost_Ring,
         Frost_Spike,
-        Frost_Crystal
+        Frost_Crystal,
+        Magic
     }
 
     public GameObject Frost_Wave;
     public GameObject Frost_Ring;
     public GameObject Frost_Spike;
     public GameObject Frost_Crystal;
+    public GameObject Magic_Circle;
 
     public Transform WavePoint;
     public Transform RingPoint;
     public Transform SpikePoint;
     public Transform CrystalPoint;
+    public Transform MagicPoint;
 
     private Dictionary<Effect, GameObject> EffectDic;
     private Dictionary<Effect, Transform> EffectTrans;
@@ -41,7 +44,7 @@ public class WolfEffectScript : MonoBehaviour
         frost_Wave.SetActive(false);
         EffectDic.Add(Effect.Frost_Wave, frost_Wave);
         EffectTrans.Add(Effect.Frost_Wave, WavePoint);
-        frost_Wave.transform.localPosition = new Vector3(0, 0, 5f);
+        frost_Wave.transform.localPosition = new Vector3(0, 0, 12f);
         Vector3 parentforward = GetEffectTransform(Effect.Frost_Wave).forward;
         Quaternion rotation = Quaternion.FromToRotation(Vector3.right, parentforward);
         frost_Wave.transform.rotation = rotation;
@@ -63,6 +66,12 @@ public class WolfEffectScript : MonoBehaviour
         EffectDic.Add(Effect.Frost_Crystal , frost_Crystal);
         EffectTrans.Add(Effect.Frost_Crystal, CrystalPoint);
         frost_Crystal.transform.localPosition = Vector3.zero;
+
+        GameObject Magic = Instantiate(Magic_Circle, MagicPoint);
+        Magic.SetActive(false);
+        EffectDic.Add(Effect.Magic, Magic);
+        EffectTrans.Add(Effect.Magic, MagicPoint);
+        Magic.transform.localPosition = Vector3.zero;
     }
 
     public GameObject GetEffect(Effect effect)
@@ -83,6 +92,16 @@ public class WolfEffectScript : MonoBehaviour
         spike.SetActive(true);
 
         //StartCoroutine(SystemDie(spike));
+    }
+
+    public void ActiveMagic()
+    {
+        GameObject magic = GetEffect(Effect.Magic);
+        magic.transform.parent = null;
+        magic.SetActive(false);
+        magic.SetActive(true);
+
+        StartCoroutine(MagicEnable(magic));
     }
 
     public void ActiveWave()
@@ -114,6 +133,14 @@ public class WolfEffectScript : MonoBehaviour
 
         StartCoroutine(CrystalEnable(crystal));
     }    
+    IEnumerator MagicEnable(GameObject prefab)
+    {
+        yield return new WaitForSeconds(4.0f);
+        prefab.SetActive(false);
+        prefab.transform.parent = GetEffectTransform(Effect.Magic);
+        prefab.transform.localPosition = Vector3.zero;
+    }
+
     IEnumerator WaveEnable(GameObject prefab)
     {
         ParticleSystem particleSystem = prefab.GetComponentInChildren<ParticleSystem>();
@@ -122,7 +149,7 @@ public class WolfEffectScript : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
         prefab.transform.parent = GetEffectTransform(Effect.Frost_Wave);
-        prefab.transform.localPosition = new Vector3(0, 0, 5f);
+        prefab.transform.localPosition = new Vector3(0, 0, 12f);
         Vector3 parentforward = GetEffectTransform(Effect.Frost_Wave).forward;
         Quaternion rotation = Quaternion.FromToRotation(Vector3.right, parentforward);
         prefab.transform.rotation = rotation;
@@ -131,7 +158,7 @@ public class WolfEffectScript : MonoBehaviour
     }
     IEnumerator CrystalEnable(GameObject prefab)
     {
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(4.0f);
         prefab.SetActive(false);
         prefab.transform.parent = GetEffectTransform(Effect.Frost_Crystal);
         prefab.transform.localPosition = Vector3.zero;
@@ -141,7 +168,7 @@ public class WolfEffectScript : MonoBehaviour
         ParticleSystem particleSystem = prefab.GetComponentInChildren<ParticleSystem>();
         while (particleSystem.isPlaying)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.3f);
         }
         prefab.transform.parent = GetEffectTransform(Effect.Frost_Ring);
         prefab.transform.localPosition = Vector3.zero;

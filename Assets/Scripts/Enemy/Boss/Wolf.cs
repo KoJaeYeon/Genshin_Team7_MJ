@@ -19,17 +19,19 @@ public enum BossPattern
     HowlAttack
 }
 
-public class Wolf : Enemy
+public class Wolf : Enemy, IColor
 {
     private bool battleStart = true;
     private bool turn = true;
     private bool moveStop = false;
     private bool jumpBack = true;
     private bool isJump = true;
-    private bool isCharge = true;   
+    private bool isCharge = true;
+    private bool isRunStop = false;
     private float paralyzation;
     private BossPattern Pattern;
     private Rigidbody bossRigid;
+    private Color BossColor = Color.blue;
     
     //Pattern----------------------------------------------------------
     private IPattern bossAttack;
@@ -51,8 +53,8 @@ public class Wolf : Enemy
         EnemyHealthDic.Add(this, enemyData.Health);
         paralyzation = 100f;
 
-        HpSlider = transform.GetComponentInChildren<Slider>();
-        Hp = HpSlider.gameObject;
+        //HpSlider = transform.GetComponentInChildren<Slider>();
+        //Hp = HpSlider.gameObject;
     }
 
     public void InitState()
@@ -67,11 +69,6 @@ public class Wolf : Enemy
         bossState.AddState(BossState.Stamp, new WolfAttackState_Stamp(this));
         bossState.AddState(BossState.Drift, new WolfAttackState_Drift(this));
         bossState.AddState(BossState.Howl, new WolfAttackState_Howl(this));
-    }
-
-    private void Update()
-    {
-        Debug.Log(EnemyHealthDic[this]);
     }
 
     public void SetPattern(BossPattern bossPattern)
@@ -148,6 +145,13 @@ public class Wolf : Enemy
         set { isCharge = value; }
     }
 
+    public bool IsRunStop
+    {
+        get { return isRunStop; }
+        set { isRunStop = value; }
+    }
+
+
     public IEnumerator JumpCoolTime()
     {
         yield return new WaitForSeconds(7.5f);
@@ -162,13 +166,14 @@ public class Wolf : Enemy
         isCharge = true;
     }
 
-    public override void Splash(float damage)
+    public override void Splash(float damage) { }
+    public Color GetColor()
     {
-        
+        return BossColor;
     }
 
     // Animation Event ----------------------------------------------
-   
+
     public void OnTurn()
     {
         turn = true;
@@ -194,6 +199,10 @@ public class Wolf : Enemy
         bossRigid.velocity = Vector3.zero;
     }
 
+    public void Test()
+    {
+        isRunStop = false;
+    }
 }
 
 public abstract class WolfState : BossBaseState
@@ -427,7 +436,7 @@ public class WolfAttackState : WolfState
         if (!m_Wolf.Turn)
             return;
             
-        if (Distance <= 6.0f && m_Wolf.JumpBack)
+        if (Distance <= 5.5f && m_Wolf.JumpBack)
         {
             if (Angle > -90.0f && Angle < 90.0f)
             {
