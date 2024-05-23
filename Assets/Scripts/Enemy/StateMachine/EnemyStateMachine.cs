@@ -57,7 +57,7 @@ public enum BossState
     Move,
     Attack,
     Jump,
-    Tail,
+    Howl,
     Claw,
     Charge,
     Stamp,
