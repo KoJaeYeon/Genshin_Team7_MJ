@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Threading;
 using UnityEngine;
@@ -6,11 +7,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 #endif
 
-[RequireComponent(typeof(CharacterController))]
-#if ENABLE_INPUT_SYSTEM
-[RequireComponent(typeof(PlayerInput))]
-#endif
-[RequireComponent(typeof(PlayerInputHandler))]
 public class PlayerController : MonoBehaviour
 {
     [Header("Player")]
@@ -50,14 +46,21 @@ public class PlayerController : MonoBehaviour
 
     [Header("Cinemachine")]
     public GameObject CinemachineCameraTarget;
+    private Cinemachine3rdPersonFollow _cinemachineTransposer;
     public float TopClamp = 70.0f;
     public float BottomClamp = -30.0f;
     public float CameraAngleOverride = 0.0f;
     public bool LockCameraPosition = false;
 
     //cinemachine
-    private float _cinemachineTargetYaw;
-    private float _cinemachineTargetPitch;
+    [SerializeField] private CinemachineVirtualCamera virtualCamera;
+    private static float _cinemachineTargetYaw;
+    private static float _cinemachineTargetPitch;
+    private float minFOV = 40f;
+    private float maxFOV = 60f;
+    private float aimFOV = 30f;
+    private Vector3 normalOffset;
+    private Vector3 aimOffset = new Vector3(0.3f, 1.5f, 0f);
 
     //player
     private float _speed;
@@ -68,8 +71,8 @@ public class PlayerController : MonoBehaviour
     private float _terminalVelocity = 53.0f;
     private bool _attackTrigger = true;
     private bool _isClimbing = false;
-    private bool _isGliding = false;
-    
+    public static bool _isGliding = false;
+    private bool _isAiming = false;
 
     //timeout deltatime
     private float _jumpTimeoutDelta;
@@ -82,16 +85,17 @@ public class PlayerController : MonoBehaviour
     private int _animIDFreeFall;
     private int _animIDMotionSpeed;
     private int _animIDCliffCheck;
+    private int _animIDAttack = Animator.StringToHash("Attack");
+    private int _animIDAttacking = Animator.StringToHash("Attacking");
 
 #if ENABLE_INPUT_SYSTEM
     private PlayerInput _playerInput;
 #endif
-
+    public Animator _wingAnimator;
     private Animator _animator;
     private CharacterController _controller;
     private PlayerInputHandler _input;
     private GameObject _mainCamera;
-    private Rigidbody _rb;
 
     private const float _threshold = 0.01f;
 
@@ -106,48 +110,72 @@ public class PlayerController : MonoBehaviour
         {
             _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         }
+
+        _animator = GetComponent<Animator>();
+        _hasAnimator = TryGetComponent(out _animator);
+
+        virtualCamera = GameObject.FindObjectOfType<CinemachineVirtualCamera>();
+        _cinemachineTransposer = virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+        normalOffset = _cinemachineTransposer.ShoulderOffset;
     }
 
     private void Start()
     {
-        _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-
-        _hasAnimator = TryGetComponent(out _animator);
-        _controller = GetComponent<CharacterController>();
-        _input = GetComponent<PlayerInputHandler>();
+        
+        _controller = transform.parent.GetComponent<CharacterController>();
+        _input = transform.parent.GetComponent<PlayerInputHandler>();
 #if ENABLE_INPUT_SYSTEM
         _playerInput = GetComponent<PlayerInput>();
 #endif
-        _rb = GetComponent<Rigidbody>();
 
         AssignAnimationIDs();
 
         _jumpTimeoutDelta = JumpTimeout;
         _fallTimeoutDelta = FallTimeout;
+
+        CinemachineCameraTarget = transform.parent.GetChild(0).gameObject;
+
+        _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
     }
 
     private void Update()
     {
         _hasAnimator = TryGetComponent(out _animator);
 
-
         JumpAndGravity();
         GroundedCheck();
         CliffCheck();
-        Move();
-        Climb();
 
-        if (_input.attack)
+        //Debug.Log(_isAiming);
+
+        if (_input.aim)
         {
-            if (_attackTrigger)
-            {
-                Attack();
-                _attackTrigger = false;
-            }
+            ToggleAimMode();
+            
+        }
+
+        if (_isAiming)
+        {
+            AimMove();
         }
         else
         {
-            _attackTrigger = true;
+            Move();
+
+            Climb();
+
+            if (_input.attack)
+            {
+                if (_attackTrigger)
+                {
+                    Attack();
+                    _attackTrigger = false;
+                }
+            }
+            else
+            {
+                _attackTrigger = true;
+            }
         }
     }
 
@@ -164,6 +192,8 @@ public class PlayerController : MonoBehaviour
         _animIDFreeFall = Animator.StringToHash("FreeFall");
         _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
         _animIDCliffCheck = Animator.StringToHash("Cliff");
+        _animIDAttack = Animator.StringToHash("Attack");
+        _animIDAttacking = Animator.StringToHash("Attacking");
     }
 
     private void GroundedCheck()
@@ -220,7 +250,15 @@ public class PlayerController : MonoBehaviour
         CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
             _cinemachineTargetYaw, 0.0f);
 
+        if (_input.zoom != 0)
+        {
+            float newFOV = virtualCamera.m_Lens.FieldOfView - (_input.zoom / 120f);
+            virtualCamera.m_Lens.FieldOfView = Mathf.Clamp(newFOV, minFOV, maxFOV);
+            _input.zoom = 0;
+        }
     }
+
+    
 
     private void Move()
     {
@@ -274,6 +312,29 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void AimMove()
+    {
+        _animator.SetBool("isAiming", _isAiming);
+
+        float targetSpeed = MoveSpeed;
+
+        if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+
+        float verticalInput = _input.move.x;
+        float horizontalInput = _input.move.y;
+
+        Vector3 aimMoveDirection = new Vector3(verticalInput, 0.0f, horizontalInput);
+        aimMoveDirection = transform.TransformDirection(aimMoveDirection);
+
+        _controller.Move(aimMoveDirection * targetSpeed * Time.deltaTime);
+
+        if (_hasAnimator)
+        {
+            _animator.SetFloat("horizontal", horizontalInput);
+            _animator.SetFloat("vertical", verticalInput);
+        }
+    }
+
     private void Climb()
     {
         if (Cliff)
@@ -285,10 +346,10 @@ public class PlayerController : MonoBehaviour
 
             _verticalVelocity = 0.0f;
 
-            float verticalInput = _input.move.y;
-            float horizontalInput = _input.move.x;
+            float verticalInput = _input.move.x;
+            float horizontalInput = _input.move.y;
 
-            Vector3 moveDirection = new Vector3(horizontalInput, verticalInput, 0.0f);
+            Vector3 moveDirection = new Vector3(verticalInput, horizontalInput, 0.0f);
             moveDirection = transform.TransformDirection(moveDirection);
             moveDirection.y = Mathf.Clamp(moveDirection.y, -1f, 1f);            
            
@@ -353,7 +414,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if(_verticalVelocity <0.0f && !_isGliding)
+            if((_verticalVelocity <0.0f && !_isGliding))
             {
                 if (_hasAnimator)
                 {
@@ -362,7 +423,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if(_input.jump && _verticalVelocity < 0.0f)
+            if(_input.jump && (_verticalVelocity < 0.0f || _input.windfield))
             {
                 if (_isGliding)
                     StopGliding();
@@ -404,6 +465,7 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetBool("Glide", true);
             _animator.SetBool(_animIDJump, false);
+            _wingAnimator.SetTrigger("Glide");
         }
     }
 
@@ -420,7 +482,10 @@ public class PlayerController : MonoBehaviour
     private void Gliding()
     {
         _verticalVelocity = -0.5f;
-
+        if(_input.windfield)
+        {
+            _verticalVelocity = 0.5f;
+        }
         Vector3 move = new Vector3(_input.move.x, 0, _input.move.y);
 
         move = transform.TransformDirection(move);
@@ -450,13 +515,40 @@ public class PlayerController : MonoBehaviour
     {
         if (_hasAnimator)
         {
-            _animator.SetTrigger("Attack");
-            _animator.SetBool("Attacking", true);
+            _animator.SetTrigger(_animIDAttack);
+            _animator.SetBool(_animIDAttacking, true);
         }
         else
         {
-            _animator.SetBool("Attacking", false);
+            _animator.SetBool(_animIDAttacking, false);
         }
+    }
 
+    private void ToggleAimMode()
+    {
+        _isAiming = !_isAiming;
+
+        if (_isAiming)
+        {
+            virtualCamera.m_Lens.FieldOfView = aimFOV;
+            _cinemachineTransposer.ShoulderOffset = aimOffset;
+            _animator.SetBool("isAiming", true);
+        }
+        else
+        {
+            virtualCamera.m_Lens.FieldOfView = maxFOV;
+            _cinemachineTransposer.ShoulderOffset = normalOffset;
+            _animator.SetBool("isAiming", false);
+        }
+    }
+
+    public void SetSensitivity(float newSensitivity)
+    {
+        LookSensitivity = newSensitivity;
+    }
+
+    public void SetRotateOnMove(bool newRotateOnMove)
+    {
+        rotateOnMove = newRotateOnMove;
     }
 }

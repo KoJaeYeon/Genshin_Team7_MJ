@@ -319,7 +319,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 3, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7393793330692435440
 Canvas:
@@ -488,10 +488,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3801610201400761936}
     m_Modifications:
+    - target: {fileID: 3661636516109528516, guid: 8731f9e61bfff644a9da0db88cc745dc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8503733308418754304, guid: 8731f9e61bfff644a9da0db88cc745dc,
         type: 3}
       propertyPath: m_Name
       value: IceMonster
+      objectReference: {fileID: 0}
+    - target: {fileID: 8845700453975840670, guid: 8731f9e61bfff644a9da0db88cc745dc,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.29
       objectReference: {fileID: 0}
     - target: {fileID: 8845700454509821730, guid: 8731f9e61bfff644a9da0db88cc745dc,
         type: 3}
@@ -573,8 +583,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8845700453975840669, guid: 8731f9e61bfff644a9da0db88cc745dc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8731f9e61bfff644a9da0db88cc745dc, type: 3}
+--- !u!1 &7412207803152171850 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8503733308418754304, guid: 8731f9e61bfff644a9da0db88cc745dc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1215452767174689866}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &8996602992164688818
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7412207803152171850}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!136 &7865600733546240980
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7412207803152171850}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 1.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.83, z: 0}
 --- !u!4 &7896678308018117104 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9027611478500662714, guid: 8731f9e61bfff644a9da0db88cc745dc,

@@ -12,10 +12,11 @@ public enum EnemyLayer
 
 public enum Element
 {
-    Nomal,
+    Normal,
     Fire,
     Ice,
-    Lightning
+    Lightning,
+    Water
 }
 public abstract class Enemy : MonoBehaviour
 {
@@ -50,75 +51,91 @@ public abstract class Enemy : MonoBehaviour
         EnemyHealthDic = new Dictionary<Enemy, float>();
     }
 
-    public abstract void Damaged(Enemy enemy, float damage, Element element);
+    public virtual void TakeDamage(float damage, Element element)
+    {
+        EnemyHealthDic[this] -= CalculateDamage(damage, element);
+        HpSlider.value = EnemyHealthDic[this];
+        transform.LookAt(Player.position);
+        animator.SetTrigger("Hit");
+        UIManager.Instance.DamageText(damage, transform.position, Player);
+
+        if (EnemyHealthDic[this] <= 0)
+        {
+            Hp.SetActive(false);
+            StartCoroutine(Die(this));
+        }
+        else
+            if (element != Element.Normal) HitDropElement(element);
+    }
+
     public abstract void Splash(float damage);
 
-    protected float Armor(Enemy enemy,float damage, Element element) 
+    protected float CalculateDamage(float damage, Element element) 
     {
         switch (element)
         {
             case Element.Fire:
-                if(enemy.enemyData.element == Element.Ice)
+                if(enemyData.element == Element.Ice)
                 {
                     Debug.Log("융해");
                     damage *= 2f;
                 }
-                else if(enemy.enemyData.element == Element.Lightning)
+                else if(enemyData.element == Element.Lightning)
                 {
                     Debug.Log("과부화");
-                    damage -= damage * enemy.enemyData.Defence;
-                    SplashAttack(enemy);
+                    damage -= damage * enemyData.Defence;
+                    SplashAttack();
                 }
                 else
                 {
-                    damage -= damage * enemy.enemyData.Defence;
+                    damage -= damage * enemyData.Defence;
                 }
                 break;
             case Element.Ice:
-                if(enemy.enemyData.element == Element.Fire)
+                if(enemyData.element == Element.Fire)
                 {
                     Debug.Log("융해");
                     damage *= 1.5f;
                 }
-                else if(enemy.enemyData.element == Element.Lightning)
+                else if(enemyData.element == Element.Lightning)
                 {
                     Debug.Log("초전도");
-                    damage -= damage * enemy.enemyData.Defence;
-                    SplashAttack(enemy);
+                    damage -= damage * enemyData.Defence;
+                    SplashAttack();
                 }
                 else
                 {
-                    damage -= damage * enemy.enemyData.Defence;
+                    damage -= damage * enemyData.Defence;
                 }
                 break;
             case Element.Lightning:
-                if(enemy.enemyData.element == Element.Fire)
+                if(enemyData.element == Element.Fire)
                 {
                     Debug.Log("과부화");
-                    damage -= damage * enemy.enemyData.Defence;
-                    SplashAttack(enemy);
+                    damage -= damage * enemyData.Defence;
+                    SplashAttack();
                 }
-                else if(enemy.enemyData.element == Element.Ice)
+                else if(enemyData.element == Element.Ice)
                 {
                     Debug.Log("초전도");
-                    damage -= damage * enemy.enemyData.Defence;
-                    SplashAttack(enemy);
+                    damage -= damage * enemyData.Defence;
+                    SplashAttack();
                 }
                 else
                 {
-                    damage -= damage * enemy.enemyData.Defence;
+                    damage -= damage * enemyData.Defence;
                 }
                 break;
-            case Element.Nomal:
-                damage -= damage * enemy.enemyData.Defence;
+            case Element.Normal:
+                damage -= damage * enemyData.Defence;
                 break;
         }
         return damage;
     }
 
-    private void SplashAttack(Enemy enemy)
+    private void SplashAttack()
     {
-        Collider[] collider = Physics.OverlapSphere(enemy.transform.position, 2.0f, LayerMask.GetMask("Monster"));
+        Collider[] collider = Physics.OverlapSphere(transform.position, 2.0f, LayerMask.GetMask("Monster"));
 
         for(int i = 0; i < collider.Length; i++)
         {
@@ -167,7 +184,7 @@ public abstract class Enemy : MonoBehaviour
             case Element.Lightning:
                 ElementColor = Color.yellow;
                 break;
-            case Element.Nomal:
+            case Element.Normal:
                 ElementColor = Color.white;
                 break;
             default:
@@ -212,6 +229,7 @@ public abstract class Enemy : MonoBehaviour
 
 }
 
+[System.Serializable]
 public struct EnemyData
 {
     public float Health { get; }

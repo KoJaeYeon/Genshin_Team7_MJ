@@ -50,33 +50,6 @@ public class LightningHilichurl : Enemy, IColor
     {
         return color;
     }
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject.CompareTag("HitObject") && gameObject.layer == (int)EnemyLayer.isAlive)
-    //    {
-    //        TestElement hitObject = other.GetComponent<TestElement>();
-    //        HitElement = hitObject.GetElement();
-    //        Damaged(this, hitObject.ReturnDamage(), HitElement);
-
-    //        hitObject.Return();
-    //    }
-    //}
-
-    public override void Damaged(Enemy enemy, float damage, Element element)
-    {
-        EnemyHealthDic[this] -= Armor(enemy, damage, element);
-        HpSlider.value = EnemyHealthDic[this];
-        transform.LookAt(Player.position);
-        animator.SetTrigger("Hit");
-
-        if (EnemyHealthDic[this] <= 0)
-        {
-            Hp.SetActive(false);
-            StartCoroutine(Die(this));
-        }
-        else
-            HitDropElement(element);
-    }
 
     public override void Splash(float damage)
     {

@@ -1,6 +1,7 @@
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
+using static UnityEngine.Rendering.DebugUI;
 #endif
 
 public class PlayerInputHandler : MonoBehaviour
@@ -9,9 +10,12 @@ public class PlayerInputHandler : MonoBehaviour
     [Header("Player Input Values")]
     public Vector2 move;
     public Vector2 look;
+    public float zoom;
     public bool attack;
     public bool jump;
     public bool sprint;
+    public bool windfield;
+    public bool aim;
 
     [Header("Movement Settings")]
     public bool analogMovement;
@@ -49,6 +53,25 @@ public class PlayerInputHandler : MonoBehaviour
     {
         AttackInput(value.isPressed);
     }
+
+    public void OnZoom(InputValue value)
+    {
+        if (cursorInputForLook)
+        {
+            ZoomInput(value.Get<float>());
+        }
+    }
+
+    public void OnCursor(InputValue value)
+    {
+        CursorInput(value.isPressed);
+    }
+
+    public void OnAim(InputValue value)
+    {
+        Debug.Log("Aim");
+        AimInput(value.isPressed);
+    }
 #endif
 
     public void MoveInput(Vector2 newMoveDirection)
@@ -74,6 +97,31 @@ public class PlayerInputHandler : MonoBehaviour
     public void AttackInput(bool newAttackState)
     {
         attack = newAttackState;
+    }
+
+    public void ZoomInput(float newZoomValue)
+    {
+        zoom += newZoomValue;
+    }
+
+    public void CursorInput(bool cursorValue)
+    {
+        cursorLocked = cursorValue;
+        cursorInputForLook = !cursorValue;
+        if (cursorValue)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            look = Vector2.zero;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+
+    public void AimInput(bool newAimState)
+    {
+        aim = newAimState;
     }
 
     private void OnApplicationFocus(bool hasFocus)

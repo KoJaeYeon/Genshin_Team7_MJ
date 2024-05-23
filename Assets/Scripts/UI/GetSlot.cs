@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class GetSlot : MonoBehaviour
 {
@@ -31,19 +28,36 @@ public class GetSlot : MonoBehaviour
         itemCount.text = item.count.ToString();
     }
 
-    public void Init(ChestType chestType)
+    public void Init(InteractableType chestType)
     {
         switch (chestType)
         {
-            case ChestType.Jungyo:
+            case InteractableType.Jungyo:
                 image.sprite = ItemDatabase.Instance.GetChestSprite(0);
                 itemName.text = "정교한 보물상자";
                 break;
-            case ChestType.Jingui:
+            case InteractableType.Jingui:
                 image.sprite = ItemDatabase.Instance.GetChestSprite(1);
                 itemName.text = "진귀한 보물상자";
                 break;
+            case InteractableType.Mission:
+                image.sprite = ItemDatabase.Instance.GetChestSprite(2);
+                itemName.text = "도전 시작";
+                break;
         }
         itemCount.transform.parent.gameObject.SetActive(false);
+    }
+
+    public void SearchIndexAndSend() //아이템 서치 트리거에 아이템 획득하라고 명령하는 함수
+    {
+        for(int i = 0; i < transform.parent.childCount; i++)
+        {
+            if(transform == transform.parent.GetChild(i))
+            {
+                ItemSerachTrigger.Instance.GetItemIndex(i);
+            }
+        }
+
+        
     }
 }

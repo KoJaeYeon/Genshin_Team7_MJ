@@ -1,99 +1,42 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class BowCharacter : Character
 {
-    public GameObject arrowPrefab;
-    public Transform arrowSpawnPoint;
-    public float arrowSpeed;
-    public Camera playerCamera;
-    public LayerMask aimLayerMask;
-
-    public CinemachineVirtualCamera thirdPersonCamera;
-    public CinemachineVirtualCamera firstPersonCamera;
-
-    private bool isAiming = false;
-    private Vector3 aimPoint;
-
-    public override void Attack()
+    protected override void Start()
     {
-        ShootArrow();
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-        if (isActive)
+        characterType = CharacterType.Ranged;
+        base.Start();
+        foreach(var weapon in weapons)
         {
-            HandleAiming();
-        }
-
-        if (isAiming)
-        {
-            UpdateAimPoint();
-        }
-    }
-
-    private void HandleAiming()
-    {
-        if (Keyboard.current.rKey.wasPressedThisFrame)
-        {
-            if (isAiming)
+            if(weapon is Bow)
             {
-                StopAiming();
-            }
-            else
-            {
-                StartAiming();
+                weapon.gameObject.SetActive(true);
+                currentWeaponIndex = System.Array.IndexOf(weapons, weapon);
+                break;
             }
         }
     }
-    private void StartAiming()
+
+    public override void UseSkill()
     {
-        isAiming = true;
-        thirdPersonCamera.gameObject.SetActive(false);
-        firstPersonCamera.gameObject.SetActive(true);
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        EnchantWeapon(Element.Fire);
     }
 
-    private void StopAiming()
+    private void EnchantWeapon(Element element)
     {
-        isAiming = false;
-        thirdPersonCamera.gameObject.SetActive(true);
-        firstPersonCamera.gameObject.SetActive(false);
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-    }
-
-    private void ShootArrow()
-    {
-        GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, arrowSpawnPoint.rotation);
-        Rigidbody rb = arrow.GetComponent<Rigidbody>();
-        Vector3 shootingDirection = CalculateShootingDirection();
-        rb.velocity = shootingDirection * arrowSpeed;
-    }
-
-    private void UpdateAimPoint()
-    {
-        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, 100f, aimLayerMask))
+        if (weapons.Length > 0)
         {
-            aimPoint = hit.point;
+            weapons[currentWeaponIndex].element = element;
         }
-        else
-        {
-            aimPoint = ray.GetPoint(100);
-        }
-
-        Debug.DrawLine(ray.origin, aimPoint, Color.red);
     }
 
-    private Vector3 CalculateShootingDirection()
+    protected override void ResetSkill()
     {
-        return (aimPoint - arrowSpawnPoint.position).normalized;
+        base.ResetSkill();
     }
 }

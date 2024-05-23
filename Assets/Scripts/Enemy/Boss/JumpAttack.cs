@@ -5,20 +5,49 @@ using UnityEngine;
 public class JumpAttack : IPattern
 {
     private Wolf m_Wolf;
+    private Vector3 EndPos;
+    private float Speed = 12.0f;
+    private AnimatorStateInfo animatorStateInfo;
     public JumpAttack(Wolf wolf)
     {
         m_Wolf = wolf;
+        m_Wolf.BossAnimator.SetTrigger("JumpAttack");
+        EndPos = m_Wolf.PlayerTransform.position;
     }
 
     public void BossAttack()
     {
-        m_Wolf.BossAnimator.SetTrigger("JumpAttack");
+        animatorStateInfo = m_Wolf.BossAnimator.GetCurrentAnimatorStateInfo(0);
 
+        if (animatorStateInfo.normalizedTime < 0.3f)
+        {
+            Rotation();
+            Move();
+        }
+    }
+    private void Rotation()
+    {
+        Vector3 targetPos = EndPos - m_Wolf.transform.position;
 
+        float angle = Mathf.Atan2(targetPos.x, targetPos.z) * Mathf.Rad2Deg;
 
-        if (m_Wolf.BossAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
-            m_Wolf.State.ChangeState(BossState.Idle);
+        Quaternion Rot = Quaternion.Euler(0, angle, 0);
 
+        m_Wolf.transform.rotation = Quaternion.Slerp(m_Wolf.transform.rotation, Rot, 5f * Time.fixedDeltaTime);
     }
 
+    private void Move()
+    {
+        Vector3 Dir = (EndPos - m_Wolf.transform.position).normalized;
+
+        Vector3 move = Dir * Speed * Time.fixedDeltaTime;
+
+        if (Vector3.Distance(m_Wolf.transform.position, EndPos) > move.magnitude)
+        {
+            m_Wolf.transform.Translate(move, Space.World);
+        }
+        else
+            m_Wolf.transform.position = EndPos;
+        
+    }
 }

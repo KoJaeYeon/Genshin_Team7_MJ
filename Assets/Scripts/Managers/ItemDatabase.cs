@@ -4,11 +4,11 @@ using UnityEngine;
 
 public enum CharacterItemSprite
 {
-    Beidu,
+    Beidou,
     Kokomi,
     Wriothesley,
     Yoimiya,
-        None
+    None
 }
 public class ItemDatabase : Singleton<ItemDatabase>
 {
@@ -30,29 +30,49 @@ public class ItemDatabase : Singleton<ItemDatabase>
         for (var i = 0; i < data.Count; i++)
         {
             bool isTrue = data[i]["isEquip"].ToString() == "TRUE" ? true : false;
-            DefenceType defenceType;
-            switch(data[i]["relicType"].ToString())
+            EqiupType eqiupType;
+            switch(data[i]["equipType"].ToString())
             {
+                case "Claymore":
+                    eqiupType = EqiupType.Claymore;
+                    break;
+                case "Bow":
+                    eqiupType = EqiupType.Bow;
+                    break;
+                case "Catalyst":
+                    eqiupType = EqiupType.Catalyst;
+                    break;
+                case "Pole":
+                    eqiupType = EqiupType.Pole;
+                    break;
+                case "Sword":
+                    eqiupType = EqiupType.Sword;
+                    break;
                 case "Flower":
-                    defenceType = DefenceType.Flower;
+                    eqiupType = EqiupType.Flower;
                     break;
                 case "Feather":
-                    defenceType = DefenceType.Feather;
+                    eqiupType = EqiupType.Feather;
                     break;
                 case "SandTime":
-                    defenceType = DefenceType.SandTime;
+                    eqiupType = EqiupType.SandTime;
                     break;
                 case "Trophy":
-                    defenceType = DefenceType.Trophy;
+                    eqiupType = EqiupType.Trophy;
                     break;
                 case "Crown":
-                    defenceType = DefenceType.Crown;
+                    eqiupType = EqiupType.Crown;
                     break;
                 default:
-                    defenceType = DefenceType.Flower;
+                    eqiupType = EqiupType.Flower;
                     break;
             }
-            itemDictionary.Add(int.Parse(data[i]["id"].ToString()), new Item(int.Parse(data[i]["id"].ToString()), data[i]["name"].ToString(), int.Parse(data[i]["count"].ToString()), isTrue, float.Parse(data[i]["weaponDamage"].ToString()), defenceType, float.Parse(data[i]["value"].ToString()), data[i]["description"].ToString()));
+            itemDictionary.Add(int.Parse(data[i]["id"].ToString()), new Item(int.Parse(data[i]["id"].ToString()), data[i]["name"].ToString(), int.Parse(data[i]["count"].ToString()), isTrue, eqiupType, float.Parse(data[i]["value"].ToString()), data[i]["description"].ToString(), int.Parse(data[i]["star"].ToString())));
+        }
+
+        for(int i = 0; i < characterSprites.Length; i++)
+        {
+            characterSpriteDictionary.Add((CharacterItemSprite)i, characterSprites[i]);
         }
 
         int index = 0;
@@ -60,7 +80,7 @@ public class ItemDatabase : Singleton<ItemDatabase>
         {
             itemSpriteDictionary.Add(i, sprites[index++]);
         }
-        for (int i = 101; i <= 110; i++)
+        for (int i = 101; i <= 115; i++)
         {
             itemSpriteDictionary.Add(i, sprites[index++]);
         }
@@ -90,8 +110,28 @@ public class ItemDatabase : Singleton<ItemDatabase>
         return chestSprites[num];
     }
 
-    public DefenceType GetRelicType(int id)
+    public EqiupType GetEquipType(int id)
     {
-        return itemDictionary[id].defenceType;
+        return itemDictionary[id].equipType;
+    }
+
+    public Color GetColor(int star)
+    {
+        switch (star)
+        {
+            case 1:
+                return new Color(123 / 255f, 123 / 255f, 123 / 255f);
+            case 2:
+                return new Color(89 / 255f, 149 / 255f, 128 / 255f);
+            case 3:
+                return new Color(84 / 255f, 129 / 255f, 166 / 255f);
+            case 4:
+                return new Color(138 / 255f, 105 / 255f, 170 / 255f);
+            case 5:
+                return new Color(166 / 255f, 108 / 255f, 42 / 255f);
+            default:
+                return Color.white;
+        }
+        
     }
 }

@@ -1,10 +1,11 @@
 using System.Collections;
 using UnityEngine;
 
-public enum ChestType
+public enum InteractableType
 {
     Jungyo,
-    Jingui
+    Jingui,
+    Mission
 }
 public class Chest : MonoBehaviour,IInteractable
 {
@@ -12,7 +13,7 @@ public class Chest : MonoBehaviour,IInteractable
     GetSlot getSlot;
     static int idtemp = 1;
     public int[] keys;
-    public ChestType chestType;
+    public InteractableType chestType;
     int id;
     private void Start()
     {
@@ -22,6 +23,7 @@ public class Chest : MonoBehaviour,IInteractable
         for (int i = 0;  i < keys.Length; i++)
         {
             dropObjects[i] = PoolManager.Instance.Get_DropObject(keys[i]);
+            dropObjects[i].gameObject.SetActive(false);
         }
         InitItemSlot();
 
@@ -62,8 +64,6 @@ public class Chest : MonoBehaviour,IInteractable
         BoxCollider collider = GetComponent<BoxCollider>();
         collider.enabled = false;
         yield return new WaitForSeconds(2f);
-        //animator.Play("Chest_Disppear");
-        yield return null;
         collider.enabled = true;
         gameObject.SetActive(false);
 

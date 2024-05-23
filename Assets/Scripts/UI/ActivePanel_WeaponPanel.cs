@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActivePanel_WeaponPanel : MonoBehaviour, IActivePanel
+public class ActivePanel_WeaponPanel : ActivePanel
 {
     IActivePanel previousPanel;
     Animator animator;
@@ -13,29 +13,35 @@ public class ActivePanel_WeaponPanel : MonoBehaviour, IActivePanel
         animator = GetComponent<Animator>();
         if (animator != null) _hasAnimator = true;
     }
-    public void PanelActive(IActivePanel previousPanel)
+    public override void PanelActive(IActivePanel previousPanel)
     {
         this.previousPanel = previousPanel;
         previousPanel.DisablePanel();
         gameObject.SetActive(true);
         UIManager.Instance.activePanel = this;
         InventoryManager.Instance.Load_Weapon(transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0));
+        UIManager.Instance.DataPanel = transform.GetChild(1).gameObject;
+        if(transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).childCount != 0 )
+        {
+            transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetComponent<ItemSlot>().ShowData();
+        }
 
     }
 
-    public void PanelInactive()
+    public override void PanelInactive()
     {
         UIManager.Instance.activePanel = previousPanel;
         gameObject.SetActive(false);
         if(previousPanel != null) { previousPanel.EnablePanel(); }
         InventoryManager.Instance.UnLoad_Weapon();
+        UIManager.Instance.DataPanel = null;
         
     }
-    public virtual void DisablePanel()
+    public override void DisablePanel()
     {
         if (_hasAnimator) animator.Play("Disable_Panel");
     }
-    public virtual void EnablePanel()
+    public override void EnablePanel()
     {
         if(_hasAnimator) animator.Play("Enable_Panel");
     }
