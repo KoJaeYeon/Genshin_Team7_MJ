@@ -114,8 +114,8 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5982126084340837503, guid: c0d40f457a3307a489905fc733945d94, type: 3}
-  - {fileID: 5233542194731189582, guid: c0d40f457a3307a489905fc733945d94, type: 3}
+  - {fileID: 2100000, guid: c9542c17058fc7545a4b185e06f87834, type: 2}
+  - {fileID: 2100000, guid: fb310c758697c8f4583f199e7fb238d6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3671,12 +3671,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41dd82c90263cac43ac6825cfb4229ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spike: {fileID: 0}
-  ring: {fileID: 1004130324304354, guid: 7ff5054651e072d48a2a68a59c5a94aa, type: 3}
-  crystal: {fileID: 1044610343865118, guid: c2da6dd63ef5f1d4f8beaa7cfc76f910, type: 3}
-  wave: {fileID: 0}
-  forward_Leg: {fileID: 5511976944169857947}
-  WavePoint: {fileID: 644139962}
+  effects: []
+  effectPool: {fileID: 0}
 --- !u!1 &3815933269178443590
 GameObject:
   m_ObjectHideFlags: 0
@@ -5269,8 +5265,8 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -607884868094859412, guid: c0d40f457a3307a489905fc733945d94, type: 3}
-  - {fileID: 5233542194731189582, guid: c0d40f457a3307a489905fc733945d94, type: 3}
+  - {fileID: 2100000, guid: aacb0270af9fce04aa4c24d7c621bfff, type: 2}
+  - {fileID: 2100000, guid: 7bbdf58f9a3b5bb4397af5e7275a015a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
