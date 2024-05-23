@@ -38,6 +38,7 @@ public class Wolf : Enemy, IColor
     
     private new void Awake()
     {
+        Debug.Log("울프 호출");
         InitWolf();
         InitState();
     }
@@ -95,6 +96,7 @@ public class Wolf : Enemy, IColor
 
         }
     }
+    
     public IPattern Attack => bossAttack;
     public BossStateMachine State => bossState;
     public Animator BossAnimator => animator;
@@ -169,6 +171,11 @@ public class Wolf : Enemy, IColor
     public Color GetColor()
     {
         return BossColor;
+    }
+    
+    public float GetAtk()
+    {
+        return enemyData.AttackPower;
     }
 
     // Animation Event ----------------------------------------------
