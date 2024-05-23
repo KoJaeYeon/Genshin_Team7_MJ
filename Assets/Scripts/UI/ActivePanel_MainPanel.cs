@@ -41,7 +41,7 @@ public class ActivePanel_MainPanel : ActivePanel
 
     public void TimePause()
     {
-        Time.timeScale = 0f;
+        Time.timeScale = 1f;
         playerInput.enabled = false;
         playerInputHandler.cursorLocked = false;
         playerInputHandler.cursorInputForLook = false;

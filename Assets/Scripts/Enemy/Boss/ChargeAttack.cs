@@ -9,6 +9,8 @@ public class ChargeAttack : IPattern
     private float currentAngle;
     private float distance;
     private Vector3 targetPos;
+
+    
     public ChargeAttack(Wolf wolf)
     {
         m_Wolf = wolf;
@@ -30,7 +32,6 @@ public class ChargeAttack : IPattern
             m_Wolf.BossAnimator.SetBool("isRun", false);
             SelectAnimation();
             m_Wolf.BossRigid.velocity = Vector3.zero;
-            m_Wolf.State.ChangeState(BossState.Attack);
         }
     }
 
@@ -49,17 +50,23 @@ public class ChargeAttack : IPattern
 
     private void SelectAnimation()
     {
-        if (currentAngle > 0 && currentAngle <= 180)
+        if (currentAngle > 0 && currentAngle <= 180 && !m_Wolf.IsRunStop)
         {
-            m_Wolf.BossAnimator.SetTrigger("RunStopR");
+            m_Wolf.IsRunStop = true;
+            m_Wolf.BossAnimator.Play("ScramR");
+            m_Wolf.State.ChangeState(BossState.Attack);
         }
-        else if (currentAngle < 0 && currentAngle >= -180)
+        else if (currentAngle < 0 && currentAngle >= -180 && !m_Wolf.IsRunStop)
         {
-            m_Wolf.BossAnimator.SetTrigger("RunStopL");
+            m_Wolf.IsRunStop = true;
+            m_Wolf.BossAnimator.Play("ScramL");
+            m_Wolf.State.ChangeState(BossState.Attack);
         }
         else
         {
-            m_Wolf.BossAnimator.SetTrigger("RunStopL");
+            m_Wolf.IsRunStop = true;
+            m_Wolf.BossAnimator.Play("ScramL");
+            m_Wolf.State.ChangeState(BossState.Attack);
         }
     }
 

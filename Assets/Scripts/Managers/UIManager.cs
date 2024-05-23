@@ -33,6 +33,20 @@ public class UIManager : Singleton<UIManager>
 
     private void Awake()
     {
+        if(androidB != null && editorB != null)
+        {
+#if UNITY_ANDROID
+            //안드로이드
+            androidB.gameObject.SetActive(true);
+            editorB.gameObject.SetActive(false);
+#elif UNITY_EDITOR
+        //에디터
+        androidB.gameObject.SetActive(false);
+        editorB.gameObject.SetActive(true);
+#endif
+        }
+
+
         settingBar_IActivePanel = settingBar.GetComponent<IActivePanel>();
         Debug.Log(settingBar_IActivePanel);
         initFtransY = FTrans.position.y;
@@ -41,20 +55,6 @@ public class UIManager : Singleton<UIManager>
         mainPanel_IActivePanel = mainPanel.GetComponent<IActivePanel>();
         activePanel = mainPanel_IActivePanel;
     }
-
-    void Start()
-    {
-        //#if UNITY_ANDROID
-        ////안드로이드
-        //androidB.gameObject.SetActive(true);
-        //editorB.gameObject.SetActive(false);
-        //#elif UNITY_EDITOR
-        ////에디터
-        //androidB.gameObject.SetActive(false);
-        //editorB.gameObject.SetActive(true);
-        //#endif
-    }
-
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
@@ -145,6 +145,11 @@ public class UIManager : Singleton<UIManager>
         next.GetComponent <TextMeshPro>().text = damage.ToString();
         next.transform.SetParent(MonsterPoint);
         next.transform.LookAt(transform);
+    }
+
+    public void BurstPoint(float point)
+    {
+
     }
 
 }

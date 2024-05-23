@@ -234,7 +234,7 @@ public abstract class Enemy : MonoBehaviour
 
 }
 
-[System.Serializable]
+
 public struct EnemyData
 {
     public float Health { get; }
