@@ -6,8 +6,7 @@ public class RenderManager : MonoBehaviour
 {
     public GameObject[] Manekins;
     public Material[] materials;
-    public GameObject render_Image;
-    RenderImage renderImage;
+    public RenderImage renderImage;
     MeshRenderer[] meshRenderers;
     public Transform barTrans_Parent;
     Transform barTrans;
@@ -24,7 +23,6 @@ public class RenderManager : MonoBehaviour
             Manekins[i] = transform.GetChild(0).GetChild(i).gameObject;
             
         }
-        renderImage = render_Image.GetComponent<RenderImage>();
         meshRenderers[0] = transform.GetChild(1).GetComponent<MeshRenderer>();
         meshRenderers[1] = transform.GetChild(2).GetComponent<MeshRenderer>();
         barTrans = barTrans_Parent.GetChild(4);
