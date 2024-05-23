@@ -22,9 +22,58 @@ public class BowCharacter : Character
         }
     }
 
+    private void Update()
+    {
+        if (_input.attack)
+        {
+            Attack();
+        }
+        if (_input.skill && skillCooldownTimer <= 0)
+        {
+            UseElementalSkill();
+            skillCooldownTimer = skillCooldown;
+            isSkillActive = true;
+            skillDurationTimer = skillDuration;
+        }
+
+        if (_input.burst)
+        {
+            UseElementalBurst();
+        }
+
+        if (isSkillActive)
+        {
+            skillDurationTimer -= Time.deltaTime;
+
+            if (skillDurationTimer <= 0f)
+            {
+                ResetSkill();
+                isSkillActive = false;
+            }
+        }
+
+        if (skillCooldownTimer > 0f)
+        {
+            skillCooldownTimer -= Time.deltaTime;
+        }
+    }
+
     public override void Attack()
     {
-        throw new System.NotImplementedException();
+        if (weapons.Length > 0)
+        {
+            weapons[currentWeaponIndex].UseWeapon();
+        }
+
+        if (hasAnimator)
+        {
+            _animator.SetTrigger("Attack");
+            _animator.SetBool("Attacking", true);
+        }
+        else
+        {
+            _animator.SetBool("Attacking", false);
+        }
     }
 
     public override void UseElementalSkill()
@@ -34,7 +83,10 @@ public class BowCharacter : Character
 
     public override void UseElementalBurst()
     {
-        throw new System.NotImplementedException();
+        if (currentElementalEnergy >= elementalBurstCost)
+        {
+            currentElementalEnergy -= elementalBurstCost;
+        }
     }
 
     private void EnchantWeapon(Element element)
