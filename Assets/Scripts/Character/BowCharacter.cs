@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,5 +20,23 @@ public class BowCharacter : Character
                 break;
             }
         }
+    }
+
+    public override void UseSkill()
+    {
+        EnchantWeapon(Element.Fire);
+    }
+
+    private void EnchantWeapon(Element element)
+    {
+        if (weapons.Length > 0)
+        {
+            weapons[currentWeaponIndex].element = element;
+        }
+    }
+
+    protected override void ResetSkill()
+    {
+        base.ResetSkill();
     }
 }

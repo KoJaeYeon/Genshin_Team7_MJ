@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemSerachTrigger : MonoBehaviour
+public class ItemSerachTrigger : Singleton<ItemSerachTrigger>
 {
     List<IInteractable> items;
     int searchPoint = 0;
@@ -24,6 +24,21 @@ public class ItemSerachTrigger : MonoBehaviour
             UIManager.Instance.SetFPoint(searchPoint);
         }
     }
+    public void GetItemIndex(int index)
+    {
+        searchPoint = itemCount -1 - index;
+        GetItem();
+    }
+
+    private void GetItem()
+    {
+        if (items.Count == 0) return;
+        items[searchPoint].UseItemGet();
+        items.RemoveAt(searchPoint);
+        if (searchPoint > 0) searchPoint--;
+        UIManager.Instance.SetFPoint(searchPoint);
+        itemCount = items.Count;
+    }
 
     private void Update()
     {
@@ -31,12 +46,7 @@ public class ItemSerachTrigger : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.H)) DownSearchPoint();
         else if (Input.GetKeyDown(KeyCode.F))
         {
-            if (items.Count == 0) return;
-            items[searchPoint].UseItemGet();
-            items.RemoveAt(searchPoint);
-            if (searchPoint > 0) searchPoint--;
-            UIManager.Instance.SetFPoint(searchPoint);
-            itemCount = items.Count;
+            GetItem();
         }
         itemCount = items.Count;
     }

@@ -12,10 +12,11 @@ public enum EnemyLayer
 
 public enum Element
 {
-    Nomal,
+    Normal,
     Fire,
     Ice,
-    Lightning
+    Lightning,
+    Water
 }
 public abstract class Enemy : MonoBehaviour
 {
@@ -50,7 +51,23 @@ public abstract class Enemy : MonoBehaviour
         EnemyHealthDic = new Dictionary<Enemy, float>();
     }
 
-    public abstract void TakeDamage(float damage, Element element);
+    public virtual void TakeDamage(float damage, Element element)
+    {
+        EnemyHealthDic[this] -= CalculateDamage(damage, element);
+        HpSlider.value = EnemyHealthDic[this];
+        transform.LookAt(Player.position);
+        animator.SetTrigger("Hit");
+        UIManager.Instance.DamageText(damage, transform.position, Player);
+
+        if (EnemyHealthDic[this] <= 0)
+        {
+            Hp.SetActive(false);
+            StartCoroutine(Die(this));
+        }
+        else
+            if (element != Element.Nomal) HitDropElement(element);
+    }
+
     public abstract void Splash(float damage);
 
     protected float CalculateDamage(float damage, Element element) 
@@ -109,7 +126,7 @@ public abstract class Enemy : MonoBehaviour
                     damage -= damage * enemyData.Defence;
                 }
                 break;
-            case Element.Nomal:
+            case Element.Normal:
                 damage -= damage * enemyData.Defence;
                 break;
         }
@@ -167,7 +184,7 @@ public abstract class Enemy : MonoBehaviour
             case Element.Lightning:
                 ElementColor = Color.yellow;
                 break;
-            case Element.Nomal:
+            case Element.Normal:
                 ElementColor = Color.white;
                 break;
             default:
@@ -212,6 +229,7 @@ public abstract class Enemy : MonoBehaviour
 
 }
 
+[System.Serializable]
 public struct EnemyData
 {
     public float Health { get; }
