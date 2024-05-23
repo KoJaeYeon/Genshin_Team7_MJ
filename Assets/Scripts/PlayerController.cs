@@ -58,9 +58,6 @@ public class PlayerController : MonoBehaviour
     private static float _cinemachineTargetPitch;
     private float minFOV = 40f;
     private float maxFOV = 60f;
-    private float aimFOV = 30f;
-    private Vector3 normalOffset;
-    private Vector3 aimOffset = new Vector3(0.3f, 1.5f, 0f);
 
     //player
     private float _speed;
@@ -72,7 +69,6 @@ public class PlayerController : MonoBehaviour
     private bool _attackTrigger = true;
     private bool _isClimbing = false;
     public static bool _isGliding = false;
-    private bool _isAiming = false;
 
     //timeout deltatime
     private float _jumpTimeoutDelta;
@@ -115,8 +111,6 @@ public class PlayerController : MonoBehaviour
         _hasAnimator = TryGetComponent(out _animator);
 
         virtualCamera = GameObject.FindObjectOfType<CinemachineVirtualCamera>();
-        _cinemachineTransposer = virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
-        normalOffset = _cinemachineTransposer.ShoulderOffset;
     }
 
     private void Start()
@@ -146,36 +140,22 @@ public class PlayerController : MonoBehaviour
         GroundedCheck();
         CliffCheck();
 
-        Debug.Log(_isAiming);
+       
+        Move();
 
-        if (_input.aim)
-        {
-            ToggleAimMode();
-            
-        }
+        Climb();
 
-        if (_isAiming)
+        if (_input.attack)
         {
-            AimMove();
+            if (_attackTrigger)
+            {
+                Attack();
+                _attackTrigger = false;
+            }
         }
         else
         {
-            Move();
-
-            Climb();
-
-            if (_input.attack)
-            {
-                if (_attackTrigger)
-                {
-                    Attack();
-                    _attackTrigger = false;
-                }
-            }
-            else
-            {
-                _attackTrigger = true;
-            }
+            _attackTrigger = true;
         }
     }
 
@@ -312,28 +292,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void AimMove()
-    {
-        _animator.SetBool("isAiming", _isAiming);
+    //private void AimMove()
+    //{
+    //    _animator.SetBool("isAiming", _isAiming);
 
-        float targetSpeed = MoveSpeed;
+    //    float targetSpeed = MoveSpeed;
 
-        if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+    //    if (_input.move == Vector2.zero) targetSpeed = 0.0f;
 
-        float verticalInput = _input.move.x;
-        float horizontalInput = _input.move.y;
+    //    float verticalInput = _input.move.x;
+    //    float horizontalInput = _input.move.y;
 
-        Vector3 aimMoveDirection = new Vector3(verticalInput, 0.0f, horizontalInput);
-        aimMoveDirection = transform.TransformDirection(aimMoveDirection);
+    //    Vector3 aimMoveDirection = new Vector3(verticalInput, 0.0f, horizontalInput);
+    //    aimMoveDirection = transform.TransformDirection(aimMoveDirection);
 
-        _controller.Move(aimMoveDirection * targetSpeed * Time.deltaTime);
+    //    _controller.Move(aimMoveDirection * targetSpeed * Time.deltaTime);
 
-        if (_hasAnimator)
-        {
-            _animator.SetFloat("horizontal", horizontalInput);
-            _animator.SetFloat("vertical", verticalInput);
-        }
-    }
+    //    if (_hasAnimator)
+    //    {
+    //        _animator.SetFloat("horizontal", horizontalInput);
+    //        _animator.SetFloat("vertical", verticalInput);
+    //    }
+    //}
 
     private void Climb()
     {
@@ -414,7 +394,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if((_verticalVelocity <0.0f && !_isGliding))
+            if((_verticalVelocity < 0.0f && !_isGliding))
             {
                 if (_hasAnimator)
                 {
@@ -521,24 +501,6 @@ public class PlayerController : MonoBehaviour
         else
         {
             _animator.SetBool(_animIDAttacking, false);
-        }
-    }
-
-    private void ToggleAimMode()
-    {
-        _isAiming = !_isAiming;
-
-        if (_isAiming)
-        {
-            virtualCamera.m_Lens.FieldOfView = aimFOV;
-            _cinemachineTransposer.ShoulderOffset = aimOffset;
-            _animator.SetBool("isAiming", true);
-        }
-        else
-        {
-            virtualCamera.m_Lens.FieldOfView = maxFOV;
-            _cinemachineTransposer.ShoulderOffset = normalOffset;
-            _animator.SetBool("isAiming", false);
         }
     }
 

@@ -21,6 +21,12 @@ public abstract class Character : MonoBehaviour
     private float skillDurationTimer = 0f;
     private bool isSkillActive = false;
 
+    public float maxElementalEnergy = 100.0f;
+    public float currentElementalEnergy = 0.0f;
+    public float energyGainPerHit = 10.0f;
+    public float energyGainOnKill = 20.0f;
+    public float elementalBurstCost = 100.0f;
+
     protected virtual void Start()
     {
         if(weapons != null &&  weapons.Length > 0)
@@ -69,6 +75,20 @@ public abstract class Character : MonoBehaviour
         return Element.Normal;
     }
 
+    public void GainEnergy(float amount)
+    {
+        currentElementalEnergy = Mathf.Clamp(currentElementalEnergy + amount, 0, maxElementalEnergy);
+        //UIManager.Instance.메서드이름(어떤 캐릭터, currentElementalEnergy);
+    }
+
+    public void UseElementalBurst()
+    {
+        if(currentElementalEnergy >= elementalBurstCost)
+        {
+            currentElementalEnergy -= elementalBurstCost;
+        }
+    }
+
     protected List<GameObject> DetectedEnemiesInRange()
     {
         List<GameObject> detectedEnemies = new List<GameObject>();
@@ -106,10 +126,15 @@ public abstract class Character : MonoBehaviour
         }
         if (Keyboard.current.eKey.wasPressedThisFrame && skillCooldownTimer <= 0)
         {
-            UseSkill();
+            UseElementalSkill();
             skillCooldownTimer = skillCooldown;
             isSkillActive = true;
             skillDurationTimer = skillDuration;
+        }
+
+        if (Keyboard.current.qKey.wasPressedThisFrame)
+        {
+            UseElementalBurst();
         }
 
         if (isSkillActive)
@@ -129,7 +154,7 @@ public abstract class Character : MonoBehaviour
         }
     }
 
-    public abstract void UseSkill();
+    public abstract void UseElementalSkill();
 
     protected virtual void ResetSkill()
     {
@@ -137,5 +162,10 @@ public abstract class Character : MonoBehaviour
         {
             weapons[currentWeaponIndex].element = Element.Normal;
         }
+    }
+
+    public void OnEnemyKilled()
+    {
+        GainEnergy(energyGainOnKill);
     }
 }

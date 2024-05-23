@@ -19,7 +19,7 @@ public class ClaymoreCharacter : Character
         }
     }
 
-    public override void UseSkill()
+    public override void UseElementalSkill()
     {
         Debug.Log("Lightning");
         EnchantWeapon(Element.Lightning);

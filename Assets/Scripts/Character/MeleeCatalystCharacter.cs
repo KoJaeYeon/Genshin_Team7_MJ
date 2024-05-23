@@ -19,7 +19,7 @@ public class MeleeCatalystCharacter : Character
         }
     }
 
-    public override void UseSkill()
+    public override void UseElementalSkill()
     {
         EnchantWeapon(Element.Ice);
     }

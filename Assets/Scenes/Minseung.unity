@@ -477,10 +477,11 @@ MonoBehaviour:
   attack: 0
   jump: 0
   sprint: 0
+  windfield: 0
   aim: 0
   analogMovement: 1
   cursorLocked: 0
-  cursorInputForLook: 0
+  cursorInputForLook: 1
 --- !u!114 &386926290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1126,7 +1127,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2031661857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1210,7 +1211,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2031661856}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 2}
+  m_LocalPosition: {x: 0, y: 3, z: 5}
   m_LocalScale: {x: 1, y: 6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

@@ -19,7 +19,7 @@ public class RangedCatalystCharacter : Character
         }
     }
 
-    public override void UseSkill()
+    public override void UseElementalSkill()
     {
         EnchantWeapon(Element.Water);
     }
