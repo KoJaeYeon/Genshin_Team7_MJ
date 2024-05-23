@@ -23,12 +23,20 @@ public class Catalyst_Melee : Weapon
 
         foreach (Collider enemy in hitEnemiesLeftHand)
         {
-            enemy.GetComponent<Enemy>().TakeDamage(attackDamage, Element.Nomal);
+            Enemy enemyComponent = enemy.GetComponent<Enemy>();
+            if (enemyComponent != null)
+            {
+                enemyComponent.TakeDamage(attackDamage, character != null ? character.GetCurrentWeaponElement() : Element.Normal);
+            }
         }
 
         foreach (Collider enemy in hitEnemiesRightHand)
         {
-            enemy.GetComponent<Enemy>().TakeDamage(attackDamage, Element.Nomal);
+            Enemy enemyComponent = enemy.GetComponent<Enemy>();
+            if (enemyComponent != null)
+            {
+                enemyComponent.TakeDamage(attackDamage, character != null ? character.GetCurrentWeaponElement() : Element.Normal);
+            }
         }
     }
 

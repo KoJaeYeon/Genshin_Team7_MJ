@@ -18,4 +18,23 @@ public class ClaymoreCharacter : Character
             }
         }
     }
+
+    public override void UseSkill()
+    {
+        Debug.Log("Lightning");
+        EnchantWeapon(Element.Lightning);
+    }
+
+    private void EnchantWeapon(Element element)
+    {
+        if (weapons.Length > 0)
+        {
+            weapons[currentWeaponIndex].element = element;
+        }
+    }
+
+    protected override void ResetSkill()
+    {
+        base.ResetSkill();
+    }
 }

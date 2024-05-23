@@ -12,10 +12,11 @@ public enum EnemyLayer
 
 public enum Element
 {
-    Nomal,
+    Normal,
     Fire,
     Ice,
-    Lightning
+    Lightning,
+    Water
 }
 public abstract class Enemy : MonoBehaviour
 {
@@ -125,7 +126,7 @@ public abstract class Enemy : MonoBehaviour
                     damage -= damage * enemyData.Defence;
                 }
                 break;
-            case Element.Nomal:
+            case Element.Normal:
                 damage -= damage * enemyData.Defence;
                 break;
         }
@@ -183,7 +184,7 @@ public abstract class Enemy : MonoBehaviour
             case Element.Lightning:
                 ElementColor = Color.yellow;
                 break;
-            case Element.Nomal:
+            case Element.Normal:
                 ElementColor = Color.white;
                 break;
             default:
