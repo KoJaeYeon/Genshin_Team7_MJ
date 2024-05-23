@@ -71,7 +71,7 @@ public class Wolf : Enemy
 
     private void Update()
     {
-        Debug.Log(EnemyHealthDic[this]);
+        //Debug.Log(EnemyHealthDic[this]);
     }
 
     public void SetPattern(BossPattern bossPattern)
