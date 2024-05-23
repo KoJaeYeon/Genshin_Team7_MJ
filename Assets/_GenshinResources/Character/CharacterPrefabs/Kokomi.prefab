@@ -484,6 +484,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &528669863395376548
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1514006173080361581}
+  m_Layer: 7
+  m_Name: ProjectileSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1514006173080361581
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528669863395376548}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.1, z: 0.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1984413875241949931}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &531034696022703576
 GameObject:
   m_ObjectHideFlags: 0
@@ -674,6 +705,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 271791483007351685}
+  - component: {fileID: 7133350862644854113}
   m_Layer: 0
   m_Name: Catalyst_DandelionPoem
   m_TagString: Untagged
@@ -697,6 +729,27 @@ Transform:
   m_Father: {fileID: 4753522769381280778}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &7133350862644854113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616509662183907647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f2372d20bd9254199ec040b93f621c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 3741402583970940202}
+  rangedProjectilePrefab: {fileID: 7517079330416549230, guid: 118cdf263f6919341b0d63a33a907b44,
+    type: 3}
+  projectileSpawnPoint: {fileID: 1514006173080361581}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  attackRange: 1.5
+  attackDamage: 20
 --- !u!1 &627205971886571335
 GameObject:
   m_ObjectHideFlags: 0
@@ -1060,7 +1113,7 @@ GameObject:
   - component: {fileID: 5578307592928280721}
   - component: {fileID: 5174772219023750310}
   - component: {fileID: 3741402583970940202}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Kokomi
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1079,6 +1132,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1514006173080361581}
   - {fileID: 3261507116027983553}
   - {fileID: 3539523986478658734}
   - {fileID: 3820332096082579454}
@@ -1151,6 +1205,8 @@ MonoBehaviour:
   BottomClamp: -30
   CameraAngleOverride: 0
   LockCameraPosition: 0
+  virtualCamera: {fileID: 0}
+  _wingAnimator: {fileID: 2591313390239453789}
   characterData: {fileID: 0}
 --- !u!114 &3741402583970940202
 MonoBehaviour:
@@ -1164,13 +1220,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19de678458917c94495ebe6c93787f57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapons: []
+  weapons:
+  - {fileID: 7133350862644854113}
+  - {fileID: 2053039050714062191}
+  - {fileID: 1834142975414254697}
   detectionRange: 10
   detectionAngle: 45
-  attackType: 0
-  projectilePrefab: {fileID: 0}
-  launchPoint: {fileID: 0}
-  projectileSpeed: 0
 --- !u!1 &1210534338772980927
 GameObject:
   m_ObjectHideFlags: 0
@@ -2217,7 +2272,7 @@ Transform:
   - {fileID: 1873936115408242756}
   - {fileID: 1678196128122690236}
   m_Father: {fileID: 1984413875241949931}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2605351270760738532
 GameObject:
@@ -2627,7 +2682,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1984413875241949931}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3124741350743967747
 GameObject:
@@ -3255,6 +3310,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4114959306311516104}
+  - component: {fileID: 2053039050714062191}
   m_Layer: 0
   m_Name: Catalyst_Dvalin
   m_TagString: Untagged
@@ -3279,6 +3335,27 @@ Transform:
   m_Father: {fileID: 4753522769381280778}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &2053039050714062191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3625561542286828914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f2372d20bd9254199ec040b93f621c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 3741402583970940202}
+  rangedProjectilePrefab: {fileID: 7517079330416549230, guid: 118cdf263f6919341b0d63a33a907b44,
+    type: 3}
+  projectileSpawnPoint: {fileID: 1514006173080361581}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  attackRange: 1.5
+  attackDamage: 20
 --- !u!1 &3653349401704958398
 GameObject:
   m_ObjectHideFlags: 0
@@ -4619,7 +4696,7 @@ Transform:
   m_Children:
   - {fileID: 4086458472574277424}
   m_Father: {fileID: 1984413875241949931}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5224405423991437212
 GameObject:
@@ -6040,7 +6117,7 @@ Transform:
   - {fileID: 3413684007564448907}
   - {fileID: 2360497696075698504}
   m_Father: {fileID: 1984413875241949931}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6988755528848475320
 GameObject:
@@ -6174,7 +6251,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1984413875241949931}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &4128288891867944039
 SphereCollider:
@@ -6975,7 +7052,7 @@ Transform:
   - {fileID: 1004225362032956370}
   - {fileID: 3220395000383558957}
   m_Father: {fileID: 1984413875241949931}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7859549338317888847
 GameObject:
@@ -7085,7 +7162,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2810483938076179585
 Transform:
   m_ObjectHideFlags: 0
@@ -7097,7 +7174,8 @@ Transform:
   m_LocalPosition: {x: -0.19264412, y: -0.029310226, z: -0.00000015258803}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5518973265702476226}
   m_Father: {fileID: 7541602719586748707}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7204,6 +7282,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8783848770287888222}
+  - component: {fileID: 1834142975414254697}
   m_Layer: 0
   m_Name: Catalyst_Fourwinds
   m_TagString: Untagged
@@ -7227,6 +7306,27 @@ Transform:
   m_Father: {fileID: 4753522769381280778}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &1834142975414254697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8263453608279981540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f2372d20bd9254199ec040b93f621c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 3741402583970940202}
+  rangedProjectilePrefab: {fileID: 7517079330416549230, guid: 118cdf263f6919341b0d63a33a907b44,
+    type: 3}
+  projectileSpawnPoint: {fileID: 1514006173080361581}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  attackRange: 1.5
+  attackDamage: 20
 --- !u!1 &8265543090786457787
 GameObject:
   m_ObjectHideFlags: 0
@@ -7837,3 +7937,84 @@ Transform:
   m_Father: {fileID: 5338450334403451625}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &9128005732793935548
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2810483938076179585}
+    m_Modifications:
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4139288025841264068, guid: 74cbfac9e19e05f4cb0666083e220237,
+        type: 3}
+      propertyPath: m_Name
+      value: Flycloak_Normal_Iustitia
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 74cbfac9e19e05f4cb0666083e220237, type: 3}
+--- !u!95 &2591313390239453789 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6726971664623924449, guid: 74cbfac9e19e05f4cb0666083e220237,
+    type: 3}
+  m_PrefabInstance: {fileID: 9128005732793935548}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5518973265702476226 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3619315389780705150, guid: 74cbfac9e19e05f4cb0666083e220237,
+    type: 3}
+  m_PrefabInstance: {fileID: 9128005732793935548}
+  m_PrefabAsset: {fileID: 0}

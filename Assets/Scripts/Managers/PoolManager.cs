@@ -9,16 +9,19 @@ public class PoolManager : Singleton<PoolManager>
     public GameObject itemGetPanelSlotPrefab;
     public GameObject itemDropPrefab;
     public GameObject elementPrefab;
+    public GameObject arrowPrefab;
 
     Stack<GameObject> itemSlotStack;
     Stack<GameObject> getSlotStack;
     Stack<GameObject> itemGetPanelSlotStack;
     Stack<GameObject> itemDropStack;
     Queue<GameObject> elementQueue;
+    Queue<GameObject> arrowQueue;
 
     public Transform PoolParent;
     public Transform ElementPool;
     public Transform PlayerTransform;
+    public Transform arrowSpawnPoint;
 
     private void Awake()
     {
@@ -27,6 +30,7 @@ public class PoolManager : Singleton<PoolManager>
         itemGetPanelSlotStack = new Stack<GameObject>();
         itemDropStack = new Stack<GameObject>();
         elementQueue = new Queue<GameObject>();
+        arrowQueue = new Queue<GameObject>();
 
         for (int i = 0; i < 200; i++)
         {
@@ -68,6 +72,13 @@ public class PoolManager : Singleton<PoolManager>
             element.SetPlayerTransform(PlayerTransform);
             prefab.SetActive(false);
             elementQueue.Enqueue(prefab);
+        }
+
+        for (int i = 0; i < 20; i++)
+        {
+            GameObject prefab = Instantiate(arrowPrefab, arrowSpawnPoint);
+            arrowQueue.Enqueue(prefab);
+            prefab.SetActive(false);
         }
     }
     public ItemSlot Get_ItemSlot()
@@ -146,6 +157,16 @@ public class PoolManager : Singleton<PoolManager>
             itemGetPanelSlot = prefab.GetComponent<ItemGetPanelSlot>();
             return itemGetPanelSlot;
         }
+    }
+
+    public GameObject Get_Arrow()
+    {
+        GameObject arrow = arrowQueue.Dequeue();
+        arrowQueue.Enqueue(arrow);
+        arrow.transform.GetChild(0).localPosition = Vector3.zero;
+        arrow.transform.localPosition = Vector3.zero;
+        arrow.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        return arrow;
     }
 
     public void Return_itemSlot(ItemSlot itemSlot)
