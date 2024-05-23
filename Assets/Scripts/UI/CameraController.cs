@@ -132,7 +132,8 @@ public class CameraController : MonoBehaviour
                         //Debug.Log("touchZoom :" + touchZoom);
                       
                     }
-                    break;
+
+                break;
                
 
 
