@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +15,12 @@ public abstract class Character : MonoBehaviour
     public float detectionRange = 10.0f;
     public float detectionAngle = 45.0f;
 
+    public float skillCooldown = 10.0f;
+    public float skillDuration = 5.0f;
+    private float skillCooldownTimer = 0f;
+    private float skillDurationTimer = 0f;
+    private bool isSkillActive = false;
+
     protected virtual void Start()
     {
         if(weapons != null &&  weapons.Length > 0)
@@ -28,6 +35,7 @@ public abstract class Character : MonoBehaviour
         {
             weapon.gameObject.SetActive(false);
             weapon.character = this;
+            weapon.element = Element.Normal;
             Collider weaponCollider = weapon.GetComponent<Collider>();
             if(weaponCollider != null)
             {
@@ -50,6 +58,15 @@ public abstract class Character : MonoBehaviour
         {
             currentWeaponIndex = weaponIndex;
         }
+    }
+
+    public Element GetCurrentWeaponElement()
+    {
+        if(weapons.Length > 0)
+        {
+            return weapons[currentWeaponIndex].element;
+        }
+        return Element.Normal;
     }
 
     protected List<GameObject> DetectedEnemiesInRange()
@@ -86,6 +103,39 @@ public abstract class Character : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             Attack();
+        }
+        if (Keyboard.current.eKey.wasPressedThisFrame && skillCooldownTimer <= 0)
+        {
+            UseSkill();
+            skillCooldownTimer = skillCooldown;
+            isSkillActive = true;
+            skillDurationTimer = skillDuration;
+        }
+
+        if (isSkillActive)
+        {
+            skillDurationTimer -= Time.deltaTime;
+            Debug.Log(skillDurationTimer.ToString());
+            if(skillDurationTimer <= 0f)
+            {
+                ResetSkill();
+                isSkillActive = false;
+            }
+        }
+
+        if (skillCooldownTimer > 0f)
+        {
+            skillCooldownTimer -= Time.deltaTime;
+        }
+    }
+
+    public abstract void UseSkill();
+
+    protected virtual void ResetSkill()
+    {
+        if(weapons.Length > 0)
+        {
+            weapons[currentWeaponIndex].element = Element.Normal;
         }
     }
 }

@@ -5,6 +5,7 @@ public class Mission : MonoBehaviour, IInteractable
 {
     GetSlot getSlot;
     public GameObject[] particles;
+    public WindField[] windFields;
     public InteractableType interactableType;
     int id;
     public float maxTime;
@@ -12,17 +13,29 @@ public class Mission : MonoBehaviour, IInteractable
     int previousTime;
     int count;
     bool missionStart = false;
+    bool _hasWindfiled = false;
 
+    public Animator animator;
     SphereCollider sphereCollider;
 
     private void Awake()
     {
         sphereCollider = GetComponent<SphereCollider>();
-        particles = new GameObject[transform.GetChild(0).childCount];
+        particles = new GameObject[transform.GetChild(0).childCount];        
         for (int i = 0; i < particles.Length; i++)
         {
             particles[i] = transform.GetChild(0).GetChild(i).gameObject;
             particles[i].GetComponent<WindParticle>().SetMission(this);
+        }
+        if(transform.GetChild(3).childCount > 0)
+        {
+            windFields = new WindField[transform.GetChild(3).childCount];
+            _hasWindfiled = true;
+            for (int i = 0; i < windFields.Length; i++)
+            {
+                windFields[i] = transform.GetChild(3).GetChild(i).GetComponent<WindField>();
+            }
+                
         }
     }
     private void Start()
@@ -41,7 +54,7 @@ public class Mission : MonoBehaviour, IInteractable
                 previousTime = (int)nowTime;
                 MissionManager.Instance.UpdateTime(previousTime);
             }
-            if (nowTime < 0)
+            if (nowTime < 0) // 미션 실패
             {
                 sphereCollider.enabled = true;
                 missionStart = false;
@@ -50,6 +63,15 @@ public class Mission : MonoBehaviour, IInteractable
                     particle.gameObject.SetActive(false);
                 }
                 MissionManager.Instance.Failed();
+                animator.SetTrigger("Fail");
+
+                if (_hasWindfiled)
+                {
+                    for (int i = 0; i < windFields.Length; i++)
+                    {
+                        windFields[i].Deactive();
+                    }
+                }
             }
         }
     }
@@ -64,7 +86,15 @@ public class Mission : MonoBehaviour, IInteractable
             missionStart = false;
             PoolManager.Instance.Return_GetSlot(getSlot);
             transform.GetChild(1).gameObject.SetActive(true);
+            transform.GetChild(2).gameObject.SetActive(false);
         }
+    }
+
+    public void DestroyMission()
+    {
+        Destroy(transform.GetChild(2).gameObject);
+        Destroy(transform.GetChild(1).gameObject);
+        Destroy(transform.GetChild(0).gameObject);
     }
 
     public void InitGetSlot()
@@ -85,7 +115,7 @@ public class Mission : MonoBehaviour, IInteractable
 
     public void UseItemGet()
     {
-        if(MissionManager.Instance.mission == null)
+        if(MissionManager.Instance.mission == null) // 미션시작
         {
             Debug.Log("UseItem_Mission"); // Init Mission
             sphereCollider.enabled = false;
@@ -95,10 +125,20 @@ public class Mission : MonoBehaviour, IInteractable
             missionStart = true;
             MissionManager.Instance.StartMission(previousTime, particles.Length);
             MissionManager.Instance.mission = this;
+            animator.SetTrigger("Start");
             foreach(var item in particles)
             {
                 item.SetActive(true);
             }
+
+            if(_hasWindfiled)
+            {
+                for (int i = 0; i < windFields.Length; i++)
+                {
+                    windFields[i].Active();
+                }
+            }
+
 
             getSlot.transform.SetParent(PoolManager.Instance.PoolParent);
             getSlot.gameObject.SetActive(false);

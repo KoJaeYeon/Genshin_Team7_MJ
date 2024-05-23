@@ -76,13 +76,13 @@ public class WeaponItemPanel : MonoBehaviour,IItemPanel
         }
 
 
-        if(EquipManager.Instance.character.Equals(characterFromSlot))
-        {
-            equipButton.SetActive(false);
-        }
-        else
-        {
-            equipButton.SetActive(true);
-        }
+        //if(EquipManager.Instance.character.Equals(characterFromSlot))
+        //{
+        //    equipButton.SetActive(false);
+        //}
+        //else
+        //{
+        //    equipButton.SetActive(true);
+        //}
     }
 }

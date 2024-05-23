@@ -139,12 +139,12 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    public void DamageText(float damage)
+    public void DamageText(float damage, Vector3 monsterPos, Transform playerTrans)
     {
-
-        damageText.text = damage.ToString();
-        GameObject next = Instantiate(damageTextPrefap, MonsterPoint.position, Quaternion.identity);
+        GameObject next = Instantiate(damageTextPrefap, monsterPos + Vector3.up, Quaternion.identity);
+        next.GetComponent <TextMeshPro>().text = damage.ToString();
         next.transform.SetParent(MonsterPoint);
+        next.transform.LookAt(transform);
     }
 
 }

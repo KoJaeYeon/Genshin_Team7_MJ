@@ -47,9 +47,12 @@ public class Wolf : Enemy
         bossRigid = GetComponent<Rigidbody>();
         EnemyHealthDic = new Dictionary<Enemy, float>();
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        enemyData = new EnemyData(1000000f, 50f, 4f, 0.3f, 9999, Element.Ice);
+        enemyData = new EnemyData(200f, 50f, 4f, 0.3f, 9999, Element.Ice);
         EnemyHealthDic.Add(this, enemyData.Health);
         paralyzation = 100f;
+
+        HpSlider = transform.GetComponentInChildren<Slider>();
+        Hp = HpSlider.gameObject;
     }
 
     public void InitState()
@@ -64,6 +67,11 @@ public class Wolf : Enemy
         bossState.AddState(BossState.Stamp, new WolfAttackState_Stamp(this));
         bossState.AddState(BossState.Drift, new WolfAttackState_Drift(this));
         bossState.AddState(BossState.Howl, new WolfAttackState_Howl(this));
+    }
+
+    private void Update()
+    {
+        Debug.Log(EnemyHealthDic[this]);
     }
 
     public void SetPattern(BossPattern bossPattern)
@@ -152,11 +160,6 @@ public class Wolf : Enemy
         yield return new WaitForSeconds(10f);
      
         isCharge = true;
-    }
-
-    public override void TakeDamage(float damage, Element element)
-    {
-        
     }
 
     public override void Splash(float damage)

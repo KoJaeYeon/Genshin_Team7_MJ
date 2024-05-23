@@ -51,7 +51,7 @@ public class TestPlayer : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.F3))
             SetWeapon(Element.Lightning);
         else if(Input.GetKeyDown(KeyCode.F4))
-            SetWeapon(Element.Nomal);
+            SetWeapon(Element.Normal);
 
     }
 
@@ -108,7 +108,7 @@ public class TestPlayer : MonoBehaviour
             case Element.Lightning:
                 weapon = gameObject.AddComponent<Lightning>();
                 break;
-            case Element.Nomal:
+            case Element.Normal:
                 weapon = gameObject.AddComponent<Nomal>();
                 break;
         }

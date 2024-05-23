@@ -13,7 +13,7 @@ public class ActivePanel : MonoBehaviour, IActivePanel
         animator = GetComponent<Animator>();
         if (animator != null) _hasAnimator = true;
     }
-    public void PanelActive(IActivePanel previousPanel)
+    public virtual void PanelActive(IActivePanel previousPanel)
     {
         this.previousPanel = previousPanel;
         previousPanel.DisablePanel();
@@ -22,7 +22,7 @@ public class ActivePanel : MonoBehaviour, IActivePanel
 
     }
 
-    public void PanelInactive()
+    public virtual void PanelInactive()
     {
         UIManager.Instance.activePanel = previousPanel;
         gameObject.SetActive(false);

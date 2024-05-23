@@ -55,15 +55,11 @@ public class PartyManager : MonoBehaviour
         if (Keyboard.current.digit2Key.isPressed && currentCharacterIndex != 1) SwitchCharacter(1);
         if (Keyboard.current.digit3Key.isPressed && currentCharacterIndex != 2) SwitchCharacter(2);
         if (Keyboard.current.digit4Key.isPressed && currentCharacterIndex != 3) SwitchCharacter(3);
-
-        if(Keyboard.current.leftAltKey.isPressed)
-        {
-            Cursor.lockState = Cursor.lockState == CursorLockMode.Locked ? CursorLockMode.None :CursorLockMode.Locked;
-        }
     }
 
     public void SwitchCharacter(int characterIndex)
     {
+        if (PlayerController._isGliding) return;
         if (characterIndex >= 0 && characterIndex < activeCharacters.Length)
         {
             currentStateInfo = currentAnimator.GetCurrentAnimatorStateInfo(0);

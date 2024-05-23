@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
-public class Arrow : MonoBehaviour
+public class Arrow : Bow
 {
     public float speed = 20f;
     public float damage = 10f;
@@ -20,7 +21,7 @@ public class Arrow : MonoBehaviour
             Enemy enemy = other.GetComponent<Enemy>();
             if(enemy != null)
             {
-                enemy.TakeDamage(damage, Element.Nomal);
+                enemy.TakeDamage(damage, character != null ? character.GetCurrentWeaponElement() : Element.Normal);
             }
             Destroy(gameObject);
         }

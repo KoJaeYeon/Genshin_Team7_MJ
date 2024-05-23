@@ -48,23 +48,6 @@ public class FireHilichurl : Enemy,IColor
         return color;
     }
 
-    public override void TakeDamage(float damage, Element element)
-    {
-        EnemyHealthDic[this] -= CalculateDamage(damage, element);
-        HpSlider.value = EnemyHealthDic[this];
-        transform.LookAt(Player.position);
-        animator.SetTrigger("Hit");
-        UIManager.Instance.DamageText(damage);
-
-        if (EnemyHealthDic[this] <= 0)
-        {
-            Hp.SetActive(false);
-            StartCoroutine(Die(this));
-        }
-        else
-            HitDropElement(element);
-    }
-
     public override void Splash(float damage)
     {
         EnemyHealthDic[this] -= damage;
