@@ -13,6 +13,7 @@ public class PlayerInputHandler : MonoBehaviour
     public bool attack;
     public bool jump;
     public bool sprint;
+    public bool aim;
 
     [Header("Movement Settings")]
     public bool analogMovement;
@@ -58,6 +59,12 @@ public class PlayerInputHandler : MonoBehaviour
             ZoomInput(value.Get<float>());
         }
     }
+
+    public void OnAim(InputValue value)
+    {
+        Debug.Log("Aim");
+        AimInput(value.isPressed);
+    }
 #endif
 
     public void MoveInput(Vector2 newMoveDirection)
@@ -88,6 +95,11 @@ public class PlayerInputHandler : MonoBehaviour
     public void ZoomInput(float newZoomValue)
     {
         zoom += newZoomValue;
+    }
+
+    public void AimInput(bool newAimState)
+    {
+        aim = newAimState;
     }
 
     private void OnApplicationFocus(bool hasFocus)
