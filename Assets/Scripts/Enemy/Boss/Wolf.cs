@@ -70,7 +70,6 @@ public class Wolf : Enemy, IColor
         bossState.AddState(BossState.Drift, new WolfAttackState_Drift(this));
         bossState.AddState(BossState.Howl, new WolfAttackState_Howl(this));
     }
-
     public void SetPattern(BossPattern bossPattern)
     {
         switch (bossPattern)

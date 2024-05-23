@@ -5,7 +5,8 @@ using UnityEngine.EventSystems;
 
 public class RenderImage : MonoBehaviour
 {
-    public float speed = 5f;
+    public GameObject cameraRoot;
+    public float speed = 0.5f;
     Vector3 mousePos;
     Vector3 initMousePos;
 
@@ -23,9 +24,9 @@ public class RenderImage : MonoBehaviour
     {
         if (!touched)
         {
-            if (transform.eulerAngles.x > 180) { targetRot.x = 1; } else { targetRot.x = 0; }
-            if (transform.eulerAngles.y > 180) { targetRot.y = 1; } else { targetRot.y = 0; }            
-            transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, targetRot * 360, Time.deltaTime);
+            if (cameraRoot.transform.eulerAngles.x > 180) { targetRot.x = 1; } else { targetRot.x = 0; }
+            if (cameraRoot.transform.eulerAngles.y > 180) { targetRot.y = 1; } else { targetRot.y = 0; }
+            cameraRoot.transform.eulerAngles = Vector3.Lerp(cameraRoot.transform.eulerAngles, targetRot * 360, Time.deltaTime);
 
         }
 
@@ -44,7 +45,7 @@ public class RenderImage : MonoBehaviour
 #endif
         initMousePos = mousePos;
 
-        initRotaion = transform.rotation.eulerAngles;
+        initRotaion = cameraRoot.transform.rotation.eulerAngles;
         if (initRotaion.x <= 360 && initRotaion.x > 20) initRotaion.x -= 360;
     }
     public void OnPointDrag()
@@ -63,7 +64,7 @@ public class RenderImage : MonoBehaviour
         vector3.x = Mathf.Clamp(vector3.x , -60f, 20f);
 
         // 차이 구해서 해당 벡터로 카메라 회전시키기
-        transform.eulerAngles = new Vector3(vector3.x , initRotaion.y + difVec3.x * speed, 0);        
+        cameraRoot.transform.eulerAngles = new Vector3(vector3.x , initRotaion.y + difVec3.x * speed, 0);        
     }
 
 
@@ -77,7 +78,7 @@ public class RenderImage : MonoBehaviour
 #endif
         initMousePos = mousePos;
 
-        initRotaion = transform.rotation.eulerAngles;
+        initRotaion = cameraRoot.transform.rotation.eulerAngles;
         if (initRotaion.x <= 360 && initRotaion.x > 20) initRotaion.x -= 360;
     }
 }

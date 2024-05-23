@@ -45,9 +45,14 @@ public class EquipManager : Singleton<EquipManager>
     }
 
     public void Equip()
-    {        
-        UnEquip(itemSlot.character,itemSlot.GetEquipType());
-        itemSlot.OwnerChange(CharacterItemSprite.None); //사용할 아이템 선 장착해제
+    {
+        CharacterItemSprite previousCharacter = itemSlot.character; // 사용할 아이템 사용중이었던 캐릭터
+        if(itemSlot.character != CharacterItemSprite.None)//사용할 아이템 선 장착해제
+        {
+            UnEquip(itemSlot.character, itemSlot.GetEquipType());
+            itemSlot.OwnerChange(CharacterItemSprite.None);
+        }
+ 
         int id = itemSlot.GetId();
         Item item = ItemDatabase.Instance.GetItem(id);
         EquipStats equipStats = GetEquip(character);
