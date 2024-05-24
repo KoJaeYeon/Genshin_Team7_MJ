@@ -5,21 +5,31 @@ using UnityEngine.InputSystem;
 
 public abstract class Character : MonoBehaviour
 {
+    protected PlayerInputHandler _input;
+    protected Animator _animator;
+
     public Weapon[] weapons;
     public CharacterType characterType { get; set; }
 
     protected int currentWeaponIndex = 0;
 
     protected bool isActive = false;
+    protected bool hasAnimator;
 
     public float detectionRange = 10.0f;
     public float detectionAngle = 45.0f;
 
-    public float skillCooldown = 10.0f;
-    public float skillDuration = 5.0f;
-    private float skillCooldownTimer = 0f;
-    private float skillDurationTimer = 0f;
-    private bool isSkillActive = false;
+    protected float skillCooldown = 10.0f;
+    protected float skillDuration = 5.0f;
+    protected float skillCooldownTimer = 0f;
+    protected float skillDurationTimer = 0f;
+    protected bool isSkillActive = false;
+
+    public float maxElementalEnergy = 100.0f;
+    public float currentElementalEnergy = 0.0f;
+    public float energyGainPerHit = 10.0f;
+    public float energyGainOnKill = 20.0f;
+    public float elementalBurstCost = 100.0f;
 
     protected virtual void Start()
     {
@@ -27,6 +37,10 @@ public abstract class Character : MonoBehaviour
         {
             InitializeWeapons();
         }
+
+        _input = transform.parent.GetComponent<PlayerInputHandler>();
+        _animator = GetComponent<Animator>();
+        hasAnimator = TryGetComponent(out  _animator);
     }
 
     private void InitializeWeapons()
@@ -41,14 +55,6 @@ public abstract class Character : MonoBehaviour
             {
                 weaponCollider.isTrigger = true;
             }
-        }
-    }
-
-    public virtual void Attack()
-    {
-        if(weapons.Length > 0)
-        {
-            weapons[currentWeaponIndex].UseWeapon();
         }
     }
 
@@ -67,6 +73,12 @@ public abstract class Character : MonoBehaviour
             return weapons[currentWeaponIndex].element;
         }
         return Element.Normal;
+    }
+
+    public void GainEnergy(float amount)
+    {
+        currentElementalEnergy = Mathf.Clamp(currentElementalEnergy + amount, 0, maxElementalEnergy);
+        //UIManager.Instance.메서드이름(어떤 캐릭터, currentElementalEnergy);
     }
 
     protected List<GameObject> DetectedEnemiesInRange()
@@ -98,39 +110,7 @@ public abstract class Character : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime);
     }
 
-    protected virtual void Update()
-    {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            Attack();
-        }
-        if (Keyboard.current.eKey.wasPressedThisFrame && skillCooldownTimer <= 0)
-        {
-            UseSkill();
-            skillCooldownTimer = skillCooldown;
-            isSkillActive = true;
-            skillDurationTimer = skillDuration;
-        }
-
-        if (isSkillActive)
-        {
-            skillDurationTimer -= Time.deltaTime;
-            Debug.Log(skillDurationTimer.ToString());
-            if(skillDurationTimer <= 0f)
-            {
-                ResetSkill();
-                isSkillActive = false;
-            }
-        }
-
-        if (skillCooldownTimer > 0f)
-        {
-            skillCooldownTimer -= Time.deltaTime;
-        }
-    }
-
-    public abstract void UseSkill();
-
+    
     protected virtual void ResetSkill()
     {
         if(weapons.Length > 0)
@@ -138,4 +118,13 @@ public abstract class Character : MonoBehaviour
             weapons[currentWeaponIndex].element = Element.Normal;
         }
     }
+
+    public void OnEnemyKilled()
+    {
+        GainEnergy(energyGainOnKill);
+    }
+    public abstract void Attack();
+    public abstract void UseElementalSkill();
+    public abstract void UseElementalBurst();
+
 }

@@ -55,7 +55,7 @@ public class FireHilichurl : Enemy,IColor
 
         if (EnemyHealthDic[this] <= 0)
         {
-            StartCoroutine(Die(this));
+            StartCoroutine(Die(this, null));
         }
     }
 }

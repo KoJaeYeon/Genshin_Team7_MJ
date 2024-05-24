@@ -5,7 +5,8 @@ public enum InteractableType
 {
     Jungyo,
     Jingui,
-    Mission
+    Mission,
+    Boss
 }
 public class Chest : MonoBehaviour,IInteractable
 {
