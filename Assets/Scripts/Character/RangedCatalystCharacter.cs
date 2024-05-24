@@ -8,9 +8,14 @@ public class RangedCatalystCharacter : Character
     {
         characterType = CharacterType.Ranged;
         base.Start();
-        foreach(var weapon in weapons)
+        InitializeRangedCatalyst();
+    }
+
+    private void InitializeRangedCatalyst()
+    {
+        foreach (var weapon in weapons)
         {
-            if(weapon is Catalyst_Ranged)
+            if (weapon is Catalyst_Ranged)
             {
                 weapon.gameObject.SetActive(true);
                 currentWeaponIndex = System.Array.IndexOf(weapons, weapon);
@@ -18,6 +23,7 @@ public class RangedCatalystCharacter : Character
             }
         }
     }
+
     public override void Attack()
     {
         if (weapons.Length > 0)

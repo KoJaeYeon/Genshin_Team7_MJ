@@ -59,7 +59,14 @@ public abstract class Character : MonoBehaviour
         _animator = GetComponent<Animator>();
         hasAnimator = TryGetComponent(out  _animator);
     }
+
     private void Update()
+    {
+        HandleInput();
+        UpdateSkillTimers();
+    }
+
+    private void HandleInput()
     {
         if (_input.attack)
         {
@@ -71,16 +78,21 @@ public abstract class Character : MonoBehaviour
             skillCooldownTimer = skillCooldown;
             isSkillActive = true;
             skillDurationTimer = skillDuration;
+            
         }
 
         if (_input.burst)
         {
             UseElementalBurst();
         }
+    }
 
+    public void UpdateSkillTimers()
+    {
         if (isSkillActive)
         {
             skillDurationTimer -= Time.deltaTime;
+
             if (skillDurationTimer <= 0f)
             {
                 ResetSkill();
@@ -92,42 +104,6 @@ public abstract class Character : MonoBehaviour
         {
             skillCooldownTimer -= Time.deltaTime;
             UIManager.Instance.SkiilCooldown(skillCooldownTimer);
-        }
-    }
-
-    private void Update()
-    {
-        if (_input.attack)
-        {
-            Attack();
-        }
-        if (_input.skill && skillCooldownTimer <= 0)
-        {
-            UseElementalSkill();
-            skillCooldownTimer = skillCooldown;
-            isSkillActive = true;
-            skillDurationTimer = skillDuration;
-        }
-
-        if (_input.burst)
-        {
-            UseElementalBurst();
-        }
-
-        if (isSkillActive)
-        {
-            skillDurationTimer -= Time.deltaTime;
-
-            if (skillDurationTimer <= 0f)
-            {
-                ResetSkill();
-                isSkillActive = false;
-            }
-        }
-
-        if (skillCooldownTimer > 0f)
-        {
-            skillCooldownTimer -= Time.deltaTime;
         }
     }
 
@@ -245,6 +221,21 @@ public abstract class Character : MonoBehaviour
     public void OnEnemyKilled()
     {
         GainEnergy(energyGainOnKill);
+    }
+
+    public float GetSkillCooldownTimer()
+    {
+        return skillCooldownTimer;
+    }
+
+    public float GetElementalEnergy()
+    {
+        return currentElementalEnergy;
+    }
+
+    public bool IsSkillActive()
+    {
+        return skillCooldownTimer > 0f;
     }
 
     public abstract void Attack();
