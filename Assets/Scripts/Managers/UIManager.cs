@@ -31,7 +31,7 @@ public class UIManager : Singleton<UIManager>
     public GameObject damageTextPrefap;
     public Transform dmgParentTrans;
 
-
+    SkillUI skillUI;
 
 
     private void Awake()
@@ -151,9 +151,17 @@ public class UIManager : Singleton<UIManager>
 
     }
 
-    public void BurstPoint(float point)
+    public void SkiilCooldown(float point)
     {
-
+        skillUI.Elemental_Cooldown(point);
+    }
+    public void BurstCooldown(float point)
+    {
+        skillUI.Elemental_Burst_Cooldown(point);
+    }
+    public void BurstGage(float point)
+    {
+        skillUI.ElementalBurst_Gage(point);
     }
 
 }
