@@ -210,7 +210,7 @@ public abstract class Enemy : MonoBehaviour
         return ElementColor;
     }
 
-    private void DropItem(Enemy enemy)
+    protected virtual void DropItem(Enemy enemy)
     {
         DropObject dropObject = PoolManager.Instance.Get_DropObject(Random.Range(1001, 1007));
         dropObject.gameObject.transform.position = transform.position + Vector3.up*1.5f;

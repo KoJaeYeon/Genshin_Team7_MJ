@@ -53,8 +53,8 @@ public class Wolf : Enemy, IColor
         EnemyHealthDic.Add(this, enemyData.Health);
         paralyzation = 100f;
 
-        //HpSlider = transform.GetComponentInChildren<Slider>();
-        //Hp = HpSlider.gameObject;
+        HpSlider = transform.GetComponentInChildren<Slider>();
+        Hp = HpSlider.gameObject;
     }
 
     public void InitState()
@@ -164,6 +164,12 @@ public class Wolf : Enemy, IColor
         yield return new WaitForSeconds(10f);
      
         isCharge = true;
+    }
+
+    protected override void DropItem(Enemy enemy)
+    {
+        DropObject dropObject = PoolManager.Instance.Get_DropObject(Random.Range(1008, 1010));
+        dropObject.gameObject.transform.position = transform.position + Vector3.up*1.5f;
     }
 
     public override void Splash(float damage) { }
