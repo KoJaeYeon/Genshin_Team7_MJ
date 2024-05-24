@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Claw : BossSkill
 {
-    // Start is called before the first frame update
+    private float claw_Atk;
+
     void Start()
     {
         
@@ -14,5 +15,10 @@ public class Claw : BossSkill
     void Update()
     {
         
+    }
+
+    public void ClawOverlap()
+    {
+
     }
 }
