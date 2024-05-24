@@ -14502,6 +14502,8 @@ GameObject:
   - component: {fileID: 4439243905751744}
   - component: {fileID: 198441473693890864}
   - component: {fileID: 199825235705710506}
+  - component: {fileID: 349803670599140021}
+  - component: {fileID: -6016587812467571132}
   m_Layer: 0
   m_Name: Magic circle 31
   m_TagString: Untagged
@@ -19445,6 +19447,31 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!135 &349803670599140021
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216020416843760}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 1.95
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-6016587812467571132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216020416843760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ba95f4b1cf37f4e994578665641924, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1323529742602544
 GameObject:
   m_ObjectHideFlags: 0
@@ -24312,7 +24339,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e39739995fd64944c883bb68df712f97, type: 2}
+  - {fileID: 2100000, guid: 78bd58ae3b9948849a4fedcfef757c7e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -43779,7 +43806,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e39739995fd64944c883bb68df712f97, type: 2}
+  - {fileID: 2100000, guid: 78bd58ae3b9948849a4fedcfef757c7e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

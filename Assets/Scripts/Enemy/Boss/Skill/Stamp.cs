@@ -7,22 +7,23 @@ public class Stamp : BossSkill
     private float stamp_Atk;
     private BoxCollider boxColl;
 
-    public override void AnimationEventStart()
+    private void OnEnable()
     {
-        stamp_Atk = GetSkillDamage(Skill.Stamp);
-        boxColl = GetComponent<BoxCollider>();
-
-        StartCoroutine(DelayDamage());
+        if(boxColl == null)
+            boxColl = GetComponent<BoxCollider>();
     }
-    public override void AnimationEventEnd()
+
+    public override void SetAtk(float atk)
     {
-        boxColl.enabled = false;
+        stamp_Atk = GetSkillDamage(Skill.Stamp) + atk;
     }
 
     public override IEnumerator DelayDamage()
     {
         yield return new WaitForSeconds(1.0f);
         boxColl.enabled = true;
+        yield return new WaitForSeconds(1.0f);
+        boxColl.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -30,6 +31,7 @@ public class Stamp : BossSkill
         if(other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             Debug.Log("Stamp");
+            Debug.Log(stamp_Atk + "ÇÇÇØ");
         }
     }
 

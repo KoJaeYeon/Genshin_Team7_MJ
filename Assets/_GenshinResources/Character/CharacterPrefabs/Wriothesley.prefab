@@ -6216,6 +6216,10 @@ MonoBehaviour:
   attack: 0
   jump: 0
   sprint: 0
+  windfield: 0
+  aim: 0
+  skill: 0
+  burst: 0
   analogMovement: 1
   cursorLocked: 1
   cursorInputForLook: 1
@@ -6235,9 +6239,18 @@ MonoBehaviour:
   - {fileID: 1511378009856824154}
   - {fileID: 8220776961809690565}
   - {fileID: 411377798061576834}
+  characterData: {fileID: 11400000, guid: 809c4441eeb29c544b004b22f659d40c, type: 2}
   detectionRange: 10
   detectionAngle: 45
-  attackType: 0
+  maxElementalEnergy: 100
+  currentElementalEnergy: 0
+  energyGainPerHit: 10
+  energyGainOnKill: 20
+  elementalBurstCost: 100
+  maxHealth: 0
+  currentHealth: 0
+  attackPower: 0
+  defensePower: 0
 --- !u!1 &6687758244574133741
 GameObject:
   m_ObjectHideFlags: 0
@@ -8569,6 +8582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 6104723604870315375}
+  element: 0
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -8701,6 +8715,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 6104723604870315375}
+  element: 0
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -8915,6 +8930,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 6104723604870315375}
+  element: 0
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8

@@ -13,15 +13,16 @@ public enum Skill
 public class BossSkill : MonoBehaviour
 {
     protected Dictionary<Skill, float> skillDic;
-    protected Wolf wolf;
     protected bool Hit;
 
-    private void Start()
+    private void Awake()
     {
-        Debug.Log("보스 스킬 호출");
         skillDic = new Dictionary<Skill, float>();
-        wolf = GetComponent<Wolf>();
+        Init();
+    }
 
+    private void Init()
+    {
         skillDic.Add(Skill.Howl, 20.0f);
         skillDic.Add(Skill.Claw, 20.0f);
         skillDic.Add(Skill.Jump, 20.0f);
@@ -31,13 +32,13 @@ public class BossSkill : MonoBehaviour
 
     public float GetSkillDamage(Skill name)
     {
-        float damage = skillDic[name] + wolf.GetAtk();
+        float damage = skillDic[name];
 
         return damage;
     }
 
-    public virtual void AnimationEventStart() { }
-    public virtual void AnimationEventEnd() { }
+    public virtual void SetAtk(float atk) { }
+
     public virtual IEnumerator DelayDamage()
     {
         yield return new WaitForSeconds(1.0f);
