@@ -17,11 +17,11 @@ public class PoolManager : Singleton<PoolManager>
     Stack<GameObject> itemDropStack;
     Queue<GameObject> elementQueue;
     Queue<GameObject> arrowQueue;
+    Queue<GameObject> damageTextQueue;
 
     public Transform PoolParent;
     public Transform ElementPool;
     public Transform PlayerTransform;
-    public Transform arrowSpawnPoint;
 
     private void Awake()
     {
@@ -31,6 +31,7 @@ public class PoolManager : Singleton<PoolManager>
         itemDropStack = new Stack<GameObject>();
         elementQueue = new Queue<GameObject>();
         arrowQueue = new Queue<GameObject>();
+        damageTextQueue = new Queue<GameObject>();
 
         for (int i = 0; i < 200; i++)
         {
@@ -76,9 +77,18 @@ public class PoolManager : Singleton<PoolManager>
 
         for (int i = 0; i < 20; i++)
         {
-            GameObject prefab = Instantiate(arrowPrefab, arrowSpawnPoint);
+            GameObject prefab = Instantiate(arrowPrefab, PoolParent.transform);
             arrowQueue.Enqueue(prefab);
             prefab.SetActive(false);
+        }
+
+        for (int i = 0; i < 30; i++)
+        {
+           // GameObject prefab = Instantiate(damageTextQueue, PoolParent.transform);
+            //damageTextQueue.Enqueue(prefab);
+           // prefab.SetActive(false);
+
+        
         }
     }
     public ItemSlot Get_ItemSlot()
