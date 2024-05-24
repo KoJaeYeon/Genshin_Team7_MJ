@@ -9,6 +9,7 @@ public class ActivePanel_CharacterPanel : MonoBehaviour, IActivePanel
     public GameObject render_Manager;
     RenderManager renderManager;
     characterItemSettingButton characterItemSettingButton;
+    GameObject property;
 
     bool _hasAnimator = false;
     private void Awake()
@@ -16,7 +17,8 @@ public class ActivePanel_CharacterPanel : MonoBehaviour, IActivePanel
         animator = GetComponent<Animator>();
         if (animator != null) _hasAnimator = true;
         renderManager = render_Manager.GetComponent<RenderManager>();
-        characterItemSettingButton = transform.GetChild(3).GetComponent<characterItemSettingButton>();
+        characterItemSettingButton = transform.GetChild(5).GetComponent<characterItemSettingButton>();
+        property = transform.GetChild(4).gameObject;
     }
     public void PanelActive(IActivePanel previousPanel)
     {
@@ -37,10 +39,12 @@ public class ActivePanel_CharacterPanel : MonoBehaviour, IActivePanel
     }
     public virtual void DisablePanel()
     {
+        property.SetActive(false);
         if (_hasAnimator) animator.Play("Disable_Panel");
     }
     public virtual void EnablePanel()
     {
+        property.SetActive(true);
         if(_hasAnimator) animator.Play("Enable_Panel");
     }
 
