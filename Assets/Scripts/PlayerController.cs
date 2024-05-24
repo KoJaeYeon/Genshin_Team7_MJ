@@ -81,8 +81,6 @@ public class PlayerController : MonoBehaviour
     private int _animIDFreeFall;
     private int _animIDMotionSpeed;
     private int _animIDCliffCheck;
-    private int _animIDAttack = Animator.StringToHash("Attack");
-    private int _animIDAttacking = Animator.StringToHash("Attacking");
 
 #if ENABLE_INPUT_SYSTEM
     private PlayerInput _playerInput;
@@ -139,24 +137,8 @@ public class PlayerController : MonoBehaviour
         JumpAndGravity();
         GroundedCheck();
         CliffCheck();
-
-       
         Move();
-
         Climb();
-
-        //if (_input.attack)
-        //{
-        //    if (_attackTrigger)
-        //    {
-        //        Attack();
-        //        _attackTrigger = false;
-        //    }
-        //}
-        //else
-        //{
-        //    _attackTrigger = true;
-        //}
     }
 
     private void LateUpdate()
@@ -172,8 +154,6 @@ public class PlayerController : MonoBehaviour
         _animIDFreeFall = Animator.StringToHash("FreeFall");
         _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
         _animIDCliffCheck = Animator.StringToHash("Cliff");
-        //_animIDAttack = Animator.StringToHash("Attack");
-        //_animIDAttacking = Animator.StringToHash("Attacking");
     }
 
     private void GroundedCheck()
@@ -238,8 +218,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
-
     private void Move()
     {
         if (_isClimbing) return;
@@ -291,29 +269,6 @@ public class PlayerController : MonoBehaviour
             _animator.SetFloat(_animIDMotionSpeed, inputMagnitude, 0.1f, Time.deltaTime);
         }
     }
-
-    //private void AimMove()
-    //{
-    //    _animator.SetBool("isAiming", _isAiming);
-
-    //    float targetSpeed = MoveSpeed;
-
-    //    if (_input.move == Vector2.zero) targetSpeed = 0.0f;
-
-    //    float verticalInput = _input.move.x;
-    //    float horizontalInput = _input.move.y;
-
-    //    Vector3 aimMoveDirection = new Vector3(verticalInput, 0.0f, horizontalInput);
-    //    aimMoveDirection = transform.TransformDirection(aimMoveDirection);
-
-    //    _controller.Move(aimMoveDirection * targetSpeed * Time.deltaTime);
-
-    //    if (_hasAnimator)
-    //    {
-    //        _animator.SetFloat("horizontal", horizontalInput);
-    //        _animator.SetFloat("vertical", verticalInput);
-    //    }
-    //}
 
     private void Climb()
     {
@@ -490,19 +445,6 @@ public class PlayerController : MonoBehaviour
         if (lfAngle > 360f) lfAngle -= 360f;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
-
-    //private void Attack()
-    //{
-    //    if (_hasAnimator)
-    //    {
-    //        _animator.SetTrigger(_animIDAttack);
-    //        _animator.SetBool(_animIDAttacking, true);
-    //    }
-    //    else
-    //    {
-    //        _animator.SetBool(_animIDAttacking, false);
-    //    }
-    //}
 
     public void SetSensitivity(float newSensitivity)
     {
