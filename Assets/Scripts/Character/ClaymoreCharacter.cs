@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class ClaymoreCharacter : Character
 {
@@ -40,7 +37,6 @@ public class ClaymoreCharacter : Character
 
     public override void UseElementalSkill()
     {
-        Debug.Log("Lightning");
         EnchantWeapon(Element.Lightning);
     }
 
@@ -64,6 +60,4 @@ public class ClaymoreCharacter : Character
     {
         base.ResetSkill();
     }
-
-
 }

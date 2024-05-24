@@ -199,6 +199,8 @@ public class PlayerController : MonoBehaviour
 
     private void CameraRotation()
     {
+        if (_animator.GetBool("Attacking")) return;
+
         if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
         {
             _cinemachineTargetYaw += _input.look.x * baseSensitivity * LookSensitivity;
@@ -220,7 +222,7 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        if (_isClimbing) return;
+        if (_isClimbing || _animator.GetBool("Attacking")) return;
 
         float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
