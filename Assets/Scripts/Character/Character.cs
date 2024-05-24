@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 
 public abstract class Character : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public abstract class Character : MonoBehaviour
 
     public Weapon[] weapons;
     public CharacterType characterType { get; set; }
+
+    public CharacterData characterData;
 
     protected int currentWeaponIndex = 0;
 
@@ -31,9 +34,20 @@ public abstract class Character : MonoBehaviour
     public float energyGainOnKill = 20.0f;
     public float elementalBurstCost = 100.0f;
 
+    public int level;
+    public float maxHealth;
+    public float currentHealth;
+    public float attackPower;
+    public float defensePower;
+
     protected virtual void Start()
     {
-        if(weapons != null &&  weapons.Length > 0)
+        if (characterData != null)
+        {
+            InitializeCharacterStats();
+        }
+
+        if (weapons != null &&  weapons.Length > 0)
         {
             InitializeWeapons();
         }
@@ -41,6 +55,15 @@ public abstract class Character : MonoBehaviour
         _input = transform.parent.GetComponent<PlayerInputHandler>();
         _animator = GetComponent<Animator>();
         hasAnimator = TryGetComponent(out  _animator);
+    }
+
+    public void InitializeCharacterStats()
+    {
+        level = characterData.level;  
+        maxHealth = characterData.baseHp;
+        currentHealth = maxHealth;
+        attackPower = characterData.baseAtk;
+        defensePower = characterData.baseDef;
     }
 
     private void InitializeWeapons()
@@ -58,13 +81,19 @@ public abstract class Character : MonoBehaviour
         }
     }
 
-    //public virtual void Attack()
-    //{
-    //    if(weapons.Length > 0)
-    //    {
-    //        weapons[currentWeaponIndex].UseWeapon();
-    //    }
-    //}
+    public void InitializeCharacter()
+    {
+        if(characterData != null)
+        {
+            CharacterController characterController = transform.parent.GetComponent<CharacterController>();
+            if(characterController != null)
+            {
+                characterController.center = characterData.controllerCenter;
+                characterController.radius = characterData.controllerRadius;
+                characterController.height = characterData.controllerHeight;
+            }
+        }
+    }
 
     public void SwitchWeapon(int weaponIndex)
     {
@@ -87,6 +116,29 @@ public abstract class Character : MonoBehaviour
     {
         currentElementalEnergy = Mathf.Clamp(currentElementalEnergy + amount, 0, maxElementalEnergy);
         //UIManager.Instance.메서드이름(어떤 캐릭터, currentElementalEnergy);
+    }
+
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+            Die();
+        }
+
+        if (hasAnimator)
+        {
+            _animator.SetTrigger("TakeDamage");
+        }
+    }
+
+    protected virtual void Die()
+    {
+        if (hasAnimator)
+        {
+            _animator.SetTrigger("Die");
+        }
     }
 
     protected List<GameObject> DetectedEnemiesInRange()
@@ -131,6 +183,7 @@ public abstract class Character : MonoBehaviour
     {
         GainEnergy(energyGainOnKill);
     }
+
     public abstract void Attack();
     public abstract void UseElementalSkill();
     public abstract void UseElementalBurst();
