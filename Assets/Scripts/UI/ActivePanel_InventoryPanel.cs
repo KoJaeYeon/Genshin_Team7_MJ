@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class ActivePanel_InventoryPanel : ActivePanel
 {
-    IActivePanel previousPanel;
-    Animator animator;
-
-    bool _hasAnimator = false;
-    private void Awake()
-    {
-        animator = GetComponent<Animator>();
-        if (animator != null) _hasAnimator = true;
-    }
     public override void PanelActive(IActivePanel previousPanel)
     {
         this.previousPanel = previousPanel;
@@ -31,13 +22,4 @@ public class ActivePanel_InventoryPanel : ActivePanel
         UIManager.Instance.DataPanel = null;
         
     }
-    public override void DisablePanel()
-    {
-        if (_hasAnimator) animator.Play("Disable_Panel");
-    }
-    public override void EnablePanel()
-    {
-        if(_hasAnimator) animator.Play("Enable_Panel");
-    }
-
 }

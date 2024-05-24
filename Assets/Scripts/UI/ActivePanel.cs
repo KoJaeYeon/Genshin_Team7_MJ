@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class ActivePanel : MonoBehaviour, IActivePanel
 {
-    IActivePanel previousPanel;
-    Animator animator;
+    protected IActivePanel previousPanel;
+    protected Animator animator;
 
-    bool _hasAnimator = false;
+    protected bool _hasAnimator = false;
     private void Awake()
     {
         animator = GetComponent<Animator>();

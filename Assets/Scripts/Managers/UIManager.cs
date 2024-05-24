@@ -23,8 +23,9 @@ public class UIManager : Singleton<UIManager>
     IActivePanel mainPanel_IActivePanel;
 
     public Transform playerCameraTrans;
-
     public Transform UI_scale;
+
+    public GameObject characterPanel;
     public GameObject DataPanel;
 
     public GameObject damageTextPrefap;
