@@ -31,10 +31,9 @@ public class MonsterWeapon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) //플레이어에게 피해를 주는 부분
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            Debug.Log("충돌함");
-            Debug.Log(MonsterAttackPower);
+            
         }
             
     }

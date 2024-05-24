@@ -38,7 +38,6 @@ public class Wolf : Enemy, IColor
     
     private new void Awake()
     {
-        Debug.Log("울프 호출");
         InitWolf();
         InitState();
     }
@@ -155,7 +154,7 @@ public class Wolf : Enemy, IColor
 
     public IEnumerator JumpCoolTime()
     {
-        yield return new WaitForSeconds(7.5f);
+        yield return new WaitForSeconds(8.0f);
         
         isJump = true;
     }
@@ -205,7 +204,7 @@ public class Wolf : Enemy, IColor
         bossRigid.velocity = Vector3.zero;
     }
 
-    public void Test()
+    public void RunStop()
     {
         isRunStop = false;
     }

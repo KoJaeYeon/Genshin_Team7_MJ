@@ -7,24 +7,24 @@ public class Jump : BossSkill
     private float jump_Atk;
     private SphereCollider sphereColl;
 
-    public override void AnimationEventStart()
+    private void OnEnable()
     {
-        Debug.Log("점프 애니메이션 스타트");
-        jump_Atk = GetSkillDamage(Skill.Jump);
-        sphereColl = GetComponent<SphereCollider>();
-
-        StartCoroutine(DelayDamage());
+        if(sphereColl == null)
+            sphereColl = GetComponent<SphereCollider>();
     }
 
-    public override void AnimationEventEnd()
+    public override void SetAtk(float atk)
     {
-        sphereColl.enabled = false;
+        jump_Atk = skillDic[Skill.Jump] + atk;
     }
+    
 
     public override IEnumerator DelayDamage()
     {
         yield return new WaitForSeconds(1.0f);
         sphereColl.enabled = true;
+        yield return new WaitForSeconds(1.0f);
+        sphereColl.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -32,6 +32,7 @@ public class Jump : BossSkill
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             Debug.Log("Jump");
+            Debug.Log(jump_Atk + "피해");
         }
     }
 }
