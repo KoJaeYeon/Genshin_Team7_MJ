@@ -17,6 +17,8 @@ public class PartyManager : MonoBehaviour
     private Animator currentAnimator;
     private AnimatorStateInfo currentStateInfo;
     private float currentAnimatorTime;
+    public GameObject particle;
+
 
     private void Awake()
     {
@@ -79,11 +81,27 @@ public class PartyManager : MonoBehaviour
                 controller.radius = data.controllerRadius;
                 controller.height = data.controllerHeight;
             }
+
+            //캐릭터 변경할 때 이펙트 생성
+            StartCoroutine(Swtich());
         }
         else
         {
             Debug.Log("Invalid character index");
         }
+    }
+
+    IEnumerator Swtich()
+    {
+        if (particle == null)
+        {
+            Debug.Log("뿅 하는 파티클 없음");
+            yield break;
+        }
+        particle.SetActive(false);
+        particle.SetActive(true);
+        yield return new WaitForSeconds(1);
+        particle.SetActive(false);
     }
 
     public Character GetCurrentCharacter()

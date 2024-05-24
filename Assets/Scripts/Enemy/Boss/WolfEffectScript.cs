@@ -12,20 +12,30 @@ public class WolfEffectScript : MonoBehaviour
         Frost_Ring,
         Frost_Spike,
         Frost_Crystal,
-        Magic
+        Magic,
+        Tail_Circle
     }
+
+    private Wolf wolf;
+    private Jump jumpSkill;
+    private Claw clawSkill;
+    private Stamp stampSkill;
+    private Howl howlSkill;
+    private Drift driftSkill;
 
     public GameObject Frost_Wave;
     public GameObject Frost_Ring;
     public GameObject Frost_Spike;
     public GameObject Frost_Crystal;
     public GameObject Magic_Circle;
+    public GameObject Tail_Circle;
 
     public Transform WavePoint;
     public Transform RingPoint;
     public Transform SpikePoint;
     public Transform CrystalPoint;
     public Transform MagicPoint;
+    public Transform TailPoint;
 
     private Dictionary<Effect, GameObject> EffectDic;
     private Dictionary<Effect, Transform> EffectTrans;
@@ -37,10 +47,12 @@ public class WolfEffectScript : MonoBehaviour
 
     public void Init()
     {
+        wolf = GetComponent<Wolf>();
         EffectDic = new Dictionary<Effect, GameObject>();
         EffectTrans = new Dictionary<Effect, Transform>();
 
         GameObject frost_Wave = Instantiate(Frost_Wave, WavePoint);
+        stampSkill = frost_Wave.GetComponent<Stamp>();
         frost_Wave.SetActive(false);
         EffectDic.Add(Effect.Frost_Wave, frost_Wave);
         EffectTrans.Add(Effect.Frost_Wave, WavePoint);
@@ -50,6 +62,7 @@ public class WolfEffectScript : MonoBehaviour
         frost_Wave.transform.rotation = rotation;
 
         GameObject frost_Ring = Instantiate(Frost_Ring, RingPoint);
+        jumpSkill = frost_Ring.GetComponent<Jump>();
         frost_Ring.SetActive(false);
         EffectDic.Add(Effect.Frost_Ring , frost_Ring);
         EffectTrans.Add(Effect.Frost_Ring, RingPoint);
@@ -68,10 +81,18 @@ public class WolfEffectScript : MonoBehaviour
         frost_Crystal.transform.localPosition = Vector3.zero;
 
         GameObject Magic = Instantiate(Magic_Circle, MagicPoint);
+        howlSkill = Magic.GetComponent<Howl>();
         Magic.SetActive(false);
         EffectDic.Add(Effect.Magic, Magic);
         EffectTrans.Add(Effect.Magic, MagicPoint);
         Magic.transform.localPosition = Vector3.zero;
+
+        GameObject tail_circle = Instantiate(Tail_Circle, TailPoint);
+        driftSkill = tail_circle.GetComponent<Drift>();
+        tail_circle.SetActive(false);
+        EffectDic.Add(Effect.Tail_Circle, tail_circle);
+        EffectTrans.Add(Effect.Tail_Circle, TailPoint);
+        tail_circle.transform.localPosition = Vector3.zero;
     }
 
     public GameObject GetEffect(Effect effect)
@@ -82,6 +103,20 @@ public class WolfEffectScript : MonoBehaviour
     public Transform GetEffectTransform(Effect effect)
     {
         return EffectTrans[effect];
+    }
+
+    public void ActiveTailCircle()
+    {
+        GameObject tail_circle = GetEffect(Effect.Tail_Circle);
+        tail_circle.transform.GetChild(0).gameObject.SetActive(true);
+        tail_circle.transform.GetChild(1).gameObject.SetActive(true);
+        tail_circle.transform.parent = null;
+        tail_circle.SetActive(false);
+        tail_circle.SetActive(true);
+
+        driftSkill.SetAtk(wolf.GetAtk());
+
+        StartCoroutine(TailCircleEnable(tail_circle));
     }
 
     public void ActiveSpike()
@@ -101,6 +136,8 @@ public class WolfEffectScript : MonoBehaviour
         magic.SetActive(false);
         magic.SetActive(true);
 
+        howlSkill.SetAtk(wolf.GetAtk());
+        howlSkill.StartCoroutine(howlSkill.DelayDamage());
         StartCoroutine(MagicEnable(magic));
     }
 
@@ -110,7 +147,9 @@ public class WolfEffectScript : MonoBehaviour
         wave.transform.parent = null;
         wave.SetActive(false);
         wave.SetActive(true);
-        
+
+        stampSkill.SetAtk(wolf.GetAtk());
+        stampSkill.StartCoroutine(stampSkill.DelayDamage());
         StartCoroutine(WaveEnable(wave));
     }
 
@@ -121,6 +160,8 @@ public class WolfEffectScript : MonoBehaviour
         ring.SetActive(false);
         ring.SetActive(true);
 
+        jumpSkill.SetAtk(wolf.GetAtk());
+        jumpSkill.StartCoroutine(jumpSkill.DelayDamage());
         StartCoroutine(RingEnable(ring));
     }    
 
@@ -133,6 +174,23 @@ public class WolfEffectScript : MonoBehaviour
 
         StartCoroutine(CrystalEnable(crystal));
     }    
+
+    IEnumerator TailCircleEnable(GameObject prefab)
+    {
+        yield return new WaitForSeconds(2.0f);
+        prefab.transform.GetChild(0).gameObject.SetActive(false);
+        prefab.transform.GetChild(1).gameObject.SetActive(false);
+
+        SphereCollider TailCirecle = prefab.GetComponent<SphereCollider>();
+        TailCirecle.enabled = true;
+        yield return new WaitForSeconds(1.0f);
+        TailCirecle.enabled = false;
+
+        prefab.SetActive(false);
+        prefab.transform.parent = GetEffectTransform(Effect.Tail_Circle);
+        prefab.transform.localPosition = Vector3.zero;
+    }
+
     IEnumerator MagicEnable(GameObject prefab)
     {
         yield return new WaitForSeconds(4.0f);
@@ -168,7 +226,7 @@ public class WolfEffectScript : MonoBehaviour
         ParticleSystem particleSystem = prefab.GetComponentInChildren<ParticleSystem>();
         while (particleSystem.isPlaying)
         {
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.5f);
         }
         prefab.transform.parent = GetEffectTransform(Effect.Frost_Ring);
         prefab.transform.localPosition = Vector3.zero;

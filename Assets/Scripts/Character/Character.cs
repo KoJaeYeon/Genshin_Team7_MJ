@@ -59,6 +59,41 @@ public abstract class Character : MonoBehaviour
         _animator = GetComponent<Animator>();
         hasAnimator = TryGetComponent(out  _animator);
     }
+    private void Update()
+    {
+        if (_input.attack)
+        {
+            Attack();
+        }
+        if (_input.skill && skillCooldownTimer <= 0)
+        {
+            UseElementalSkill();
+            skillCooldownTimer = skillCooldown;
+            isSkillActive = true;
+            skillDurationTimer = skillDuration;
+        }
+
+        if (_input.burst)
+        {
+            UseElementalBurst();
+        }
+
+        if (isSkillActive)
+        {
+            skillDurationTimer -= Time.deltaTime;
+            if (skillDurationTimer <= 0f)
+            {
+                ResetSkill();
+                isSkillActive = false;
+            }
+        }
+
+        if (skillCooldownTimer > 0f)
+        {
+            skillCooldownTimer -= Time.deltaTime;
+            UIManager.Instance.SkiilCooldown(skillCooldownTimer);
+        }
+    }
 
     private void Update()
     {
@@ -120,6 +155,7 @@ public abstract class Character : MonoBehaviour
         }
     }
 
+
     public void InitializeCharacter()
     {
         if(characterData != null)
@@ -133,6 +169,7 @@ public abstract class Character : MonoBehaviour
             }
         }
     }
+
 
     public void SwitchWeapon(int weaponIndex)
     {
@@ -154,7 +191,7 @@ public abstract class Character : MonoBehaviour
     public void GainEnergy(float amount)
     {
         currentElementalEnergy = Mathf.Clamp(currentElementalEnergy + amount, 0, maxElementalEnergy);
-        //UIManager.Instance.메서드이름(어떤 캐릭터, currentElementalEnergy);
+        UIManager.Instance.BurstGage(currentElementalEnergy);
     }
 
     public void TakeDamage(float damage)

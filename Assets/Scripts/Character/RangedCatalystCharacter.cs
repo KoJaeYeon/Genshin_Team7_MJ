@@ -18,7 +18,6 @@ public class RangedCatalystCharacter : Character
             }
         }
     }
-
     public override void Attack()
     {
         if (weapons.Length > 0)

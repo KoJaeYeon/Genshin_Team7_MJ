@@ -29,31 +29,6 @@ public class InventoryManager : Singleton<InventoryManager>
         
         show_Slots = new List<ItemSlot>();
     }
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            GetItem(ItemDatabase.Instance.GetItem(1));
-            Debug.Log("GetItem");
-        }
-        else if (Input.GetKeyDown(KeyCode.F1))
-        {
-            GetItem(ItemDatabase.Instance.GetItem(21));
-            Debug.Log("GetItem");
-        }
-        else if (Input.GetKeyDown(KeyCode.F2))
-        {
-            GetItem(ItemDatabase.Instance.GetItem(101));
-            Debug.Log("GetItem");
-        }
-        else if (Input.GetKeyDown(KeyCode.F3))
-        {
-            GetItem(ItemDatabase.Instance.GetItem(1001));
-            Debug.Log("GetItem");
-        }
-    }
-
     public void Load_Weapon(Transform weaponContent)
     {
         foreach(ItemSlot itemSlot in slotWeaponDictionary.Values)

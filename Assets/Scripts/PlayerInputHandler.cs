@@ -26,6 +26,10 @@ public class PlayerInputHandler : MonoBehaviour
     public bool cursorLocked = true;
     public bool cursorInputForLook = true;
 
+    [Header("Game Property Settings")]
+    public float look_Horizontal = 5f;
+    public float look_Vertical = 5f;
+
 #if ENABLE_INPUT_SYSTEM
     public void OnMove(InputValue value)
     {
@@ -95,6 +99,8 @@ public class PlayerInputHandler : MonoBehaviour
     public void LookInput(Vector2 newLookDirection)
     {
         look = newLookDirection;
+        look.x *= look_Horizontal /5;
+        look.y *= look_Vertical /5;
     }
 
     public void JumpInput(bool newJumpState)

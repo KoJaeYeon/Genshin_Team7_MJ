@@ -20,7 +20,7 @@ public class CameraController : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     private void Awake()
     {
 #if !UNITY_ANDROID
-        //Destroy(this.gameobject);
+        Destroy(this);
 #endif
         eventDatas = new PointerEventData[20];
     }
@@ -80,13 +80,17 @@ public class CameraController : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     public void OnPointerMove(PointerEventData eventData)
     {
         int index = 0;
+       
         foreach (PointerEventData pointerEventData in eventDatas)
         {
             if (pointerEventData.pointerId == eventData.pointerId)
             {
+           
                 eventDatas[index] = eventData;
             }
             index++;
+
+            
         }
     }
 

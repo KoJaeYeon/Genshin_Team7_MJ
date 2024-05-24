@@ -5,17 +5,9 @@ using UnityEngine.InputSystem;
 
 public class ActivePanel_MainPanel : ActivePanel
 {
-    IActivePanel previousPanel;
-    Animator animator;
     public PlayerInput playerInput;
     public PlayerInputHandler playerInputHandler;
 
-    bool _hasAnimator = false;
-    private void Awake()
-    {
-        animator = GetComponent<Animator>();
-        if (animator != null) _hasAnimator = true;
-    }
     public override void PanelActive(IActivePanel previousPanel)
     {
         this.previousPanel = previousPanel;
@@ -41,7 +33,7 @@ public class ActivePanel_MainPanel : ActivePanel
 
     public void TimePause()
     {
-        Time.timeScale = 1f;
+        Time.timeScale = 0f;
         playerInput.enabled = false;
         playerInputHandler.cursorLocked = false;
         playerInputHandler.cursorInputForLook = false;

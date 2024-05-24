@@ -4992,7 +4992,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e22b2af9b04f60d4099ad433a5a05c22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraSensitvity: 5
+  playerInputHandler: {fileID: 0}
+  cameraSensitvityz: 50
   perspectiveZoomSpeed: 0.5
 --- !u!114 &454922741
 MonoBehaviour:
@@ -9013,7 +9014,6 @@ MonoBehaviour:
   damageTextPrefap: {fileID: 6325730177596976748, guid: e92a607b57fd3b248b1261e6ec649aba,
     type: 3}
   MonsterPoint: {fileID: 0}
-  damageText: {fileID: 0}
 --- !u!1001 &854833166
 PrefabInstance:
   m_ObjectHideFlags: 0

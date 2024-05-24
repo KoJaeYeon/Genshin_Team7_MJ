@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PoolManager : Singleton<PoolManager>
@@ -11,6 +12,7 @@ public class PoolManager : Singleton<PoolManager>
     public GameObject itemDropPrefab;
     public GameObject elementPrefab;
     public GameObject arrowPrefab;
+    public GameObject damageTxtPrefab;//damageText
 
     Stack<GameObject> itemSlotStack;
     Stack<GameObject> getSlotStack;
@@ -18,11 +20,12 @@ public class PoolManager : Singleton<PoolManager>
     Stack<GameObject> itemDropStack;
     Queue<GameObject> elementQueue;
     Queue<GameObject> arrowQueue;
+    Queue<GameObject> damageTextQueue;//damageText
 
     public Transform PoolParent;
     public Transform ElementPool;
     public Transform PlayerTransform;
-    public Transform arrowSpawnPoint;
+    public Transform playerCameraTrans;
 
     private void Awake()
     {
@@ -32,6 +35,7 @@ public class PoolManager : Singleton<PoolManager>
         itemDropStack = new Stack<GameObject>();
         elementQueue = new Queue<GameObject>();
         arrowQueue = new Queue<GameObject>();
+        damageTextQueue = new Queue<GameObject>();
 
         for (int i = 0; i < 200; i++)
         {
@@ -77,9 +81,18 @@ public class PoolManager : Singleton<PoolManager>
 
         for (int i = 0; i < 20; i++)
         {
-            GameObject prefab = Instantiate(arrowPrefab, arrowSpawnPoint);
+            GameObject prefab = Instantiate(arrowPrefab, PoolParent.transform);
             arrowQueue.Enqueue(prefab);
             prefab.SetActive(false);
+        }
+
+        //damageText복제
+        for (int i = 0; i < 30; i++)
+        {
+           GameObject prefab = Instantiate(damageTxtPrefab, PoolParent.transform);
+           damageTextQueue.Enqueue(prefab);
+           prefab.SetActive(false);
+
         }
     }
     public ItemSlot Get_ItemSlot()
@@ -179,6 +192,18 @@ public class PoolManager : Singleton<PoolManager>
         arrow.SetActive(false);
         return arrow;
     }
+
+    //damageText
+    public void Get_Text(float damage , Vector3 monsterPos)
+    {
+        GameObject text = damageTextQueue.Dequeue();//제거
+        damageTextQueue.Enqueue(text);//넣기
+        text.SetActive(true);
+        text.transform.position = monsterPos + Vector3.up * 1.5f;                             
+        text.GetComponentInChildren<TextMeshProUGUI>().text = damage.ToString();//데미지 숫자 넣기
+        text.GetComponent<DamageText>().SetCameraTrans(playerCameraTrans);//카메라 바라보기 , 5초뒤 꺼짐
+    }
+
 
     public void Return_itemSlot(ItemSlot itemSlot)
     {
