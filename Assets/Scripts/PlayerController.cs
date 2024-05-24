@@ -58,9 +58,6 @@ public class PlayerController : MonoBehaviour
     private static float _cinemachineTargetPitch;
     private float minFOV = 40f;
     private float maxFOV = 60f;
-    private float aimFOV = 30f;
-    private Vector3 normalOffset;
-    private Vector3 aimOffset = new Vector3(0.3f, 1.5f, 0f);
 
     //player
     private float _speed;
@@ -72,7 +69,6 @@ public class PlayerController : MonoBehaviour
     private bool _attackTrigger = true;
     private bool _isClimbing = false;
     public static bool _isGliding = false;
-    private bool _isAiming = false;
 
     //timeout deltatime
     private float _jumpTimeoutDelta;
@@ -85,8 +81,6 @@ public class PlayerController : MonoBehaviour
     private int _animIDFreeFall;
     private int _animIDMotionSpeed;
     private int _animIDCliffCheck;
-    private int _animIDAttack = Animator.StringToHash("Attack");
-    private int _animIDAttacking = Animator.StringToHash("Attacking");
 
 #if ENABLE_INPUT_SYSTEM
     private PlayerInput _playerInput;
@@ -115,8 +109,6 @@ public class PlayerController : MonoBehaviour
         _hasAnimator = TryGetComponent(out _animator);
 
         virtualCamera = GameObject.FindObjectOfType<CinemachineVirtualCamera>();
-        _cinemachineTransposer = virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
-        normalOffset = _cinemachineTransposer.ShoulderOffset;
     }
 
     private void Start()
@@ -145,38 +137,8 @@ public class PlayerController : MonoBehaviour
         JumpAndGravity();
         GroundedCheck();
         CliffCheck();
-
-        //Debug.Log(_isAiming);
-
-        if (_input.aim)
-        {
-            ToggleAimMode();
-            
-        }
-
-        if (_isAiming)
-        {
-            AimMove();
-        }
-        else
-        {
-            Move();
-
-            Climb();
-
-            if (_input.attack)
-            {
-                if (_attackTrigger)
-                {
-                    Attack();
-                    _attackTrigger = false;
-                }
-            }
-            else
-            {
-                _attackTrigger = true;
-            }
-        }
+        Move();
+        Climb();
     }
 
     private void LateUpdate()
@@ -192,8 +154,6 @@ public class PlayerController : MonoBehaviour
         _animIDFreeFall = Animator.StringToHash("FreeFall");
         _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
         _animIDCliffCheck = Animator.StringToHash("Cliff");
-        _animIDAttack = Animator.StringToHash("Attack");
-        _animIDAttacking = Animator.StringToHash("Attacking");
     }
 
     private void GroundedCheck()
@@ -258,8 +218,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
-
     private void Move()
     {
         if (_isClimbing) return;
@@ -309,29 +267,6 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetFloat(_animIDSpeed, _animationBlend, 0.05f, Time.deltaTime);
             _animator.SetFloat(_animIDMotionSpeed, inputMagnitude, 0.1f, Time.deltaTime);
-        }
-    }
-
-    private void AimMove()
-    {
-        _animator.SetBool("isAiming", _isAiming);
-
-        float targetSpeed = MoveSpeed;
-
-        if (_input.move == Vector2.zero) targetSpeed = 0.0f;
-
-        float verticalInput = _input.move.x;
-        float horizontalInput = _input.move.y;
-
-        Vector3 aimMoveDirection = new Vector3(verticalInput, 0.0f, horizontalInput);
-        aimMoveDirection = transform.TransformDirection(aimMoveDirection);
-
-        _controller.Move(aimMoveDirection * targetSpeed * Time.deltaTime);
-
-        if (_hasAnimator)
-        {
-            _animator.SetFloat("horizontal", horizontalInput);
-            _animator.SetFloat("vertical", verticalInput);
         }
     }
 
@@ -414,7 +349,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if((_verticalVelocity <0.0f && !_isGliding))
+            if((_verticalVelocity < 0.0f && !_isGliding))
             {
                 if (_hasAnimator)
                 {
@@ -509,37 +444,6 @@ public class PlayerController : MonoBehaviour
         if (lfAngle < -360f) lfAngle += 360f;
         if (lfAngle > 360f) lfAngle -= 360f;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
-    }
-
-    private void Attack()
-    {
-        if (_hasAnimator)
-        {
-            _animator.SetTrigger(_animIDAttack);
-            _animator.SetBool(_animIDAttacking, true);
-        }
-        else
-        {
-            _animator.SetBool(_animIDAttacking, false);
-        }
-    }
-
-    private void ToggleAimMode()
-    {
-        _isAiming = !_isAiming;
-
-        if (_isAiming)
-        {
-            virtualCamera.m_Lens.FieldOfView = aimFOV;
-            _cinemachineTransposer.ShoulderOffset = aimOffset;
-            _animator.SetBool("isAiming", true);
-        }
-        else
-        {
-            virtualCamera.m_Lens.FieldOfView = maxFOV;
-            _cinemachineTransposer.ShoulderOffset = normalOffset;
-            _animator.SetBool("isAiming", false);
-        }
     }
 
     public void SetSensitivity(float newSensitivity)

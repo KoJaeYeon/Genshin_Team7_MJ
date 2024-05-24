@@ -11,7 +11,6 @@ public class PartyManager : MonoBehaviour
     private GameObject[] activeCharacters;
     private int currentCharacterIndex = 0;
 
-    //public CameraSetting FollowCamera;
     public Transform spawnPosition;
     public GameObject playerParent;
 
@@ -44,8 +43,6 @@ public class PartyManager : MonoBehaviour
         {
             activeCharacters[0].transform.position = spawnPosition.position;
         }
-
-        //FollowCamera.SetTarget(activeCharacters[currentCharacterIndex].transform);
         currentAnimator = activeCharacters[currentCharacterIndex].GetComponent<Animator>();
     }
 
@@ -68,9 +65,6 @@ public class PartyManager : MonoBehaviour
             Vector3 currentPosition = activeCharacters[currentCharacterIndex].transform.position;
             Quaternion currentRotation = activeCharacters[currentCharacterIndex].transform.rotation;
 
-            //Vector3 cameraPosition = FollowCamera.transform.position;
-            //Quaternion cameraRotation = FollowCamera.transform.rotation;
-
             activeCharacters[currentCharacterIndex].SetActive(false);
 
             currentCharacterIndex = characterIndex;
@@ -78,9 +72,6 @@ public class PartyManager : MonoBehaviour
 
             activeCharacters[currentCharacterIndex].transform.position = currentPosition;
             activeCharacters[currentCharacterIndex].transform.rotation = currentRotation;
-
-            //FollowCamera.SetTarget(activeCharacters[currentCharacterIndex].transform);
-            //FollowCamera.SetCameraSettings(cameraPosition, cameraRotation);
 
             currentAnimator = activeCharacters[currentCharacterIndex].GetComponent<Animator>();
             currentAnimator.Play(currentStateInfo.fullPathHash, 0, currentAnimatorTime);

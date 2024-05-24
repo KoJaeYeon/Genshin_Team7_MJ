@@ -55,7 +55,7 @@ public class NomalHilichurl : Enemy, IColor
         HpSlider.value = EnemyHealthDic[this];
         if (EnemyHealthDic[this] <= 0)
         {
-            StartCoroutine(Die(this));
+            StartCoroutine(Die(this, null));
         }
     }
 }

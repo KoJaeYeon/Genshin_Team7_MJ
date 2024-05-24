@@ -20,7 +20,8 @@ public class Jelifish : Catalyst_Ranged
             Enemy enemy = other.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.TakeDamage(damage, character != null ? character.GetCurrentWeaponElement() : Element.Normal);
+                Element currentElement = character != null ? character.GetCurrentWeaponElement() : Element.Normal;
+                enemy.TakeDamage(damage, currentElement, character);
             }
             Destroy(gameObject);
         }
