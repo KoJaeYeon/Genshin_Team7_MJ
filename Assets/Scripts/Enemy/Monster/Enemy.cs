@@ -23,7 +23,7 @@ public abstract class Enemy : MonoBehaviour
     protected EnemyStateMachine state;
     protected BossStateMachine bossState;
     protected MonsterWeapon Weapon;
-    protected Animator animator;
+    public Animator animator;
     protected Transform Player;
     protected NavMeshAgent agent;
     protected Dictionary<Enemy, float> EnemyHealthDic;
@@ -155,7 +155,7 @@ public abstract class Enemy : MonoBehaviour
         return Exp;
     }
 
-    private void DropElement(Enemy enemy)
+    protected void DropElement(Enemy enemy)
     {
         if (enemy == null)
             return;
@@ -210,13 +210,13 @@ public abstract class Enemy : MonoBehaviour
         return ElementColor;
     }
 
-    private void DropItem(Enemy enemy)
+    protected virtual void DropItem(Enemy enemy)
     {
         DropObject dropObject = PoolManager.Instance.Get_DropObject(Random.Range(1001, 1007));
         dropObject.gameObject.transform.position = transform.position + Vector3.up*1.5f;
     }
 
-    protected IEnumerator Die(Enemy enemy, Character attacker)
+    protected virtual IEnumerator Die(Enemy enemy, Character attacker)
     {
         enemy.gameObject.layer = (int)EnemyLayer.isDead;
         enemy.animator.SetTrigger("Die");
