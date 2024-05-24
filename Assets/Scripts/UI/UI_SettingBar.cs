@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class UI_SettingBar : ActivePanel
 {
-    Animator animator;
-
     private void Awake()
     {
         animator = GetComponent<Animator>();
