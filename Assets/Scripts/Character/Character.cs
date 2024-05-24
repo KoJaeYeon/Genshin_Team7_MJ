@@ -81,6 +81,7 @@ public abstract class Character : MonoBehaviour
         }
     }
 
+
     public void InitializeCharacter()
     {
         if(characterData != null)
@@ -94,6 +95,7 @@ public abstract class Character : MonoBehaviour
             }
         }
     }
+
 
     public void SwitchWeapon(int weaponIndex)
     {

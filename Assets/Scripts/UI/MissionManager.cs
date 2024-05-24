@@ -13,13 +13,19 @@ public class MissionManager : Singleton<MissionManager>
     TextMeshProUGUI topTimeText;
     public Mission mission;
 
+    public GameObject overText;
+    public GameObject clearText;
+
     int maxObj;
     private void Awake()
     {
         titleText = missionPanel.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
         leftObjectText =missionPanel.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
         leftTimeText = missionPanel.transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
-        topTimeText = missionPanel.transform.GetChild(2).GetChild(0).GetComponent <TextMeshProUGUI>();
+        topTimeText = missionPanel.transform.GetChild(2).GetChild(0).GetChild(0).GetComponent <TextMeshProUGUI>();
+
+        overText.gameObject.SetActive(false);
+        clearText.gameObject.SetActive(false);
     }
 
     public void StartMission(int time, int maxObj)
@@ -44,12 +50,15 @@ public class MissionManager : Singleton<MissionManager>
     {
         mission = null;
         missionPanel.gameObject.SetActive(false);
+        clearText.gameObject.SetActive(true);
+
     }
 
     public void Failed()
     {
         mission = null;
         missionPanel.gameObject.SetActive(false);
+        overText.gameObject.SetActive(true);
     }
     
 }

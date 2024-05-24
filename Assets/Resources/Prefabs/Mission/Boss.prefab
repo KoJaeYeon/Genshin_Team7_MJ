@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 7482972586021405292}
   - component: {fileID: 8981601462763251602}
   - component: {fileID: 3927816462642469007}
+  - component: {fileID: 8462079583092031088}
   m_Layer: 10
   m_Name: Boss
   m_TagString: Untagged
@@ -162,6 +163,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &8462079583092031088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7823609378308266198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69f34377b601fe047b32c97106d50110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactableType: 3
+  cineMachine: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!1001 &8038205833424563392
 PrefabInstance:
   m_ObjectHideFlags: 0

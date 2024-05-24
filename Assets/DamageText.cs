@@ -1,8 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class DamageText : MonoBehaviour
+public class DamageText : Singleton<DamageText>
 {
     Transform cameraTrans;
 
@@ -14,10 +13,12 @@ public class DamageText : MonoBehaviour
     void Update()
     {
         transform.LookAt(cameraTrans);
+        
     }
 
     private void OnEnable()
-    {
+    {     
+       
         StartCoroutine(Die());
     }
     IEnumerator Die()

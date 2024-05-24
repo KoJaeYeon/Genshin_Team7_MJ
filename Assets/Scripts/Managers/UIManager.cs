@@ -22,16 +22,13 @@ public class UIManager : Singleton<UIManager>
     public GameObject mainPanel;
     IActivePanel mainPanel_IActivePanel;
 
-    public Transform playerCameraTrans;
     public Transform UI_scale;
 
     public GameObject characterPanel;
     public GameObject DataPanel;
 
-    public GameObject damageTextPrefap;
-    public Transform dmgParentTrans;
 
-
+    SkillUI skillUI;
 
 
     private void Awake()
@@ -142,18 +139,17 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    public void DamageText(float damage, Vector3 monsterPos)
+    public void SkiilCooldown(float point)
     {
-        GameObject next = Instantiate(damageTextPrefap, monsterPos + Vector3.up, Quaternion.identity);
-        next.GetComponent<DamageText>().SetCameraTrans(playerCameraTrans);
-        next.GetComponent<TextMeshProUGUI>().text = damage.ToString();
-
-
+        skillUI.Elemental_Cooldown(point);
     }
-
-    public void BurstPoint(float point)
+    public void BurstCooldown(float point)
     {
-
+        skillUI.Elemental_Burst_Cooldown(point);
+    }
+    public void BurstGage(float point)
+    {
+        skillUI.ElementalBurst_Gage(point);
     }
 
 }
