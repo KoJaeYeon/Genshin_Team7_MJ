@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XR;
+
 
 public abstract class Character : MonoBehaviour
 {
@@ -61,6 +58,42 @@ public abstract class Character : MonoBehaviour
         _input = transform.parent.GetComponent<PlayerInputHandler>();
         _animator = GetComponent<Animator>();
         hasAnimator = TryGetComponent(out  _animator);
+    }
+
+    private void Update()
+    {
+        if (_input.attack)
+        {
+            Attack();
+        }
+        if (_input.skill && skillCooldownTimer <= 0)
+        {
+            UseElementalSkill();
+            skillCooldownTimer = skillCooldown;
+            isSkillActive = true;
+            skillDurationTimer = skillDuration;
+        }
+
+        if (_input.burst)
+        {
+            UseElementalBurst();
+        }
+
+        if (isSkillActive)
+        {
+            skillDurationTimer -= Time.deltaTime;
+
+            if (skillDurationTimer <= 0f)
+            {
+                ResetSkill();
+                isSkillActive = false;
+            }
+        }
+
+        if (skillCooldownTimer > 0f)
+        {
+            skillCooldownTimer -= Time.deltaTime;
+        }
     }
 
     public void InitializeCharacterStats()

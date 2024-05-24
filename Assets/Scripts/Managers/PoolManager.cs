@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -161,11 +162,21 @@ public class PoolManager : Singleton<PoolManager>
 
     public GameObject Get_Arrow()
     {
-        GameObject arrow = arrowQueue.Dequeue();
+        GameObject arrow;
+        if(arrowQueue.Count > 0)
+        {
+            arrow = arrowQueue.Dequeue();
+        }
+        else
+        {
+            arrow = Instantiate(arrowPrefab, PoolParent.transform);
+        }
+
         arrowQueue.Enqueue(arrow);
         arrow.transform.GetChild(0).localPosition = Vector3.zero;
         arrow.transform.localPosition = Vector3.zero;
         arrow.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        arrow.SetActive(false);
         return arrow;
     }
 
@@ -192,12 +203,17 @@ public class PoolManager : Singleton<PoolManager>
         UIManager.Instance.Check_GetSlot_J();       
     }
 
-   
-
     public void Return_itemDrop(GameObject itemDrop)
     {
         itemDropStack.Push(itemDrop);
         itemDrop.SetActive(false);
         itemDrop.transform.SetParent(PoolParent);
+    }
+
+    public void Return_Arrow(GameObject arrow)
+    {
+        arrowQueue.Enqueue(arrow);
+        arrow.SetActive(false);
+        arrow.transform.SetParent(PoolParent);
     }
 }

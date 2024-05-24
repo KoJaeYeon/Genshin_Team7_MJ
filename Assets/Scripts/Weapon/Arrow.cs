@@ -24,7 +24,7 @@ public class Arrow : Bow
                 Element currentElement = character != null ? character.GetCurrentWeaponElement() : Element.Normal;
                 enemy.TakeDamage(damage, currentElement, character);
             }
-            Destroy(gameObject);
+            PoolManager.Instance.Return_Arrow(this.gameObject);
         }
     }
 }

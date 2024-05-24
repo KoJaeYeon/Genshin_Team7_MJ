@@ -66,7 +66,6 @@ public class PlayerController : MonoBehaviour
     private float _rotationVelocity;
     private float _verticalVelocity;
     private float _terminalVelocity = 53.0f;
-    private bool _attackTrigger = true;
     private bool _isClimbing = false;
     public static bool _isGliding = false;
 
