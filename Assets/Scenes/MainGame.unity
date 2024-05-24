@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -913,6 +913,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 134243653}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &136771110 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5312937190766629888, guid: 0b155813078bb66438a3fa15de1e8e86,
+    type: 3}
+  m_PrefabInstance: {fileID: 5312937191538567933}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &144499959
 Mesh:
   m_ObjectHideFlags: 0
@@ -15333,9 +15345,9 @@ MonoBehaviour:
   itemGetContent_J: {fileID: 1594984967}
   FTrans: {fileID: 998355637}
   mainPanel: {fileID: 1260677623}
-  UI_scale: {fileID: 0}
+  UI_scale: {fileID: 1604166991}
   characterPanel: {fileID: 0}
-  DataPanel: {fileID: 0}
+  DataPanel: {fileID: 658745331}
 --- !u!4 &1412429905
 Transform:
   m_ObjectHideFlags: 0
@@ -18672,9 +18684,13 @@ MonoBehaviour:
   sprint: 0
   windfield: 0
   aim: 0
+  skill: 0
+  burst: 0
   analogMovement: 1
   cursorLocked: 0
   cursorInputForLook: 1
+  look_Horizontal: 5
+  look_Vertical: 5
 --- !u!143 &1753501952
 CharacterController:
   m_ObjectHideFlags: 0
@@ -23412,6 +23428,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1250788186}
     m_Modifications:
+    - target: {fileID: 2042416340, guid: 0b155813078bb66438a3fa15de1e8e86, type: 3}
+      propertyPath: elementalBurst_Full_Image
+      value: 
+      objectReference: {fileID: 136771110}
     - target: {fileID: 5312937189495246980, guid: 0b155813078bb66438a3fa15de1e8e86,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -23427,6 +23447,31 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 2140481817}
+    - target: {fileID: 5312937189771691903, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312937189950965751, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312937189950965751, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312937190230696657, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312937190230696657, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5312937190282117892, guid: 0b155813078bb66438a3fa15de1e8e86,
         type: 3}
       propertyPath: playerInput
@@ -23557,6 +23602,31 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 1725551672}
+    - target: {fileID: 5312937190367218645, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312937190565265258, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312937190565265258, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312937190743742566, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312937190743742566, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5312937190911334096, guid: 0b155813078bb66438a3fa15de1e8e86,
         type: 3}
       propertyPath: playerInputHandler
@@ -23572,6 +23642,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 658745331}
+    - target: {fileID: 5312937191200298105, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312937191200298105, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5820816289272416486, guid: 0b155813078bb66438a3fa15de1e8e86,
         type: 3}
       propertyPath: m_IsActive
