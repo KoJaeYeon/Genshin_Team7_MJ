@@ -22,7 +22,9 @@ public class UIManager : Singleton<UIManager>
     public GameObject mainPanel;
     IActivePanel mainPanel_IActivePanel;
 
-    public Transform UI;
+    public Transform playerCameraTrans;
+
+    public Transform UI_scale;
     public GameObject DataPanel;
 
     public GameObject damageTextPrefap;
@@ -50,7 +52,7 @@ public class UIManager : Singleton<UIManager>
         settingBar_IActivePanel = settingBar.GetComponent<IActivePanel>();
         Debug.Log(settingBar_IActivePanel);
         initFtransY = FTrans.position.y;
-        UIscaleY = UI.transform.localScale.y;
+        UIscaleY = UI_scale.transform.localScale.y;
 
         mainPanel_IActivePanel = mainPanel.GetComponent<IActivePanel>();
         activePanel = mainPanel_IActivePanel;
@@ -139,11 +141,13 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    public void DamageText(float damage, Vector3 monsterPos, Transform playerTrans)
+    public void DamageText(float damage, Vector3 monsterPos)
     {
         GameObject next = Instantiate(damageTextPrefap, monsterPos + Vector3.up, Quaternion.identity);
+        next.GetComponent<DamageText>().SetCameraTrans(playerCameraTrans);
         next.GetComponent<TextMeshProUGUI>().text = damage.ToString();
-        next.transform.LookAt(playerTrans);
+
+
     }
 
     public void BurstPoint(float point)
