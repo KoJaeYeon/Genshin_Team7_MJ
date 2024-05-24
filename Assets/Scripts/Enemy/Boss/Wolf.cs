@@ -567,11 +567,15 @@ public class WolfAttackState_Claw : WolfState
 public class WolfAttackState_Drift : WolfState
 {
     public WolfAttackState_Drift(Wolf wolf) : base(wolf) { }
-    
+
+    Drift driftSkill;
+
     public override void StateEnter()
     {
         m_Wolf.BossPattern = BossPattern.DriftAttack;
         m_Wolf.SetPattern(m_Wolf.BossPattern);
+        driftSkill = m_Wolf.transform.GetComponentInChildren<Drift>();
+        driftSkill.OnTail();
 
         m_Wolf.Attack.BossAttack();
     }

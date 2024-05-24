@@ -33,7 +33,8 @@ public class MonsterWeapon : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            
+            Character player = other.gameObject.GetComponent<Character>();
+            player.TakeDamage(MonsterAttackPower);
         }
             
     }
