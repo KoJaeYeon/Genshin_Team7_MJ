@@ -58,14 +58,6 @@ public abstract class Character : MonoBehaviour
         }
     }
 
-    //public virtual void Attack()
-    //{
-    //    if(weapons.Length > 0)
-    //    {
-    //        weapons[currentWeaponIndex].UseWeapon();
-    //    }
-    //}
-
     public void SwitchWeapon(int weaponIndex)
     {
         if(weaponIndex >= 0 && weaponIndex < weapons.Length)

@@ -151,7 +151,7 @@ public class UIManager : Singleton<UIManager>
 
     }
 
-    public void BurstPoint(float point)
+    public void BurstPoint(CharacterItemSprite characterItemSprite, float point)
     {
 
     }
