@@ -742,6 +742,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 3741402583970940202}
+  element: 0
   rangedProjectilePrefab: {fileID: 7517079330416549230, guid: 118cdf263f6919341b0d63a33a907b44,
     type: 3}
   projectileSpawnPoint: {fileID: 1514006173080361581}
@@ -1224,8 +1225,18 @@ MonoBehaviour:
   - {fileID: 7133350862644854113}
   - {fileID: 2053039050714062191}
   - {fileID: 1834142975414254697}
+  characterData: {fileID: 11400000, guid: ef27d79d443a8894a9f31a4f7235b25d, type: 2}
   detectionRange: 10
   detectionAngle: 45
+  maxElementalEnergy: 100
+  currentElementalEnergy: 0
+  energyGainPerHit: 10
+  energyGainOnKill: 20
+  elementalBurstCost: 100
+  maxHealth: 0
+  currentHealth: 0
+  attackPower: 0
+  defensePower: 0
 --- !u!1 &1210534338772980927
 GameObject:
   m_ObjectHideFlags: 0
@@ -3348,6 +3359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 3741402583970940202}
+  element: 0
   rangedProjectilePrefab: {fileID: 7517079330416549230, guid: 118cdf263f6919341b0d63a33a907b44,
     type: 3}
   projectileSpawnPoint: {fileID: 1514006173080361581}
@@ -7319,6 +7331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 3741402583970940202}
+  element: 0
   rangedProjectilePrefab: {fileID: 7517079330416549230, guid: 118cdf263f6919341b0d63a33a907b44,
     type: 3}
   projectileSpawnPoint: {fileID: 1514006173080361581}
