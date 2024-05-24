@@ -88,6 +88,7 @@ public class WolfEffectScript : MonoBehaviour
         Magic.transform.localPosition = Vector3.zero;
 
         GameObject tail_circle = Instantiate(Tail_Circle, TailPoint);
+        driftSkill = tail_circle.GetComponent<Drift>();
         tail_circle.SetActive(false);
         EffectDic.Add(Effect.Tail_Circle, tail_circle);
         EffectTrans.Add(Effect.Tail_Circle, TailPoint);
@@ -107,8 +108,8 @@ public class WolfEffectScript : MonoBehaviour
     public void ActiveTailCircle()
     {
         GameObject tail_circle = GetEffect(Effect.Tail_Circle);
-        tail_circle.transform.GetChild(2).gameObject.SetActive(true);
-        tail_circle.transform.GetChild(6).gameObject.SetActive(true);
+        tail_circle.transform.GetChild(0).gameObject.SetActive(true);
+        tail_circle.transform.GetChild(1).gameObject.SetActive(true);
         tail_circle.transform.parent = null;
         tail_circle.SetActive(false);
         tail_circle.SetActive(true);
@@ -177,7 +178,14 @@ public class WolfEffectScript : MonoBehaviour
     IEnumerator TailCircleEnable(GameObject prefab)
     {
         yield return new WaitForSeconds(2.0f);
-        
+        prefab.transform.GetChild(0).gameObject.SetActive(false);
+        prefab.transform.GetChild(1).gameObject.SetActive(false);
+
+        SphereCollider TailCirecle = prefab.GetComponent<SphereCollider>();
+        TailCirecle.enabled = true;
+        yield return new WaitForSeconds(1.0f);
+        TailCirecle.enabled = false;
+
         prefab.SetActive(false);
         prefab.transform.parent = GetEffectTransform(Effect.Tail_Circle);
         prefab.transform.localPosition = Vector3.zero;
