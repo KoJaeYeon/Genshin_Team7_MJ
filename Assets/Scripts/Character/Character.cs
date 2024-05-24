@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
@@ -6,6 +8,8 @@ using UnityEngine.InputSystem.XR;
 
 public abstract class Character : MonoBehaviour
 {
+    public event Action<Character> OnCharacterDied;
+
     protected PlayerInputHandler _input;
     protected Animator _animator;
 
@@ -39,6 +43,8 @@ public abstract class Character : MonoBehaviour
     public float currentHealth;
     public float attackPower;
     public float defensePower;
+
+    public bool isDead { get; protected set; } = false;
 
     protected virtual void Start()
     {
@@ -121,23 +127,10 @@ public abstract class Character : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        if (currentHealth <= 0)
-        {
-            currentHealth = 0;
-            Die();
-        }
 
         if (hasAnimator)
         {
             _animator.SetTrigger("TakeDamage");
-        }
-    }
-
-    protected virtual void Die()
-    {
-        if (hasAnimator)
-        {
-            _animator.SetTrigger("Die");
         }
     }
 

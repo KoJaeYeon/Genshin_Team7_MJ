@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MeleeCatalystCharacter : Character
 {
@@ -53,6 +54,8 @@ public class MeleeCatalystCharacter : Character
         {
             skillCooldownTimer -= Time.deltaTime;
         }
+
+        
     }
 
     public override void Attack()

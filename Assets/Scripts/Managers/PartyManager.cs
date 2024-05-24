@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -50,7 +51,7 @@ public class PartyManager : MonoBehaviour
     public void SwitchCharacter(int characterIndex)
     {
         if (PlayerController._isGliding) return;
-        if (characterIndex >= 0 && characterIndex < activeCharacters.Length)
+        if (characterIndex >= 0 && characterIndex < activeCharacters.Length && !activeCharacters[characterIndex].isDead)
         {
             currentStateInfo = currentAnimator.GetCurrentAnimatorStateInfo(0);
             currentAnimatorTime = currentStateInfo.normalizedTime;

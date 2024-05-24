@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ClaymoreCharacter : Character
 {
@@ -69,6 +70,9 @@ public class ClaymoreCharacter : Character
         {
             _animator.SetBool("Attacking", false);
         }
+
+        
+        
     }
 
     public override void UseElementalSkill()
