@@ -5,52 +5,30 @@ using UnityEngine;
 
 public class Drift : BossSkill
 {
-    public GameObject[] Tail;
-    private SphereCollider[] TailSphere;
     private float drift_Atk;
+    private SphereCollider sphereColl;
 
-    private void Awake()
+    private void OnEnable()
     {
-        TailSphere = new SphereCollider[Tail.Length];
-
-        for(int i = 0; i < Tail.Length; i++)
+        if(sphereColl == null)
         {
-            SphereCollider sphereColl = Tail[i].gameObject.GetComponent<SphereCollider>();    
-
-            if(sphereColl != null)
-            {
-                sphereColl.enabled = false;
-                TailSphere[i] = sphereColl;
-                TailSphere[i].AddComponent<TailHandler>().Init(this, i);
-            }
-            
-        }
-    }
-
-    public void OnTail()
-    {
-        for(int i = 0; i < Tail.Length; i++)
-        {
-            TailSphere[i].enabled = true;
-            TailSphere[i].isTrigger= true;
-        }
-    }
-
-    public void OffTail()
-    {
-        for (int i = 0; i < Tail.Length; i++)
-        {
-            TailSphere[i].enabled = false;
+            sphereColl = GetComponent<SphereCollider>();
         }
     }
 
     public override void SetAtk(float atk)
     {
-        drift_Atk = GetSkillDamage(Skill.Drift) + atk;
+        drift_Atk = GetSkillDamage(Skill.Drift);
     }
 
-    public void OnTailTriggerEnter(int index, Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-
+        if(other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            Debug.Log("Drift");
+            Debug.Log(drift_Atk + "ÇÇÇØ");
+        }
     }
+
+
 }

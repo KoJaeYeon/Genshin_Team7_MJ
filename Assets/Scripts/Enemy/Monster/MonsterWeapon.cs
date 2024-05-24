@@ -31,9 +31,9 @@ public class MonsterWeapon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) //플레이어에게 피해를 주는 부분
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (other.CompareTag("Player"))
         {
-            Character player = other.gameObject.GetComponent<Character>();
+            Character player = other.transform.GetComponentInChildren<Character>();
             player.TakeDamage(MonsterAttackPower);
         }
             

@@ -12,7 +12,8 @@ public class WolfEffectScript : MonoBehaviour
         Frost_Ring,
         Frost_Spike,
         Frost_Crystal,
-        Magic
+        Magic,
+        Tail_Circle
     }
 
     private Wolf wolf;
@@ -27,12 +28,14 @@ public class WolfEffectScript : MonoBehaviour
     public GameObject Frost_Spike;
     public GameObject Frost_Crystal;
     public GameObject Magic_Circle;
+    public GameObject Tail_Circle;
 
     public Transform WavePoint;
     public Transform RingPoint;
     public Transform SpikePoint;
     public Transform CrystalPoint;
     public Transform MagicPoint;
+    public Transform TailPoint;
 
     private Dictionary<Effect, GameObject> EffectDic;
     private Dictionary<Effect, Transform> EffectTrans;
@@ -83,6 +86,12 @@ public class WolfEffectScript : MonoBehaviour
         EffectDic.Add(Effect.Magic, Magic);
         EffectTrans.Add(Effect.Magic, MagicPoint);
         Magic.transform.localPosition = Vector3.zero;
+
+        GameObject tail_circle = Instantiate(Tail_Circle, TailPoint);
+        tail_circle.SetActive(false);
+        EffectDic.Add(Effect.Tail_Circle, tail_circle);
+        EffectTrans.Add(Effect.Tail_Circle, TailPoint);
+        tail_circle.transform.localPosition = Vector3.zero;
     }
 
     public GameObject GetEffect(Effect effect)
@@ -93,6 +102,20 @@ public class WolfEffectScript : MonoBehaviour
     public Transform GetEffectTransform(Effect effect)
     {
         return EffectTrans[effect];
+    }
+
+    public void ActiveTailCircle()
+    {
+        GameObject tail_circle = GetEffect(Effect.Tail_Circle);
+        tail_circle.transform.GetChild(2).gameObject.SetActive(true);
+        tail_circle.transform.GetChild(6).gameObject.SetActive(true);
+        tail_circle.transform.parent = null;
+        tail_circle.SetActive(false);
+        tail_circle.SetActive(true);
+
+        driftSkill.SetAtk(wolf.GetAtk());
+
+        StartCoroutine(TailCircleEnable(tail_circle));
     }
 
     public void ActiveSpike()
@@ -150,6 +173,15 @@ public class WolfEffectScript : MonoBehaviour
 
         StartCoroutine(CrystalEnable(crystal));
     }    
+
+    IEnumerator TailCircleEnable(GameObject prefab)
+    {
+        yield return new WaitForSeconds(2.0f);
+        
+        prefab.SetActive(false);
+        prefab.transform.parent = GetEffectTransform(Effect.Tail_Circle);
+        prefab.transform.localPosition = Vector3.zero;
+    }
 
     IEnumerator MagicEnable(GameObject prefab)
     {
