@@ -46,15 +46,6 @@ public class EquipManager : Singleton<EquipManager>
             Debug.Log(yoimiya_Equip.trohphy_AttackPercent);
             Debug.Log(yoimiya_Equip.crown_defencePercent);
         }
-
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            playerCharacter[0].SwitchWeapon(1);
-        }
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            playerCharacter[0].SwitchWeapon(2);
-        }
     }
 
     public void Equip() // 선택한 아이템 슬롯 아이템 장착
@@ -63,12 +54,12 @@ public class EquipManager : Singleton<EquipManager>
         CharacterItemSprite previousCharacter = itemSlot.character; // 사용할 아이템 사용중이었던 캐릭터
         if(itemSlot.character != CharacterItemSprite.None)//사용할 아이템 선 장착해제
         {
-            UnEquip(itemSlot.character, itemSlot.GetEquipType());            
+            UnEquip(itemSlot.character, itemSlot.GetEquipType()); //캐릭터의 해당 부위 장착 해제
         }
  
-        int id = itemSlot.GetId();
-        Item item = ItemDatabase.Instance.GetItem(id);
-        EquipStats equipStats = GetEquip(character);
+        int id = itemSlot.GetId(); // 착용하고자 하는 장비의 ID
+        Item item = ItemDatabase.Instance.GetItem(id); // 착용하고자 하는 장비의 아이템
+        EquipStats equipStats = GetEquip(character); // 현재 설정된 캐릭터의 장비슬롯
         int tempKey;
         switch(item.equipType)
         {
@@ -101,10 +92,11 @@ public class EquipManager : Singleton<EquipManager>
                 tempKey = equipStats.itemSlotKeys[0];
                 equipStats.weaponDamage = item.value;
                 equipStats.itemSlotKeys[0] = itemSlot.GetKey();
+                ChangeWeapon(character, item.id);
                 break;
         }
         itemSlot.OwnerChange(character);
-        if(tempKey != -1)
+        if(tempKey != -1) // 비어있는 장비랑 교체할 때 조건 설정
         {
             if((int)item.equipType < 5)
             {
@@ -122,8 +114,9 @@ public class EquipManager : Singleton<EquipManager>
         itemSlot.ShowData();
     }
 
-    public void Equip(ItemSlot itemSlot) // 소유자가 있는 아이템 최초 적용
+    public void Equip(ItemSlot itemSlot) // 빈슬롯에 소유자가 있는 아이템 적용
     {
+        if (itemSlot.character == CharacterItemSprite.None) return; // 소유자가 없으면 취소
         int id = itemSlot.GetId();
         Item item = ItemDatabase.Instance.GetItem(id);
         EquipStats equipStats = GetEquip(itemSlot.character);
@@ -152,9 +145,12 @@ public class EquipManager : Singleton<EquipManager>
             default:
                 equipStats.weaponDamage = item.value;
                 equipStats.itemSlotKeys[0] = itemSlot.GetKey();
+                ChangeWeapon(itemSlot.character, item.id);
                 break;
         }
     }
+
+    
 
     public void UnEquip()
     {
@@ -163,9 +159,6 @@ public class EquipManager : Singleton<EquipManager>
 
     public void UnEquip(CharacterItemSprite character, EqiupType equipType) // 아이템 장착해제
     {
-        Debug.Log("unequip1" + this.character + character);
-        if (this.character == character || character == CharacterItemSprite.None) return;
-        Debug.Log("unequip2" + this.character + character);
         EquipStats equipStats = GetEquip(character);
         {
             switch (equipType)
@@ -199,7 +192,22 @@ public class EquipManager : Singleton<EquipManager>
         itemSlot.OwnerChange(CharacterItemSprite.None);
         itemSlot.ShowData();
     }
-    
+
+    public void ChangeWeapon(CharacterItemSprite character, int id)
+    {
+        if(character == CharacterItemSprite.Beidou && id >=3 &&  id <=5)
+        {
+            playerCharacter[0].SwitchWeapon(id - 3);
+        }
+        else if (character == CharacterItemSprite.Kokomi && id >= 9 && id <= 11)
+        {
+            playerCharacter[1].SwitchWeapon(id - 9);
+        }
+        else if (character == CharacterItemSprite.Yoimiya && id >= 6 && id <= 8)
+        {
+            playerCharacter[3].SwitchWeapon(id - 6);
+        }
+    }
 
     public EquipStats GetEquip(CharacterItemSprite character)
     {

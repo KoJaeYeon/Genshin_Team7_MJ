@@ -55,6 +55,7 @@ public abstract class Character : MonoBehaviour
         _input = transform.parent.GetComponent<PlayerInputHandler>();
         _animator = GetComponent<Animator>();
         hasAnimator = TryGetComponent(out  _animator);
+        weapons[currentWeaponIndex].gameObject.SetActive(true);
     }
     private void Update()
     {
