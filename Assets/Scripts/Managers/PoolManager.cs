@@ -26,6 +26,8 @@ public class PoolManager : Singleton<PoolManager>
     public Transform PlayerTransform;
     public Transform playerCameraTrans;
 
+    public Element element;
+
     private void Awake()
     {
         itemSlotStack = new Stack<GameObject>();
@@ -183,15 +185,42 @@ public class PoolManager : Singleton<PoolManager>
     }
 
     //damageText
-    public void Get_Text(float damage , Vector3 monsterPos)
+    public void Get_Text(float damage , Vector3 monsterPos , Element element)
     {
         GameObject text = damageTextQueue.Dequeue();//제거
         damageTextQueue.Enqueue(text);//넣기
         text.SetActive(true);
-        text.transform.position = monsterPos + Vector3.up * 1.5f;                             
-        text.GetComponentInChildren<TextMeshProUGUI>().text = damage.ToString();//데미지 숫자 넣기
+        text.transform.position = monsterPos + Vector3.up * 1.5f;
+        TextMeshProUGUI textColor = text.GetComponentInChildren<TextMeshProUGUI>();
+
+        textColor.text = damage.ToString();
+
+        switch (element)
+        {
+            case Element.Fire : 
+                textColor.color = Color.red;
+                break;
+            case Element.Water:
+                textColor.color = Color.blue;
+                break;
+            case Element.Lightning:
+                textColor.color = new Color32(229, 0, 255, 255);//보라색
+                break;
+            case Element.Ice:
+                textColor.color = new Color32(0, 255, 255 , 255);//하늘색
+                break;
+            default:
+                textColor.color = Color.white;
+                break;
+        }
+
+        Debug.Log(element.ToString());
+
         text.GetComponent<DamageText>().SetCameraTrans(playerCameraTrans);//카메라 바라보기 , 5초뒤 꺼짐
+       
+        
     }
+
 
 
     public void Return_itemSlot(ItemSlot itemSlot)

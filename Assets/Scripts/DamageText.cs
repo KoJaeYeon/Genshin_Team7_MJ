@@ -17,7 +17,6 @@ public class DamageText : Singleton<DamageText>
 
     private void OnEnable()
     {     
-       
         StartCoroutine(Die());
     }
     IEnumerator Die()

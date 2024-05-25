@@ -40804,6 +40804,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.y
       value: -0.000000034698235
       objectReference: {fileID: 0}
+    - target: {fileID: 6088744809482338913, guid: 7d4e262756ec9bc4ea9e0681f4ece49c,
+        type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 6206602173828949978, guid: 7d4e262756ec9bc4ea9e0681f4ece49c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -41143,12 +41148,13 @@ MonoBehaviour:
     type: 3}
   arrowPrefab: {fileID: 4766542514737433830, guid: 7274f976d04986346a9314299638dac1,
     type: 3}
-  damageTxtPrefab: {fileID: 104503351793286374, guid: 5eff9a9bf16b33544a6dd90d24be979c,
+  damageTxtPrefab: {fileID: 6521331686903323362, guid: dc3a5f3242e085a4a9b519dde66d5875,
     type: 3}
   PoolParent: {fileID: 310754378}
   ElementPool: {fileID: 310754378}
   PlayerTransform: {fileID: 1410523010}
   playerCameraTrans: {fileID: 376761660}
+  element: 1
 --- !u!4 &2112714205 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4651050137903364, guid: 8e8f8660f45621a4a804df622b985183,
@@ -41352,6 +41358,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: 0
   itemSlot: {fileID: 0}
+  playerCharacter:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &2125222102
 Transform:
   m_ObjectHideFlags: 0

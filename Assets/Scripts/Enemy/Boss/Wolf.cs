@@ -178,7 +178,7 @@ public class Wolf : Enemy, IColor
         HpSlider.value = EnemyHealthDic[this];
         transform.LookAt(Player.position);
         animator.SetTrigger("Hit");
-        PoolManager.Instance.Get_Text(damage, transform.position);
+        PoolManager.Instance.Get_Text(damage, transform.position, element);
 
         if (EnemyHealthDic[this] <= 0)
         {
