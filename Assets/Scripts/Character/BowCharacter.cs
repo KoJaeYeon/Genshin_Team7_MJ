@@ -29,20 +29,7 @@ public class BowCharacter : Character
 
     public override void Attack()
     {
-        if (weapons.Length > 0)
-        {
-            weapons[currentWeaponIndex].UseWeapon();
-        }
-
-        if (hasAnimator)
-        {
-            _animator.SetTrigger("Attack");
-            _animator.SetBool("Attacking", true);
-        }
-        else
-        {
-            _animator.SetBool("Attacking", false);
-        }
+        AttackNearestEnemyInFan();
     }
 
     public override void UseElementalSkill()
@@ -69,5 +56,27 @@ public class BowCharacter : Character
     protected override void ResetSkill()
     {
         base.ResetSkill();
+    }
+
+    protected override void AttackTarget(Transform target)
+    {
+        if (weapons.Length > 0)
+        {
+            Bow bow = weapons[currentWeaponIndex] as Bow;
+            if (bow != null)
+            {
+                bow.PerformShot(target);
+            }
+
+            if (hasAnimator)
+            {
+                _animator.SetTrigger("Attack");
+                _animator.SetBool("Attacking", true);
+            }
+            else
+            {
+                _animator.SetBool("Attacking", false);
+            }
+        }
     }
 }

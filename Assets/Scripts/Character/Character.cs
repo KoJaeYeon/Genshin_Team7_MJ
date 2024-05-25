@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
-    public event Action<Character> OnCharacterDied;
+    //public event Action<Character> OnCharacterDied;
 
     protected PlayerInputHandler _input;
     protected Animator _animator;
@@ -78,7 +78,6 @@ public abstract class Character : MonoBehaviour
             skillCooldownTimer = skillCooldown;
             isSkillActive = true;
             skillDurationTimer = skillDuration;
-            
         }
 
         if (_input.burst)
@@ -103,7 +102,6 @@ public abstract class Character : MonoBehaviour
         if (skillCooldownTimer > 0f)
         {
             skillCooldownTimer -= Time.deltaTime;
-            UIManager.Instance.SkiilCooldown(skillCooldownTimer);
         }
     }
 
@@ -151,7 +149,7 @@ public abstract class Character : MonoBehaviour
     {
         if(weaponIndex >= 0 && weaponIndex < weapons.Length)
         {
-            currentWeaponIndex = weaponIndex;
+            currentWeaponIndex = weaponIndex;   
         }
     }
 
@@ -180,36 +178,6 @@ public abstract class Character : MonoBehaviour
         }
     }
 
-    protected List<GameObject> DetectedEnemiesInRange()
-    {
-        List<GameObject> detectedEnemies = new List<GameObject>();
-        Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRange);
-
-        foreach(Collider collider in colliders)
-        {
-            if (collider.CompareTag("Enemy"))
-            {
-                Vector3 directionToTarget = (collider.transform.position = transform.position).normalized;
-                float angleToTarget = Vector3.Angle(transform.forward, directionToTarget);
-                
-                if(angleToTarget < detectionAngle/ 2)
-                {
-                    detectedEnemies.Add(collider.gameObject);
-                }
-            }
-        }
-
-        return detectedEnemies;
-    }
-
-    protected void FaceTarget(Vector3 targetPosition)
-    {
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0 , direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime);
-    }
-
-    
     protected virtual void ResetSkill()
     {
         if(weapons.Length > 0)
@@ -242,4 +210,36 @@ public abstract class Character : MonoBehaviour
     public abstract void UseElementalSkill();
     public abstract void UseElementalBurst();
 
+    protected void AttackNearestEnemyInFan()
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position, detectionRange);
+        Transform nearestEnemy = null;
+        float nearestDistance = detectionRange;
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.CompareTag("Enemy"))
+            {
+                Vector3 directionToEnemy = (hit.transform.position - transform.position).normalized;
+                float angleToEnemy = Vector3.Angle(transform.forward, directionToEnemy);
+
+                if (angleToEnemy < detectionAngle / 2)
+                {
+                    float distanceToEnemy = Vector3.Distance(transform.position, hit.transform.position);
+                    if (distanceToEnemy < nearestDistance)
+                    {
+                        nearestDistance = distanceToEnemy;
+                        nearestEnemy = hit.transform;
+                    }
+                }
+            }
+        }
+
+        if (nearestEnemy != null)
+        {
+            AttackTarget(nearestEnemy);
+        }
+    }
+
+    protected virtual void AttackTarget(Transform target) { }
 }

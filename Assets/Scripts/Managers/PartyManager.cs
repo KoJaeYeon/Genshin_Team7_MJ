@@ -25,6 +25,8 @@ public class PartyManager : MonoBehaviour
     {
         HandleCharacterSwitchInput();
         UpdateAllCharacterCooldowns();
+        Character currentCharacter = activeCharacters[currentCharacterIndex];
+        UIManager.Instance.SkiilCooldown(currentCharacter.GetSkillCooldownTimer());
     }
 
     private void InitializeCharacters()

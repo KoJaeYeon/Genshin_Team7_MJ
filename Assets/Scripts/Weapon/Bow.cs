@@ -1,65 +1,34 @@
-using Cinemachine;
 using UnityEngine;
 
 public class Bow : Weapon
 {
     public GameObject arrowPrefab;
     public Transform arrowSpawnPoint;
-    private bool isAiming = false;
-    public float aimZoomFOV = 30.0f;
-    private float normalFOV;
-    public CinemachineVirtualCamera aimCamera;
-    private PlayerInputHandler _input;
-
-    private void Start()
-    {
-        _input = GetComponent<PlayerInputHandler>();
-        if(aimCamera != null )
-        {
-            aimCamera.gameObject.SetActive(false);
-            normalFOV = aimCamera.m_Lens.FieldOfView;
-        }
-    }
-
-    private void Update()
-    {
-        if (_input.aim) ToggleAiming();
-    }
+    public float speed = 20f;
 
     public override void UseWeapon()
     {
-        if (isAiming)
-        {
-            PerformAimedShot();
-        }
-        else
-        {
-            PerformNormalShot();
-        }
+        PerformShot();
     }
 
-    private void PerformNormalShot()
+    public void PerformShot(Transform target = null)
     {
-        GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, Quaternion.identity);
-        Rigidbody rb = arrow.GetComponent<Rigidbody>();
-        rb.velocity = arrowSpawnPoint.forward * 25.0f;
-    }
+        GameObject arrowObject = Instantiate(arrowPrefab, arrowSpawnPoint.position, arrowSpawnPoint.rotation);
+        Arrow arrow = arrowObject.GetComponent<Arrow>();
 
-    private void PerformAimedShot()
-    {
-        GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, arrowSpawnPoint.rotation);
-        Rigidbody rb = arrow.GetComponent<Rigidbody>();
-        rb.velocity = arrowSpawnPoint.forward * 35.0f;
-    }
-
-    public void ToggleAiming()
-    {
-        isAiming = !isAiming;
-        if(aimCamera != null)
+        if (arrow != null)
         {
-            aimCamera.m_Lens.FieldOfView = isAiming ? aimZoomFOV : normalFOV;
+            arrow.character = character; // 캐릭터 참조 설정
+            Vector3 direction;
+            if (target != null)
+            {
+                direction = (target.position - arrowSpawnPoint.position).normalized;
+            }
+            else
+            {
+                direction = arrowSpawnPoint.forward;
+            }
+            arrow.Shoot(direction, speed);
         }
     }
-
-    
 }
