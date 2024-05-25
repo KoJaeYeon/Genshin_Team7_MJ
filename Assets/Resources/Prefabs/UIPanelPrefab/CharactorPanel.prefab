@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00012207031}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6721230566229749687
@@ -4802,7 +4802,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Lv.0 / 00
+  m_text: Lv.90 / 90
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5650,7 +5650,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7241575849402636027}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: RenderManager, Assembly-CSharp
+        m_MethodName: ChangeCharacter
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!1 &7241575849485935580
 GameObject:
   m_ObjectHideFlags: 0
@@ -5688,7 +5700,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00012207031}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7241575849485935576
@@ -5868,7 +5880,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 000
+  m_text: 100
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7939,7 +7951,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7241575850207513156}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: RenderManager, Assembly-CSharp
+        m_MethodName: ChangeCharacter
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7241575850272270129
 GameObject:
   m_ObjectHideFlags: 0
@@ -8685,7 +8709,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 000
+  m_text: 010
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8924,6 +8948,7 @@ GameObject:
   - component: {fileID: 7241575850569676437}
   - component: {fileID: 7241575850569676435}
   - component: {fileID: 7241575850569676434}
+  - component: {fileID: 1818726959}
   m_Layer: 5
   m_Name: 'Propety property Text '
   m_TagString: Untagged
@@ -8996,6 +9021,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1818726959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7241575850569676436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88b026d0ed86dad4dbde1f7b552dfa13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7241575850570064098
 GameObject:
   m_ObjectHideFlags: 0
@@ -9321,7 +9358,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e9cd3c7fbb9b894185b585d9c6de893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  render_Manager: {fileID: 0}
+  _light: {fileID: 0}
+  renderManager: {fileID: 0}
 --- !u!1 &7241575850683664063
 GameObject:
   m_ObjectHideFlags: 0
