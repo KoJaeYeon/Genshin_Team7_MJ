@@ -13,12 +13,12 @@ public class WolfEffectScript : MonoBehaviour
         Frost_Spike,
         Frost_Crystal,
         Magic,
-        Tail_Circle
+        Tail_Circle,
+        Rain
     }
 
     private Wolf wolf;
     private Jump jumpSkill;
-    private Claw clawSkill;
     private Stamp stampSkill;
     private Howl howlSkill;
     private Drift driftSkill;
@@ -29,6 +29,7 @@ public class WolfEffectScript : MonoBehaviour
     public GameObject Frost_Crystal;
     public GameObject Magic_Circle;
     public GameObject Tail_Circle;
+    public GameObject Ice_Rain;
 
     public Transform WavePoint;
     public Transform RingPoint;
@@ -36,6 +37,7 @@ public class WolfEffectScript : MonoBehaviour
     public Transform CrystalPoint;
     public Transform MagicPoint;
     public Transform TailPoint;
+    public Transform IcePoint;
 
     private Dictionary<Effect, GameObject> EffectDic;
     private Dictionary<Effect, Transform> EffectTrans;
@@ -93,6 +95,12 @@ public class WolfEffectScript : MonoBehaviour
         EffectDic.Add(Effect.Tail_Circle, tail_circle);
         EffectTrans.Add(Effect.Tail_Circle, TailPoint);
         tail_circle.transform.localPosition = Vector3.zero;
+
+        GameObject Ice = Instantiate(Ice_Rain, IcePoint);
+        Ice.SetActive(false);
+        EffectDic.Add(Effect.Rain, Ice);
+        EffectTrans.Add(Effect.Rain, IcePoint);
+        Ice.transform.localPosition = Vector3.zero;
     }
 
     public GameObject GetEffect(Effect effect)
@@ -105,11 +113,22 @@ public class WolfEffectScript : MonoBehaviour
         return EffectTrans[effect];
     }
 
+    public void ActiveIceRain()
+    {
+        GameObject ice_Rain = GetEffect(Effect.Rain);
+        ice_Rain.transform.parent = null;
+        ice_Rain.SetActive(false);
+        ice_Rain.SetActive(true);
+
+        StartCoroutine(IceRainEnable(ice_Rain));
+    }
+
     public void ActiveTailCircle()
     {
         GameObject tail_circle = GetEffect(Effect.Tail_Circle);
         tail_circle.transform.GetChild(0).gameObject.SetActive(true);
         tail_circle.transform.GetChild(1).gameObject.SetActive(true);
+        tail_circle.transform.rotation = Quaternion.Euler(0, 0, 0);
         tail_circle.transform.parent = null;
         tail_circle.SetActive(false);
         tail_circle.SetActive(true);
@@ -175,6 +194,14 @@ public class WolfEffectScript : MonoBehaviour
         StartCoroutine(CrystalEnable(crystal));
     }    
 
+    IEnumerator IceRainEnable(GameObject prefab)
+    {
+        yield return new WaitForSeconds(4.0f);
+        prefab.SetActive(false);
+        prefab.transform.parent = GetEffectTransform(Effect.Rain);
+        prefab.transform.localPosition = Vector3.zero;
+    }
+
     IEnumerator TailCircleEnable(GameObject prefab)
     {
         yield return new WaitForSeconds(2.0f);
@@ -223,14 +250,19 @@ public class WolfEffectScript : MonoBehaviour
     }
     IEnumerator RingEnable(GameObject prefab)
     {
-        ParticleSystem particleSystem = prefab.GetComponentInChildren<ParticleSystem>();
-        while (particleSystem.isPlaying)
-        {
-            yield return new WaitForSeconds(0.5f);
-        }
+        //ParticleSystem particleSystem = prefab.GetComponentInChildren<ParticleSystem>();
+        //while (particleSystem.isPlaying)
+        //{
+        //    yield return new WaitForSeconds(0.5f);
+        //}
+        //prefab.transform.parent = GetEffectTransform(Effect.Frost_Ring);
+        //prefab.transform.localPosition = Vector3.zero;
+        //yield break;
+
+        yield return new WaitForSeconds(3.5f);
+        prefab.SetActive(false);
         prefab.transform.parent = GetEffectTransform(Effect.Frost_Ring);
         prefab.transform.localPosition = Vector3.zero;
-        yield break;
     }
 
 

@@ -77,10 +77,9 @@ public class BossStateMachine : MonoBehaviour
     {
         State.StateFixedUpdate();
     }
-
-    private void LateUpdate()
+    private void OnTriggerEnter(Collider other)
     {
-        State.StateLateUpdate();
+        State.OnTriggerEnter(other);
     }
 
     public void InitState()
