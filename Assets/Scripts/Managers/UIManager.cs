@@ -142,8 +142,14 @@ public class UIManager : Singleton<UIManager>
     public void DamageText(float damage, Vector3 monsterPos, Transform playerTrans)
     {
         GameObject next = Instantiate(damageTextPrefap, monsterPos + Vector3.up, Quaternion.identity);
-        next.GetComponent<TextMeshProUGUI>().text = damage.ToString();
         next.transform.LookAt(playerTrans);
+       
+        next.GetComponent<TextMeshProUGUI>().text = damage.ToString();
+        
+
+
+        Destroy(next, 0.5f);
+        
     }
 
     public void BurstPoint(float point)
