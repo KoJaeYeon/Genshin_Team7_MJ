@@ -19,17 +19,19 @@ public enum BossPattern
     HowlAttack
 }
 
-public class Wolf : Enemy
+public class Wolf : Enemy, IColor
 {
     private bool battleStart = true;
     private bool turn = true;
     private bool moveStop = false;
     private bool jumpBack = true;
     private bool isJump = true;
-    private bool isCharge = true;   
+    private bool isCharge = true;
+    private bool isRunStop = false;
     private float paralyzation;
     private BossPattern Pattern;
     private Rigidbody bossRigid;
+    private Color BossColor = Color.blue;
     
     //Pattern----------------------------------------------------------
     private IPattern bossAttack;
@@ -52,7 +54,7 @@ public class Wolf : Enemy
         paralyzation = 100f;
 
         HpSlider = transform.GetComponentInChildren<Slider>();
-        Hp = HpSlider.gameObject;
+        Hp = HpSlider.fillRect.transform.parent.gameObject;
     }
 
     public void InitState()
@@ -68,12 +70,6 @@ public class Wolf : Enemy
         bossState.AddState(BossState.Drift, new WolfAttackState_Drift(this));
         bossState.AddState(BossState.Howl, new WolfAttackState_Howl(this));
     }
-
-    private void Update()
-    {
-        //Debug.Log(EnemyHealthDic[this]);
-    }
-
     public void SetPattern(BossPattern bossPattern)
     {
         switch (bossPattern)
@@ -99,6 +95,7 @@ public class Wolf : Enemy
 
         }
     }
+    
     public IPattern Attack => bossAttack;
     public BossStateMachine State => bossState;
     public Animator BossAnimator => animator;
@@ -148,27 +145,77 @@ public class Wolf : Enemy
         set { isCharge = value; }
     }
 
+    public bool IsRunStop
+    {
+        get { return isRunStop; }
+        set { isRunStop = value; }
+    }
+
+
     public IEnumerator JumpCoolTime()
     {
-        yield return new WaitForSeconds(7.5f);
+        yield return new WaitForSeconds(8.0f);
         
         isJump = true;
     }
 
     public IEnumerator ChargeCoolTime()
     {
-        yield return new WaitForSeconds(7.5f);
+        yield return new WaitForSeconds(10f);
      
         isCharge = true;
     }
 
-    public override void Splash(float damage)
+    protected override void DropItem(Enemy enemy)
     {
-        
+        DropObject dropObject = PoolManager.Instance.Get_DropObject(Random.Range(1007, 1010));
+        dropObject.gameObject.transform.position = transform.position + Vector3.up*1.5f;
+    }
+
+    public override void TakeDamage(float damage, Element element, Character attacker)
+    {
+        EnemyHealthDic[this] -= CalculateDamage(damage, element);
+        HpSlider.value = EnemyHealthDic[this];
+        transform.LookAt(Player.position);
+        animator.SetTrigger("Hit");
+        PoolManager.Instance.Get_Text(damage, transform.position);
+
+        if (EnemyHealthDic[this] <= 0)
+        {
+            Hp.SetActive(false);
+            StartCoroutine(Die(this, attacker));
+        }
+    }
+
+    protected override IEnumerator Die(Enemy enemy, Character attacker)
+    {
+        enemy.gameObject.layer = (int)EnemyLayer.isDead;
+        enemy.animator.SetTrigger("Die");
+        DropElement(enemy);
+        DropItem(enemy);
+
+        if (attacker != null)
+        {
+            attacker.OnEnemyKilled();
+        }
+
+        yield return new WaitForSeconds(1.5f);
+        enemy.gameObject.SetActive(false);
+    }
+
+    public override void Splash(float damage) { }
+    public Color GetColor()
+    {
+        return BossColor;
+    }
+    
+    public float GetAtk()
+    {
+        return enemyData.AttackPower;
     }
 
     // Animation Event ----------------------------------------------
-   
+
     public void OnTurn()
     {
         turn = true;
@@ -194,6 +241,10 @@ public class Wolf : Enemy
         bossRigid.velocity = Vector3.zero;
     }
 
+    public void RunStop()
+    {
+        isRunStop = false;
+    }
 }
 
 public abstract class WolfState : BossBaseState
@@ -368,8 +419,14 @@ public class WolfAttackState : WolfState
                 m_Wolf.State.ChangeState(BossState.Charge);
             }
             else if (!m_Wolf.IsJump && !m_Wolf.IsCharge)
+            {
                 m_Wolf.State.ChangeState(BossState.Howl);
-            
+            }
+            else
+            {
+                m_Wolf.State.ChangeState(BossState.Move);
+            }
+                
         }
     }
 
@@ -421,7 +478,7 @@ public class WolfAttackState : WolfState
         if (!m_Wolf.Turn)
             return;
             
-        if (Distance <= 6.0f && m_Wolf.JumpBack)
+        if (Distance <= 5.5f && m_Wolf.JumpBack)
         {
             if (Angle > -90.0f && Angle < 90.0f)
             {
@@ -547,15 +604,17 @@ public class WolfAttackState_Claw : WolfState
 public class WolfAttackState_Drift : WolfState
 {
     public WolfAttackState_Drift(Wolf wolf) : base(wolf) { }
-    
+
+    Drift driftSkill;
+
     public override void StateEnter()
     {
         m_Wolf.BossPattern = BossPattern.DriftAttack;
         m_Wolf.SetPattern(m_Wolf.BossPattern);
-
         m_Wolf.Attack.BossAttack();
     }
     public override void StateExit() { }
+    
     public override void StateFixedUpdate() { }
 }
 

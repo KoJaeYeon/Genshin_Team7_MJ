@@ -2,31 +2,103 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 
 public abstract class Character : MonoBehaviour
 {
+    protected PlayerInputHandler _input;
+    protected Animator _animator;
+
     public Weapon[] weapons;
     public CharacterType characterType { get; set; }
+
+    public CharacterData characterData;
 
     protected int currentWeaponIndex = 0;
 
     protected bool isActive = false;
+    protected bool hasAnimator;
 
     public float detectionRange = 10.0f;
     public float detectionAngle = 45.0f;
 
-    public float skillCooldown = 10.0f;
-    public float skillDuration = 5.0f;
-    private float skillCooldownTimer = 0f;
-    private float skillDurationTimer = 0f;
-    private bool isSkillActive = false;
+    protected float skillCooldown = 10.0f;
+    protected float skillDuration = 5.0f;
+    protected float skillCooldownTimer = 0f;
+    protected float skillDurationTimer = 0f;
+    protected bool isSkillActive = false;
+
+    public float maxElementalEnergy = 100.0f;
+    public float currentElementalEnergy = 0.0f;
+    public float energyGainPerHit = 10.0f;
+    public float energyGainOnKill = 20.0f;
+    public float elementalBurstCost = 100.0f;
+
+    public int level;
+    public float maxHealth;
+    public float currentHealth;
+    public float attackPower;
+    public float defensePower;
 
     protected virtual void Start()
     {
-        if(weapons != null &&  weapons.Length > 0)
+        if (characterData != null)
+        {
+            InitializeCharacterStats();
+        }
+
+        if (weapons != null &&  weapons.Length > 0)
         {
             InitializeWeapons();
         }
+
+        _input = transform.parent.GetComponent<PlayerInputHandler>();
+        _animator = GetComponent<Animator>();
+        hasAnimator = TryGetComponent(out  _animator);
+    }
+    private void Update()
+    {
+        if (_input.attack)
+        {
+            Attack();
+        }
+        if (_input.skill && skillCooldownTimer <= 0)
+        {
+            UseElementalSkill();
+            skillCooldownTimer = skillCooldown;
+            isSkillActive = true;
+            skillDurationTimer = skillDuration;
+        }
+
+        if (_input.burst)
+        {
+            UseElementalBurst();
+        }
+
+        if (isSkillActive)
+        {
+            skillDurationTimer -= Time.deltaTime;
+            if (skillDurationTimer <= 0f)
+            {
+                ResetSkill();
+                isSkillActive = false;
+            }
+        }
+
+        if (skillCooldownTimer > 0f)
+        {
+            skillCooldownTimer -= Time.deltaTime;
+            UIManager.Instance.SkiilCooldown(skillCooldownTimer);
+        }
+    }
+
+    public void InitializeCharacterStats()
+    {
+        level = characterData.level;  
+        maxHealth = characterData.baseHp;
+        currentHealth = maxHealth;
+        attackPower = characterData.baseAtk;
+        defensePower = characterData.baseDef;
     }
 
     private void InitializeWeapons()
@@ -44,13 +116,21 @@ public abstract class Character : MonoBehaviour
         }
     }
 
-    public virtual void Attack()
+
+    public void InitializeCharacter()
     {
-        if(weapons.Length > 0)
+        if(characterData != null)
         {
-            weapons[currentWeaponIndex].UseWeapon();
+            CharacterController characterController = transform.parent.GetComponent<CharacterController>();
+            if(characterController != null)
+            {
+                characterController.center = characterData.controllerCenter;
+                characterController.radius = characterData.controllerRadius;
+                characterController.height = characterData.controllerHeight;
+            }
         }
     }
+
 
     public void SwitchWeapon(int weaponIndex)
     {
@@ -67,6 +147,35 @@ public abstract class Character : MonoBehaviour
             return weapons[currentWeaponIndex].element;
         }
         return Element.Normal;
+    }
+
+    public void GainEnergy(float amount)
+    {
+        currentElementalEnergy = Mathf.Clamp(currentElementalEnergy + amount, 0, maxElementalEnergy);
+        UIManager.Instance.BurstGage(currentElementalEnergy);
+    }
+
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+            Die();
+        }
+
+        if (hasAnimator)
+        {
+            _animator.SetTrigger("TakeDamage");
+        }
+    }
+
+    protected virtual void Die()
+    {
+        if (hasAnimator)
+        {
+            _animator.SetTrigger("Die");
+        }
     }
 
     protected List<GameObject> DetectedEnemiesInRange()
@@ -98,39 +207,7 @@ public abstract class Character : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime);
     }
 
-    protected virtual void Update()
-    {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            Attack();
-        }
-        if (Keyboard.current.eKey.wasPressedThisFrame && skillCooldownTimer <= 0)
-        {
-            UseSkill();
-            skillCooldownTimer = skillCooldown;
-            isSkillActive = true;
-            skillDurationTimer = skillDuration;
-        }
-
-        if (isSkillActive)
-        {
-            skillDurationTimer -= Time.deltaTime;
-            Debug.Log(skillDurationTimer.ToString());
-            if(skillDurationTimer <= 0f)
-            {
-                ResetSkill();
-                isSkillActive = false;
-            }
-        }
-
-        if (skillCooldownTimer > 0f)
-        {
-            skillCooldownTimer -= Time.deltaTime;
-        }
-    }
-
-    public abstract void UseSkill();
-
+    
     protected virtual void ResetSkill()
     {
         if(weapons.Length > 0)
@@ -138,4 +215,14 @@ public abstract class Character : MonoBehaviour
             weapons[currentWeaponIndex].element = Element.Normal;
         }
     }
+
+    public void OnEnemyKilled()
+    {
+        GainEnergy(energyGainOnKill);
+    }
+
+    public abstract void Attack();
+    public abstract void UseElementalSkill();
+    public abstract void UseElementalBurst();
+
 }

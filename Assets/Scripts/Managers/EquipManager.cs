@@ -44,13 +44,13 @@ public class EquipManager : Singleton<EquipManager>
         }
     }
 
-    public void Equip()
+    public void Equip() // 선택한 아이템 슬롯 아이템 장착
     {
+        if (itemSlot.character == character) return; // 착용주인 아이템을 착용 누르는 경우가 생기면 취소
         CharacterItemSprite previousCharacter = itemSlot.character; // 사용할 아이템 사용중이었던 캐릭터
         if(itemSlot.character != CharacterItemSprite.None)//사용할 아이템 선 장착해제
         {
-            UnEquip(itemSlot.character, itemSlot.GetEquipType());
-            itemSlot.OwnerChange(CharacterItemSprite.None);
+            UnEquip(itemSlot.character, itemSlot.GetEquipType());            
         }
  
         int id = itemSlot.GetId();
@@ -96,19 +96,20 @@ public class EquipManager : Singleton<EquipManager>
             if((int)item.equipType < 5)
             {
                 ItemSlot previous_ItemSlot = InventoryManager.Instance.GetWeaponItemSlot(tempKey);
-                UnEquip(previous_ItemSlot.character, item.equipType);
-                previous_ItemSlot.OwnerChange(CharacterItemSprite.None);
+                previous_ItemSlot.OwnerChange(previousCharacter);
+                Equip(previous_ItemSlot);
             }
             else
             {
                 ItemSlot previous_ItemSlot = InventoryManager.Instance.GetRelicItemSlot(tempKey);
-                UnEquip(previous_ItemSlot.character, item.equipType);
-                previous_ItemSlot.OwnerChange(CharacterItemSprite.None);
+                previous_ItemSlot.OwnerChange(previousCharacter);
+                Equip(previous_ItemSlot);
             }
         }
+        itemSlot.ShowData();
     }
 
-    public void Equip(ItemSlot itemSlot)
+    public void Equip(ItemSlot itemSlot) // 소유자가 있는 아이템 최초 적용
     {
         int id = itemSlot.GetId();
         Item item = ItemDatabase.Instance.GetItem(id);
@@ -147,7 +148,7 @@ public class EquipManager : Singleton<EquipManager>
         UnEquip(character, itemSlot.GetEquipType());
     }
 
-    public void UnEquip(CharacterItemSprite character, EqiupType equipType)
+    public void UnEquip(CharacterItemSprite character, EqiupType equipType) // 아이템 장착해제
     {
         Debug.Log("unequip1" + this.character + character);
         if (this.character == character || character == CharacterItemSprite.None) return;
@@ -156,7 +157,7 @@ public class EquipManager : Singleton<EquipManager>
         {
             switch (equipType)
             {
-            case EqiupType.Flower:
+                case EqiupType.Flower:
                     equipStats.flowerHealth = 0;
                     equipStats.itemSlotKeys[1] = -1;
                     break;
@@ -180,9 +181,12 @@ public class EquipManager : Singleton<EquipManager>
                     equipStats.weaponDamage = 0;
                     equipStats.itemSlotKeys[0] = -1;
                     break;
-                }
             }
+        }
+        itemSlot.OwnerChange(CharacterItemSprite.None);
+        itemSlot.ShowData();
     }
+    
 
     public EquipStats GetEquip(CharacterItemSprite character)
     {

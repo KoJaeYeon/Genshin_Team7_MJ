@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ClaymoreCharacter : Character
@@ -19,10 +17,35 @@ public class ClaymoreCharacter : Character
         }
     }
 
-    public override void UseSkill()
+    public override void Attack()
     {
-        Debug.Log("Lightning");
+        if(weapons.Length > 0)
+        {
+            weapons[currentWeaponIndex].UseWeapon();
+        }
+
+        if (hasAnimator)
+        {
+            _animator.SetTrigger("Attack");
+            _animator.SetBool("Attacking", true);
+        }
+        else
+        {
+            _animator.SetBool("Attacking", false);
+        }
+    }
+
+    public override void UseElementalSkill()
+    {
         EnchantWeapon(Element.Lightning);
+    }
+
+    public override void UseElementalBurst()
+    {
+        if (currentElementalEnergy >= elementalBurstCost)
+        {
+            currentElementalEnergy -= elementalBurstCost;
+        }
     }
 
     private void EnchantWeapon(Element element)

@@ -18,10 +18,35 @@ public class RangedCatalystCharacter : Character
             }
         }
     }
+    public override void Attack()
+    {
+        if (weapons.Length > 0)
+        {
+            weapons[currentWeaponIndex].UseWeapon();
+        }
 
-    public override void UseSkill()
+        if (hasAnimator)
+        {
+            _animator.SetTrigger("Attack");
+            _animator.SetBool("Attacking", true);
+        }
+        else
+        {
+            _animator.SetBool("Attacking", false);
+        }
+    }
+
+    public override void UseElementalSkill()
     {
         EnchantWeapon(Element.Water);
+    }
+
+    public override void UseElementalBurst()
+    {
+        if (currentElementalEnergy >= elementalBurstCost)
+        {
+            currentElementalEnergy -= elementalBurstCost;
+        }
     }
 
     private void EnchantWeapon(Element element)

@@ -26,7 +26,8 @@ public class Catalyst_Melee : Weapon
             Enemy enemyComponent = enemy.GetComponent<Enemy>();
             if (enemyComponent != null)
             {
-                enemyComponent.TakeDamage(attackDamage, character != null ? character.GetCurrentWeaponElement() : Element.Normal);
+                Element currentElement = character != null ? character.GetCurrentWeaponElement() : Element.Normal;
+                enemyComponent.TakeDamage(attackDamage, currentElement, character);
             }
         }
 
@@ -35,7 +36,8 @@ public class Catalyst_Melee : Weapon
             Enemy enemyComponent = enemy.GetComponent<Enemy>();
             if (enemyComponent != null)
             {
-                enemyComponent.TakeDamage(attackDamage, character != null ? character.GetCurrentWeaponElement() : Element.Normal);
+                Element currentElement = character != null ? character.GetCurrentWeaponElement() : Element.Normal;
+                enemyComponent.TakeDamage(attackDamage, currentElement, character);
             }
         }
     }

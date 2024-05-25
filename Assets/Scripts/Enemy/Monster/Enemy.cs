@@ -23,7 +23,7 @@ public abstract class Enemy : MonoBehaviour
     protected EnemyStateMachine state;
     protected BossStateMachine bossState;
     protected MonsterWeapon Weapon;
-    protected Animator animator;
+    public Animator animator;
     protected Transform Player;
     protected NavMeshAgent agent;
     protected Dictionary<Enemy, float> EnemyHealthDic;
@@ -51,18 +51,18 @@ public abstract class Enemy : MonoBehaviour
         EnemyHealthDic = new Dictionary<Enemy, float>();
     }
 
-    public virtual void TakeDamage(float damage, Element element)
+    public virtual void TakeDamage(float damage, Element element, Character attacker)
     {
         EnemyHealthDic[this] -= CalculateDamage(damage, element);
         HpSlider.value = EnemyHealthDic[this];
         transform.LookAt(Player.position);
         animator.SetTrigger("Hit");
-        UIManager.Instance.DamageText(damage, transform.position, Player);
+        PoolManager.Instance.Get_Text(damage, transform.position);
 
         if (EnemyHealthDic[this] <= 0)
         {
             Hp.SetActive(false);
-            StartCoroutine(Die(this));
+            StartCoroutine(Die(this, attacker));
         }
         else
             if (element != Element.Normal) HitDropElement(element);
@@ -155,7 +155,7 @@ public abstract class Enemy : MonoBehaviour
         return Exp;
     }
 
-    private void DropElement(Enemy enemy)
+    protected void DropElement(Enemy enemy)
     {
         if (enemy == null)
             return;
@@ -210,18 +210,23 @@ public abstract class Enemy : MonoBehaviour
         return ElementColor;
     }
 
-    private void DropItem(Enemy enemy)
+    protected virtual void DropItem(Enemy enemy)
     {
         DropObject dropObject = PoolManager.Instance.Get_DropObject(Random.Range(1001, 1007));
         dropObject.gameObject.transform.position = transform.position + Vector3.up*1.5f;
     }
 
-    protected IEnumerator Die(Enemy enemy)
+    protected virtual IEnumerator Die(Enemy enemy, Character attacker)
     {
         enemy.gameObject.layer = (int)EnemyLayer.isDead;
         enemy.animator.SetTrigger("Die");
         DropElement(enemy);
         DropItem(enemy);
+
+        if(attacker != null)
+        {
+            attacker.OnEnemyKilled();
+        }
 
         yield return new WaitForSeconds(1.05f);
         enemy.gameObject.SetActive(false);
@@ -229,7 +234,7 @@ public abstract class Enemy : MonoBehaviour
 
 }
 
-[System.Serializable]
+
 public struct EnemyData
 {
     public float Health { get; }

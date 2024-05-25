@@ -22,13 +22,13 @@ public class UIManager : Singleton<UIManager>
     public GameObject mainPanel;
     IActivePanel mainPanel_IActivePanel;
 
-    public Transform UI;
+    public Transform UI_scale;
+
+    public GameObject characterPanel;
     public GameObject DataPanel;
 
-    public GameObject damageTextPrefap;
-    public Transform MonsterPoint;
-    public TextMeshPro damageText;
 
+    SkillUI skillUI;
 
 
     private void Awake()
@@ -39,10 +39,12 @@ public class UIManager : Singleton<UIManager>
             //안드로이드
             androidB.gameObject.SetActive(true);
             editorB.gameObject.SetActive(false);
+            skillUI = androidB.GetComponentInChildren<SkillUI>();
 #elif UNITY_EDITOR
         //에디터
         androidB.gameObject.SetActive(false);
         editorB.gameObject.SetActive(true);
+        skillUI = editorB.GetComponentInChildren<SkillUI>();
 #endif
         }
 
@@ -50,7 +52,7 @@ public class UIManager : Singleton<UIManager>
         settingBar_IActivePanel = settingBar.GetComponent<IActivePanel>();
         Debug.Log(settingBar_IActivePanel);
         initFtransY = FTrans.position.y;
-        UIscaleY = UI.transform.localScale.y;
+        UIscaleY = UI_scale.transform.localScale.y;
 
         mainPanel_IActivePanel = mainPanel.GetComponent<IActivePanel>();
         activePanel = mainPanel_IActivePanel;
@@ -139,17 +141,17 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    public void DamageText(float damage, Vector3 monsterPos, Transform playerTrans)
+    public void SkiilCooldown(float point)
     {
-        GameObject next = Instantiate(damageTextPrefap, monsterPos + Vector3.up, Quaternion.identity);
-        next.GetComponent <TextMeshPro>().text = damage.ToString();
-        next.transform.SetParent(MonsterPoint);
-        next.transform.LookAt(transform);
+        skillUI.Elemental_Cooldown(point);
     }
-
-    public void BurstPoint(float point)
+    public void BurstCooldown(float point)
     {
-
+        skillUI.Elemental_Burst_Cooldown(point);
+    }
+    public void BurstGage(float point)
+    {
+        skillUI.ElementalBurst_Gage(point);
     }
 
 }

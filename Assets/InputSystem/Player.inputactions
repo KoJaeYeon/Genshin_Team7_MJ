@@ -76,6 +76,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Skill",
+                    "type": "Value",
+                    "id": "3d3c2669-1032-49ac-8bb2-93bfca8e60ac",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Burst",
+                    "type": "Value",
+                    "id": "fcc188aa-d8f6-4c40-859f-2458d351b79a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -180,17 +198,6 @@
                 },
                 {
                     "name": "",
-                    "id": "a7e75bdc-76b7-4d67-bbdc-7631dfb58228",
-                    "path": "<Touchscreen>/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Mobile",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "c01b2d2a-f148-43be-943e-0dc9b7bfdd23",
                     "path": "<Keyboard>/space",
                     "interactions": "",
@@ -241,6 +248,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Cursor",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8ea28793-5eb3-48cc-95d7-e8cd8d808dd5",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skill",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c8c837f6-5104-43f0-8ec4-75db3f7227e3",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Burst",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
