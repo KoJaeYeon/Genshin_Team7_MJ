@@ -28,6 +28,7 @@ public class PartyManager : MonoBehaviour
             GameObject characterObj = Instantiate(characterPrefabs[i], playerParent.transform);
             Character character  = characterObj.GetComponent<Character>();
             activeCharacters[i] = character;
+            EquipManager.Instance.playerCharacter[i] = character;
             activeCharacters[i].gameObject.SetActive(i == currentCharacterIndex);
 
             character.InitializeCharacterStats();
@@ -82,25 +83,16 @@ public class PartyManager : MonoBehaviour
             }
 
             //캐릭터 변경할 때 이펙트 생성
-            StartCoroutine(Swtich());
+            if (particle != null)
+            {
+                particle.SetActive(false);
+                particle.SetActive(true);
+            }
         }
         else
         {
             Debug.Log("Invalid character index");
         }
-    }
-
-    IEnumerator Swtich()
-    {
-        if (particle == null)
-        {
-            Debug.Log("뿅 하는 파티클 없음");
-            yield break;
-        }
-        particle.SetActive(false);
-        particle.SetActive(true);
-        yield return new WaitForSeconds(1);
-        particle.SetActive(false);
     }
 
     public Character GetCurrentCharacter()
