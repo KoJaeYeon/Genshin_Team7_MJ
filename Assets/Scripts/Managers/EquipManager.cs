@@ -50,8 +50,7 @@ public class EquipManager : Singleton<EquipManager>
         CharacterItemSprite previousCharacter = itemSlot.character; // 사용할 아이템 사용중이었던 캐릭터
         if(itemSlot.character != CharacterItemSprite.None)//사용할 아이템 선 장착해제
         {
-            UnEquip(itemSlot.character, itemSlot.GetEquipType());
-            itemSlot.OwnerChange(CharacterItemSprite.None);
+            UnEquip(itemSlot.character, itemSlot.GetEquipType());            
         }
  
         int id = itemSlot.GetId();
@@ -158,7 +157,7 @@ public class EquipManager : Singleton<EquipManager>
         {
             switch (equipType)
             {
-            case EqiupType.Flower:
+                case EqiupType.Flower:
                     equipStats.flowerHealth = 0;
                     equipStats.itemSlotKeys[1] = -1;
                     break;
@@ -182,9 +181,12 @@ public class EquipManager : Singleton<EquipManager>
                     equipStats.weaponDamage = 0;
                     equipStats.itemSlotKeys[0] = -1;
                     break;
-                }
             }
+        }
+        itemSlot.OwnerChange(CharacterItemSprite.None);
+        itemSlot.ShowData();
     }
+    
 
     public EquipStats GetEquip(CharacterItemSprite character)
     {

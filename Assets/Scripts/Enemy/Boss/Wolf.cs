@@ -53,8 +53,8 @@ public class Wolf : Enemy, IColor
         EnemyHealthDic.Add(this, enemyData.Health);
         paralyzation = 100f;
 
-        //HpSlider = transform.GetComponentInChildren<Slider>();
-        //Hp = HpSlider.gameObject;
+        HpSlider = transform.GetComponentInChildren<Slider>();
+        Hp = HpSlider.fillRect.transform.parent.gameObject;
     }
 
     public void InitState()
@@ -164,6 +164,43 @@ public class Wolf : Enemy, IColor
         yield return new WaitForSeconds(10f);
      
         isCharge = true;
+    }
+
+    protected override void DropItem(Enemy enemy)
+    {
+        DropObject dropObject = PoolManager.Instance.Get_DropObject(Random.Range(1007, 1010));
+        dropObject.gameObject.transform.position = transform.position + Vector3.up*1.5f;
+    }
+
+    public override void TakeDamage(float damage, Element element, Character attacker)
+    {
+        EnemyHealthDic[this] -= CalculateDamage(damage, element);
+        HpSlider.value = EnemyHealthDic[this];
+        transform.LookAt(Player.position);
+        animator.SetTrigger("Hit");
+        PoolManager.Instance.Get_Text(damage, transform.position);
+
+        if (EnemyHealthDic[this] <= 0)
+        {
+            Hp.SetActive(false);
+            StartCoroutine(Die(this, attacker));
+        }
+    }
+
+    protected override IEnumerator Die(Enemy enemy, Character attacker)
+    {
+        enemy.gameObject.layer = (int)EnemyLayer.isDead;
+        enemy.animator.SetTrigger("Die");
+        DropElement(enemy);
+        DropItem(enemy);
+
+        if (attacker != null)
+        {
+            attacker.OnEnemyKilled();
+        }
+
+        yield return new WaitForSeconds(1.5f);
+        enemy.gameObject.SetActive(false);
     }
 
     public override void Splash(float damage) { }

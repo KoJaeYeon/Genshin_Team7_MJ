@@ -39,10 +39,12 @@ public class UIManager : Singleton<UIManager>
             //안드로이드
             androidB.gameObject.SetActive(true);
             editorB.gameObject.SetActive(false);
+            skillUI = androidB.GetComponentInChildren<SkillUI>();
 #elif UNITY_EDITOR
         //에디터
         androidB.gameObject.SetActive(false);
         editorB.gameObject.SetActive(true);
+        skillUI = editorB.GetComponentInChildren<SkillUI>();
 #endif
         }
 

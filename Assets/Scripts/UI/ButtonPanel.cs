@@ -19,4 +19,14 @@ public class ButtonPanel : MonoBehaviour
     {
         _input.AttackInput(value);
     }
+
+    public void Skill(bool value)
+    {
+        _input.SkillInput(value);
+    }
+
+    public void Burst(bool value)
+    {
+        _input.BurstInput(value);
+    }
 }

@@ -49,16 +49,23 @@ public class MissionManager : Singleton<MissionManager>
     public void Succeed()
     {
         mission = null;
-        missionPanel.gameObject.SetActive(false);
-        clearText.gameObject.SetActive(true);
+        StartCoroutine( delayActive(clearText));
 
     }
 
     public void Failed()
     {
         mission = null;
+        StartCoroutine(delayActive(overText));
+    }
+
+    IEnumerator delayActive(GameObject gameObject)
+    {
+        gameObject.SetActive(true);
+        yield return new WaitForSeconds(4);
+        gameObject.SetActive(false);
         missionPanel.gameObject.SetActive(false);
-        overText.gameObject.SetActive(true);
+        yield break;
     }
     
 }
