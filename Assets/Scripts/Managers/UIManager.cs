@@ -144,11 +144,14 @@ public class UIManager : Singleton<UIManager>
     public void SkiilCooldown(float point)
     {
         skillUI.Elemental_Cooldown(point);
+
     }
+
     public void BurstCooldown(float point)
     {
         skillUI.Elemental_Burst_Cooldown(point);
     }
+
     public void BurstGage(float point)
     {
         skillUI.ElementalBurst_Gage(point);
