@@ -10,12 +10,16 @@ public class EquipManager : Singleton<EquipManager>
     public EquipStats yoimiya_Equip;
     public ItemSlot itemSlot;
 
+    public Character[] playerCharacter;
+
     private void Awake()
     {
         beidou_Equip =new EquipStats();
         kokomi_Equip =new EquipStats();
         wrio_Equip = new EquipStats();
         yoimiya_Equip = new EquipStats();
+
+        playerCharacter = new Character[4];
     }
 
     private void Update()
@@ -41,6 +45,15 @@ public class EquipManager : Singleton<EquipManager>
             Debug.Log(yoimiya_Equip.sandTime_HelathPercent);
             Debug.Log(yoimiya_Equip.trohphy_AttackPercent);
             Debug.Log(yoimiya_Equip.crown_defencePercent);
+        }
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            playerCharacter[0].SwitchWeapon(1);
+        }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            playerCharacter[0].SwitchWeapon(2);
         }
     }
 

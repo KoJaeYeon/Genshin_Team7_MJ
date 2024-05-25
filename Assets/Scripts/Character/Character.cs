@@ -134,11 +134,14 @@ public abstract class Character : MonoBehaviour
 
     public void SwitchWeapon(int weaponIndex)
     {
-        if(weaponIndex >= 0 && weaponIndex < weapons.Length)
+        if (weaponIndex >= 0 && weaponIndex < weapons.Length)
         {
+            weapons[currentWeaponIndex].gameObject.SetActive(false);
             currentWeaponIndex = weaponIndex;
+            weapons[weaponIndex].gameObject.SetActive(true);
         }
     }
+
 
     public Element GetCurrentWeaponElement()
     {

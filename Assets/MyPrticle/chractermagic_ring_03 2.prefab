@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4187280241559861073}
   - component: {fileID: 4187280241540379337}
   - component: {fileID: 4187280241540411889}
+  - component: {fileID: 704124300}
   m_Layer: 0
   m_Name: chractermagic_ring_03 2
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 4187280241559472041}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -5.07, y: 0.1, z: 8.93}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.14999998, y: 0.14999999, z: 0.15}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4187280241559742165}
@@ -4819,6 +4820,18 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &704124300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4187280241559472041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64717dbb141d5e443987f922389d5253, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4187280241559513079
 GameObject:
   m_ObjectHideFlags: 0
@@ -4846,7 +4859,7 @@ Transform:
   m_GameObject: {fileID: 4187280241559513079}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4187280241559736243}
@@ -4935,8 +4948,8 @@ ParticleSystem:
     enabled: 1
     startLifetime:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: 4
+      minMaxState: 0
+      scalar: 2
       minScalar: 3
       maxCurve:
         serializedVersion: 2
@@ -9687,7 +9700,7 @@ Transform:
   m_GameObject: {fileID: 4187280241559517029}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4187280241559742165}
@@ -9776,7 +9789,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 2
       minScalar: 4
       maxCurve:
         serializedVersion: 2
@@ -10372,7 +10385,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 2.6
+      value: 2
       mode: 0
       spread: 0
       speed:

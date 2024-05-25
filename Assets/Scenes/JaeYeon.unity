@@ -3197,7 +3197,7 @@ MonoBehaviour:
   - {fileID: 6229058758253833900, guid: 6d45b468e6a6e9f41a686e0fa587af51, type: 3}
   spawnPosition: {fileID: 1425699637}
   playerParent: {fileID: 1425699632}
-  particle: {fileID: 0}
+  particle: {fileID: 704124297}
 --- !u!4 &296227467
 Transform:
   m_ObjectHideFlags: 0
@@ -13614,6 +13614,87 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4776272554816088, guid: 94a3318e328358d4095f16b054b14180,
     type: 3}
   m_PrefabInstance: {fileID: 695989557}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &704124295
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1425699637}
+    m_Modifications:
+    - target: {fileID: 4187280241559472041, guid: 27867e6b815031a4d80e1fe2296155be,
+        type: 3}
+      propertyPath: m_Name
+      value: chractermagic_ring_03 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187280241559861073, guid: 27867e6b815031a4d80e1fe2296155be,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187280241559861073, guid: 27867e6b815031a4d80e1fe2296155be,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187280241559861073, guid: 27867e6b815031a4d80e1fe2296155be,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187280241559861073, guid: 27867e6b815031a4d80e1fe2296155be,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187280241559861073, guid: 27867e6b815031a4d80e1fe2296155be,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187280241559861073, guid: 27867e6b815031a4d80e1fe2296155be,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187280241559861073, guid: 27867e6b815031a4d80e1fe2296155be,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187280241559861073, guid: 27867e6b815031a4d80e1fe2296155be,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187280241559861073, guid: 27867e6b815031a4d80e1fe2296155be,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187280241559861073, guid: 27867e6b815031a4d80e1fe2296155be,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187280241559861073, guid: 27867e6b815031a4d80e1fe2296155be,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 27867e6b815031a4d80e1fe2296155be, type: 3}
+--- !u!4 &704124296 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4187280241559861073, guid: 27867e6b815031a4d80e1fe2296155be,
+    type: 3}
+  m_PrefabInstance: {fileID: 704124295}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &704124297 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4187280241559472041, guid: 27867e6b815031a4d80e1fe2296155be,
+    type: 3}
+  m_PrefabInstance: {fileID: 704124295}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &707833985
 PrefabInstance:
@@ -28988,6 +29069,7 @@ Transform:
   - {fileID: 1039486303}
   - {fileID: 974244576}
   - {fileID: 1232764294}
+  - {fileID: 704124296}
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -35010,6 +35092,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: 0
   itemSlot: {fileID: 0}
+  playerCharacter: []
 --- !u!4 &1838314119
 Transform:
   m_ObjectHideFlags: 0
