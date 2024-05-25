@@ -143,24 +143,15 @@ public class UIManager : Singleton<UIManager>
 
     public void SkiilCooldown(float point)
     {
-<<<<<<< HEAD
-        GameObject next = Instantiate(damageTextPrefap, monsterPos + Vector3.up, Quaternion.identity);
-        next.transform.LookAt(playerTrans);
-       
-        next.GetComponent<TextMeshProUGUI>().text = damage.ToString();
-        
-
-
-        Destroy(next, 0.5f);
-        
-=======
         skillUI.Elemental_Cooldown(point);
->>>>>>> 18d916c1084602bdeac9493e5e89f98e53359900
+
     }
+
     public void BurstCooldown(float point)
     {
         skillUI.Elemental_Burst_Cooldown(point);
     }
+
     public void BurstGage(float point)
     {
         skillUI.ElementalBurst_Gage(point);
