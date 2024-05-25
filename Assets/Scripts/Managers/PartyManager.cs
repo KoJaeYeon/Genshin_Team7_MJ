@@ -18,6 +18,11 @@ public class PartyManager : MonoBehaviour
     private float currentAnimatorTime;
     public GameObject particle;
 
+    public Sprite[] characterAttackSprite;
+    public Sprite[] characterSkillSprite;
+    public Sprite[] characterBurstSprite;
+    public Sprite[] characterBurstFullSprite;
+
 
     private void Awake()
     {
@@ -32,13 +37,15 @@ public class PartyManager : MonoBehaviour
             activeCharacters[i].gameObject.SetActive(i == currentCharacterIndex);
 
             character.InitializeCharacterStats();
-            character.InitializeCharacter();
+            character.InitializeCharacter();            
 
             if (spawnPosition != null)
             {
                 activeCharacters[0].transform.position = spawnPosition.position;
             }
         }
+        SetSkiilSprite(currentCharacterIndex);
+
         currentAnimator = activeCharacters[currentCharacterIndex].GetComponent<Animator>();
     }
 
@@ -88,12 +95,20 @@ public class PartyManager : MonoBehaviour
                 particle.SetActive(false);
                 particle.SetActive(true);
             }
+
+            SetSkiilSprite(currentCharacterIndex);
         }
         else
         {
             Debug.Log("Invalid character index");
         }
     }
+
+    public void SetSkiilSprite(int characterIndex)
+    {
+        UIManager.Instance.SetSkillSprite(characterAttackSprite[characterIndex], characterSkillSprite[characterIndex], characterBurstSprite[characterIndex], characterBurstFullSprite[characterIndex]);
+    }
+
 
     public Character GetCurrentCharacter()
     {

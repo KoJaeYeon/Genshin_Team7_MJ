@@ -257,7 +257,11 @@ public class PlayerController : MonoBehaviour
 
             float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
                 RotationSmoothTime);
-            if (rotateOnMove) transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            if (rotateOnMove)
+            {
+                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                UIManager.Instance.minimapPointer.rotation = Quaternion.Euler(90,0, -rotation);
+            }
         }
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
