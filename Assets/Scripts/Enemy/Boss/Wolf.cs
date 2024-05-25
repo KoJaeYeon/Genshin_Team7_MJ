@@ -95,6 +95,7 @@ public class Wolf : Enemy, IColor
 
         }
     }
+    
     public IPattern Attack => bossAttack;
     public BossStateMachine State => bossState;
     public Animator BossAnimator => animator;
@@ -153,7 +154,7 @@ public class Wolf : Enemy, IColor
 
     public IEnumerator JumpCoolTime()
     {
-        yield return new WaitForSeconds(7.5f);
+        yield return new WaitForSeconds(8.0f);
         
         isJump = true;
     }
@@ -169,6 +170,11 @@ public class Wolf : Enemy, IColor
     public Color GetColor()
     {
         return BossColor;
+    }
+    
+    public float GetAtk()
+    {
+        return enemyData.AttackPower;
     }
 
     // Animation Event ----------------------------------------------
@@ -198,7 +204,7 @@ public class Wolf : Enemy, IColor
         bossRigid.velocity = Vector3.zero;
     }
 
-    public void Test()
+    public void RunStop()
     {
         isRunStop = false;
     }
@@ -561,15 +567,17 @@ public class WolfAttackState_Claw : WolfState
 public class WolfAttackState_Drift : WolfState
 {
     public WolfAttackState_Drift(Wolf wolf) : base(wolf) { }
-    
+
+    Drift driftSkill;
+
     public override void StateEnter()
     {
         m_Wolf.BossPattern = BossPattern.DriftAttack;
         m_Wolf.SetPattern(m_Wolf.BossPattern);
-
         m_Wolf.Attack.BossAttack();
     }
     public override void StateExit() { }
+    
     public override void StateFixedUpdate() { }
 }
 

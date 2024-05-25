@@ -16,6 +16,8 @@ public class PlayerInputHandler : MonoBehaviour
     public bool sprint;
     public bool windfield;
     public bool aim;
+    public bool skill;
+    public bool burst;
 
     [Header("Movement Settings")]
     public bool analogMovement;
@@ -23,6 +25,10 @@ public class PlayerInputHandler : MonoBehaviour
     [Header("Mouse Cursor Settings")]
     public bool cursorLocked = true;
     public bool cursorInputForLook = true;
+
+    [Header("Game Property Settings")]
+    public float look_Horizontal = 5f;
+    public float look_Vertical = 5f;
 
 #if ENABLE_INPUT_SYSTEM
     public void OnMove(InputValue value)
@@ -69,9 +75,20 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnAim(InputValue value)
     {
-        Debug.Log("Aim");
         AimInput(value.isPressed);
     }
+
+    public void OnSkill(InputValue value)
+    {
+        SkillInput(value.isPressed);
+    }
+
+    public void OnBurst(InputValue value)
+    {
+        BurstInput(value.isPressed);
+    }
+
+    
 #endif
 
     public void MoveInput(Vector2 newMoveDirection)
@@ -82,6 +99,8 @@ public class PlayerInputHandler : MonoBehaviour
     public void LookInput(Vector2 newLookDirection)
     {
         look = newLookDirection;
+        look.x *= look_Horizontal /5;
+        look.y *= look_Vertical /5;
     }
 
     public void JumpInput(bool newJumpState)
@@ -122,6 +141,16 @@ public class PlayerInputHandler : MonoBehaviour
     public void AimInput(bool newAimState)
     {
         aim = newAimState;
+    }
+
+    public void SkillInput(bool newSkillState)
+    {
+        skill = newSkillState;
+    }
+
+    public void BurstInput(bool newBurstState)
+    {
+        burst = newBurstState;
     }
 
     private void OnApplicationFocus(bool hasFocus)

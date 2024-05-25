@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class ActivePanel_WeaponPanel : ActivePanel
 {
-    IActivePanel previousPanel;
-    Animator animator;
-
-    bool _hasAnimator = false;
-    private void Awake()
-    {
-        animator = GetComponent<Animator>();
-        if (animator != null) _hasAnimator = true;
-    }
     public override void PanelActive(IActivePanel previousPanel)
     {
         this.previousPanel = previousPanel;
