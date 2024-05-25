@@ -210,11 +210,12 @@ public abstract class Character : MonoBehaviour
     public abstract void UseElementalSkill();
     public abstract void UseElementalBurst();
 
-    protected void AttackNearestEnemyInFan()
+    protected Transform FindNearestEnemyInRange()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, detectionRange);
         Transform nearestEnemy = null;
         float nearestDistance = detectionRange;
+
 
         foreach (Collider hit in hits)
         {
@@ -235,11 +236,45 @@ public abstract class Character : MonoBehaviour
             }
         }
 
+        return nearestEnemy;
+    }
+
+    protected void AttackNearestEnemyInRange()
+    {
+        Transform nearestEnemy = FindNearestEnemyInRange();
+
         if (nearestEnemy != null)
         {
             AttackTarget(nearestEnemy);
         }
+        PerformAttackAnimation(); 
     }
 
-    protected virtual void AttackTarget(Transform target) { }
+    protected void PerformAttackAnimation()
+    {
+        if (hasAnimator)
+        {
+            _animator.SetTrigger("Attack");
+            _animator.SetBool("Attacking", true);
+        }
+        else
+        {
+            _animator.SetBool("Attacking", false);
+        }
+    }
+    protected virtual void AttackTarget(Transform target = null) { }
+
+    protected virtual void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
+
+        Vector3 forward = transform.forward * detectionRange;
+        Vector3 left = Quaternion.Euler(0, -detectionAngle / 2, 0) * forward;
+        Vector3 right = Quaternion.Euler(0, detectionAngle / 2, 0) * forward;
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position, transform.position + left);
+        Gizmos.DrawLine(transform.position, transform.position + right);
+    }
 }

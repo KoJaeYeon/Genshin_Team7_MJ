@@ -2509,7 +2509,7 @@ MonoBehaviour:
   arrowPrefab: {fileID: 4766542514737433830, guid: 7274f976d04986346a9314299638dac1,
     type: 3}
   arrowSpawnPoint: {fileID: 9062758251571049347}
-  aimZoomFOV: 30
+  speed: 20
 --- !u!1 &3437258106325316712
 GameObject:
   m_ObjectHideFlags: 0
@@ -2561,7 +2561,7 @@ MonoBehaviour:
   arrowPrefab: {fileID: 4766542514737433830, guid: 7274f976d04986346a9314299638dac1,
     type: 3}
   arrowSpawnPoint: {fileID: 9062758251571049347}
-  aimZoomFOV: 30
+  speed: 20
 --- !u!1 &3437258106916969567
 GameObject:
   m_ObjectHideFlags: 0
@@ -2613,7 +2613,7 @@ MonoBehaviour:
   arrowPrefab: {fileID: 4766542514737433830, guid: 7274f976d04986346a9314299638dac1,
     type: 3}
   arrowSpawnPoint: {fileID: 9062758251571049347}
-  aimZoomFOV: 30
+  speed: 20
 --- !u!1 &3439149477534761813
 GameObject:
   m_ObjectHideFlags: 0
@@ -5057,10 +5057,10 @@ Animator:
     'Bip001 R Finger0'\n\tTransform 'Bip001 L Finger02'\n\tTransform 'Bip001 R Finger02'\n\tTransform
     'Bip001 L Finger01'\n\tTransform 'Bip001 R Finger01'\n\tand more ...\n\tFrom
     animation clip 'Ani_Avatar_Girl_Bow_WeaponStandby'\n\tFrom animation clip 'Ani_Avatar_Girl_Bow_Hit_H'\n\tFrom
-    animation clip 'Ani_Avatar_Girl_Bow_Yoimiya_Attack_01'\n\tFrom animation clip
-    'Ani_Avatar_Girl_Bow_Yoimiya_Attack_02'\n\tFrom animation clip 'Ani_Avatar_Girl_Bow_Yoimiya_Attack_03'\n\tFrom
-    animation clip 'Ani_Avatar_Girl_Bow_Yoimiya_Attack_04'\n\tFrom animation clip
-    'Ani_Avatar_Girl_Bow_Yoimiya_Attack_05'"
+    animation clip 'Ani_Avatar_Girl_Bow_Yoimiya_AimAttack'\n\tFrom animation clip
+    'Ani_Avatar_Girl_Bow_Yoimiya_Attack_01'\n\tFrom animation clip 'Ani_Avatar_Girl_Bow_Yoimiya_Attack_02'\n\tFrom
+    animation clip 'Ani_Avatar_Girl_Bow_Yoimiya_Attack_03'\n\tFrom animation clip
+    'Ani_Avatar_Girl_Bow_Yoimiya_Attack_04'\n\tFrom animation clip 'Ani_Avatar_Girl_Bow_Yoimiya_Attack_05'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -5108,8 +5108,7 @@ MonoBehaviour:
   CameraAngleOverride: 0
   LockCameraPosition: 0
   virtualCamera: {fileID: 0}
-  crosshair: {fileID: 7583467122485059675, guid: ed38a61bc1114a243969fbc83a08e6b2,
-    type: 3}
+  AimVerticalSensitivity: 0.5
   _wingAnimator: {fileID: 3337143316573465380}
   characterData: {fileID: 0}
 --- !u!114 &3374969541774404041

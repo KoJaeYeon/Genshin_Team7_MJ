@@ -1,9 +1,4 @@
-using Cinemachine;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class BowCharacter : Character
 {
@@ -29,7 +24,8 @@ public class BowCharacter : Character
 
     public override void Attack()
     {
-        AttackNearestEnemyInFan();
+        PerformAttackAnimation();
+        AttackNearestEnemyInRange();
     }
 
     public override void UseElementalSkill()
@@ -65,7 +61,7 @@ public class BowCharacter : Character
             Bow bow = weapons[currentWeaponIndex] as Bow;
             if (bow != null)
             {
-                bow.PerformShot(target);
+                bow.UseWeapon(target);
             }
 
             if (hasAnimator)

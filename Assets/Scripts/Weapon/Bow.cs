@@ -2,33 +2,37 @@ using UnityEngine;
 
 public class Bow : Weapon
 {
-    public GameObject arrowPrefab;
+    public float range = 50f; 
+    public float damage = 10f; 
     public Transform arrowSpawnPoint;
-    public float speed = 20f;
 
-    public override void UseWeapon()
+    public override void UseWeapon(Transform target = null)
     {
-        PerformShot();
-    }
+        Vector3 direction;
 
-    public void PerformShot(Transform target = null)
-    {
-        GameObject arrowObject = Instantiate(arrowPrefab, arrowSpawnPoint.position, arrowSpawnPoint.rotation);
-        Arrow arrow = arrowObject.GetComponent<Arrow>();
-
-        if (arrow != null)
+        if (target != null)
         {
-            arrow.character = character; // 캐릭터 참조 설정
-            Vector3 direction;
-            if (target != null)
-            {
-                direction = (target.position - arrowSpawnPoint.position).normalized;
-            }
-            else
-            {
-                direction = arrowSpawnPoint.forward;
-            }
-            arrow.Shoot(direction, speed);
+            direction = (target.position - arrowSpawnPoint.position).normalized;
         }
+        else
+        {
+            direction = arrowSpawnPoint.forward;
+        }
+
+        RaycastHit hit;
+        if (Physics.Raycast(arrowSpawnPoint.position, direction, out hit, range))
+        {
+            if (hit.collider.CompareTag("Enemy"))
+            {
+                Enemy enemy = hit.collider.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    Element currentElement = character != null ? character.GetCurrentWeaponElement() : Element.Normal;
+                    enemy.TakeDamage(damage, currentElement, character);
+                }
+            }
+        }
+
+        Debug.DrawRay(arrowSpawnPoint.position, direction * range, Color.red, 2f); // 디버그 레이
     }
 }

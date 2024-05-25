@@ -9942,6 +9942,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7865600733546240980, guid: 5454c5a24c8e5ed429cae0e7dd6f8fd5,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8037986062417230266, guid: 5454c5a24c8e5ed429cae0e7dd6f8fd5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19539,6 +19544,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.0008651017
       objectReference: {fileID: 0}
+    - target: {fileID: 2351890077528723517, guid: 7d4e262756ec9bc4ea9e0681f4ece49c,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2377636364284460379, guid: 7d4e262756ec9bc4ea9e0681f4ece49c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -26820,6 +26830,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.24260761
       objectReference: {fileID: 0}
+    - target: {fileID: 1293330595297901472, guid: e845b2ec6c4918842b28d941918b3364,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1353906931181169321, guid: e845b2ec6c4918842b28d941918b3364,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -29732,6 +29747,7 @@ MonoBehaviour:
   UI_scale: {fileID: 1604166991}
   characterPanel: {fileID: 658745331}
   DataPanel: {fileID: 0}
+  crosshair: {fileID: 1955841086}
 --- !u!4 &1412429905
 Transform:
   m_ObjectHideFlags: 0
@@ -34715,6 +34731,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1934364090}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1955841086 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5115077690552639912, guid: 0b155813078bb66438a3fa15de1e8e86,
+    type: 3}
+  m_PrefabInstance: {fileID: 5312937191538567933}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1964266305
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38128,7 +38150,7 @@ PrefabInstance:
     - target: {fileID: 5115077690552639912, guid: 0b155813078bb66438a3fa15de1e8e86,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5312937189495246980, guid: 0b155813078bb66438a3fa15de1e8e86,
         type: 3}

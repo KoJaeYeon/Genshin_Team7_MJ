@@ -37,9 +37,4 @@ public class Arrow : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    public void Shoot(Vector3 direction, float force)
-    {
-        _rigidbody.AddForce(direction * force, ForceMode.Impulse);
-    }
 }
