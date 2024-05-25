@@ -225,6 +225,7 @@ public class InventoryManager : Singleton<InventoryManager>
             EquipManager.Instance.Equip(slotdefenceDictionary[3 + 5 * i]);
             EquipManager.Instance.Equip(slotdefenceDictionary[4 + 5 * i]);
         }
+        GetItem(ItemDatabase.Instance.GetItem(8));
     }
 
     public ItemSlot GetWeaponItemSlot(int key)

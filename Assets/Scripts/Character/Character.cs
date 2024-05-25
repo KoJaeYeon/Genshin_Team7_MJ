@@ -55,6 +55,7 @@ public abstract class Character : MonoBehaviour
         _input = transform.parent.GetComponent<PlayerInputHandler>();
         _animator = GetComponent<Animator>();
         hasAnimator = TryGetComponent(out  _animator);
+        weapons[currentWeaponIndex].gameObject.SetActive(true);
     }
     private void Update()
     {
@@ -134,11 +135,14 @@ public abstract class Character : MonoBehaviour
 
     public void SwitchWeapon(int weaponIndex)
     {
-        if(weaponIndex >= 0 && weaponIndex < weapons.Length)
+        if (weaponIndex >= 0 && weaponIndex < weapons.Length)
         {
+            weapons[currentWeaponIndex].gameObject.SetActive(false);
             currentWeaponIndex = weaponIndex;
+            weapons[weaponIndex].gameObject.SetActive(true);
         }
     }
+
 
     public Element GetCurrentWeaponElement()
     {

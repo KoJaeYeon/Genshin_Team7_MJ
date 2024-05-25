@@ -11,15 +11,6 @@ public class BowCharacter : Character
     {
         characterType = CharacterType.Ranged;
         base.Start();
-        foreach(var weapon in weapons)
-        {
-            if(weapon is Bow)
-            {
-                weapon.gameObject.SetActive(true);
-                currentWeaponIndex = System.Array.IndexOf(weapons, weapon);
-                break;
-            }
-        }
     }
 
     public override void Attack()
