@@ -20,6 +20,7 @@ public class ChargeAttack : IPattern
         m_Wolf.BossAnimator.SetBool("isRun", true);
         charge_capsule = m_Wolf.ChargeCollider.GetComponent<CapsuleCollider>();
         charge_capsule.enabled = true;
+
     }
 
     public void BossAttack()
