@@ -148,13 +148,6 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    private int ReturnExp(Enemy enemy) //°æÇèÄ¡
-    {
-        int Exp = enemy.enemyData.DropExp;
-
-        return Exp;
-    }
-
     protected void DropElement(Enemy enemy)
     {
         if (enemy == null)
@@ -168,6 +161,7 @@ public abstract class Enemy : MonoBehaviour
             dropElement.transform.position = enemy.transform.position;
             dropElement.SetActive(true);
             StartCoroutine(elementObject.UP());
+            StartCoroutine(elementObject.DisableObject());
         }
     }
 
@@ -200,6 +194,7 @@ public abstract class Enemy : MonoBehaviour
             hitElement.transform.position = transform.position;
             hitElement.SetActive(true);
             StartCoroutine(elementObject.UP());
+            StartCoroutine(elementObject.DisableObject());
         }
     }
 

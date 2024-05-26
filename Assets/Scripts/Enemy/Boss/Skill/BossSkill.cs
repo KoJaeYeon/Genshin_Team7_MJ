@@ -8,7 +8,7 @@ public enum Skill
     Howl,
     Stamp,
     Drift,
-    Claw
+    Ice_Rain
 }
 public class BossSkill : MonoBehaviour
 {
@@ -23,11 +23,11 @@ public class BossSkill : MonoBehaviour
 
     private void Init()
     {
-        skillDic.Add(Skill.Howl, 20.0f);
-        skillDic.Add(Skill.Claw, 20.0f);
-        skillDic.Add(Skill.Jump, 20.0f);
-        skillDic.Add(Skill.Drift, 20.0f);
-        skillDic.Add(Skill.Stamp, 20.0f);
+        skillDic.Add(Skill.Howl, 10.0f);
+        skillDic.Add(Skill.Jump, 50.0f);
+        skillDic.Add(Skill.Drift, 100.0f);
+        skillDic.Add(Skill.Stamp, 50.0f);
+        skillDic.Add(Skill.Ice_Rain, 20.0f);
     }
 
     public float GetSkillDamage(Skill name)
