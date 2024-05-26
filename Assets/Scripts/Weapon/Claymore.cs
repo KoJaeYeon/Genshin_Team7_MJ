@@ -10,9 +10,10 @@ public class Claymore : Weapon
     public Transform attackPoint;
     public LayerMask enemyLayer;
 
-    public override void UseWeapon(Transform target = null)
+    public override void UseWeapon()
     {
         PerformMeleeAttack();
+        SoundManager.Instance.PlayEffect("Beidou_Attack");
     }
 
     public void PerformMeleeAttack()
