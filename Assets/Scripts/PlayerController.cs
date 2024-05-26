@@ -411,8 +411,6 @@ public class PlayerController : MonoBehaviour
             _animator.SetFloat(_animIDSpeed, _animationBlend, 0.05f, Time.deltaTime);
             _animator.SetFloat(_animIDMotionSpeed, inputMagnitude, 0.1f, Time.deltaTime);
         }
-
-        PlayMovementSound(targetSpeed);
     }
 
     private void AimMove()
@@ -437,7 +435,7 @@ public class PlayerController : MonoBehaviour
             _animator.SetFloat("vertical", verticalInput);
         }
 
-        
+        PlayMovementSound(targetSpeed);
     }
 
     private void Climb()
@@ -572,6 +570,8 @@ public class PlayerController : MonoBehaviour
             _animator.SetBool("Glide", true);
             _animator.SetBool(_animIDJump, false);
             _wingAnimator.SetTrigger("Glide");
+            SoundManager.Instance.effectSource2.clip = SoundManager.Instance.effectDictionary["Fly"];
+            SoundManager.Instance.effectSource2.Play();
         }
     }
 

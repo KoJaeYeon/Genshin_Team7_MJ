@@ -17,6 +17,8 @@ public class WindParticle : MonoBehaviour
         {
             gameObject.SetActive(false);
             mission.UpdateCount();
+            SoundManager.Instance.effectSource2.clip = SoundManager.Instance.effectDictionary["Point"];
+            SoundManager.Instance.effectSource2.Play();
         }
     }
 }

@@ -37,23 +37,29 @@ public class UIManager : Singleton<UIManager>
 
 
     SkillUI skillUI;
+    GameObject skillButton;
+    GameObject flyButton;
 
     public GameObject crosshair;
 
     private void Awake()
     {
-        if(androidB != null && editorB != null)
+        if (androidB != null && editorB != null)
         {
 #if UNITY_ANDROID
             //안드로이드
             androidB.gameObject.SetActive(true);
             editorB.gameObject.SetActive(false);
             skillUI = androidB.GetComponentInChildren<SkillUI>();
-#elif UNITY_EDITOR
-        //에디터
-        androidB.gameObject.SetActive(false);
-        editorB.gameObject.SetActive(true);
-        skillUI = editorB.GetComponentInChildren<SkillUI>();
+            skillButton = skillUI.transform.GetChild(1).GetChild(0).gameObject;
+            flyButton = skillUI.transform.GetChild(1).GetChild(1).gameObject;
+
+#else
+            androidB.gameObject.SetActive(false);
+            editorB.gameObject.SetActive(true);
+            skillUI = editorB.GetComponentInChildren<SkillUI>();
+            skillButton = skillUI.transform.GetChild(0).gameObject;
+            flyButton = skillUI.transform.GetChild(1).gameObject;
 #endif
         }
 
@@ -191,5 +197,14 @@ public class UIManager : Singleton<UIManager>
     public void SetCrosshairActive(bool isActive)
     {
         crosshair.SetActive(isActive);
+    }
+
+    public void StartGliding()
+    {
+
+    }
+    public void StopGliding()
+    {
+
     }
 }

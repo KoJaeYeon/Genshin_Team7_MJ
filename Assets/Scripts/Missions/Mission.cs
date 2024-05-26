@@ -15,16 +15,15 @@ public class Mission : MonoBehaviour, IInteractable
     bool missionStart = false;
     bool _hasWindfiled = false;
     public GameObject chestParticle;
+    public GameObject timeLine;
 
     public Animator animator;
     SphereCollider sphereCollider;
-    AudioSource audioSource;
 
     private void Awake()
     {
         sphereCollider = GetComponent<SphereCollider>();
         particles = new GameObject[transform.GetChild(0).childCount];     
-        audioSource = GetComponent<AudioSource>();
         for (int i = 0; i < particles.Length; i++)
         {
             particles[i] = transform.GetChild(0).GetChild(i).gameObject;
@@ -91,7 +90,8 @@ public class Mission : MonoBehaviour, IInteractable
             transform.GetChild(2).gameObject.SetActive(false);
             animator.Play("Succes");
             chestParticle.SetActive(true);
-            audioSource.Play();
+            SoundManager.Instance.effectSource.clip = SoundManager.Instance.effectDictionary["Spawn"];
+            SoundManager.Instance.effectSource.Play();
         }
     }
 
@@ -147,6 +147,12 @@ public class Mission : MonoBehaviour, IInteractable
 
             getSlot.transform.SetParent(PoolManager.Instance.PoolParent);
             getSlot.gameObject.SetActive(false);
+
+            if(timeLine != null)
+            {
+                timeLine.SetActive(false);
+                timeLine.SetActive(true);
+            }
         }
     }
     public void RemoveItemGet()
