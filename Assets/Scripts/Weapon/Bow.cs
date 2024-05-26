@@ -2,37 +2,20 @@ using UnityEngine;
 
 public class Bow : Weapon
 {
-    public float range = 50f; 
-    public float damage = 10f; 
+    public GameObject arrowPrefab;
     public Transform arrowSpawnPoint;
+    public float arrowSpeed = 5f;
 
-    public override void UseWeapon(Transform target = null)
+    public override void UseWeapon()
     {
-        Vector3 direction;
-
-        if (target != null)
+        if (arrowPrefab != null && arrowSpawnPoint != null)
         {
-            direction = (target.position - arrowSpawnPoint.position).normalized;
-        }
-        else
-        {
-            direction = arrowSpawnPoint.forward;
-        }
-
-        RaycastHit hit;
-        if (Physics.Raycast(arrowSpawnPoint.position, direction, out hit, range))
-        {
-            if (hit.collider.CompareTag("Enemy"))
+            GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, arrowSpawnPoint.rotation);
+            Rigidbody rb = arrow.GetComponent<Rigidbody>();
+            if (rb != null)
             {
-                Enemy enemy = hit.collider.GetComponent<Enemy>();
-                if (enemy != null)
-                {
-                    Element currentElement = character != null ? character.GetCurrentWeaponElement() : Element.Normal;
-                    enemy.TakeDamage(damage, currentElement, character);
-                }
+                rb.velocity = arrowSpawnPoint.forward * arrowSpeed;
             }
         }
-
-        Debug.DrawRay(arrowSpawnPoint.position, direction * range, Color.red, 2f); // 디버그 레이
     }
 }
