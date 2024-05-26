@@ -56,8 +56,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     private static float _cinemachineTargetYaw;
     private static float _cinemachineTargetPitch;
+    private float aimFOV = 20f;
     private float minFOV = 40f;
     private float maxFOV = 60f;
+    private Vector3 aimFollowOffset = new Vector3(2f, 0, 1f);
+    private Vector3 normalFollowOffset = new Vector3(1f, 0, 0);
+    public float AimVerticalSensitivity = 0.5f;
 
     //player
     private float _speed;
@@ -66,9 +70,10 @@ public class PlayerController : MonoBehaviour
     private float _rotationVelocity;
     private float _verticalVelocity;
     private float _terminalVelocity = 53.0f;
-    private bool _attackTrigger = true;
     private bool _isClimbing = false;
     public static bool _isGliding = false;
+    private bool _isAiming = false;
+    private bool _aimPressedLastFrame = false;
 
     //timeout deltatime
     private float _jumpTimeoutDelta;
@@ -134,16 +139,47 @@ public class PlayerController : MonoBehaviour
     {
         _hasAnimator = TryGetComponent(out _animator);
 
-        JumpAndGravity();
-        GroundedCheck();
-        CliffCheck();
-        Move();
-        Climb();
+        if (_input.aim && !_aimPressedLastFrame)
+        {
+            _isAiming = !_isAiming;
+
+            if (_isAiming)
+            {
+                RotateCameraTowardsMouse();
+                AlignPlayerWithCamera();
+                EnterAimMode();
+            }
+            else
+            {
+                ExitAimMode();
+            }
+        }
+
+        _aimPressedLastFrame = _input.aim;
+
+        _animator.SetBool("isAiming", _isAiming);
+
+        if (_isAiming)
+        {
+            AimMove();
+            UpdateCameraRotationWhileAiming();
+        }
+        else
+        {
+            JumpAndGravity();
+            GroundedCheck();
+            CliffCheck();
+            Move();
+            Climb();
+        }
     }
 
     private void LateUpdate()
     {
-        CameraRotation();
+        if (!_isAiming)
+        {
+            CameraRotation();
+        }
     }
 
     private void AssignAnimationIDs()
@@ -199,7 +235,7 @@ public class PlayerController : MonoBehaviour
 
     private void CameraRotation()
     {
-        if (_animator.GetBool("Attacking")) return;
+        if (_animator.GetBool("Attacking") || _isAiming) return;
 
         if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
         {
@@ -220,9 +256,68 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void RotateCameraTowardsMouse()
+    {
+        if (_input.look.sqrMagnitude >= _threshold)
+        {
+            _cinemachineTargetYaw += _input.look.x * baseSensitivity * LookSensitivity;
+            _cinemachineTargetPitch += _input.look.y * baseSensitivity * LookSensitivity;
+        }
+        _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
+        _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+
+        CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
+            _cinemachineTargetYaw, 0.0f);
+    }
+
+    private void AlignPlayerWithCamera()
+    {
+        _targetRotation = _cinemachineTargetYaw;
+        transform.rotation = Quaternion.Euler(0.0f, _targetRotation, 0.0f);
+    }
+
+    private void UpdateCameraRotationWhileAiming()
+    {
+        Vector2 mouseDelta = _input.look;
+
+        _cinemachineTargetYaw += mouseDelta.x * baseSensitivity * LookSensitivity;
+        _cinemachineTargetPitch -= mouseDelta.y * baseSensitivity * LookSensitivity * AimVerticalSensitivity;
+
+        _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
+        _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+
+        CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
+            _cinemachineTargetYaw, 0.0f);
+
+
+        transform.rotation = Quaternion.Euler(0.0f, _cinemachineTargetYaw, 0.0f);
+    }
+
+    private void EnterAimMode()
+    {
+        _animator.SetBool("Attaking", false);
+        virtualCamera.m_Lens.FieldOfView = aimFOV;
+        virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>().ShoulderOffset = aimFollowOffset;
+
+        Cursor.lockState = CursorLockMode.Locked;
+
+        UIManager.Instance.SetCrosshairActive(true);
+    }
+
+    private void ExitAimMode()
+    {
+        _animator.SetBool("Attaking", false);
+        virtualCamera.m_Lens.FieldOfView = maxFOV;
+        virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>().ShoulderOffset = normalFollowOffset;
+
+        Cursor.lockState = CursorLockMode.None;
+
+        UIManager.Instance.SetCrosshairActive(false);
+    }
+
     private void Move()
     {
-        if (_isClimbing || _animator.GetBool("Attacking")) return;
+        if (_isClimbing || _isAiming) return;
 
         float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
@@ -273,6 +368,29 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetFloat(_animIDSpeed, _animationBlend, 0.05f, Time.deltaTime);
             _animator.SetFloat(_animIDMotionSpeed, inputMagnitude, 0.1f, Time.deltaTime);
+        }
+    }
+
+    private void AimMove()
+    {
+        _animator.SetBool("isAiming", _isAiming);
+
+        float targetSpeed = MoveSpeed;
+
+        if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+
+        float verticalInput = _input.move.x;
+        float horizontalInput = _input.move.y;
+
+        Vector3 aimMoveDirection = new Vector3(verticalInput, 0.0f, horizontalInput);
+        aimMoveDirection = transform.TransformDirection(aimMoveDirection);
+
+        _controller.Move(aimMoveDirection * targetSpeed * Time.deltaTime);
+
+        if (_hasAnimator)
+        {
+            _animator.SetFloat("horizontal", horizontalInput);
+            _animator.SetFloat("vertical", verticalInput);
         }
     }
 

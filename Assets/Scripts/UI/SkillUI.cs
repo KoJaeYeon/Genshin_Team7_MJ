@@ -20,7 +20,7 @@ public class SkillUI : MonoBehaviour
 
     public void Elemental_Cooldown(float value)
     {
-        elementalSkill_Text_Cooldown.transform.parent.gameObject.SetActive(value >= 0);
+        elementalSkill_Text_Cooldown.transform.parent.gameObject.SetActive(value > 0);
         elementalSkill_Text_Cooldown.text = value.ToString("0.0");
         elementalSkill_Cool_Image.fillAmount = value / 10;
     }

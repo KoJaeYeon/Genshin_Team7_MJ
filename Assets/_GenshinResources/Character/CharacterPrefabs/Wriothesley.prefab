@@ -6103,7 +6103,6 @@ GameObject:
   - component: {fileID: 6278134979316272309}
   - component: {fileID: 126178119033034447}
   - component: {fileID: 3989097667092430679}
-  - component: {fileID: 3556929332915240018}
   - component: {fileID: 6104723604870315375}
   m_Layer: 7
   m_Name: Wriothesley
@@ -6196,35 +6195,10 @@ MonoBehaviour:
   CameraAngleOverride: 0
   LockCameraPosition: 0
   virtualCamera: {fileID: 0}
+  crosshair: {fileID: 7583467122485059675, guid: ed38a61bc1114a243969fbc83a08e6b2,
+    type: 3}
   _wingAnimator: {fileID: 2114081647393922588}
   characterData: {fileID: 0}
---- !u!114 &3556929332915240018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6659621175169750543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b0885a7a0013a140a9f067d519bd6b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  move: {x: 0, y: 0}
-  look: {x: 0, y: 0}
-  zoom: 0
-  attack: 0
-  jump: 0
-  sprint: 0
-  windfield: 0
-  aim: 0
-  skill: 0
-  burst: 0
-  analogMovement: 1
-  cursorLocked: 1
-  cursorInputForLook: 1
-  look_Horizontal: 5
-  look_Vertical: 5
 --- !u!114 &6104723604870315375
 MonoBehaviour:
   m_ObjectHideFlags: 0

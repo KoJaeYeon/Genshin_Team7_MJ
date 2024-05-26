@@ -10,7 +10,7 @@ public class Claymore : Weapon
     public Transform attackPoint;
     public LayerMask enemyLayer;
 
-    public override void UseWeapon()
+    public override void UseWeapon(Transform target = null)
     {
         PerformMeleeAttack();
     }

@@ -31,6 +31,7 @@ public class UIManager : Singleton<UIManager>
 
     SkillUI skillUI;
 
+    public GameObject crosshair;
 
     private void Awake()
     {
@@ -57,6 +58,8 @@ public class UIManager : Singleton<UIManager>
 
         mainPanel_IActivePanel = mainPanel.GetComponent<IActivePanel>();
         activePanel = mainPanel_IActivePanel;
+
+        crosshair.SetActive(false);
     }
     private void Update()
     {
@@ -162,4 +165,8 @@ public class UIManager : Singleton<UIManager>
         skillUI.ElementalBurst_Gage(point);
     }
 
+    public void SetCrosshairActive(bool isActive)
+    {
+        crosshair.SetActive(isActive);
+    }
 }
