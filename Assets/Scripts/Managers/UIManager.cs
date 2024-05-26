@@ -25,8 +25,15 @@ public class UIManager : Singleton<UIManager>
 
     public Transform UI_scale;
 
+    public GameObject inventroyPanel;
+    IActivePanel inventroyPanel_IActivePanel;
     public GameObject characterPanel;
+    IActivePanel characterPanel_IActivePanel;
     public GameObject DataPanel;
+
+    public Slider UIHealth;
+    public Slider[] characterHealth;
+    public int currentCharacter;
 
 
     SkillUI skillUI;
@@ -57,6 +64,8 @@ public class UIManager : Singleton<UIManager>
         UIscaleY = UI_scale.transform.localScale.y;
 
         mainPanel_IActivePanel = mainPanel.GetComponent<IActivePanel>();
+        inventroyPanel_IActivePanel = inventroyPanel.GetComponent<IActivePanel>();
+        characterPanel_IActivePanel = characterPanel.GetComponent<IActivePanel>();
         activePanel = mainPanel_IActivePanel;
 
         crosshair.SetActive(false);
@@ -66,6 +75,14 @@ public class UIManager : Singleton<UIManager>
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             QuitPanel();
+        }
+        else if(Input.GetKeyDown(KeyCode.C) )
+        {
+            characterPanel_IActivePanel.PanelActive(activePanel);
+        }
+        else if (Input.GetKeyDown(KeyCode.B) && activePanel.Equals(mainPanel_IActivePanel))
+        {
+            inventroyPanel_IActivePanel.PanelActive(activePanel);
         }
     }
 
@@ -143,6 +160,12 @@ public class UIManager : Singleton<UIManager>
         {
             itemGetContent.transform.parent.parent.gameObject.SetActive(false);
         }
+    }
+
+    public void Health(float value)
+    {
+        characterHealth[currentCharacter].value = value;
+        UIHealth.value = value;
     }
 
     public void SetSkillSprite(Sprite attack_Image, Sprite skill_Image, Sprite burst_Image, Sprite burst_Full_Image)

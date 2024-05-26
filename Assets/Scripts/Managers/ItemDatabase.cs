@@ -84,7 +84,7 @@ public class ItemDatabase : Singleton<ItemDatabase>
         {
             itemSpriteDictionary.Add(i, sprites[index++]);
         }
-        for (int i = 1001; i <= 1009; i++)
+        for (int i = 1001; i <= 1011; i++)
         {
             itemSpriteDictionary.Add(i, sprites[index++]);
         }

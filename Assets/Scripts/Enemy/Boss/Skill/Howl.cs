@@ -30,8 +30,8 @@ public class Howl : BossSkill
         if(other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             Hit = true;
-            //Character player = other.gameObject.GetComponentInChildren<Character>();
-            //StartCoroutine(DotDamage(player));
+            Character player = other.gameObject.GetComponentInChildren<Character>();
+            StartCoroutine(DotDamage(player));
         }
     }
 
