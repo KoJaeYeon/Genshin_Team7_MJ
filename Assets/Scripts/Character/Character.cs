@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-
 
 public abstract class Character : MonoBehaviour
 {
-    //public event Action<Character> OnCharacterDied;
-
     protected PlayerInputHandler _input;
     protected Animator _animator;
 
@@ -19,9 +14,6 @@ public abstract class Character : MonoBehaviour
 
     protected bool isActive = false;
     protected bool hasAnimator;
-
-    public float detectionRange = 10.0f;
-    public float detectionAngle = 45.0f;
 
     protected float skillCooldown = 10.0f;
     protected float skillDuration = 5.0f;
@@ -214,47 +206,6 @@ public abstract class Character : MonoBehaviour
     public abstract void Attack();
     public abstract void UseElementalSkill();
     public abstract void UseElementalBurst();
-
-    protected Transform FindNearestEnemyInRange()
-    {
-        Collider[] hits = Physics.OverlapSphere(transform.position, detectionRange);
-        Transform nearestEnemy = null;
-        float nearestDistance = detectionRange;
-
-
-        foreach (Collider hit in hits)
-        {
-            if (hit.CompareTag("Enemy"))
-            {
-                Vector3 directionToEnemy = (hit.transform.position - transform.position).normalized;
-                float angleToEnemy = Vector3.Angle(transform.forward, directionToEnemy);
-
-                if (angleToEnemy < detectionAngle / 2)
-                {
-                    float distanceToEnemy = Vector3.Distance(transform.position, hit.transform.position);
-                    if (distanceToEnemy < nearestDistance)
-                    {
-                        nearestDistance = distanceToEnemy;
-                        nearestEnemy = hit.transform;
-                    }
-                }
-            }
-        }
-
-        return nearestEnemy;
-    }
-
-    protected void AttackNearestEnemyInRange()
-    {
-        Transform nearestEnemy = FindNearestEnemyInRange();
-
-        if (nearestEnemy != null)
-        {
-            AttackTarget(nearestEnemy);
-        }
-        PerformAttackAnimation(); 
-    }
-
     protected void PerformAttackAnimation()
     {
         if (hasAnimator)
@@ -266,20 +217,5 @@ public abstract class Character : MonoBehaviour
         {
             _animator.SetBool("Attacking", false);
         }
-    }
-    protected virtual void AttackTarget(Transform target = null) { }
-
-    protected virtual void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
-
-        Vector3 forward = transform.forward * detectionRange;
-        Vector3 left = Quaternion.Euler(0, -detectionAngle / 2, 0) * forward;
-        Vector3 right = Quaternion.Euler(0, detectionAngle / 2, 0) * forward;
-
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, transform.position + left);
-        Gizmos.DrawLine(transform.position, transform.position + right);
     }
 }
