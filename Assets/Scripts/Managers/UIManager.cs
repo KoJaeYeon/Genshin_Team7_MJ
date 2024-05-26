@@ -201,10 +201,12 @@ public class UIManager : Singleton<UIManager>
 
     public void StartGliding()
     {
-
+        skillButton.SetActive(false );
+        flyButton.SetActive(true );
     }
     public void StopGliding()
     {
-
+        flyButton.SetActive(false);
+        skillButton.SetActive(true);
     }
 }
