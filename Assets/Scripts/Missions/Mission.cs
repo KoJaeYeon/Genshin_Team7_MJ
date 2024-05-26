@@ -89,8 +89,8 @@ public class Mission : MonoBehaviour, IInteractable
             transform.GetChild(2).gameObject.SetActive(false);
             animator.Play("Succes");
             chestParticle.SetActive(true);
-            SoundManager.Instance.effectSource2.clip = SoundManager.Instance.effectDictionary["Spawn"];
-            SoundManager.Instance.effectSource2.Play();
+            SoundManager.Instance.effectSource.clip = SoundManager.Instance.effectDictionary["Spawn"];
+            SoundManager.Instance.effectSource.Play();
         }
     }
 

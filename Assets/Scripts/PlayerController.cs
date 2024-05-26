@@ -570,7 +570,8 @@ public class PlayerController : MonoBehaviour
             _animator.SetBool("Glide", true);
             _animator.SetBool(_animIDJump, false);
             _wingAnimator.SetTrigger("Glide");
-
+            SoundManager.Instance.effectSource2.clip = SoundManager.Instance.effectDictionary["Fly"];
+            SoundManager.Instance.effectSource2.Play();
         }
     }
 
@@ -581,8 +582,6 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetBool("Glide", false);
             _animator.SetBool(_animIDJump, true);
-            SoundManager.Instance.effectSource2.clip = SoundManager.Instance.effectDictionary["Fly"];
-            SoundManager.Instance.effectSource2.Play();
         }
     }
 
