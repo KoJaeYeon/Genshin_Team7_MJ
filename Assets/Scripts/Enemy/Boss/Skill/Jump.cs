@@ -32,7 +32,8 @@ public class Jump : BossSkill
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             Debug.Log("Jump");
-            Debug.Log(jump_Atk + "ÇÇÇØ");
+            //Character player = other.gameObject.GetComponentInChildren<Character>();
+            //player.TakeDamage(jump_Atk);
         }
     }
 }

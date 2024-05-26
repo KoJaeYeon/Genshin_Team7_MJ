@@ -10,6 +10,7 @@ public class RenderManager : MonoBehaviour
     MeshRenderer[] meshRenderers;
     public Transform barTrans_Parent;
     Transform barTrans;
+    public PropertyText_Property propertyText;
     public PropertyText_Weapon weaponPropertyText;
     public PropertyText_Relic relicPropertyText;
     public ParticleSystem particle;
@@ -33,11 +34,26 @@ public class RenderManager : MonoBehaviour
         barTrans = barTrans_Parent.GetChild(4);
     }
 
+    public void ChangeCharacter(bool right)
+    {
+        if (right)
+        {
+            int index = (int)EquipManager.Instance.character;
+            ChangeCharacter((index + 1)%4);
+        }
+        else
+        {
+            int index = (int)EquipManager.Instance.character;
+            ChangeCharacter((index + 3) % 4);
+        }
+    }
+
     public void ChangeCharacter(int index) // 캐릭터 패널에서 캐릭터 누를때 캐릭터 변경 
     {
         EquipManager.Instance.character = (CharacterItemSprite)index; //소환되어야 하는 캐릭터 설정
         try
         {
+            propertyText.UpdatePanel(); // 정보 업데이트
             weaponPropertyText.UpdatePanel(); // 장비창 패널 해당 캐릭터로 업데이트
             relicPropertyText.UpdatePanel(); // 성유물창 업데이트
         }
@@ -59,18 +75,14 @@ public class RenderManager : MonoBehaviour
                     //파티클
                     var colorOverLifetime = particle.colorOverLifetime;
                     ParticleSystem.MinMaxGradient gradient = new ParticleSystem.MinMaxGradient(materials[i].color);
-                    colorOverLifetime.color = gradient;
-            
+                    colorOverLifetime.color = gradient;            
 
             }
             else // 아니면 캐릭터 비활성화
             {
                 Manekins[i].gameObject.SetActive(false);
             }
-        }
-        
-    }
-
-    
+        }        
+    }    
 
 }

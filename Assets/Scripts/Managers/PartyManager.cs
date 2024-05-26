@@ -15,6 +15,11 @@ public class PartyManager : MonoBehaviour
     public GameObject playerParent;
     public GameObject particle;
 
+    public Sprite[] characterAttackSprite;
+    public Sprite[] characterSkillSprite;
+    public Sprite[] characterBurstSprite;
+    public Sprite[] characterBurstFullSprite;
+
 
     private void Awake()
     {
@@ -38,16 +43,28 @@ public class PartyManager : MonoBehaviour
             GameObject characterObj = Instantiate(characterPrefabs[i], playerParent.transform);
             Character character = characterObj.GetComponent<Character>();
             activeCharacters[i] = character;
+            EquipManager.Instance.playerCharacter[i] = character;
             activeCharacters[i].gameObject.SetActive(i == currentCharacterIndex);
 
             character.InitializeCharacterStats();
-            character.InitializeCharacter();
+            character.InitializeCharacter();            
 
             if (spawnPosition != null)
             {
                 activeCharacters[0].transform.position = spawnPosition.position;
             }
         }
+        SetSkiilSprite(currentCharacterIndex);
+
+        currentAnimator = activeCharacters[currentCharacterIndex].GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        if (Keyboard.current.digit1Key.isPressed && currentCharacterIndex != 0) SwitchCharacter(0);
+        if (Keyboard.current.digit2Key.isPressed && currentCharacterIndex != 1) SwitchCharacter(1);
+        if (Keyboard.current.digit3Key.isPressed && currentCharacterIndex != 2) SwitchCharacter(2);
+        if (Keyboard.current.digit4Key.isPressed && currentCharacterIndex != 3) SwitchCharacter(3);
     }
 
     public void SwitchCharacter(int characterIndex)
@@ -70,8 +87,14 @@ public class PartyManager : MonoBehaviour
             UpdateCharacterController(activeCharacters[currentCharacterIndex].characterData);
             UpdateSkillUI();
 
-            //Ä³¸¯ÅÍ º¯°æÇÒ ¶§ ÀÌÆåÆ® »ý¼º
-            StartCoroutine(PlaySwtichEffect());
+            //Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+            if (particle != null)
+            {
+                particle.SetActive(false);
+                particle.SetActive(true);
+            }
+
+            SetSkiilSprite(currentCharacterIndex);
         }
         else
         {
@@ -79,6 +102,7 @@ public class PartyManager : MonoBehaviour
         }
     }
 
+    public void SetSkiilSprite(int characterIndex)
     private void HandleCharacterSwitchInput()
     {
         if (Keyboard.current.digit1Key.isPressed && currentCharacterIndex != 0) SwitchCharacter(0);
@@ -137,16 +161,9 @@ public class PartyManager : MonoBehaviour
 
     IEnumerator PlaySwtichEffect()
     {
-        if (particle == null)
-        {
-            Debug.Log("»Ð ÇÏ´Â ÆÄÆ¼Å¬ ¾øÀ½");
-            yield break;
-        }
-        particle.SetActive(false);
-        particle.SetActive(true);
-        yield return new WaitForSeconds(1);
-        particle.SetActive(false);
+        UIManager.Instance.SetSkillSprite(characterAttackSprite[characterIndex], characterSkillSprite[characterIndex], characterBurstSprite[characterIndex], characterBurstFullSprite[characterIndex]);
     }
+
 
     public Character GetCurrentCharacter()
     {

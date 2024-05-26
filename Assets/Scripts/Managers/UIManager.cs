@@ -21,6 +21,7 @@ public class UIManager : Singleton<UIManager>
     float UIscaleY;
     public GameObject mainPanel;
     IActivePanel mainPanel_IActivePanel;
+    public Transform minimapPointer;
 
     public Transform UI_scale;
 
@@ -144,14 +145,21 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
+    public void SetSkillSprite(Sprite attack_Image, Sprite skill_Image, Sprite burst_Image, Sprite burst_Full_Image)
+    {
+        skillUI.SetSkillImage(attack_Image, skill_Image, burst_Image, burst_Full_Image);
+    }
     public void SkiilCooldown(float point)
     {
         skillUI.Elemental_Cooldown(point);
+
     }
+
     public void BurstCooldown(float point)
     {
         skillUI.Elemental_Burst_Cooldown(point);
     }
+
     public void BurstGage(float point)
     {
         skillUI.ElementalBurst_Gage(point);

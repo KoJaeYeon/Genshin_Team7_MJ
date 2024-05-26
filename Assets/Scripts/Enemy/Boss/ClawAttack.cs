@@ -11,9 +11,14 @@ public class ClawAttack : IPattern
     }
 
     private Wolf m_Wolf;
-    public ClawAttack(Wolf wolf)
+    private SphereCollider left_Coll;
+    private SphereCollider right_Coll;
+
+    public ClawAttack(Wolf wolf) 
     {
         m_Wolf = wolf;
+        left_Coll = m_Wolf.left_Hand.GetComponent<SphereCollider>();    
+        right_Coll = m_Wolf.right_Hand.GetComponent<SphereCollider>();
     }
 
     public void BossAttack()
@@ -42,10 +47,12 @@ public class ClawAttack : IPattern
                 if(playerPosition > 0)
                 {
                     m_Wolf.BossAnimator.SetTrigger("ClawL");
+                    m_Wolf.StartCoroutine(LeftColl());
                 }
                 else if(playerPosition < 0)
                 {
                     m_Wolf.BossAnimator.SetTrigger("ClawR");
+                    m_Wolf.StartCoroutine(RightColl());
                 }
                 else
                 {
@@ -56,10 +63,12 @@ public class ClawAttack : IPattern
                 if (playerPosition > 0)
                 {
                     m_Wolf.BossAnimator.SetTrigger("ClawL_Drift");
+                    m_Wolf.StartCoroutine(LeftColl());
                 }
                 else if (playerPosition < 0)
                 {
                     m_Wolf.BossAnimator.SetTrigger("ClawR_Drift");
+                    m_Wolf.StartCoroutine(RightColl());
                 }
                 else
                 {
@@ -68,6 +77,20 @@ public class ClawAttack : IPattern
                 break;
         }
 
+    }
+
+    private IEnumerator RightColl()
+    {
+        right_Coll.enabled = true;
+        yield return new WaitForSeconds(1.5f);
+        right_Coll.enabled = false;
+    }
+
+    private IEnumerator LeftColl()
+    {
+        left_Coll.enabled = true;
+        yield return new WaitForSeconds(1.5f);
+        left_Coll.enabled = false;
     }
     
 }

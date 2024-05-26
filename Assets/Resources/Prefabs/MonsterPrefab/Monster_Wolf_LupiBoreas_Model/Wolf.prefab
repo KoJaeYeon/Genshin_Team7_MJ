@@ -2540,6 +2540,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1325812068443691576}
+  - component: {fileID: 6217446351546622901}
   m_Layer: 0
   m_Name: Bone_R_Hand
   m_TagString: Untagged
@@ -2564,6 +2565,19 @@ Transform:
   m_Father: {fileID: 5501157138594924186}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 28.531816, y: -7.48205, z: 12.508613}
+--- !u!135 &6217446351546622901
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2134086055553465031}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: -0.72, y: -0.21, z: 0}
 --- !u!1 &2246709509513603671
 GameObject:
   m_ObjectHideFlags: 0
@@ -3745,6 +3759,8 @@ Transform:
   - {fileID: 935249039}
   - {fileID: 1626877807}
   - {fileID: 536267748}
+  - {fileID: 6241038971782426381}
+  - {fileID: 651626472316925640}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3781,6 +3797,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10428ad5a7584442a5662ca552e16f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  left_Hand: {fileID: 6454348905801976665}
+  right_Hand: {fileID: 2134086055553465031}
+  ChargeCollider: {fileID: 6274542349107359075}
 --- !u!195 &616660749
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3841,12 +3861,14 @@ MonoBehaviour:
     type: 3}
   Tail_Circle: {fileID: 1216020416843760, guid: 76cee92b037abb3498bf08bf8c7d0d59,
     type: 3}
+  Ice_Rain: {fileID: 1658525510040468, guid: e3e4de69343c17c49b77c92ff3ed4b6b, type: 3}
   WavePoint: {fileID: 644139962}
   RingPoint: {fileID: 1459008661}
   SpikePoint: {fileID: 935249039}
   CrystalPoint: {fileID: 1275874270}
   MagicPoint: {fileID: 1626877807}
   TailPoint: {fileID: 536267748}
+  IcePoint: {fileID: 651626472316925640}
 --- !u!1 &3815933269178443590
 GameObject:
   m_ObjectHideFlags: 0
@@ -5917,6 +5939,52 @@ Transform:
   m_Father: {fileID: 1325812068443691576}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6274542349107359075
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6241038971782426381}
+  - component: {fileID: 1482898453134245069}
+  m_Layer: 0
+  m_Name: ChargeCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6241038971782426381
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6274542349107359075}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4555394827687054183}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1482898453134245069
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6274542349107359075}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  m_Radius: 1.64
+  m_Height: 8.04
+  m_Direction: 2
+  m_Center: {x: 0, y: 2.15, z: 1.04}
 --- !u!1 &6276002855966629935
 GameObject:
   m_ObjectHideFlags: 0
@@ -6020,6 +6088,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5511976944169857947}
+  - component: {fileID: 2437556013673562742}
   m_Layer: 0
   m_Name: Bone_L_Hand
   m_TagString: Untagged
@@ -6043,6 +6112,19 @@ Transform:
   m_Father: {fileID: 824673592972077123}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -59.0204, y: 15.944449, z: -4.2449284}
+--- !u!135 &2437556013673562742
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6454348905801976665}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: -0.72, y: -0.21, z: 0}
 --- !u!1 &6515638924101237445
 GameObject:
   m_ObjectHideFlags: 0
@@ -8064,6 +8146,37 @@ Transform:
   m_Father: {fileID: 9058290983024888689}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: -0.18561417, y: 0.013680309, z: -35.401253}
+--- !u!1 &8355423088127463870
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 651626472316925640}
+  m_Layer: 0
+  m_Name: IcePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &651626472316925640
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8355423088127463870}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10.85, y: 24.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4555394827687054183}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8366208358529462874
 GameObject:
   m_ObjectHideFlags: 0
