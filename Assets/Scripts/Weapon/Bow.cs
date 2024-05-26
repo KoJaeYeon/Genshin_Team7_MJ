@@ -4,9 +4,16 @@ public class Bow : Weapon
 {
     public GameObject arrowPrefab;
     public Transform arrowSpawnPoint;
-    public float arrowSpeed = 5f;
+    public float arrowSpeed = 1f;
 
     public override void UseWeapon()
+    {
+        Shoot();
+        SoundManager.Instance.PlayEffect("Yoimiya_Attack");
+        
+    }
+
+    private void Shoot()
     {
         if (arrowPrefab != null && arrowSpawnPoint != null)
         {
