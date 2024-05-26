@@ -26831,6 +26831,57 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 948471808}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &955540200 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5312937191251141902, guid: 0b155813078bb66438a3fa15de1e8e86,
+    type: 3}
+  m_PrefabInstance: {fileID: 5312937191538567933}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &955540205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955540200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1292741631}
+          m_TargetAssemblyTypeName: ButtonPanel, Assembly-CSharp
+          m_MethodName: Aim
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1292741631}
+          m_TargetAssemblyTypeName: ButtonPanel, Assembly-CSharp
+          m_MethodName: Aim
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &956249538 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3949286892360230120, guid: 271095b80693a634283cf6b973d130a6,
@@ -31269,6 +31320,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5312937191538567933}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1292741631 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3880174488684761409, guid: 0b155813078bb66438a3fa15de1e8e86,
+    type: 3}
+  m_PrefabInstance: {fileID: 5312937191538567933}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43bbce4e65959614aa8894c0f43741fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1295543605
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43425,7 +43488,48 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 5312937191251141896, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312937191251141896, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312937191251141896, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1292741631}
+    - target: {fileID: 5312937191251141896, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312937191251141896, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Aim
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312937191251141896, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ButtonPanel, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312937191251141896, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312937191251141896, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5312937191251141896, guid: 0b155813078bb66438a3fa15de1e8e86, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0b155813078bb66438a3fa15de1e8e86, type: 3}
 --- !u!1001 &7241575850242465358
 PrefabInstance:
