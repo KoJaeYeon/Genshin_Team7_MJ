@@ -76,7 +76,7 @@ public class UIManager : Singleton<UIManager>
         {
             QuitPanel();
         }
-        else if(Input.GetKeyDown(KeyCode.C) )
+        else if(Input.GetKeyDown(KeyCode.C) && activePanel.Equals(mainPanel_IActivePanel))
         {
             characterPanel_IActivePanel.PanelActive(activePanel);
         }

@@ -15,7 +15,7 @@ public class Howl : BossSkill
 
     public override void SetAtk(float atk)
     {
-        howl_Atk = GetSkillDamage(Skill.Howl)+ atk;
+        howl_Atk = GetSkillDamage(Skill.Howl) * atk;
     }
 
     public override IEnumerator DelayDamage()
