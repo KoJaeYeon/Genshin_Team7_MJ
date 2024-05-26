@@ -23,6 +23,6 @@ public class DamageText : Singleton<DamageText>
     IEnumerator Die()
     {
         yield return new WaitForSeconds(5);
-        gameObject.SetActive(false);
+        transform.parent.gameObject.SetActive(false);
     }
 }

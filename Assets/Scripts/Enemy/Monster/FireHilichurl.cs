@@ -15,7 +15,7 @@ public class FireHilichurl : Enemy,IColor
         state.AddState(EnemyState.TraceAttack, new FireHilichurlTraceAttack(this));
         state.AddState(EnemyState.TraceMove, new  FireHilichurlTraceMove(this));
         //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
-        enemyData = new EnemyData(200f, 20f, 3f, 0.1f, 180, Element.Fire);
+        enemyData = new EnemyData(200f, 200f, 3f, 0.1f, 180, Element.Fire);
         EnemyHealthDic.Add(this, enemyData.Health);
 
         HpSlider.maxValue = enemyData.Health;

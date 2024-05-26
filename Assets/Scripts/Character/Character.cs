@@ -72,6 +72,7 @@ public abstract class Character : MonoBehaviour
         if (_input.attack)
         {
             Attack();
+            _input.attack = false;
         }
         if (_input.skill && skillCooldownTimer <= 0)
         {
@@ -175,6 +176,7 @@ public abstract class Character : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        UIManager.Instance.Health(currentHealth / maxHealth);
 
         if (hasAnimator)
         {

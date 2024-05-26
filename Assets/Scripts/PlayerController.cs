@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Threading;
+using Unity.Mathematics;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -102,6 +103,7 @@ public class PlayerController : MonoBehaviour
     private bool rotateOnMove = true;
 
     public CharacterData characterData;
+    Coroutine aimCoroutine;
 
     private void Awake()
     {
@@ -207,11 +209,15 @@ public class PlayerController : MonoBehaviour
 
     private void CliffCheck()
     {
-        Vector3 spherePosiiton = new Vector3(transform.position.x, transform.position.y + CliffCheckOffsetY,
-            transform.position.z + CliffCheckOffsetZ);
+        Vector3 forwardDirection = transform.forward;
+        Vector3 spherePosition = new Vector3(
+            transform.position.x + forwardDirection.x * CliffCheckOffsetZ,
+            transform.position.y + CliffCheckOffsetY,
+            transform.position.z + forwardDirection.z * CliffCheckOffsetZ);
 
-        Cliff = Physics.CheckSphere(spherePosiiton, CliffCheckRadius, CliffLayers,
+        Cliff = Physics.CheckSphere(spherePosition, CliffCheckRadius, CliffLayers,
             QueryTriggerInteraction.Ignore);
+
 
         if (_hasAnimator)
         {
@@ -220,7 +226,6 @@ public class PlayerController : MonoBehaviour
             if (Cliff)
             {
                 Grounded = false;
-                transform.rotation = Quaternion.identity;
                 _animator.SetBool("Climb", true);
                 _animator.SetBool(_animIDGrounded, false);
                 _animator.SetBool(_animIDFreeFall, false);
@@ -230,6 +235,18 @@ public class PlayerController : MonoBehaviour
         if(!Cliff && _isClimbing)
         {
             StartClimbUpAnimation();
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (transform != null)
+        {
+            Vector3 forwardDirection = transform.forward;
+            Vector3 spherePosition = transform.position + forwardDirection * CliffCheckOffsetZ + Vector3.up * CliffCheckOffsetY;
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(spherePosition, CliffCheckRadius);
         }
     }
 
@@ -296,9 +313,10 @@ public class PlayerController : MonoBehaviour
     private void EnterAimMode()
     {
         _animator.SetBool("Attaking", false);
-        virtualCamera.m_Lens.FieldOfView = aimFOV;
-        virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>().ShoulderOffset = aimFollowOffset;
 
+        if(aimCoroutine != null) { StopCoroutine(aimCoroutine); }
+        aimCoroutine = StartCoroutine(CameraAimStart());
+        virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>().ShoulderOffset = aimFollowOffset;
         Cursor.lockState = CursorLockMode.Locked;
 
         UIManager.Instance.SetCrosshairActive(true);
@@ -307,12 +325,33 @@ public class PlayerController : MonoBehaviour
     private void ExitAimMode()
     {
         _animator.SetBool("Attaking", false);
-        virtualCamera.m_Lens.FieldOfView = maxFOV;
+        if (aimCoroutine != null) { StopCoroutine(aimCoroutine); }
+        aimCoroutine = StartCoroutine(CameraAimExit());
         virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>().ShoulderOffset = normalFollowOffset;
 
         Cursor.lockState = CursorLockMode.None;
 
         UIManager.Instance.SetCrosshairActive(false);
+    }
+
+    IEnumerator CameraAimStart()
+    {
+        while(virtualCamera.m_Lens.FieldOfView > aimFOV + 1)
+        {
+            virtualCamera.m_Lens.FieldOfView = math.lerp(virtualCamera.m_Lens.FieldOfView, aimFOV, Time.deltaTime);
+            yield return null;
+        }
+        yield break;
+    }
+
+    IEnumerator CameraAimExit()
+    {
+        while (virtualCamera.m_Lens.FieldOfView < maxFOV - 1)
+        {
+            virtualCamera.m_Lens.FieldOfView = math.lerp(virtualCamera.m_Lens.FieldOfView, maxFOV, Time.deltaTime);
+            yield return null;
+        }
+        yield break;
     }
 
     private void Move()
@@ -459,7 +498,7 @@ public class PlayerController : MonoBehaviour
             if (_input.jump && _jumpTimeoutDelta <= 0.0f)
             {
                 _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-
+                _input.jump = false;
                 if (_hasAnimator)
                 {
                     _animator.SetBool(_animIDJump, true);
@@ -484,6 +523,7 @@ public class PlayerController : MonoBehaviour
 
             if(_input.jump && (_verticalVelocity < 0.0f || _input.windfield))
             {
+                _input.jump = false;
                 if (_isGliding)
                     StopGliding();
                 else
