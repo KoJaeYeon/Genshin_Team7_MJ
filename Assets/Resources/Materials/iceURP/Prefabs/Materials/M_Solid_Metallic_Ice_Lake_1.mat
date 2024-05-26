@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_Solid_Metallic_Ice_Lake_1
-  m_Shader: {fileID: 4800000, guid: 44073f86762bc8e4c981c3e0e2747023, type: 3}
+  m_Shader: {fileID: 4800000, guid: c3bfc1707c059aa48af1c48277f03795, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 1
@@ -26,11 +26,51 @@ Material:
         m_Texture: {fileID: 2800000, guid: 0da9bf247a1b6974eaf1006f2bed489d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseNormalMap:
         m_Texture: {fileID: 2800000, guid: a4697849e1d85f34581801c9d3abdf43, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CoverBaseColorMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CoverMaskA:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CoverMaskMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CoverNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DetailMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -58,6 +98,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: 3ec53193c224107479d2265fe4ffb8c9, type: 3}
         m_Scale: {x: 2, y: 2}
         m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Noise:
         m_Texture: {fileID: 2800000, guid: d6664ac72af3d5d47bee75cf2acd1ba1, type: 3}
         m_Scale: {x: 0.3, y: 0.3}
@@ -70,8 +118,20 @@ Material:
         m_Texture: {fileID: 2800000, guid: fd8b85b15dfe0ad4cbbc5613a12722c6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ParalaxMap:
         m_Texture: {fileID: 2800000, guid: 0da9bf247a1b6974eaf1006f2bed489d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
@@ -120,6 +180,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 0
@@ -137,14 +198,38 @@ Material:
     - _BaseUsePlanarUV: 0
     - _Blend: 0
     - _BlendMode: 0
+    - _BumpScale: 1
     - _CleanColorPower: 0.58
     - _CleanFalloffMultiply: 1.62
     - _CleanFalloffPower: 0.34
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
+    - _CoverAORemapMax: 1
+    - _CoverAORemapMin: 0
+    - _CoverHardness: 5
+    - _CoverHeightMapMax: 1
+    - _CoverHeightMapMin: 0
+    - _CoverHeightMapOffset: 0
+    - _CoverMaskPower: 1
+    - _CoverMetallic: 1
+    - _CoverNormalScale: 1
+    - _CoverSmoothnessRemapMax: 1
+    - _CoverSmoothnessRemapMin: 0
+    - _CoverUsePlanarUV: 1
+    - _Cover_Amount: 2
+    - _Cover_Amount_Grow_Speed: 3
+    - _Cover_Max_Angle: 35
+    - _Cover_Min_Height: -10000
+    - _Cover_Min_Height_Blending: 1
+    - _Cull: 2
     - _CullMode: 2
     - _CullModeForward: 2
+    - _Cutoff: 0.5
     - _Depth: 0.98
     - _DepthFalloff: -13
+    - _DetailAlbedoMapScale: 1
     - _DetailAlbedoScale: 0
+    - _DetailNormalMapScale: 1
     - _DetailNormalScale: 0
     - _DetailSmoothnessScale: 0
     - _DiffusionProfile: 0
@@ -153,6 +238,7 @@ Material:
     - _DoubleSidedEnable: 0
     - _DoubleSidedNormalMode: 1
     - _DstBlend: 0
+    - _EnvironmentReflections: 1
     - _Float0: 0.0192
     - _Float1: 2
     - _Float2: 0
@@ -171,6 +257,8 @@ Material:
     - _FogColorHardness: 1.02
     - _FogDistance: 30
     - _FogHardness: 2.44
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _IceAmountOpacity: 1
     - _IceCrackSmoothness: 0.54
@@ -191,14 +279,19 @@ Material:
     - _Ice_Thickness: 9
     - _MaskClipValue: 0.5
     - _MetalicPower: 0.3
+    - _Metallic: 0
+    - _Mode: 0
     - _NoiseBlend: 0.244
     - _NoiseNormalScale: 0.42
     - _NoisePower: 1
     - _NormalScale: 0.7
+    - _OcclusionStrength: 1
     - _ParalaxOffset: 0
+    - _Parallax: 0.02
     - _ParallaxFalloff: 0.7
     - _QueueControl: 1
     - _QueueOffset: 0
+    - _ReceiveShadows: 1
     - _ReceivesSSR: 1
     - _RefractionPower: 0.155
     - _RenderQueueType: 1
@@ -211,7 +304,8 @@ Material:
     - _ShadowSpecularPower: 0
     - _ShalowFalloffMultiply: 1.43
     - _ShalowFalloffPower: 3.3
-    - _Smoothness: 0.9
+    - _Smoothness: 0.5
+    - _SmoothnessTextureChannel: 0
     - _Smothness: 0.869
     - _SpecPower: 1
     - _Specular: 0.1
@@ -228,6 +322,7 @@ Material:
     - _StencilWriteMaskDistortionVec: 64
     - _StencilWriteMaskGBuffer: 51
     - _StencilWriteMaskMV: 176
+    - _Surface: 0
     - _SurfaceType: 0
     - _Thickness: 0
     - _TransAmbient: 0.2
@@ -239,6 +334,8 @@ Material:
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
     - _TransparentSortPriority: 1
+    - _USEDYNAMICCOVERTSTATICMASKF: 1
+    - _UVSec: 0
     - _UseShadowThreshold: 0
     - _WaterAlphaMultiply: 0.66
     - _WaterAlphaPower: 1.39
@@ -247,6 +344,7 @@ Material:
     - _WaterSmoothness: 0.9
     - _WaterSpecular: 0.05
     - _WetSmoothness: 1
+    - _WorkflowMode: 1
     - _ZTestDepthEqualForOpaque: 3
     - _ZTestGBuffer: 4
     - _ZTestTransparent: 4
@@ -255,10 +353,13 @@ Material:
     - _iCE_dEPTH: 0.019
     m_Colors:
     - _BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseTilingOffset: {r: 1, g: 1, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 0}
     - _Color0: {r: 0.83823526, g: 0.83823526, b: 0.83823526, a: 0}
     - _Color1: {r: 0, g: 0.048731543, b: 0.22794023, a: 0}
+    - _CoverBaseColor: {r: 1, g: 1, b: 1, a: 0}
+    - _CoverTilingOffset: {r: 1, g: 1, b: 0, a: 0}
     - _DeepColor: {r: 0, g: 0, b: 0, a: 0}
     - _DetailTilingOffset: {r: 1, g: 1, b: 0, a: 0}
     - _DiffusionProfileAsset: {r: -1.845205e-10, g: 0.00000016402193, b: 1.2515078e+26,
