@@ -9,12 +9,14 @@ public class ChargeAttack : IPattern
     private float currentAngle;
     private float distance;
     private Vector3 targetPos;
+    private Vector3 MovePos;
     private CapsuleCollider charge_capsule;
     
     public ChargeAttack(Wolf wolf)
     {
         m_Wolf = wolf;
-        targetPos = m_Wolf.PlayerTransform.position;
+        targetPos = (m_Wolf.PlayerTransform.position - m_Wolf.transform.position).normalized;
+        MovePos = m_Wolf.PlayerTransform.position + targetPos * 5.0f;
         m_Wolf.BossAnimator.SetBool("isRun", true);
         charge_capsule = m_Wolf.ChargeCollider.GetComponent<CapsuleCollider>();
         charge_capsule.enabled = true;
@@ -22,7 +24,7 @@ public class ChargeAttack : IPattern
 
     public void BossAttack()
     {
-        distance = Vector3.Distance(m_Wolf.transform.position, targetPos);
+        distance = Vector3.Distance(m_Wolf.transform.position, MovePos);
 
         if (distance > 2.0f)
         {
@@ -39,7 +41,7 @@ public class ChargeAttack : IPattern
 
     private void Rotation()
     {
-        Vector3 Pos = targetPos - m_Wolf.transform.position;
+        Vector3 Pos = MovePos - m_Wolf.transform.position;
 
         float angle = Mathf.Atan2(Pos.x, Pos.z) * Mathf.Rad2Deg;
 

@@ -53,6 +53,17 @@ public class WolfEffectScript : MonoBehaviour
         EffectDic = new Dictionary<Effect, GameObject>();
         EffectTrans = new Dictionary<Effect, Transform>();
 
+        InstantiateFrost_Wave();
+        InstantiateFrost_Ring();
+        InstantiateFrost_Spike();
+        InstantiateFrost_Crystal();
+        InstantiateMagic();
+        InstantiateTail_Circle();
+        InstantiateIce_Rain();
+    }
+
+    private void InstantiateFrost_Wave()
+    {
         GameObject frost_Wave = Instantiate(Frost_Wave, WavePoint);
         stampSkill = frost_Wave.GetComponent<Stamp>();
         frost_Wave.SetActive(false);
@@ -62,40 +73,58 @@ public class WolfEffectScript : MonoBehaviour
         Vector3 parentforward = GetEffectTransform(Effect.Frost_Wave).forward;
         Quaternion rotation = Quaternion.FromToRotation(Vector3.right, parentforward);
         frost_Wave.transform.rotation = rotation;
+    }
 
+    private void InstantiateFrost_Ring()
+    {
         GameObject frost_Ring = Instantiate(Frost_Ring, RingPoint);
         jumpSkill = frost_Ring.GetComponent<Jump>();
         frost_Ring.SetActive(false);
-        EffectDic.Add(Effect.Frost_Ring , frost_Ring);
+        EffectDic.Add(Effect.Frost_Ring, frost_Ring);
         EffectTrans.Add(Effect.Frost_Ring, RingPoint);
         frost_Ring.transform.localPosition = Vector3.zero;
+    }
 
+    private void InstantiateFrost_Spike()
+    {
         GameObject frost_Spike = Instantiate(Frost_Spike, SpikePoint);
         frost_Spike.SetActive(false);
-        EffectDic.Add(Effect.Frost_Spike , frost_Spike);
+        EffectDic.Add(Effect.Frost_Spike, frost_Spike);
         EffectTrans.Add(Effect.Frost_Spike, SpikePoint);
         frost_Spike.transform.localPosition = Vector3.zero;
+    }
 
+    private void InstantiateFrost_Crystal()
+    {
         GameObject frost_Crystal = Instantiate(Frost_Crystal, CrystalPoint);
         frost_Crystal.SetActive(false);
-        EffectDic.Add(Effect.Frost_Crystal , frost_Crystal);
+        EffectDic.Add(Effect.Frost_Crystal, frost_Crystal);
         EffectTrans.Add(Effect.Frost_Crystal, CrystalPoint);
         frost_Crystal.transform.localPosition = Vector3.zero;
+    }
 
+    private void InstantiateMagic()
+    {
         GameObject Magic = Instantiate(Magic_Circle, MagicPoint);
         howlSkill = Magic.GetComponent<Howl>();
         Magic.SetActive(false);
         EffectDic.Add(Effect.Magic, Magic);
         EffectTrans.Add(Effect.Magic, MagicPoint);
         Magic.transform.localPosition = Vector3.zero;
+    }
 
+    private void InstantiateTail_Circle()
+    {
         GameObject tail_circle = Instantiate(Tail_Circle, TailPoint);
         driftSkill = tail_circle.GetComponent<Drift>();
         tail_circle.SetActive(false);
         EffectDic.Add(Effect.Tail_Circle, tail_circle);
         EffectTrans.Add(Effect.Tail_Circle, TailPoint);
         tail_circle.transform.localPosition = Vector3.zero;
+    }
 
+    private void InstantiateIce_Rain()
+    {
         GameObject Ice = Instantiate(Ice_Rain, IcePoint);
         Ice.SetActive(false);
         EffectDic.Add(Effect.Rain, Ice);
@@ -196,7 +225,7 @@ public class WolfEffectScript : MonoBehaviour
 
     IEnumerator IceRainEnable(GameObject prefab)
     {
-        yield return new WaitForSeconds(4.0f);
+        yield return new WaitForSeconds(5.0f);
         prefab.SetActive(false);
         prefab.transform.parent = GetEffectTransform(Effect.Rain);
         prefab.transform.localPosition = Vector3.zero;
@@ -250,15 +279,6 @@ public class WolfEffectScript : MonoBehaviour
     }
     IEnumerator RingEnable(GameObject prefab)
     {
-        //ParticleSystem particleSystem = prefab.GetComponentInChildren<ParticleSystem>();
-        //while (particleSystem.isPlaying)
-        //{
-        //    yield return new WaitForSeconds(0.5f);
-        //}
-        //prefab.transform.parent = GetEffectTransform(Effect.Frost_Ring);
-        //prefab.transform.localPosition = Vector3.zero;
-        //yield break;
-
         yield return new WaitForSeconds(3.5f);
         prefab.SetActive(false);
         prefab.transform.parent = GetEffectTransform(Effect.Frost_Ring);

@@ -60,5 +60,10 @@ public class ElementObject : MonoBehaviour
         ObjectRigidbody.velocity = Vector3.zero;
         ObjectRigidbody.useGravity = false;
     }
-
+    
+    public IEnumerator DisableObject()
+    {
+        yield return new WaitForSeconds(6.0f);
+        gameObject.SetActive(false);
+    }
 }
