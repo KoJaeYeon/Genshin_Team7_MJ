@@ -208,7 +208,7 @@ public class PoolManager : Singleton<PoolManager>
 
         switch (element)
         {
-            case Element.Fire : 
+            case Element.Fire :
                 textColor.color = Color.red;
                 break;
             case Element.Water:
@@ -227,7 +227,7 @@ public class PoolManager : Singleton<PoolManager>
 
         Debug.Log(element.ToString());
 
-        text.GetComponent<DamageText>().SetCameraTrans(playerCameraTrans);//카메라 바라보기 , 5초뒤 꺼짐
+        text.GetComponentInChildren<DamageText>().SetCameraTrans(playerCameraTrans);//카메라 바라보기 , 5초뒤 꺼짐
        
         
     }
