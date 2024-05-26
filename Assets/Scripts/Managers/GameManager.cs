@@ -1,8 +1,6 @@
-using Cinemachine;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
     
 }
