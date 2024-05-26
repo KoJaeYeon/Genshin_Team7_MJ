@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ClaymoreCharacter : Character
 {
@@ -6,9 +7,14 @@ public class ClaymoreCharacter : Character
     {
         characterType = CharacterType.Melee;
         base.Start();
-        foreach(var weapon in weapons)
+        InitializeClaymore();
+    }
+
+    private void InitializeClaymore()
+    {
+        foreach (var weapon in weapons)
         {
-            if(weapon is Claymore)
+            if (weapon is Claymore)
             {
                 weapon.gameObject.SetActive(true);
                 currentWeaponIndex = System.Array.IndexOf(weapons, weapon);

@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Threading;
+using Unity.Mathematics;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -56,8 +57,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     private static float _cinemachineTargetYaw;
     private static float _cinemachineTargetPitch;
+    private float aimFOV = 20f;
     private float minFOV = 40f;
     private float maxFOV = 60f;
+    private Vector3 aimFollowOffset = new Vector3(2f, 0, 1f);
+    private Vector3 normalFollowOffset = new Vector3(1f, 0, 0);
+    public float AimVerticalSensitivity = 0.5f;
 
     //player
     private float _speed;
@@ -66,9 +71,10 @@ public class PlayerController : MonoBehaviour
     private float _rotationVelocity;
     private float _verticalVelocity;
     private float _terminalVelocity = 53.0f;
-    private bool _attackTrigger = true;
     private bool _isClimbing = false;
     public static bool _isGliding = false;
+    private bool _isAiming = false;
+    private bool _aimPressedLastFrame = false;
 
     //timeout deltatime
     private float _jumpTimeoutDelta;
@@ -97,6 +103,7 @@ public class PlayerController : MonoBehaviour
     private bool rotateOnMove = true;
 
     public CharacterData characterData;
+    Coroutine aimCoroutine;
 
     private void Awake()
     {
@@ -134,16 +141,47 @@ public class PlayerController : MonoBehaviour
     {
         _hasAnimator = TryGetComponent(out _animator);
 
-        JumpAndGravity();
-        GroundedCheck();
-        CliffCheck();
-        Move();
-        Climb();
+        if (_input.aim && !_aimPressedLastFrame)
+        {
+            _isAiming = !_isAiming;
+
+            if (_isAiming)
+            {
+                RotateCameraTowardsMouse();
+                AlignPlayerWithCamera();
+                EnterAimMode();
+            }
+            else
+            {
+                ExitAimMode();
+            }
+        }
+
+        _aimPressedLastFrame = _input.aim;
+
+        _animator.SetBool("isAiming", _isAiming);
+
+        if (_isAiming)
+        {
+            AimMove();
+            UpdateCameraRotationWhileAiming();
+        }
+        else
+        {
+            JumpAndGravity();
+            GroundedCheck();
+            CliffCheck();
+            Move();
+            Climb();
+        }
     }
 
     private void LateUpdate()
     {
-        CameraRotation();
+        if (!_isAiming)
+        {
+            CameraRotation();
+        }
     }
 
     private void AssignAnimationIDs()
@@ -171,11 +209,15 @@ public class PlayerController : MonoBehaviour
 
     private void CliffCheck()
     {
-        Vector3 spherePosiiton = new Vector3(transform.position.x, transform.position.y + CliffCheckOffsetY,
-            transform.position.z + CliffCheckOffsetZ);
+        Vector3 forwardDirection = transform.forward;
+        Vector3 spherePosition = new Vector3(
+            transform.position.x + forwardDirection.x * CliffCheckOffsetZ,
+            transform.position.y + CliffCheckOffsetY,
+            transform.position.z + forwardDirection.z * CliffCheckOffsetZ);
 
-        Cliff = Physics.CheckSphere(spherePosiiton, CliffCheckRadius, CliffLayers,
+        Cliff = Physics.CheckSphere(spherePosition, CliffCheckRadius, CliffLayers,
             QueryTriggerInteraction.Ignore);
+
 
         if (_hasAnimator)
         {
@@ -184,7 +226,6 @@ public class PlayerController : MonoBehaviour
             if (Cliff)
             {
                 Grounded = false;
-                transform.rotation = Quaternion.identity;
                 _animator.SetBool("Climb", true);
                 _animator.SetBool(_animIDGrounded, false);
                 _animator.SetBool(_animIDFreeFall, false);
@@ -197,9 +238,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        if (transform != null)
+        {
+            Vector3 forwardDirection = transform.forward;
+            Vector3 spherePosition = transform.position + forwardDirection * CliffCheckOffsetZ + Vector3.up * CliffCheckOffsetY;
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(spherePosition, CliffCheckRadius);
+        }
+    }
+
     private void CameraRotation()
     {
-        if (_animator.GetBool("Attacking")) return;
+        if (_animator.GetBool("Attacking") || _isAiming) return;
 
         if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
         {
@@ -220,9 +273,90 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void RotateCameraTowardsMouse()
+    {
+        if (_input.look.sqrMagnitude >= _threshold)
+        {
+            _cinemachineTargetYaw += _input.look.x * baseSensitivity * LookSensitivity;
+            _cinemachineTargetPitch += _input.look.y * baseSensitivity * LookSensitivity;
+        }
+        _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
+        _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+
+        CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
+            _cinemachineTargetYaw, 0.0f);
+    }
+
+    private void AlignPlayerWithCamera()
+    {
+        _targetRotation = _cinemachineTargetYaw;
+        transform.rotation = Quaternion.Euler(0.0f, _targetRotation, 0.0f);
+    }
+
+    private void UpdateCameraRotationWhileAiming()
+    {
+        Vector2 mouseDelta = _input.look;
+
+        _cinemachineTargetYaw += mouseDelta.x * baseSensitivity * LookSensitivity;
+        _cinemachineTargetPitch -= mouseDelta.y * baseSensitivity * LookSensitivity * AimVerticalSensitivity;
+
+        _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
+        _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+
+        CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
+            _cinemachineTargetYaw, 0.0f);
+
+
+        transform.rotation = Quaternion.Euler(0.0f, _cinemachineTargetYaw, 0.0f);
+    }
+
+    private void EnterAimMode()
+    {
+        _animator.SetBool("Attaking", false);
+
+        if(aimCoroutine != null) { StopCoroutine(aimCoroutine); }
+        aimCoroutine = StartCoroutine(CameraAimStart());
+        virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>().ShoulderOffset = aimFollowOffset;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        UIManager.Instance.SetCrosshairActive(true);
+    }
+
+    private void ExitAimMode()
+    {
+        _animator.SetBool("Attaking", false);
+        if (aimCoroutine != null) { StopCoroutine(aimCoroutine); }
+        aimCoroutine = StartCoroutine(CameraAimExit());
+        virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>().ShoulderOffset = normalFollowOffset;
+
+        Cursor.lockState = CursorLockMode.None;
+
+        UIManager.Instance.SetCrosshairActive(false);
+    }
+
+    IEnumerator CameraAimStart()
+    {
+        while(virtualCamera.m_Lens.FieldOfView > aimFOV + 1)
+        {
+            virtualCamera.m_Lens.FieldOfView = math.lerp(virtualCamera.m_Lens.FieldOfView, aimFOV, Time.deltaTime);
+            yield return null;
+        }
+        yield break;
+    }
+
+    IEnumerator CameraAimExit()
+    {
+        while (virtualCamera.m_Lens.FieldOfView < maxFOV - 1)
+        {
+            virtualCamera.m_Lens.FieldOfView = math.lerp(virtualCamera.m_Lens.FieldOfView, maxFOV, Time.deltaTime);
+            yield return null;
+        }
+        yield break;
+    }
+
     private void Move()
     {
-        if (_isClimbing || _animator.GetBool("Attacking")) return;
+        if (_isClimbing || _isAiming) return;
 
         float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
@@ -257,7 +391,11 @@ public class PlayerController : MonoBehaviour
 
             float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
                 RotationSmoothTime);
-            if (rotateOnMove) transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            if (rotateOnMove)
+            {
+                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                UIManager.Instance.minimapPointer.rotation = Quaternion.Euler(90,0, -rotation);
+            }
         }
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
@@ -269,6 +407,29 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetFloat(_animIDSpeed, _animationBlend, 0.05f, Time.deltaTime);
             _animator.SetFloat(_animIDMotionSpeed, inputMagnitude, 0.1f, Time.deltaTime);
+        }
+    }
+
+    private void AimMove()
+    {
+        _animator.SetBool("isAiming", _isAiming);
+
+        float targetSpeed = MoveSpeed;
+
+        if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+
+        float verticalInput = _input.move.x;
+        float horizontalInput = _input.move.y;
+
+        Vector3 aimMoveDirection = new Vector3(verticalInput, 0.0f, horizontalInput);
+        aimMoveDirection = transform.TransformDirection(aimMoveDirection);
+
+        _controller.Move(aimMoveDirection * targetSpeed * Time.deltaTime);
+
+        if (_hasAnimator)
+        {
+            _animator.SetFloat("horizontal", horizontalInput);
+            _animator.SetFloat("vertical", verticalInput);
         }
     }
 
@@ -337,7 +498,7 @@ public class PlayerController : MonoBehaviour
             if (_input.jump && _jumpTimeoutDelta <= 0.0f)
             {
                 _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-
+                _input.jump = false;
                 if (_hasAnimator)
                 {
                     _animator.SetBool(_animIDJump, true);
@@ -362,6 +523,7 @@ public class PlayerController : MonoBehaviour
 
             if(_input.jump && (_verticalVelocity < 0.0f || _input.windfield))
             {
+                _input.jump = false;
                 if (_isGliding)
                     StopGliding();
                 else

@@ -1,51 +1,38 @@
-using Cinemachine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Bow : Weapon
 {
-    public GameObject arrowPrefab;
+    public float range = 50f; 
+    public float damage = 10f; 
     public Transform arrowSpawnPoint;
-    private bool isAiming = false;
 
-    public override void UseWeapon()
+    public override void UseWeapon(Transform target = null)
     {
-        if (isAiming)
+        Vector3 direction;
+
+        if (target != null)
         {
-            PerformAimedShot();
+            direction = (target.position - arrowSpawnPoint.position).normalized;
         }
         else
         {
-            PerformNormalShot();
+            direction = arrowSpawnPoint.forward;
         }
-    }
 
-    private void PerformNormalShot()
-    {
-        
-    }
-
-    private void PerformAimedShot()
-    {
-        
-    }
-
-    private void Update()
-    {
-        if (Keyboard.current.rKey.wasPressedThisFrame)
+        RaycastHit hit;
+        if (Physics.Raycast(arrowSpawnPoint.position, direction, out hit, range))
         {
-            isAiming = !isAiming;
-            if (isAiming)
+            if (hit.collider.CompareTag("Enemy"))
             {
-
-            }
-            else
-            {
-
+                Enemy enemy = hit.collider.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    Element currentElement = character != null ? character.GetCurrentWeaponElement() : Element.Normal;
+                    enemy.TakeDamage(damage, currentElement, character);
+                }
             }
         }
+
+        Debug.DrawRay(arrowSpawnPoint.position, direction * range, Color.red, 2f); // 디버그 레이
     }
 }

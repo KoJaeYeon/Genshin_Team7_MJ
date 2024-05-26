@@ -21,15 +21,24 @@ public class UIManager : Singleton<UIManager>
     float UIscaleY;
     public GameObject mainPanel;
     IActivePanel mainPanel_IActivePanel;
+    public Transform minimapPointer;
 
     public Transform UI_scale;
 
+    public GameObject inventroyPanel;
+    IActivePanel inventroyPanel_IActivePanel;
     public GameObject characterPanel;
+    IActivePanel characterPanel_IActivePanel;
     public GameObject DataPanel;
+
+    public Slider UIHealth;
+    public Slider[] characterHealth;
+    public int currentCharacter;
 
 
     SkillUI skillUI;
 
+    public GameObject crosshair;
 
     private void Awake()
     {
@@ -55,13 +64,25 @@ public class UIManager : Singleton<UIManager>
         UIscaleY = UI_scale.transform.localScale.y;
 
         mainPanel_IActivePanel = mainPanel.GetComponent<IActivePanel>();
+        inventroyPanel_IActivePanel = inventroyPanel.GetComponent<IActivePanel>();
+        characterPanel_IActivePanel = characterPanel.GetComponent<IActivePanel>();
         activePanel = mainPanel_IActivePanel;
+
+        crosshair.SetActive(false);
     }
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             QuitPanel();
+        }
+        else if(Input.GetKeyDown(KeyCode.C) )
+        {
+            characterPanel_IActivePanel.PanelActive(activePanel);
+        }
+        else if (Input.GetKeyDown(KeyCode.B) && activePanel.Equals(mainPanel_IActivePanel))
+        {
+            inventroyPanel_IActivePanel.PanelActive(activePanel);
         }
     }
 
@@ -141,17 +162,34 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
+    public void Health(float value)
+    {
+        characterHealth[currentCharacter].value = value;
+        UIHealth.value = value;
+    }
+
+    public void SetSkillSprite(Sprite attack_Image, Sprite skill_Image, Sprite burst_Image, Sprite burst_Full_Image)
+    {
+        skillUI.SetSkillImage(attack_Image, skill_Image, burst_Image, burst_Full_Image);
+    }
     public void SkiilCooldown(float point)
     {
         skillUI.Elemental_Cooldown(point);
+
     }
+
     public void BurstCooldown(float point)
     {
         skillUI.Elemental_Burst_Cooldown(point);
     }
+
     public void BurstGage(float point)
     {
         skillUI.ElementalBurst_Gage(point);
     }
 
+    public void SetCrosshairActive(bool isActive)
+    {
+        crosshair.SetActive(isActive);
+    }
 }

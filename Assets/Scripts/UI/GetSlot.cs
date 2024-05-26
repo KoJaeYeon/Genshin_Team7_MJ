@@ -44,6 +44,10 @@ public class GetSlot : MonoBehaviour
                 image.sprite = ItemDatabase.Instance.GetChestSprite(2);
                 itemName.text = "도전 시작";
                 break;
+            case InteractableType.Boss:
+                image.sprite = ItemDatabase.Instance.GetChestSprite(3);
+                itemName.text = "울프의 영주 소환";
+                break;
         }
         itemCount.transform.parent.gameObject.SetActive(false);
     }

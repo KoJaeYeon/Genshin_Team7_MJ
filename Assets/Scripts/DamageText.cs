@@ -13,17 +13,16 @@ public class DamageText : Singleton<DamageText>
     void Update()
     {
         transform.LookAt(cameraTrans);
-        
+        transform.Rotate(0, 180, 0);
     }
 
     private void OnEnable()
     {     
-       
         StartCoroutine(Die());
     }
     IEnumerator Die()
     {
         yield return new WaitForSeconds(5);
-        gameObject.SetActive(false);
+        transform.parent.gameObject.SetActive(false);
     }
 }

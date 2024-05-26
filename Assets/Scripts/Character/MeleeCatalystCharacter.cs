@@ -8,6 +8,11 @@ public class MeleeCatalystCharacter : Character
     {
         characterType = CharacterType.Melee;
         base.Start();
+        InitializeMeleeCatalyst();
+    }
+
+    private void InitializeMeleeCatalyst()
+    {
         foreach (var weapon in weapons)
         {
             if (weapon is Catalyst_Melee)
