@@ -74,5 +74,4 @@ public class ChargeAttack : IPattern
             m_Wolf.State.ChangeState(BossState.Attack);
         }
     }
-
 }
