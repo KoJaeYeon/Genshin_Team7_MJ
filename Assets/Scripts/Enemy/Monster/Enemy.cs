@@ -57,11 +57,8 @@ public abstract class Enemy : MonoBehaviour
         HpSlider.value = EnemyHealthDic[this];
         transform.LookAt(Player.position);
         animator.SetTrigger("Hit");
-        try
-        {
-            PoolManager.Instance.Get_Text(damage, transform.position);
-        }
-        catch { }
+
+        PoolManager.Instance.Get_Text(damage, transform.position , element);
 
         if (EnemyHealthDic[this] <= 0)
         {
