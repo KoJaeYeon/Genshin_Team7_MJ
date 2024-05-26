@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum CharacterType
@@ -12,5 +10,5 @@ public abstract class Weapon : MonoBehaviour
 {
     public Character character;
     public Element element = Element.Normal;
-    public abstract void UseWeapon(Transform target = null);
+    public abstract void UseWeapon();
 }

@@ -1,57 +1,57 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Catalyst_Ranged : Weapon
 {
-    public float range = 50f; 
-    public float damage = 10f; 
-    public Transform projectileSpawnPoint;
+    public float range = 20f;
+    public float damage = 10f;
+    public float detectionAngle = 45f;
+    public LayerMask enemyLayer;
 
-    public override void UseWeapon(Transform target = null)
+    public override void UseWeapon()
     {
-        Vector3 direction;
-
-        if (target != null)
+        Enemy target = DetectEnemyInRange();
+        if(target != null)
         {
-            direction = (target.position - projectileSpawnPoint.position).normalized;
-        }
-        else
-        {
-            direction = projectileSpawnPoint.forward;
-        }
+            Vector3 directionToTarget = (target.transform.position - transform.parent.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToTarget.x, 0f, directionToTarget.z));
+            transform.parent.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
 
-        RaycastHit hit;
-        if (Physics.Raycast(projectileSpawnPoint.position, direction, out hit, range))
-        {
-            Debug.Log($"Hit detected: {hit.collider.name} at distance: {hit.distance}");
-
-            if (hit.collider.CompareTag("Enemy"))
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.forward, out hit, range))
             {
-                Debug.Log("Hit an enemy!");
-
-                Enemy enemy = hit.collider.GetComponent<Enemy>();
+                Enemy enemy = hit.transform.GetComponent<Enemy>();
                 if (enemy != null)
                 {
-                    Debug.Log("Enemy component found, applying damage.");
                     Element currentElement = character != null ? character.GetCurrentWeaponElement() : Element.Normal;
                     enemy.TakeDamage(damage, currentElement, character);
+
+                    if (character != null && currentElement != Element.Normal)
+                    {
+                        character.GainEnergy(character.energyGainPerHit);
+                    }
                 }
-                else
-                {
-                    Debug.LogWarning("Hit object with Enemy tag but no Enemy component found.");
-                }
-            }
-            else
-            {
-                Debug.Log("Hit object is not an enemy.");
             }
         }
-        else
+    }
+
+    private Enemy DetectEnemyInRange()
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.parent.position, range, enemyLayer);
+        foreach(Collider hit in hits)
         {
-            Debug.Log("No hit detected.");
+            Vector3 directionToTarget = (hit.transform.position - transform.parent.position).normalized;
+            float angleToTarget = Vector3.Angle(transform.parent.forward, directionToTarget);
+
+            if(angleToTarget < detectionAngle / 2)
+            {
+                Enemy enemy = hit.GetComponent<Enemy>();
+                if(enemy != null)
+                {
+                    return enemy;
+                }
+            }
         }
 
-        Debug.DrawRay(projectileSpawnPoint.position, direction * range, Color.red, 2f);
+        return null;
     }
 }
