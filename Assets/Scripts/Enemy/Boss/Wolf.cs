@@ -175,7 +175,7 @@ public class Wolf : Enemy, IColor
     public override void TakeDamage(float damage, Element element, Character attacker)
     {
         EnemyHealthDic[this] -= CalculateDamage(damage, element);
-        paralyzation -= 5f;
+        paralyzation -= 1f;
         HpSlider.value = EnemyHealthDic[this];
         transform.LookAt(Player.position);
         animator.SetTrigger("Hit");
@@ -301,8 +301,6 @@ public class WolfMove : WolfState
 {
     public WolfMove(Wolf wolf) : base(wolf) { }
 
-    float timer = 0;
-
     public override void StateEnter()
     {
         Init_MoveState();
@@ -330,9 +328,7 @@ public class WolfMove : WolfState
 
     private void AgentMove()
     {
-        timer += Time.fixedDeltaTime;
-
-        if (Distance() > m_Wolf.BossAgent.stoppingDistance && timer <= 7.0f)
+        if (Distance() > m_Wolf.BossAgent.stoppingDistance)
         {
             m_Wolf.BossAgent.SetDestination(m_Wolf.PlayerTransform.position);
         }
