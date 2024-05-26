@@ -97,6 +97,10 @@ public class CameraController : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     public void OnPointerUp(PointerEventData eventData)
     {
         touchCount--;
+        eventDatas[touchCount] = eventData;
+        eventDatas[touchCount].delta = Vector2.zero;
+        playerInputHandler.look = eventDatas[touchCount].delta * cameraSensitvityz * Time.deltaTime;
+
     }
 }
 

@@ -10,7 +10,7 @@ public class EquipManager : Singleton<EquipManager>
     public EquipStats yoimiya_Equip;
     public ItemSlot itemSlot;
 
-    public Character[] playerCharacter;
+    public Character[] playerCharacter = new Character[4];
 
     private void Awake()
     {
@@ -18,8 +18,6 @@ public class EquipManager : Singleton<EquipManager>
         kokomi_Equip =new EquipStats();
         wrio_Equip = new EquipStats();
         yoimiya_Equip = new EquipStats();
-
-        playerCharacter = new Character[4];
     }
 
     private void Update()
