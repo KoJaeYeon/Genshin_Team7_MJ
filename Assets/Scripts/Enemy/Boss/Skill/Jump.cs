@@ -15,7 +15,7 @@ public class Jump : BossSkill
 
     public override void SetAtk(float atk)
     {
-        jump_Atk = skillDic[Skill.Jump] + atk;
+        jump_Atk = skillDic[Skill.Jump] * atk;
     }
     
 

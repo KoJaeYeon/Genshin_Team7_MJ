@@ -14,6 +14,7 @@ public class Catalyst_Melee : Weapon
     public override void UseWeapon()
     {
         PerformMeleeAttack();
+        SoundManager.Instance.PlayEffect("Wrio_Attack");
     }
 
     private void PerformMeleeAttack()

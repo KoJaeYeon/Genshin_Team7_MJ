@@ -15,12 +15,12 @@ public class Stamp : BossSkill
 
     public override void SetAtk(float atk)
     {
-        stamp_Atk = GetSkillDamage(Skill.Stamp) + atk;
+        stamp_Atk = GetSkillDamage(Skill.Stamp) * atk;
     }
 
     public override IEnumerator DelayDamage()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(1.3f);
         boxColl.enabled = true;
         yield return new WaitForSeconds(1.0f);
         boxColl.enabled = false;

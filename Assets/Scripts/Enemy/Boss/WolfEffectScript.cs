@@ -41,6 +41,8 @@ public class WolfEffectScript : MonoBehaviour
 
     private Dictionary<Effect, GameObject> EffectDic;
     private Dictionary<Effect, Transform> EffectTrans;
+
+    public Transform EffectPool;
     
     private void Start()
     {
@@ -145,7 +147,7 @@ public class WolfEffectScript : MonoBehaviour
     public void ActiveIceRain()
     {
         GameObject ice_Rain = GetEffect(Effect.Rain);
-        ice_Rain.transform.parent = null;
+        ice_Rain.transform.parent = EffectPool;
         ice_Rain.SetActive(false);
         ice_Rain.SetActive(true);
 
@@ -158,7 +160,7 @@ public class WolfEffectScript : MonoBehaviour
         tail_circle.transform.GetChild(0).gameObject.SetActive(true);
         tail_circle.transform.GetChild(1).gameObject.SetActive(true);
         tail_circle.transform.rotation = Quaternion.Euler(0, 0, 0);
-        tail_circle.transform.parent = null;
+        tail_circle.transform.parent = EffectPool;
         tail_circle.SetActive(false);
         tail_circle.SetActive(true);
 
@@ -170,7 +172,7 @@ public class WolfEffectScript : MonoBehaviour
     public void ActiveSpike()
     {
         GameObject spike = GetEffect(Effect.Frost_Spike);
-        spike.transform.parent = null;
+        spike.transform.parent = EffectPool;
         spike.SetActive(false);
         spike.SetActive(true);
 
@@ -180,7 +182,7 @@ public class WolfEffectScript : MonoBehaviour
     public void ActiveMagic()
     {
         GameObject magic = GetEffect(Effect.Magic);
-        magic.transform.parent = null;
+        magic.transform.parent = EffectPool;
         magic.SetActive(false);
         magic.SetActive(true);
 
@@ -192,7 +194,7 @@ public class WolfEffectScript : MonoBehaviour
     public void ActiveWave()
     {
         GameObject wave = GetEffect(Effect.Frost_Wave);
-        wave.transform.parent = null;
+        wave.transform.parent = EffectPool;
         wave.SetActive(false);
         wave.SetActive(true);
 
@@ -204,7 +206,7 @@ public class WolfEffectScript : MonoBehaviour
     public void ActiveRing()
     {
         GameObject ring = GetEffect(Effect.Frost_Ring);
-        ring.transform.parent = null;
+        ring.transform.parent = EffectPool;
         ring.SetActive(false);
         ring.SetActive(true);
 
@@ -216,7 +218,7 @@ public class WolfEffectScript : MonoBehaviour
     public void ActiveCrystal()
     {
         GameObject crystal = GetEffect(Effect.Frost_Crystal);
-        crystal.transform.parent = null;
+        crystal.transform.parent = EffectPool;
         crystal.SetActive(false);
         crystal.SetActive(true);
 

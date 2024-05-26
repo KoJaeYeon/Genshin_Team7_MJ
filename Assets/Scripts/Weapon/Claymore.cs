@@ -13,6 +13,7 @@ public class Claymore : Weapon
     public override void UseWeapon()
     {
         PerformMeleeAttack();
+        SoundManager.Instance.PlayEffect("Beidou_Attack");
     }
 
     public void PerformMeleeAttack()

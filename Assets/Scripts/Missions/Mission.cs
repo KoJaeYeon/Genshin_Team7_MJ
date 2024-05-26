@@ -14,14 +14,17 @@ public class Mission : MonoBehaviour, IInteractable
     int count;
     bool missionStart = false;
     bool _hasWindfiled = false;
+    public GameObject chestParticle;
 
     public Animator animator;
     SphereCollider sphereCollider;
+    AudioSource audioSource;
 
     private void Awake()
     {
         sphereCollider = GetComponent<SphereCollider>();
-        particles = new GameObject[transform.GetChild(0).childCount];        
+        particles = new GameObject[transform.GetChild(0).childCount];     
+        audioSource = GetComponent<AudioSource>();
         for (int i = 0; i < particles.Length; i++)
         {
             particles[i] = transform.GetChild(0).GetChild(i).gameObject;
@@ -34,8 +37,7 @@ public class Mission : MonoBehaviour, IInteractable
             for (int i = 0; i < windFields.Length; i++)
             {
                 windFields[i] = transform.GetChild(3).GetChild(i).GetComponent<WindField>();
-            }
-                
+            }                
         }
     }
     private void Start()
@@ -88,6 +90,8 @@ public class Mission : MonoBehaviour, IInteractable
             transform.GetChild(1).gameObject.SetActive(true);
             transform.GetChild(2).gameObject.SetActive(false);
             animator.Play("Succes");
+            chestParticle.SetActive(true);
+            audioSource.Play();
         }
     }
 
