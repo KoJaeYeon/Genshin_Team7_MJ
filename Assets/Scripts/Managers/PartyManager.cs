@@ -11,6 +11,7 @@ public class PartyManager : MonoBehaviour
     private Character[] activeCharacters;
     private int currentCharacterIndex = 0;
 
+    private Animator currentAnimator;
     public Transform spawnPosition;
     public GameObject playerParent;
     public GameObject particle;
@@ -59,14 +60,6 @@ public class PartyManager : MonoBehaviour
         currentAnimator = activeCharacters[currentCharacterIndex].GetComponent<Animator>();
     }
 
-    private void Update()
-    {
-        if (Keyboard.current.digit1Key.isPressed && currentCharacterIndex != 0) SwitchCharacter(0);
-        if (Keyboard.current.digit2Key.isPressed && currentCharacterIndex != 1) SwitchCharacter(1);
-        if (Keyboard.current.digit3Key.isPressed && currentCharacterIndex != 2) SwitchCharacter(2);
-        if (Keyboard.current.digit4Key.isPressed && currentCharacterIndex != 3) SwitchCharacter(3);
-    }
-
     public void SwitchCharacter(int characterIndex)
     {
         if (PlayerController._isGliding) return;
@@ -87,7 +80,6 @@ public class PartyManager : MonoBehaviour
             UpdateCharacterController(activeCharacters[currentCharacterIndex].characterData);
             UpdateSkillUI();
 
-            //ĳ���� ������ �� ����Ʈ ����
             if (particle != null)
             {
                 particle.SetActive(false);
@@ -103,6 +95,13 @@ public class PartyManager : MonoBehaviour
     }
 
     public void SetSkiilSprite(int characterIndex)
+    {
+        UIManager.Instance.SetSkillSprite(
+            characterAttackSprite[characterIndex], 
+            characterSkillSprite[characterIndex], 
+            characterBurstSprite[characterIndex], 
+            characterBurstFullSprite[characterIndex]);
+    }
     private void HandleCharacterSwitchInput()
     {
         if (Keyboard.current.digit1Key.isPressed && currentCharacterIndex != 0) SwitchCharacter(0);
@@ -158,12 +157,6 @@ public class PartyManager : MonoBehaviour
             controller.height = data.controllerHeight;
         }
     }
-
-    IEnumerator PlaySwtichEffect()
-    {
-        UIManager.Instance.SetSkillSprite(characterAttackSprite[characterIndex], characterSkillSprite[characterIndex], characterBurstSprite[characterIndex], characterBurstFullSprite[characterIndex]);
-    }
-
 
     public Character GetCurrentCharacter()
     {
