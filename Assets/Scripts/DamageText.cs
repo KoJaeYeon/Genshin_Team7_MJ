@@ -13,12 +13,11 @@ public class DamageText : Singleton<DamageText>
     void Update()
     {
         transform.LookAt(cameraTrans);
-        
+        transform.Rotate(0, 180, 0);
     }
 
     private void OnEnable()
     {     
-       
         StartCoroutine(Die());
     }
     IEnumerator Die()
