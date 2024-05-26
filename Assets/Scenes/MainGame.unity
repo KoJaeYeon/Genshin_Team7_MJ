@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18387115, g: 0.22901882, b: 0.30311483, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11439,7 +11439,7 @@ GameObject:
   - component: {fileID: 410087040}
   - component: {fileID: 410087042}
   m_Layer: 0
-  m_Name: Directional Light
+  m_Name: Day
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11514,14 +11514,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.18301274, y: 0.6830127, z: -0.18301274, w: 0.6830127}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 30, y: 90, z: 0}
 --- !u!114 &410087042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26658,7 +26658,7 @@ MonoBehaviour:
     type: 3}
   arrowPrefab: {fileID: 4766542514737433830, guid: 7274f976d04986346a9314299638dac1,
     type: 3}
-  damageTxtPrefab: {fileID: 5229461106578298689, guid: 4809698251e341f41b5a942f0d82b61f,
+  damageTxtPrefab: {fileID: 6521331686903323362, guid: dc3a5f3242e085a4a9b519dde66d5875,
     type: 3}
   PoolParent: {fileID: 2069272020}
   ElementPool: {fileID: 2069272020}
@@ -28436,7 +28436,7 @@ PrefabInstance:
     - target: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 730
+      value: 498
       objectReference: {fileID: 0}
     - target: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f,
         type: 3}
@@ -28446,7 +28446,7 @@ PrefabInstance:
     - target: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 294.72
+      value: 284.8
       objectReference: {fileID: 0}
     - target: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f,
         type: 3}
@@ -32479,7 +32479,7 @@ PrefabInstance:
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 730
+      value: 498
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8,
         type: 3}
@@ -32489,7 +32489,7 @@ PrefabInstance:
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 294.72
+      value: 284.8
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8,
         type: 3}
@@ -33224,7 +33224,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1753501948}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 734, y: 8.026966, z: 294.92}
+  m_LocalPosition: {x: 502, y: 8.026966, z: 285}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -35099,10 +35099,26 @@ MonoBehaviour:
   spawnPosition: {fileID: 1753501953}
   playerParent: {fileID: 1753501948}
   particle: {fileID: 0}
-  characterAttackSprite: []
-  characterSkillSprite: []
-  characterBurstSprite: []
-  characterBurstFullSprite: []
+  characterAttackSprite:
+  - {fileID: 21300000, guid: 1616ea125d7e17346a81c62906d6a4dc, type: 3}
+  - {fileID: 21300000, guid: 70c4a9277c839444abb83357f82e7bb0, type: 3}
+  - {fileID: 21300000, guid: a2b471393ed594c41accffe4a7e93bb9, type: 3}
+  - {fileID: 21300000, guid: 3675e87a9d4f1714e91c3332671d824a, type: 3}
+  characterSkillSprite:
+  - {fileID: 21300000, guid: 9410d7f1795cb2043a6fdfae2a89f46e, type: 3}
+  - {fileID: 21300000, guid: f59ae5c8bb662644b9f50f0d6595ad2a, type: 3}
+  - {fileID: 21300000, guid: ab26356564478bf46ad71e6f63cc6d4b, type: 3}
+  - {fileID: 21300000, guid: c424ca1eb68906140b439f7bae4d0fe3, type: 3}
+  characterBurstSprite:
+  - {fileID: 21300000, guid: e61b22ceb9214e8479622786c302d49c, type: 3}
+  - {fileID: 21300000, guid: 1bc627c4b04922c48a7d17bb22283297, type: 3}
+  - {fileID: 21300000, guid: a9c0157df70b1984688eda52513982ff, type: 3}
+  - {fileID: 21300000, guid: f4e00b999188d924988ce3c5f1c550ae, type: 3}
+  characterBurstFullSprite:
+  - {fileID: 21300000, guid: fb78e73a82a19614ca384e2d8a747cf6, type: 3}
+  - {fileID: 21300000, guid: cf1c228c6a4721f408f3c9e2a795fde3, type: 3}
+  - {fileID: 21300000, guid: 3b29a2c320907204eb7bef5161493b29, type: 3}
+  - {fileID: 21300000, guid: 1edfb97049cf9be48b9ef51e1b108cab, type: 3}
 --- !u!1001 &1970570020
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37471,6 +37487,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Rander Texture
+      objectReference: {fileID: 0}
+    - target: {fileID: 3949286893831873771, guid: 271095b80693a634283cf6b973d130a6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3949286893831873772, guid: 271095b80693a634283cf6b973d130a6,
         type: 3}
