@@ -15,6 +15,7 @@ public class Mission : MonoBehaviour, IInteractable
     bool missionStart = false;
     bool _hasWindfiled = false;
     public GameObject chestParticle;
+    public GameObject timeLine;
 
     public Animator animator;
     SphereCollider sphereCollider;
@@ -146,6 +147,12 @@ public class Mission : MonoBehaviour, IInteractable
 
             getSlot.transform.SetParent(PoolManager.Instance.PoolParent);
             getSlot.gameObject.SetActive(false);
+
+            if(timeLine != null)
+            {
+                timeLine.SetActive(false);
+                timeLine.SetActive(true);
+            }
         }
     }
     public void RemoveItemGet()
