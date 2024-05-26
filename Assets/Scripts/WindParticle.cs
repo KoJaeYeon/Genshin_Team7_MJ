@@ -15,8 +15,8 @@ public class WindParticle : MonoBehaviour
     {
         if(other.gameObject.layer.Equals( LayerMask.NameToLayer("Player")))
         {
-            mission.UpdateCount();
             gameObject.SetActive(false);
+            mission.UpdateCount();
         }
     }
 }
