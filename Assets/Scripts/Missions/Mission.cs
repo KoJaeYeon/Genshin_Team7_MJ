@@ -14,6 +14,8 @@ public class Mission : MonoBehaviour, IInteractable
     int count;
     bool missionStart = false;
     bool _hasWindfiled = false;
+    public GameObject chestParticle;
+    public GameObject timeLine;
 
     public Animator animator;
     SphereCollider sphereCollider;
@@ -21,7 +23,7 @@ public class Mission : MonoBehaviour, IInteractable
     private void Awake()
     {
         sphereCollider = GetComponent<SphereCollider>();
-        particles = new GameObject[transform.GetChild(0).childCount];        
+        particles = new GameObject[transform.GetChild(0).childCount];     
         for (int i = 0; i < particles.Length; i++)
         {
             particles[i] = transform.GetChild(0).GetChild(i).gameObject;
@@ -34,8 +36,7 @@ public class Mission : MonoBehaviour, IInteractable
             for (int i = 0; i < windFields.Length; i++)
             {
                 windFields[i] = transform.GetChild(3).GetChild(i).GetComponent<WindField>();
-            }
-                
+            }                
         }
     }
     private void Start()
@@ -88,6 +89,9 @@ public class Mission : MonoBehaviour, IInteractable
             transform.GetChild(1).gameObject.SetActive(true);
             transform.GetChild(2).gameObject.SetActive(false);
             animator.Play("Succes");
+            chestParticle.SetActive(true);
+            SoundManager.Instance.effectSource.clip = SoundManager.Instance.effectDictionary["Spawn"];
+            SoundManager.Instance.effectSource.Play();
         }
     }
 
@@ -143,6 +147,12 @@ public class Mission : MonoBehaviour, IInteractable
 
             getSlot.transform.SetParent(PoolManager.Instance.PoolParent);
             getSlot.gameObject.SetActive(false);
+
+            if(timeLine != null)
+            {
+                timeLine.SetActive(false);
+                timeLine.SetActive(true);
+            }
         }
     }
     public void RemoveItemGet()

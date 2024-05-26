@@ -6,8 +6,8 @@ public class ActivePanel_CharacterPanel : MonoBehaviour, IActivePanel
 {
     IActivePanel previousPanel;
     Animator animator;
-    public GameObject render_Manager;
-    RenderManager renderManager;
+    public GameObject _light;
+    public RenderManager renderManager;
     characterItemSettingButton characterItemSettingButton;
     GameObject property;
 
@@ -16,7 +16,6 @@ public class ActivePanel_CharacterPanel : MonoBehaviour, IActivePanel
     {
         animator = GetComponent<Animator>();
         if (animator != null) _hasAnimator = true;
-        renderManager = render_Manager.GetComponent<RenderManager>();
         characterItemSettingButton = transform.GetChild(5).GetComponent<characterItemSettingButton>();
         property = transform.GetChild(4).gameObject;
     }
@@ -26,6 +25,8 @@ public class ActivePanel_CharacterPanel : MonoBehaviour, IActivePanel
         UIManager.Instance.activePanel = this;
         previousPanel.DisablePanel();
         gameObject.SetActive(true);
+        _light.SetActive(false); // 필드 조명 끄기
+        renderManager.gameObject.SetActive(true); // 마네킹 캐릭터 있는 공간 활성화
         renderManager.ChangeCharacter(0);
         characterItemSettingButton.SelectActive(0);
     }
@@ -33,6 +34,8 @@ public class ActivePanel_CharacterPanel : MonoBehaviour, IActivePanel
     public void PanelInactive()
     {
         UIManager.Instance.activePanel = previousPanel;
+        renderManager.gameObject.SetActive(false);
+        _light.gameObject.SetActive(true);
         gameObject.SetActive(false);
         if(previousPanel != null) { previousPanel.EnablePanel(); }
         

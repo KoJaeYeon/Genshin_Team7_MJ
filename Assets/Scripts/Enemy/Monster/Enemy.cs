@@ -57,7 +57,8 @@ public abstract class Enemy : MonoBehaviour
         HpSlider.value = EnemyHealthDic[this];
         transform.LookAt(Player.position);
         animator.SetTrigger("Hit");
-        PoolManager.Instance.Get_Text(damage, transform.position);
+
+        PoolManager.Instance.Get_Text(damage, transform.position , element);
 
         if (EnemyHealthDic[this] <= 0)
         {
@@ -148,13 +149,6 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    private int ReturnExp(Enemy enemy) //°æÇèÄ¡
-    {
-        int Exp = enemy.enemyData.DropExp;
-
-        return Exp;
-    }
-
     protected void DropElement(Enemy enemy)
     {
         if (enemy == null)
@@ -168,6 +162,7 @@ public abstract class Enemy : MonoBehaviour
             dropElement.transform.position = enemy.transform.position;
             dropElement.SetActive(true);
             StartCoroutine(elementObject.UP());
+            StartCoroutine(elementObject.DisableObject());
         }
     }
 
@@ -200,6 +195,7 @@ public abstract class Enemy : MonoBehaviour
             hitElement.transform.position = transform.position;
             hitElement.SetActive(true);
             StartCoroutine(elementObject.UP());
+            StartCoroutine(elementObject.DisableObject());
         }
     }
 
@@ -214,6 +210,35 @@ public abstract class Enemy : MonoBehaviour
     {
         DropObject dropObject = PoolManager.Instance.Get_DropObject(Random.Range(1001, 1007));
         dropObject.gameObject.transform.position = transform.position + Vector3.up*1.5f;
+
+        //°æÇèÄ¡È¹µæ
+        {            
+            Item exp = ItemDatabase.Instance.GetItem(1011);
+            exp.count = Random.Range(15, 35);
+            ItemGetPanelSlot itemGetPanelSlot_e = PoolManager.Instance.Get_ItemGetPanelSlot();
+            itemGetPanelSlot_e.Init_J(exp);
+            UIManager.Instance.AddGetSlot_J(itemGetPanelSlot_e);
+            itemGetPanelSlot_e.gameObject.SetActive(true);
+            itemGetPanelSlot_e.Destroy();
+        }
+        StartCoroutine(DelayMora());
+    }
+
+    IEnumerator DelayMora()
+    {
+        yield return new WaitForSeconds(1f);
+        //¸ð¶óÈ¹µæ
+        {
+            Item mora = ItemDatabase.Instance.GetItem(1010);
+            mora.count = Random.Range(50, 151);
+            InventoryManager.Instance.GetItem(mora);
+            ItemGetPanelSlot itemGetPanelSlot = PoolManager.Instance.Get_ItemGetPanelSlot();
+            itemGetPanelSlot.Init_J(mora);
+            UIManager.Instance.AddGetSlot_J(itemGetPanelSlot);
+            itemGetPanelSlot.gameObject.SetActive(true);
+            itemGetPanelSlot.Destroy();
+        }
+        yield break;
     }
 
     protected virtual IEnumerator Die(Enemy enemy, Character attacker)

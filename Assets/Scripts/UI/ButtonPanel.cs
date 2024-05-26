@@ -29,4 +29,9 @@ public class ButtonPanel : MonoBehaviour
     {
         _input.BurstInput(value);
     }
+
+    public void Aim(bool value)
+    {
+        _input.AimInput(value);
+    }
 }

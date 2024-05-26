@@ -21,30 +21,45 @@ public class UIManager : Singleton<UIManager>
     float UIscaleY;
     public GameObject mainPanel;
     IActivePanel mainPanel_IActivePanel;
+    public Transform minimapPointer;
 
     public Transform UI_scale;
 
+    public GameObject inventroyPanel;
+    IActivePanel inventroyPanel_IActivePanel;
     public GameObject characterPanel;
+    IActivePanel characterPanel_IActivePanel;
     public GameObject DataPanel;
+
+    public Slider UIHealth;
+    public Slider[] characterHealth;
+    public int currentCharacter;
 
 
     SkillUI skillUI;
+    GameObject skillButton;
+    GameObject flyButton;
 
+    public GameObject crosshair;
 
     private void Awake()
     {
-        if(androidB != null && editorB != null)
+        if (androidB != null && editorB != null)
         {
 #if UNITY_ANDROID
             //안드로이드
             androidB.gameObject.SetActive(true);
             editorB.gameObject.SetActive(false);
             skillUI = androidB.GetComponentInChildren<SkillUI>();
-#elif UNITY_EDITOR
-        //에디터
-        androidB.gameObject.SetActive(false);
-        editorB.gameObject.SetActive(true);
-        skillUI = editorB.GetComponentInChildren<SkillUI>();
+            skillButton = skillUI.transform.GetChild(1).GetChild(0).gameObject;
+            flyButton = skillUI.transform.GetChild(1).GetChild(1).gameObject;
+
+#else
+            androidB.gameObject.SetActive(false);
+            editorB.gameObject.SetActive(true);
+            skillUI = editorB.GetComponentInChildren<SkillUI>();
+            skillButton = skillUI.transform.GetChild(0).gameObject;
+            flyButton = skillUI.transform.GetChild(1).gameObject;
 #endif
         }
 
@@ -55,13 +70,25 @@ public class UIManager : Singleton<UIManager>
         UIscaleY = UI_scale.transform.localScale.y;
 
         mainPanel_IActivePanel = mainPanel.GetComponent<IActivePanel>();
+        inventroyPanel_IActivePanel = inventroyPanel.GetComponent<IActivePanel>();
+        characterPanel_IActivePanel = characterPanel.GetComponent<IActivePanel>();
         activePanel = mainPanel_IActivePanel;
+
+        crosshair.SetActive(false);
     }
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             QuitPanel();
+        }
+        else if(Input.GetKeyDown(KeyCode.C) && activePanel.Equals(mainPanel_IActivePanel))
+        {
+            characterPanel_IActivePanel.PanelActive(activePanel);
+        }
+        else if (Input.GetKeyDown(KeyCode.B) && activePanel.Equals(mainPanel_IActivePanel))
+        {
+            inventroyPanel_IActivePanel.PanelActive(activePanel);
         }
     }
 
@@ -141,17 +168,45 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
+    public void Health(float value)
+    {
+        characterHealth[currentCharacter].value = value;
+        UIHealth.value = value;
+    }
+
+    public void SetSkillSprite(Sprite attack_Image, Sprite skill_Image, Sprite burst_Image, Sprite burst_Full_Image)
+    {
+        skillUI.SetSkillImage(attack_Image, skill_Image, burst_Image, burst_Full_Image);
+    }
     public void SkiilCooldown(float point)
     {
         skillUI.Elemental_Cooldown(point);
+
     }
+
     public void BurstCooldown(float point)
     {
         skillUI.Elemental_Burst_Cooldown(point);
     }
+
     public void BurstGage(float point)
     {
         skillUI.ElementalBurst_Gage(point);
     }
 
+    public void SetCrosshairActive(bool isActive)
+    {
+        crosshair.SetActive(isActive);
+    }
+
+    public void StartGliding()
+    {
+        skillButton.SetActive(false );
+        flyButton.SetActive(true );
+    }
+    public void StopGliding()
+    {
+        flyButton.SetActive(false);
+        skillButton.SetActive(true);
+    }
 }

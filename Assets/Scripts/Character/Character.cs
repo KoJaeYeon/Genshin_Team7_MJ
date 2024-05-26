@@ -1,8 +1,4 @@
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XR;
 
 public abstract class Character : MonoBehaviour
 {
@@ -18,9 +14,6 @@ public abstract class Character : MonoBehaviour
 
     protected bool isActive = false;
     protected bool hasAnimator;
-
-    public float detectionRange = 10.0f;
-    public float detectionAngle = 45.0f;
 
     protected float skillCooldown = 10.0f;
     protected float skillDuration = 5.0f;
@@ -40,6 +33,8 @@ public abstract class Character : MonoBehaviour
     public float attackPower;
     public float defensePower;
 
+    public bool isDead { get; protected set; } = false;
+
     protected virtual void Start()
     {
         if (characterData != null)
@@ -55,12 +50,21 @@ public abstract class Character : MonoBehaviour
         _input = transform.parent.GetComponent<PlayerInputHandler>();
         _animator = GetComponent<Animator>();
         hasAnimator = TryGetComponent(out  _animator);
+        weapons[currentWeaponIndex].gameObject.SetActive(true);
     }
+
     private void Update()
+    {
+        HandleInput();
+        UpdateSkillTimers();
+    }
+
+    private void HandleInput()
     {
         if (_input.attack)
         {
             Attack();
+            _input.attack = false;
         }
         if (_input.skill && skillCooldownTimer <= 0)
         {
@@ -74,10 +78,14 @@ public abstract class Character : MonoBehaviour
         {
             UseElementalBurst();
         }
+    }
 
+    public void UpdateSkillTimers()
+    {
         if (isSkillActive)
         {
             skillDurationTimer -= Time.deltaTime;
+
             if (skillDurationTimer <= 0f)
             {
                 ResetSkill();
@@ -88,7 +96,6 @@ public abstract class Character : MonoBehaviour
         if (skillCooldownTimer > 0f)
         {
             skillCooldownTimer -= Time.deltaTime;
-            UIManager.Instance.SkiilCooldown(skillCooldownTimer);
         }
     }
 
@@ -134,11 +141,14 @@ public abstract class Character : MonoBehaviour
 
     public void SwitchWeapon(int weaponIndex)
     {
-        if(weaponIndex >= 0 && weaponIndex < weapons.Length)
+        if (weaponIndex >= 0 && weaponIndex < weapons.Length)
         {
+            weapons[currentWeaponIndex].gameObject.SetActive(false);
             currentWeaponIndex = weaponIndex;
+            weapons[weaponIndex].gameObject.SetActive(true);
         }
     }
+
 
     public Element GetCurrentWeaponElement()
     {
@@ -158,11 +168,7 @@ public abstract class Character : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        if (currentHealth <= 0)
-        {
-            currentHealth = 0;
-            Die();
-        }
+        UIManager.Instance.Health(currentHealth / maxHealth);
 
         if (hasAnimator)
         {
@@ -170,44 +176,6 @@ public abstract class Character : MonoBehaviour
         }
     }
 
-    protected virtual void Die()
-    {
-        if (hasAnimator)
-        {
-            _animator.SetTrigger("Die");
-        }
-    }
-
-    protected List<GameObject> DetectedEnemiesInRange()
-    {
-        List<GameObject> detectedEnemies = new List<GameObject>();
-        Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRange);
-
-        foreach(Collider collider in colliders)
-        {
-            if (collider.CompareTag("Enemy"))
-            {
-                Vector3 directionToTarget = (collider.transform.position = transform.position).normalized;
-                float angleToTarget = Vector3.Angle(transform.forward, directionToTarget);
-                
-                if(angleToTarget < detectionAngle/ 2)
-                {
-                    detectedEnemies.Add(collider.gameObject);
-                }
-            }
-        }
-
-        return detectedEnemies;
-    }
-
-    protected void FaceTarget(Vector3 targetPosition)
-    {
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0 , direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime);
-    }
-
-    
     protected virtual void ResetSkill()
     {
         if(weapons.Length > 0)
@@ -221,8 +189,34 @@ public abstract class Character : MonoBehaviour
         GainEnergy(energyGainOnKill);
     }
 
+    public float GetSkillCooldownTimer()
+    {
+        return skillCooldownTimer;
+    }
+
+    public float GetElementalEnergy()
+    {
+        return currentElementalEnergy;
+    }
+
+    public bool IsSkillActive()
+    {
+        return skillCooldownTimer > 0f;
+    }
+
     public abstract void Attack();
     public abstract void UseElementalSkill();
     public abstract void UseElementalBurst();
-
+    protected void PerformAttackAnimation()
+    {
+        if (hasAnimator)
+        {
+            _animator.SetTrigger("Attack");
+            _animator.SetBool("Attacking", true);
+        }
+        else
+        {
+            _animator.SetBool("Attacking", false);
+        }
+    }
 }

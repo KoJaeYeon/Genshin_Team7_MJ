@@ -399,7 +399,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -22.306885, y: -109.791016}
+  m_AnchoredPosition: {x: -22.30664, y: -109.791016}
   m_SizeDelta: {x: 463.38647, y: 200}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &5200792505456895918
@@ -2523,7 +2523,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5200792506932258565}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: EquipManager, Assembly-CSharp
+        m_MethodName: UnEquip
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5200792506932258567
 MonoBehaviour:
   m_ObjectHideFlags: 0

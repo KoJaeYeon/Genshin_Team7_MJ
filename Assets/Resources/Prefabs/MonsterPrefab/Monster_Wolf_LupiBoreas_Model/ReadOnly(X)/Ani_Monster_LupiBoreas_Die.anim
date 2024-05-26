@@ -99,7 +99,7 @@ AnimationClip:
     script: {fileID: 0}
   - curve:
     - time: 0
-      value: {fileID: 2100000, guid: c9542c17058fc7545a4b185e06f87834, type: 2}
+      value: {fileID: 2100000, guid: 464070d666dee9840b206a704f47e389, type: 2}
     - time: 1
       value: {fileID: 2100000, guid: 464070d666dee9840b206a704f47e389, type: 2}
     attribute: m_Materials.Array.data[0]
@@ -108,9 +108,9 @@ AnimationClip:
     script: {fileID: 0}
   - curve:
     - time: 0
-      value: {fileID: 2100000, guid: fb310c758697c8f4583f199e7fb238d6, type: 2}
+      value: {fileID: 2100000, guid: bc1659a725e07794f869a7d3d69e6d49, type: 2}
     - time: 1
-      value: {fileID: 2100000, guid: 3bbe93d1004939e4585f090072b2742b, type: 2}
+      value: {fileID: 2100000, guid: bc1659a725e07794f869a7d3d69e6d49, type: 2}
     attribute: m_Materials.Array.data[1]
     path: Monster_Wolf_LupiBoreas_Model/Hair
     classID: 137
@@ -167,10 +167,10 @@ AnimationClip:
     pptrCurveMapping:
     - {fileID: 2100000, guid: 3a8a87d083351264189f69010dccc388, type: 2}
     - {fileID: 2100000, guid: aedf9d8937397d641b810249cdb2c183, type: 2}
-    - {fileID: 2100000, guid: c9542c17058fc7545a4b185e06f87834, type: 2}
     - {fileID: 2100000, guid: 464070d666dee9840b206a704f47e389, type: 2}
-    - {fileID: 2100000, guid: fb310c758697c8f4583f199e7fb238d6, type: 2}
-    - {fileID: 2100000, guid: 3bbe93d1004939e4585f090072b2742b, type: 2}
+    - {fileID: 2100000, guid: 464070d666dee9840b206a704f47e389, type: 2}
+    - {fileID: 2100000, guid: bc1659a725e07794f869a7d3d69e6d49, type: 2}
+    - {fileID: 2100000, guid: bc1659a725e07794f869a7d3d69e6d49, type: 2}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -181,8 +181,8 @@ AnimationClip:
     m_Level: 0
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
-    m_LoopTime: 1
-    m_LoopBlend: 1
+    m_LoopTime: 0
+    m_LoopBlend: 0
     m_LoopBlendOrientation: 1
     m_LoopBlendPositionY: 1
     m_LoopBlendPositionXZ: 1
@@ -260,4 +260,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 1.8333334
+    functionName: StopBackGroundSound
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

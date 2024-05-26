@@ -21,7 +21,7 @@ public class WeaponItemPanel : MonoBehaviour,IItemPanel
         value = transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>();
         equipCharacter = transform.GetChild(4).GetChild(0).GetComponent<Image>();
         equipText = transform.GetChild(4).GetChild(1).GetComponent <TextMeshProUGUI>();
-        equipButton = transform.parent.GetChild(5).gameObject;
+        equipButton = transform.GetChild(5).gameObject;
     }
     public void UpdateItemPanel(int id, CharacterItemSprite characterFromSlot)
     {
