@@ -9,14 +9,15 @@ public class ChargeAttack : IPattern
     private float currentAngle;
     private float distance;
     private Vector3 targetPos;
-
+    private CapsuleCollider charge_capsule;
     
     public ChargeAttack(Wolf wolf)
     {
         m_Wolf = wolf;
         targetPos = m_Wolf.PlayerTransform.position;
         m_Wolf.BossAnimator.SetBool("isRun", true);
-        
+        charge_capsule = m_Wolf.ChargeCollider.GetComponent<CapsuleCollider>();
+        charge_capsule.enabled = true;
     }
 
     public void BossAttack()
@@ -30,6 +31,7 @@ public class ChargeAttack : IPattern
         else
         {
             m_Wolf.BossAnimator.SetBool("isRun", false);
+            charge_capsule.enabled = false;
             SelectAnimation();
             m_Wolf.BossRigid.velocity = Vector3.zero;
         }

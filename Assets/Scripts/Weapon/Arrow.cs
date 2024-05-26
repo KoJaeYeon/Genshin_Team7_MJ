@@ -1,17 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
-
-public class Arrow : Bow
+public class Arrow : MonoBehaviour
 {
-    public float speed = 20f;
+    private Rigidbody _rigidbody;
+    private Vector3 _initialPosition;
+    private bool _hasHitTarget = false;
+
     public float damage = 10f;
-    public Rigidbody rb;
+    public float maxDistance = 50f;
+    public Character character;
 
     private void Start()
     {
-        rb.velocity = transform.forward * speed;
+        _rigidbody = GetComponent<Rigidbody>();
+        _initialPosition = transform.position;
+    }
+
+    private void Update()
+    {
+        if (!_hasHitTarget && Vector3.Distance(_initialPosition, transform.position) > maxDistance)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -19,11 +28,12 @@ public class Arrow : Bow
         if (other.CompareTag("Enemy"))
         {
             Enemy enemy = other.GetComponent<Enemy>();
-            if(enemy != null)
+            if (enemy != null)
             {
                 Element currentElement = character != null ? character.GetCurrentWeaponElement() : Element.Normal;
                 enemy.TakeDamage(damage, currentElement, character);
             }
+            _hasHitTarget = true;
             Destroy(gameObject);
         }
     }

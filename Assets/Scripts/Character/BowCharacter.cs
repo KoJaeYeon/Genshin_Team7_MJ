@@ -1,9 +1,4 @@
-using Cinemachine;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class BowCharacter : Character
 {
@@ -11,24 +6,26 @@ public class BowCharacter : Character
     {
         characterType = CharacterType.Ranged;
         base.Start();
+        InitializeBow();
+    }
+
+    private void InitializeBow()
+    {
+        foreach (var weapon in weapons)
+        {
+            if (weapon is Bow)
+            {
+                weapon.gameObject.SetActive(true);
+                currentWeaponIndex = System.Array.IndexOf(weapons, weapon);
+                break;
+            }
+        }
     }
 
     public override void Attack()
     {
-        if (weapons.Length > 0)
-        {
-            weapons[currentWeaponIndex].UseWeapon();
-        }
-
-        if (hasAnimator)
-        {
-            _animator.SetTrigger("Attack");
-            _animator.SetBool("Attacking", true);
-        }
-        else
-        {
-            _animator.SetBool("Attacking", false);
-        }
+        PerformAttackAnimation();
+        AttackNearestEnemyInRange();
     }
 
     public override void UseElementalSkill()
@@ -55,5 +52,27 @@ public class BowCharacter : Character
     protected override void ResetSkill()
     {
         base.ResetSkill();
+    }
+
+    protected override void AttackTarget(Transform target)
+    {
+        if (weapons.Length > 0)
+        {
+            Bow bow = weapons[currentWeaponIndex] as Bow;
+            if (bow != null)
+            {
+                bow.UseWeapon(target);
+            }
+
+            if (hasAnimator)
+            {
+                _animator.SetTrigger("Attack");
+                _animator.SetBool("Attacking", true);
+            }
+            else
+            {
+                _animator.SetBool("Attacking", false);
+            }
+        }
     }
 }
