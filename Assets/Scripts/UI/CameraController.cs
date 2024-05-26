@@ -96,7 +96,10 @@ public class CameraController : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        eventDatas[touchCount] = eventData;
+        eventDatas[touchCount].delta = Vector2.zero;
         touchCount--;
+        
     }
 }
 
