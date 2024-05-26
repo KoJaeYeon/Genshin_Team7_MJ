@@ -72,6 +72,7 @@ public abstract class Character : MonoBehaviour
         if (_input.attack)
         {
             Attack();
+            _input.attack = false;
         }
         if (_input.skill && skillCooldownTimer <= 0)
         {
