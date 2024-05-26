@@ -8,12 +8,12 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_Metallic_Ice_Lake_7
-  m_Shader: {fileID: 4800000, guid: 44073f86762bc8e4c981c3e0e2747023, type: 3}
+  m_Shader: {fileID: 4800000, guid: 3c22b32dcfc1d7e46a482a8141d968e5, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 1
-  m_DoubleSidedGI: 1
+  m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap:
     MotionVector: User
@@ -26,8 +26,16 @@ Material:
         m_Texture: {fileID: 2800000, guid: 9c7edfac4ec6f2d44b9548fe6668a112, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseNormalMap:
         m_Texture: {fileID: 2800000, guid: eaa4472180dd935458843d4e4f46703e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CoverBaseColorMap:
@@ -46,7 +54,23 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DetailMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -74,6 +98,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: 3ec53193c224107479d2265fe4ffb8c9, type: 3}
         m_Scale: {x: 2, y: 2}
         m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Noise:
         m_Texture: {fileID: 2800000, guid: d6664ac72af3d5d47bee75cf2acd1ba1, type: 3}
         m_Scale: {x: 0.3, y: 0.3}
@@ -86,7 +118,23 @@ Material:
         m_Texture: {fileID: 2800000, guid: fd8b85b15dfe0ad4cbbc5613a12722c6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ParalaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TerrainHolesTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -136,6 +184,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 10
@@ -153,9 +202,12 @@ Material:
     - _BaseUsePlanarUV: 1
     - _Blend: 0
     - _BlendMode: 0
+    - _BumpScale: 1
     - _CleanColorPower: 0
     - _CleanFalloffMultiply: 0
     - _CleanFalloffPower: 0
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
     - _CoverAORemapMax: 1
     - _CoverAORemapMin: 0
     - _CoverHardness: 5
@@ -173,11 +225,15 @@ Material:
     - _Cover_Max_Angle: 35
     - _Cover_Min_Height: -10000
     - _Cover_Min_Height_Blending: 1
+    - _Cull: 2
     - _CullMode: 0
     - _CullModeForward: 0
+    - _Cutoff: 0.5
     - _Depth: 0.98
     - _DepthFalloff: -13
+    - _DetailAlbedoMapScale: 1
     - _DetailAlbedoScale: 0
+    - _DetailNormalMapScale: 1
     - _DetailNormalScale: 0
     - _DetailSmoothnessScale: 0
     - _DiffusionProfile: 0
@@ -185,7 +241,8 @@ Material:
     - _Distortion: 0.06
     - _DoubleSidedEnable: 1
     - _DoubleSidedNormalMode: 1
-    - _DstBlend: 10
+    - _DstBlend: 0
+    - _EnvironmentReflections: 1
     - _Float0: 0.0192
     - _Float1: 2
     - _Float2: 0
@@ -204,6 +261,8 @@ Material:
     - _FogColorHardness: 1.02
     - _FogDistance: 30
     - _FogHardness: 2.44
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _IceAmountOpacity: 1
     - _IceCrackSmoothness: 0
@@ -224,14 +283,19 @@ Material:
     - _Ice_Thickness: 9
     - _MaskClipValue: 0.5
     - _MetalicPower: 0.3
+    - _Metallic: 0
+    - _Mode: 0
     - _NoiseBlend: 0.244
     - _NoiseNormalScale: 0
     - _NoisePower: 1
     - _NormalScale: 0.7
+    - _OcclusionStrength: 1
     - _ParalaxOffset: 0
+    - _Parallax: 0.02
     - _ParallaxFalloff: 0
     - _QueueControl: 1
     - _QueueOffset: 0
+    - _ReceiveShadows: 1
     - _ReceivesSSR: 1
     - _RefractionPower: 0.155
     - _RenderQueueType: 5
@@ -244,7 +308,8 @@ Material:
     - _ShadowSpecularPower: 0
     - _ShalowFalloffMultiply: 0
     - _ShalowFalloffPower: 0
-    - _Smoothness: 0.9
+    - _Smoothness: 0.5
+    - _SmoothnessTextureChannel: 0
     - _Smothness: 0.869
     - _SpecPower: 1
     - _Specular: 0.1
@@ -261,6 +326,7 @@ Material:
     - _StencilWriteMaskDistortionVec: 64
     - _StencilWriteMaskGBuffer: 51
     - _StencilWriteMaskMV: 176
+    - _Surface: 0
     - _SurfaceType: 1
     - _Thickness: 0
     - _TransAmbient: 0.2
@@ -273,6 +339,7 @@ Material:
     - _TransparentCullMode: 2
     - _TransparentSortPriority: 1
     - _USEDYNAMICCOVERTSTATICMASKF: 1
+    - _UVSec: 0
     - _UseShadowThreshold: 0
     - _WaterAlphaMultiply: 0
     - _WaterAlphaPower: 0
@@ -281,6 +348,7 @@ Material:
     - _WaterSmoothness: 0.9
     - _WaterSpecular: 0.05
     - _WetSmoothness: 0
+    - _WorkflowMode: 1
     - _ZTestDepthEqualForOpaque: 4
     - _ZTestGBuffer: 4
     - _ZTestTransparent: 4
@@ -289,8 +357,9 @@ Material:
     - _iCE_dEPTH: 0.019
     m_Colors:
     - _BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseTilingOffset: {r: -150, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 0}
     - _Color0: {r: 0.83823526, g: 0.83823526, b: 0.83823526, a: 0}
     - _Color1: {r: 0, g: 0.048731543, b: 0.22794023, a: 0}
     - _CoverBaseColor: {r: 1, g: 1, b: 1, a: 0}
