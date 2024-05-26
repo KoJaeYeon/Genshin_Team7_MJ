@@ -16,7 +16,7 @@ public class NomalHilichurl : Enemy, IColor
         state.AddState(EnemyState.TraceMove, new NomalHilichurlTraceMove(this));
         state.AddState(EnemyState.TraceAttack,new NomalHilichurlTraceAttack(this)); 
                         //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
-        enemyData = new EnemyData(220f, 10f, 3f, 0.1f, 100, Element.Normal);
+        enemyData = new EnemyData(220f, 100f, 3f, 0.1f, 100, Element.Normal);
         EnemyHealthDic.Add(this, enemyData.Health);
 
         HpSlider.maxValue = enemyData.Health;

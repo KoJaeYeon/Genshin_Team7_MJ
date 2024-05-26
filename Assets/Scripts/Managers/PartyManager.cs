@@ -85,7 +85,8 @@ public class PartyManager : MonoBehaviour
                 particle.SetActive(false);
                 particle.SetActive(true);
             }
-
+            UIManager.Instance.currentCharacter = characterIndex;
+            UIManager.Instance.Health(activeCharacters[characterIndex].currentHealth / activeCharacters[characterIndex].maxHealth);
             SetSkiilSprite(currentCharacterIndex);
         }
         else

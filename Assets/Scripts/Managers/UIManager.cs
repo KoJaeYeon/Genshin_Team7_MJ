@@ -31,6 +31,10 @@ public class UIManager : Singleton<UIManager>
     IActivePanel characterPanel_IActivePanel;
     public GameObject DataPanel;
 
+    public Slider UIHealth;
+    public Slider[] characterHealth;
+    public int currentCharacter;
+
 
     SkillUI skillUI;
 
@@ -156,6 +160,12 @@ public class UIManager : Singleton<UIManager>
         {
             itemGetContent.transform.parent.parent.gameObject.SetActive(false);
         }
+    }
+
+    public void Health(float value)
+    {
+        characterHealth[currentCharacter].value = value;
+        UIHealth.value = value;
     }
 
     public void SetSkillSprite(Sprite attack_Image, Sprite skill_Image, Sprite burst_Image, Sprite burst_Full_Image)
