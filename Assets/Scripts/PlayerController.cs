@@ -207,11 +207,15 @@ public class PlayerController : MonoBehaviour
 
     private void CliffCheck()
     {
-        Vector3 spherePosiiton = new Vector3(transform.position.x, transform.position.y + CliffCheckOffsetY,
-            transform.position.z + CliffCheckOffsetZ);
+        Vector3 forwardDirection = transform.forward;
+        Vector3 spherePosition = new Vector3(
+            transform.position.x + forwardDirection.x * CliffCheckOffsetZ,
+            transform.position.y + CliffCheckOffsetY,
+            transform.position.z + forwardDirection.z * CliffCheckOffsetZ);
 
-        Cliff = Physics.CheckSphere(spherePosiiton, CliffCheckRadius, CliffLayers,
+        Cliff = Physics.CheckSphere(spherePosition, CliffCheckRadius, CliffLayers,
             QueryTriggerInteraction.Ignore);
+
 
         if (_hasAnimator)
         {
@@ -220,7 +224,6 @@ public class PlayerController : MonoBehaviour
             if (Cliff)
             {
                 Grounded = false;
-                transform.rotation = Quaternion.identity;
                 _animator.SetBool("Climb", true);
                 _animator.SetBool(_animIDGrounded, false);
                 _animator.SetBool(_animIDFreeFall, false);
@@ -230,6 +233,18 @@ public class PlayerController : MonoBehaviour
         if(!Cliff && _isClimbing)
         {
             StartClimbUpAnimation();
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (transform != null)
+        {
+            Vector3 forwardDirection = transform.forward;
+            Vector3 spherePosition = transform.position + forwardDirection * CliffCheckOffsetZ + Vector3.up * CliffCheckOffsetY;
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(spherePosition, CliffCheckRadius);
         }
     }
 
