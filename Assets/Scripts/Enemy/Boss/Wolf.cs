@@ -54,7 +54,7 @@ public class Wolf : Enemy, IColor
         bossRigid = GetComponent<Rigidbody>();
         EnemyHealthDic = new Dictionary<Enemy, float>();
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        enemyData = new EnemyData(20000f, 20f, 4f, 0.3f, 9999, Element.Ice);
+        enemyData = new EnemyData(2000f, 1000f, 4f, 0.5f, 9999, Element.Ice);
         EnemyHealthDic.Add(this, enemyData.Health);
         paralyzation = 100f;
 
@@ -586,7 +586,7 @@ public class WolfAttackState_Claw : WolfState
     public WolfAttackState_Claw(Wolf wolf) : base(wolf) { }
 
     private bool Hit;
-    private float claw_Atk = 10.0f;
+    private float claw_Atk = 1f;
     public override void StateEnter()
     {
         Init_Claw();
@@ -602,7 +602,7 @@ public class WolfAttackState_Claw : WolfState
         {
             Hit = true;
             Character player = other.gameObject.GetComponentInChildren<Character>();
-            player.TakeDamage(m_Wolf.GetAtk() + claw_Atk);
+            player.TakeDamage(m_Wolf.GetAtk() * claw_Atk);
         }
     }
     private void Init_Claw()
@@ -636,7 +636,7 @@ public class WolfAttackState_Charge : WolfState
     public WolfAttackState_Charge(Wolf wolf) : base(wolf) { }
 
     private bool Hit;
-    private float charge_Atk = 20.0f;
+    private float charge_Atk = 2f;
 
     public override void StateEnter()
     {
@@ -660,7 +660,7 @@ public class WolfAttackState_Charge : WolfState
             Hit = true;
             Debug.Log("플레이어 박음");
             Character player = other.gameObject.GetComponentInChildren<Character>();
-            player.TakeDamage(m_Wolf.GetAtk() + charge_Atk);
+            player.TakeDamage(m_Wolf.GetAtk() * charge_Atk);
         }
     }
 
