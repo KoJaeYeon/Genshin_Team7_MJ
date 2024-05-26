@@ -103,6 +103,9 @@ public class PlayerController : MonoBehaviour
 
     public CharacterData characterData;
 
+    private bool _isRunningSoundPlaying = false;
+    private bool _isSprintingSoundPlaying = false;
+
     private void Awake()
     {
         if (_mainCamera == null)
@@ -407,6 +410,8 @@ public class PlayerController : MonoBehaviour
             _animator.SetFloat("horizontal", horizontalInput);
             _animator.SetFloat("vertical", verticalInput);
         }
+
+        PlayMovementSound(targetSpeed);
     }
 
     private void Climb()
@@ -594,4 +599,37 @@ public class PlayerController : MonoBehaviour
     {
         rotateOnMove = newRotateOnMove;
     }
+
+    private void PlayMovementSound(float targetSpeed)
+    {
+        if (targetSpeed == MoveSpeed)
+        {
+            if (!_isRunningSoundPlaying)
+            {
+                SoundManager.Instance.effectSource.clip = SoundManager.Instance.effectDictionary["Run"];
+                SoundManager.Instance.effectSource.loop = true;
+                SoundManager.Instance.effectSource.Play();
+                _isRunningSoundPlaying = true;
+                _isSprintingSoundPlaying = false;
+            }
+        }
+        else if (targetSpeed == SprintSpeed)
+        {
+            if (!_isSprintingSoundPlaying)
+            {
+                SoundManager.Instance.effectSource.clip = SoundManager.Instance.effectDictionary["Sprint"];
+                SoundManager.Instance.effectSource.loop = true;
+                SoundManager.Instance.effectSource.Play();
+                _isSprintingSoundPlaying = true;
+                _isRunningSoundPlaying = false;
+            }
+        }
+        else if (targetSpeed == 0.0f)
+        {
+            SoundManager.Instance.effectSource.Stop();
+            _isRunningSoundPlaying = false;
+            _isSprintingSoundPlaying = false;
+        }
+    }
 }
+
