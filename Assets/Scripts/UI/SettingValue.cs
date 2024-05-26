@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class SettingValue : MonoBehaviour
 {
     public PlayerInputHandler playerInputHandler;
-    public SoundManager soundManager;
 
     public Slider slider_Main;
     TextMeshProUGUI text_Main;
@@ -35,35 +34,36 @@ public class SettingValue : MonoBehaviour
 
         // Initialize slider values based on SoundManager settings
         slider_Main.value = AudioListener.volume;
-        slider_Volume.value = soundManager.effectSource.volume;
-        slider_Music.value = soundManager.bgmSource.volume;
+        slider_Volume.value = SoundManager.Instance.effectSource.volume;
+        slider_Music.value = SoundManager.Instance.bgmSource.volume;
     }
 
     public void ValueMain()
     {
         float volume = slider_Main.value;
-        text_Main.text = volume.ToString("0.0");
+        text_Main.text = volume.ToString();
         images_Main[0].SetActive(volume > 0);
         images_Main[1].SetActive(volume > 6);
-        AudioListener.volume = volume;
+        AudioListener.volume = volume / 10;
     }
 
     public void ValueMusic()
     {
         float volume = slider_Music.value;
-        text_Music.text = volume.ToString("0.0");
+        text_Music.text = volume.ToString();
         images_Music[0].SetActive(volume > 0);
         images_Music[1].SetActive(volume > 6);
-        soundManager.bgmSource.volume = volume;
+        SoundManager.Instance.bgmSource.volume = volume / 10;
     }
 
     public void ValueEffect()
     {
         float volume = slider_Volume.value;
-        text_Volume.text = volume.ToString("0.0");
+        text_Volume.text = volume.ToString();
         images_Volume[0].SetActive(volume > 0);
         images_Volume[1].SetActive(volume > 6);
-        soundManager.effectSource.volume = volume;
+        SoundManager.Instance.effectSource.volume = volume / 10;
+        SoundManager.Instance.effectSource2.volume = volume / 10;
     }
 
     public void ValueHorizontal()

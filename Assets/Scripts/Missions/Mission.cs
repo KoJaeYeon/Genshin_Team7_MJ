@@ -18,13 +18,11 @@ public class Mission : MonoBehaviour, IInteractable
 
     public Animator animator;
     SphereCollider sphereCollider;
-    AudioSource audioSource;
 
     private void Awake()
     {
         sphereCollider = GetComponent<SphereCollider>();
         particles = new GameObject[transform.GetChild(0).childCount];     
-        audioSource = GetComponent<AudioSource>();
         for (int i = 0; i < particles.Length; i++)
         {
             particles[i] = transform.GetChild(0).GetChild(i).gameObject;
@@ -91,7 +89,8 @@ public class Mission : MonoBehaviour, IInteractable
             transform.GetChild(2).gameObject.SetActive(false);
             animator.Play("Succes");
             chestParticle.SetActive(true);
-            audioSource.Play();
+            SoundManager.Instance.effectSource2.clip = SoundManager.Instance.effectDictionary["Spawn"];
+            SoundManager.Instance.effectSource2.Play();
         }
     }
 
