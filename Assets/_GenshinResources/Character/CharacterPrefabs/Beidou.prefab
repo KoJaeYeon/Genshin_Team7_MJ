@@ -874,8 +874,7 @@ MonoBehaviour:
   CameraAngleOverride: 0
   LockCameraPosition: 0
   virtualCamera: {fileID: 0}
-  crosshair: {fileID: 7583467122485059675, guid: ed38a61bc1114a243969fbc83a08e6b2,
-    type: 3}
+  AimVerticalSensitivity: 0.5
   _wingAnimator: {fileID: 4201766061521580271}
   characterData: {fileID: 11400000, guid: 4872aac53079cc4429ab0ba52d84d7ef, type: 2}
 --- !u!114 &-3963240903054677831
@@ -7469,6 +7468,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Claymore_MillenniaTuna
       objectReference: {fileID: 0}
+    - target: {fileID: 8391512540698426520, guid: 3ae37513818701e4baf85fce8b9d3f83,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9169175590687794722, guid: 3ae37513818701e4baf85fce8b9d3f83,
         type: 3}
       propertyPath: m_RootOrder
@@ -7570,6 +7574,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Claymore_Dvalin
+      objectReference: {fileID: 0}
+    - target: {fileID: 6124844977313619368, guid: d52628e1a79baed4f89f28b6b6afbdbf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6896139827501942546, guid: d52628e1a79baed4f89f28b6b6afbdbf,
         type: 3}
