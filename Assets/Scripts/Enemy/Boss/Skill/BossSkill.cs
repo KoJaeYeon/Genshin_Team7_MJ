@@ -21,13 +21,13 @@ public class BossSkill : MonoBehaviour
         Init();
     }
 
-    private void Init()
+    private void Init() //대미지는 *
     {
-        skillDic.Add(Skill.Howl, 10.0f);
-        skillDic.Add(Skill.Jump, 50.0f);
-        skillDic.Add(Skill.Drift, 100.0f);
-        skillDic.Add(Skill.Stamp, 50.0f);
-        skillDic.Add(Skill.Ice_Rain, 20.0f);
+        skillDic.Add(Skill.Howl, 1.0f);
+        skillDic.Add(Skill.Jump, 4.0f);
+        skillDic.Add(Skill.Drift, 1.0f);
+        skillDic.Add(Skill.Stamp, 2.0f);
+        skillDic.Add(Skill.Ice_Rain, 2.0f);
     }
 
     public float GetSkillDamage(Skill name)

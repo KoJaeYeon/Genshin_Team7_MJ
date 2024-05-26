@@ -18,7 +18,7 @@ public class Drift : BossSkill
 
     public override void SetAtk(float atk)
     {
-        drift_Atk = GetSkillDamage(Skill.Drift);
+        drift_Atk = GetSkillDamage(Skill.Drift) * atk;
     }
 
     private void OnTriggerEnter(Collider other)
