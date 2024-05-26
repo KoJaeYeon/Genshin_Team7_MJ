@@ -459,7 +459,7 @@ public class PlayerController : MonoBehaviour
             if (_input.jump && _jumpTimeoutDelta <= 0.0f)
             {
                 _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-
+                _input.jump = false;
                 if (_hasAnimator)
                 {
                     _animator.SetBool(_animIDJump, true);
@@ -484,6 +484,7 @@ public class PlayerController : MonoBehaviour
 
             if(_input.jump && (_verticalVelocity < 0.0f || _input.windfield))
             {
+                _input.jump = false;
                 if (_isGliding)
                     StopGliding();
                 else
