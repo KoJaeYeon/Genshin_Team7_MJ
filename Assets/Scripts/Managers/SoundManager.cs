@@ -15,7 +15,7 @@ public class SoundManager : Singleton<SoundManager>
     public AudioClip battleBgm;
     public AudioClip bossBGM;
 
-    private Dictionary<string, AudioClip> effectDictionary;
+    public Dictionary<string, AudioClip> effectDictionary;
 
     private float checkInterval = 60f; 
     private float nextCheckTime = 0f;

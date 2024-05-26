@@ -11,9 +11,10 @@ public class Catalyst_Melee : Weapon
     public float attackRange = 0.5f;
     public float attackDamage = 20f;
 
-    public override void UseWeapon(Transform target = null)
+    public override void UseWeapon()
     {
         PerformMeleeAttack();
+        SoundManager.Instance.PlayEffect("Wrio_Attack");
     }
 
     private void PerformMeleeAttack()

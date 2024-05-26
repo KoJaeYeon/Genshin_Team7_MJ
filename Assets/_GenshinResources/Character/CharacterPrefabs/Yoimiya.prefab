@@ -896,6 +896,37 @@ Transform:
   m_Father: {fileID: 2280474290745753950}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &882406098675223019
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7092464726083837688}
+  m_Layer: 7
+  m_Name: ArrowSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7092464726083837688
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 882406098675223019}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.1, z: 0.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6717645907853128726}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &963403030316324316
 GameObject:
   m_ObjectHideFlags: 0
@@ -2508,8 +2539,8 @@ MonoBehaviour:
   element: 0
   arrowPrefab: {fileID: 4766542514737433830, guid: 7274f976d04986346a9314299638dac1,
     type: 3}
-  arrowSpawnPoint: {fileID: 9062758251571049347}
-  speed: 20
+  arrowSpawnPoint: {fileID: 7092464726083837688}
+  arrowSpeed: 20
 --- !u!1 &3437258106325316712
 GameObject:
   m_ObjectHideFlags: 0
@@ -2560,8 +2591,8 @@ MonoBehaviour:
   element: 0
   arrowPrefab: {fileID: 4766542514737433830, guid: 7274f976d04986346a9314299638dac1,
     type: 3}
-  arrowSpawnPoint: {fileID: 9062758251571049347}
-  speed: 20
+  arrowSpawnPoint: {fileID: 7092464726083837688}
+  arrowSpeed: 20
 --- !u!1 &3437258106916969567
 GameObject:
   m_ObjectHideFlags: 0
@@ -2612,8 +2643,8 @@ MonoBehaviour:
   element: 0
   arrowPrefab: {fileID: 4766542514737433830, guid: 7274f976d04986346a9314299638dac1,
     type: 3}
-  arrowSpawnPoint: {fileID: 9062758251571049347}
-  speed: 20
+  arrowSpawnPoint: {fileID: 7092464726083837688}
+  arrowSpeed: 20
 --- !u!1 &3439149477534761813
 GameObject:
   m_ObjectHideFlags: 0
@@ -5025,7 +5056,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 9062758251571049347}
+  - {fileID: 7092464726083837688}
   - {fileID: 7777964815545767996}
   - {fileID: 6680511355091457672}
   - {fileID: 8338231605660262659}
@@ -5128,8 +5159,6 @@ MonoBehaviour:
   - {fileID: 6460406863269768477}
   - {fileID: 3101878418714321502}
   characterData: {fileID: 11400000, guid: 4f7e5ca0e38f0c3409db470f11738466, type: 2}
-  detectionRange: 10
-  detectionAngle: 45
   maxElementalEnergy: 100
   currentElementalEnergy: 0
   energyGainPerHit: 10
@@ -5140,6 +5169,8 @@ MonoBehaviour:
   currentHealth: 0
   attackPower: 0
   defensePower: 0
+  detectionRange: 10
+  detectionAngle: 45
 --- !u!1 &6292605143367896526
 GameObject:
   m_ObjectHideFlags: 0
@@ -5823,37 +5854,6 @@ Transform:
   m_Children:
   - {fileID: 63881859501579799}
   m_Father: {fileID: 6760563675107063181}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &7038576467650445622
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9062758251571049347}
-  m_Layer: 0
-  m_Name: ProjectileSpawnPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &9062758251571049347
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7038576467650445622}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.1, z: 0.6}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6717645907853128726}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7094848928665100631
