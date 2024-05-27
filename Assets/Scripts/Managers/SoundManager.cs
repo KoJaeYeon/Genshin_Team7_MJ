@@ -5,6 +5,7 @@ using UnityEngine;
 public class SoundManager : Singleton<SoundManager>
 {
     public AudioSource effectSource;
+    public AudioSource effectSource2;
     public AudioSource bgmSource;
     public List<AudioClip> effectClips;
     public AudioClip morningBgm;
