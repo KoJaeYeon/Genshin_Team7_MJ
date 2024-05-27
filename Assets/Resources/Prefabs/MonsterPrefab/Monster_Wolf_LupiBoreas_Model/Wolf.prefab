@@ -4060,6 +4060,7 @@ MonoBehaviour:
   left_Hand: {fileID: 6454348905801976665}
   right_Hand: {fileID: 2134086055553465031}
   ChargeCollider: {fileID: 6274542349107359075}
+  effectPool: {fileID: 0}
 --- !u!195 &616660749
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4074,7 +4075,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 6
+  m_StoppingDistance: 8
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -4096,7 +4097,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!114 &40675197279545420
 MonoBehaviour:
@@ -4128,6 +4129,7 @@ MonoBehaviour:
   MagicPoint: {fileID: 1626877807}
   TailPoint: {fileID: 536267748}
   IcePoint: {fileID: 651626472316925640}
+  EffectPool: {fileID: 0}
 --- !u!114 &216038152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4780,7 +4782,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5877085804378897826}
   - component: {fileID: 2077042113}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Bone_R_Foot_Twist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8325,7 +8327,7 @@ GameObject:
   m_Component:
   - component: {fileID: 564913353721997319}
   - component: {fileID: 481275358}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Bone_L_Foot_Twist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8690,7 +8692,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4146894837572404866}
   - component: {fileID: 1605321356}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Bone_R_Hand_Twist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9321,7 +9323,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7299182231954353098}
   - component: {fileID: 203553438}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Bone_L_Hand_Twist
   m_TagString: Untagged
   m_Icon: {fileID: 0}

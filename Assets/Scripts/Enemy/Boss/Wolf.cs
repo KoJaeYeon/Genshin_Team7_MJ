@@ -40,6 +40,8 @@ public class Wolf : Enemy, IColor
     private Rigidbody bossRigid;
     private Color BossColor = Color.blue;
     private IPattern bossAttack;
+
+    public GameObject effectPool;
     
     private new void Awake()
     {
@@ -60,6 +62,11 @@ public class Wolf : Enemy, IColor
 
         HpSlider = transform.GetComponentInChildren<Slider>();
         Hp = HpSlider.fillRect.transform.parent.gameObject;
+    }
+
+    private void Update()
+    {
+        Debug.Log(EnemyHealthDic[this]);
     }
 
     public void InitState()
@@ -201,6 +208,7 @@ public class Wolf : Enemy, IColor
         }
 
         yield return new WaitForSeconds(1.5f);
+        effectPool.SetActive(false);
         enemy.gameObject.SetActive(false);
     }
 
