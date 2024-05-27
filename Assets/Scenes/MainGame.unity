@@ -35049,11 +35049,6 @@ MonoBehaviour:
   - {fileID: 1207489490438275153, guid: 7a5521bc8de737749979b39154dce2f1, type: 3}
   - {fileID: 6659621175169750543, guid: c19892e80af349346a13694c9023e590, type: 3}
   - {fileID: 6229058758253833900, guid: 6d45b468e6a6e9f41a686e0fa587af51, type: 3}
-  characterDatas:
-  - {fileID: 11400000, guid: 4872aac53079cc4429ab0ba52d84d7ef, type: 2}
-  - {fileID: 11400000, guid: ef27d79d443a8894a9f31a4f7235b25d, type: 2}
-  - {fileID: 11400000, guid: 809c4441eeb29c544b004b22f659d40c, type: 2}
-  - {fileID: 11400000, guid: 4f7e5ca0e38f0c3409db470f11738466, type: 2}
   spawnPosition: {fileID: 1753501953}
   playerParent: {fileID: 1753501948}
 --- !u!1001 &1970570020
@@ -38168,6 +38163,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5312937190254462604, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5312937190282117892, guid: 0b155813078bb66438a3fa15de1e8e86,
         type: 3}
       propertyPath: playerInput
@@ -38321,13 +38321,18 @@ PrefabInstance:
     - target: {fileID: 5312937190869537192, guid: 0b155813078bb66438a3fa15de1e8e86,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5312937190911334096, guid: 0b155813078bb66438a3fa15de1e8e86,
         type: 3}
       propertyPath: playerInputHandler
       value: 
       objectReference: {fileID: 1753501951}
+    - target: {fileID: 5312937190911334099, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5312937190924092338, guid: 0b155813078bb66438a3fa15de1e8e86,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -38352,6 +38357,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785396369746392769, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.5803922
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b155813078bb66438a3fa15de1e8e86, type: 3}
