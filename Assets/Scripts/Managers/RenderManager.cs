@@ -1,5 +1,6 @@
 using UnityEngine;
-using System;
+using TMPro;
+using UnityEngine.UI;
 
 public class RenderManager : MonoBehaviour
 {
@@ -14,6 +15,11 @@ public class RenderManager : MonoBehaviour
     public PropertyText_Weapon weaponPropertyText;
     public PropertyText_Relic relicPropertyText;
     public ParticleSystem particle;
+
+    public Sprite[] playerElement = new Sprite[4];
+
+    public Image elementImage;
+    public TextMeshProUGUI characterName;
 
     private void Awake()
     {
@@ -82,7 +88,25 @@ public class RenderManager : MonoBehaviour
             {
                 Manekins[i].gameObject.SetActive(false);
             }
-        }        
+        }
+
+        elementImage.sprite = playerElement[index];
+        switch(index)
+        {
+            case 0:
+                characterName.text = "번개 원소 / 북두";
+                break;
+            case 1:
+                characterName.text = "물 원소 / 코코미";
+                break;
+            case 2:
+                characterName.text = "얼음 원소 / 라이오슬리";
+                break;
+            case 3:
+                characterName.text = "불 원소 / 요이미아";
+                break;
+        }
+
     }    
 
 }
