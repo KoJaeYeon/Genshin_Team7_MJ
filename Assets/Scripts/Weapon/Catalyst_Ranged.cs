@@ -3,7 +3,7 @@ using UnityEngine;
 public class Catalyst_Ranged : Weapon
 {
     public float range = 20f;
-    public float damage = 10f;
+    public float damage;
     public float detectionAngle = 45f;
     public LayerMask enemyLayer;
 
@@ -15,6 +15,8 @@ public class Catalyst_Ranged : Weapon
             Vector3 directionToTarget = (target.transform.position - transform.parent.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToTarget.x, 0f, directionToTarget.z));
             transform.parent.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
+
+            damage = (int)(((PartyManager.Instance.GetCurrentCharacterData().baseAtk + EquipManager.Instance.kokomi_Equip.featherDamage + EquipManager.Instance.kokomi_Equip.weaponDamage) * (1 + EquipManager.Instance.kokomi_Equip.trohphy_AttackPercent / 100f)) / 10f);
 
             RaycastHit hit;
             if (Physics.Raycast(transform.position, transform.forward, out hit, range))

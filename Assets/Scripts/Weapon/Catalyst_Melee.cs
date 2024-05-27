@@ -9,7 +9,7 @@ public class Catalyst_Melee : Weapon
     public Transform rightHandAttackPoint;
 
     public float attackRange = 0.5f;
-    public float attackDamage = 20f;
+    public float attackDamage;
 
     public override void UseWeapon()
     {
@@ -19,6 +19,8 @@ public class Catalyst_Melee : Weapon
 
     private void PerformMeleeAttack()
     {
+        attackDamage = (int)(((PartyManager.Instance.GetCurrentCharacterData().baseAtk + EquipManager.Instance.wrio_Equip.featherDamage + EquipManager.Instance.wrio_Equip.weaponDamage) * (1 + EquipManager.Instance.wrio_Equip.trohphy_AttackPercent / 100f)) / 10f);
+
         Collider[] hitEnemiesLeftHand = Physics.OverlapSphere(leftHandAttackPoint.position, attackRange, enemyLayer);
         Collider[] hitEnemiesRightHand = Physics.OverlapSphere(rightHandAttackPoint.position, attackRange, enemyLayer);
 

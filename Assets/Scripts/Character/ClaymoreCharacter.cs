@@ -13,6 +13,7 @@ public class ClaymoreCharacter : Character
     {
         if(weapons.Length > 0)
         {
+            
             weapons[currentWeaponIndex].UseWeapon();
         }
 
