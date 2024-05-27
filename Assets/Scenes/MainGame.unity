@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18387091, g: 0.22901818, b: 0.30311352, a: 1}
+  m_IndirectSpecularColor: {r: 0.18387082, g: 0.22901846, b: 0.30311424, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -42376,7 +42376,7 @@ PrefabInstance:
     - target: {fileID: 3949286893831873771, guid: 271095b80693a634283cf6b973d130a6,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3949286893831873772, guid: 271095b80693a634283cf6b973d130a6,
         type: 3}
@@ -43100,6 +43100,11 @@ PrefabInstance:
       propertyPath: _input
       value: 
       objectReference: {fileID: 1753501951}
+    - target: {fileID: 5312937189407714211, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5312937189495246980, guid: 0b155813078bb66438a3fa15de1e8e86,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -43138,6 +43143,11 @@ PrefabInstance:
     - target: {fileID: 5312937190230696657, guid: 0b155813078bb66438a3fa15de1e8e86,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312937190254462604, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5312937190282117892, guid: 0b155813078bb66438a3fa15de1e8e86,
@@ -43364,6 +43374,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312937191526008764, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312937191526008764, guid: 0b155813078bb66438a3fa15de1e8e86,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 120
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5312937191251141896, guid: 0b155813078bb66438a3fa15de1e8e86, type: 3}
