@@ -181,6 +181,7 @@ public class Wolf : Enemy, IColor
 
     public override void TakeDamage(float damage, Element element, Character attacker)
     {
+        Debug.Log("das");
         EnemyHealthDic[this] -= CalculateDamage(damage, element);
         paralyzation -= 1f;
         HpSlider.value = EnemyHealthDic[this];
