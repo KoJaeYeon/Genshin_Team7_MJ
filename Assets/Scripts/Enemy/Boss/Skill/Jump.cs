@@ -15,7 +15,7 @@ public class Jump : BossSkill
 
     public override void SetAtk(float atk)
     {
-        jump_Atk = skillDic[Skill.Jump] + atk;
+        jump_Atk = skillDic[Skill.Jump] * atk;
     }
     
 
@@ -32,7 +32,8 @@ public class Jump : BossSkill
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             Debug.Log("Jump");
-            Debug.Log(jump_Atk + "ÇÇÇØ");
+            Character player = other.gameObject.GetComponentInChildren<Character>();
+            player.TakeDamage(jump_Atk);
         }
     }
 }

@@ -20,7 +20,7 @@ public class CameraController : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     private void Awake()
     {
 #if !UNITY_ANDROID
-        //Destroy(this.gameobject);
+        Destroy(this);
 #endif
         eventDatas = new PointerEventData[20];
     }
@@ -96,7 +96,10 @@ public class CameraController : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        eventDatas[touchCount] = eventData;
+        eventDatas[touchCount].delta = Vector2.zero;
         touchCount--;
+        
     }
 }
 

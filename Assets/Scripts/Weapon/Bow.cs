@@ -1,50 +1,27 @@
-using Cinemachine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Bow : Weapon
 {
     public GameObject arrowPrefab;
     public Transform arrowSpawnPoint;
-    private bool isAiming = false;
+    public float arrowSpeed = 1f;
 
     public override void UseWeapon()
     {
-        if (isAiming)
-        {
-            PerformAimedShot();
-        }
-        else
-        {
-            PerformNormalShot();
-        }
-    }
-
-    private void PerformNormalShot()
-    {
+        Shoot();
+        SoundManager.Instance.PlayEffect("Yoimiya_Attack");
         
     }
 
-    private void PerformAimedShot()
+    private void Shoot()
     {
-        
-    }
-
-    private void Update()
-    {
-        if (Keyboard.current.rKey.wasPressedThisFrame)
+        if (arrowPrefab != null && arrowSpawnPoint != null)
         {
-            isAiming = !isAiming;
-            if (isAiming)
+            GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, arrowSpawnPoint.rotation);
+            Rigidbody rb = arrow.GetComponent<Rigidbody>();
+            if (rb != null)
             {
-
-            }
-            else
-            {
-
+                rb.velocity = arrowSpawnPoint.forward * arrowSpeed;
             }
         }
     }

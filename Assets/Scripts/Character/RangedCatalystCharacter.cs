@@ -1,59 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class RangedCatalystCharacter : Character
 {
     protected override void Start()
     {
         characterType = CharacterType.Ranged;
         base.Start();
-        foreach(var weapon in weapons)
-        {
-            if(weapon is Catalyst_Ranged)
-            {
-                weapon.gameObject.SetActive(true);
-                currentWeaponIndex = System.Array.IndexOf(weapons, weapon);
-                break;
-            }
-        }
     }
 
-    private void Update()
-    {
-        if (_input.attack)
-        {
-            Attack();
-        }
-        if (_input.skill && skillCooldownTimer <= 0)
-        {
-            UseElementalSkill();
-            skillCooldownTimer = skillCooldown;
-            isSkillActive = true;
-            skillDurationTimer = skillDuration;
-        }
-
-        if (_input.burst)
-        {
-            UseElementalBurst();
-        }
-
-        if (isSkillActive)
-        {
-            skillDurationTimer -= Time.deltaTime;
-
-            if (skillDurationTimer <= 0f)
-            {
-                ResetSkill();
-                isSkillActive = false;
-            }
-        }
-
-        if (skillCooldownTimer > 0f)
-        {
-            skillCooldownTimer -= Time.deltaTime;
-        }
-    }
     public override void Attack()
     {
         if (weapons.Length > 0)
