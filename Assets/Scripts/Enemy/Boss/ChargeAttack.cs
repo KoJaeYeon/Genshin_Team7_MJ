@@ -16,7 +16,8 @@ public class ChargeAttack : IPattern
     {
         m_Wolf = wolf;
         targetPos = (m_Wolf.PlayerTransform.position - m_Wolf.transform.position).normalized;
-        MovePos = m_Wolf.PlayerTransform.position + targetPos * 5.0f;
+        MovePos = m_Wolf.PlayerTransform.position + targetPos * 2.0f;
+        
         m_Wolf.BossAnimator.SetBool("isRun", true);
         charge_capsule = m_Wolf.ChargeCollider.GetComponent<CapsuleCollider>();
         charge_capsule.enabled = true;
@@ -74,5 +75,4 @@ public class ChargeAttack : IPattern
             m_Wolf.State.ChangeState(BossState.Attack);
         }
     }
-
 }
