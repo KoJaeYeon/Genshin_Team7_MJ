@@ -58,8 +58,8 @@ public class Wolf : Enemy, IColor
         EnemyHealthDic.Add(this, enemyData.Health);
         paralyzation = 100f;
 
-        //HpSlider = transform.GetComponentInChildren<Slider>();
-        //Hp = HpSlider.fillRect.transform.parent.gameObject;
+        HpSlider = transform.GetComponentInChildren<Slider>();
+        Hp = HpSlider.fillRect.transform.parent.gameObject;
     }
 
     public void InitState()
