@@ -9,7 +9,7 @@ public abstract class BaseState
     public abstract void StateEnter();
     public abstract void StateUpDate();
     public abstract void StateExit();
-    public abstract void OnCollisionEnter(Collision collision);
+    public virtual void OnCollisionEnter(Collision collision) { }
 }
 
 public abstract class BossBaseState

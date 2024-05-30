@@ -402,6 +402,7 @@ public class WolfAttackState : WolfState
         JumpBack(Angle, Distance);
         Turn(Angle);
 
+
         if (!m_Wolf.MoveStop)
         {
             if (Distance <= 10.0f)

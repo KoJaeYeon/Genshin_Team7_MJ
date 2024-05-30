@@ -3,21 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class FireHilichurl : Enemy,IColor
+public class FireHilichurl : Enemy, IColor
 {
     protected override void Awake()
     {
         base.Awake();
- 
+        InitState();
+        InitEnemyData();
+    }
+
+    private void InitState()
+    {
         state = gameObject.AddComponent<EnemyStateMachine>();
         state.AddState(EnemyState.Idle, new FireHilichurlIdle(this));
         state.AddState(EnemyState.Move, new FireHilichurlMove(this));
         state.AddState(EnemyState.TraceAttack, new FireHilichurlTraceAttack(this));
-        state.AddState(EnemyState.TraceMove, new  FireHilichurlTraceMove(this));
+        state.AddState(EnemyState.TraceMove, new FireHilichurlTraceMove(this));
+    }
+
+    private void InitEnemyData()
+    {
         //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
         enemyData = new EnemyData(200f, 200f, 3f, 0.1f, 180, Element.Fire);
         EnemyHealthDic.Add(this, enemyData.Health);
-
         HpSlider.maxValue = enemyData.Health;
         HpSlider.value = enemyData.Health;
     }
@@ -29,6 +37,7 @@ public class FireHilichurl : Enemy,IColor
     public NavMeshAgent Agent => agent;
     public float TraceDistance => traceDistance;
     public EnemyData EnemyData => enemyData;
+
     private Color color = Color.red;
     public bool TraceAttack
     {
@@ -74,8 +83,6 @@ public class FireHilichurlIdle : FireHilichurlState //기본 상태
     private float timer = 0f;
 
     public FireHilichurlIdle(FireHilichurl fireHilichurl) : base(fireHilichurl) { }
-
-    public override void OnCollisionEnter(Collision collision) { }
 
     public override void StateEnter()
     {
