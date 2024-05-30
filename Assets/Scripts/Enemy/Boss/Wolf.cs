@@ -38,9 +38,11 @@ public class Wolf : Enemy, IColor
     private float paralyzation;
     private BossPattern Pattern;
     private Rigidbody bossRigid;
+    private GameObject Pa;
     private Color BossColor = Color.blue;
     private IPattern bossAttack;
 
+    public Slider PaSlider;
     public GameObject effectPool;
     
     private new void Awake()
@@ -62,11 +64,17 @@ public class Wolf : Enemy, IColor
 
         HpSlider = transform.GetComponentInChildren<Slider>();
         Hp = HpSlider.fillRect.transform.parent.gameObject;
+        Pa = PaSlider.fillRect.transform.parent.gameObject;
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        Debug.Log(EnemyHealthDic[this]);
+        Pa.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        Pa.SetActive(false);
     }
 
     public void InitState()
@@ -181,10 +189,10 @@ public class Wolf : Enemy, IColor
 
     public override void TakeDamage(float damage, Element element, Character attacker)
     {
-        Debug.Log("das");
         EnemyHealthDic[this] -= CalculateDamage(damage, element);
-        paralyzation -= 1f;
+        paralyzation -= 10f;
         HpSlider.value = EnemyHealthDic[this];
+        PaSlider.value = paralyzation;
         
         animator.SetTrigger("Hit");
         PoolManager.Instance.Get_Text(damage, transform.position, element);
@@ -223,8 +231,8 @@ public class Wolf : Enemy, IColor
         return enemyData.AttackPower;
     }
     public override void Splash(float damage) { }
-    // Animation Event ----------------------------------------------
 
+    // Animation Event ----------------------------------------------
     public void OnTurn()
     {
         turn = true;
@@ -300,7 +308,7 @@ public class WolfIdle : WolfState
 
     private IEnumerator Timer()
     {
-        yield return new WaitForSeconds(4.0f);
+        yield return new WaitForSeconds(6.0f);
         changeState = true;
     }
     
@@ -479,14 +487,14 @@ public class WolfAttackState : WolfState
         return Vector3.Distance(m_Wolf.transform.position, m_Wolf.PlayerTransform.position);
     }
 
-    private void JumpBack(float Angle, float Distance)
+    private void JumpBack(float angle, float Distance)
     {
         if (!m_Wolf.Turn)
             return;
             
         if (Distance <= 5.5f && m_Wolf.JumpBack)
         {
-            if (Angle > -90.0f && Angle < 90.0f)
+            if (angle > -90.0f && angle < 90.0f)
             {
                 m_Wolf.JumpBack = false;
 
@@ -494,9 +502,9 @@ public class WolfAttackState : WolfState
 
                 targetDirection.y = 0;
 
-                float angle = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg;
+                float targetAngle = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg;
 
-                m_Wolf.transform.rotation = Quaternion.Euler(0, angle, 0);
+                m_Wolf.transform.rotation = Quaternion.Euler(0, targetAngle, 0);
 
                 m_Wolf.BossAnimator.SetTrigger("JumpBack");
             }
