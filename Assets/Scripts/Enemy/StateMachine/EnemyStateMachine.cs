@@ -61,7 +61,8 @@ public enum BossState
     Claw,
     Charge,
     Stamp,
-    Drift
+    Drift,
+    ChangePhase
 }
 
 public class BossStateMachine : MonoBehaviour

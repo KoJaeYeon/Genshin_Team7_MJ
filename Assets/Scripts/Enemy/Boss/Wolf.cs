@@ -12,6 +12,8 @@ using UnityEngine.PlayerLoop;
 using UnityEngine.Rendering.LookDev;
 using UnityEngine.UI;
 
+
+
 public enum BossPattern
 {
     JumpAttack,
@@ -19,7 +21,8 @@ public enum BossPattern
     ChargeAttack,
     StampAttack,
     DriftAttack,
-    HowlAttack
+    HowlAttack,
+    
 }
 
 public class Wolf : Enemy, IColor
@@ -35,16 +38,20 @@ public class Wolf : Enemy, IColor
     private bool isJump = true;
     private bool isCharge = true;
     private bool isRunStop = false;
+    private bool changePhase = false;
     private float paralyzation;
     private BossPattern Pattern;
     private Rigidbody bossRigid;
-    private GameObject Pa;
     private Color BossColor = Color.blue;
     private IPattern bossAttack;
+    private Slider PaSlider;
+    private GameObject Pa;
 
-    public Slider PaSlider;
     public GameObject effectPool;
-    
+    public Slider[] BossSlider;
+    public GameObject JumpPoint;
+    public Material ChangePhaseMaterial;
+
     private new void Awake()
     {
         InitWolf();
@@ -62,19 +69,10 @@ public class Wolf : Enemy, IColor
         EnemyHealthDic.Add(this, enemyData.Health);
         paralyzation = 100f;
 
-        HpSlider = transform.GetComponentInChildren<Slider>();
+        HpSlider = BossSlider[0].GetComponent<Slider>();
+        PaSlider = BossSlider[1].GetComponent<Slider>();
         Hp = HpSlider.fillRect.transform.parent.gameObject;
         Pa = PaSlider.fillRect.transform.parent.gameObject;
-    }
-
-    private void OnEnable()
-    {
-        Pa.SetActive(true);
-    }
-
-    private void OnDisable()
-    {
-        Pa.SetActive(false);
     }
 
     public void InitState()
@@ -89,6 +87,7 @@ public class Wolf : Enemy, IColor
         bossState.AddState(BossState.Stamp, new WolfAttackState_Stamp(this));
         bossState.AddState(BossState.Drift, new WolfAttackState_Drift(this));
         bossState.AddState(BossState.Howl, new WolfAttackState_Howl(this));
+        bossState.AddState(BossState.ChangePhase, new WolfChangePhase(this));
     }
     public void SetPattern(BossPattern bossPattern)
     {
@@ -167,6 +166,11 @@ public class Wolf : Enemy, IColor
         get { return isRunStop; }
         set { isRunStop = value; }
     }
+    public bool ChangePhase
+    {
+        get { return changePhase; }
+        set { changePhase = value; }
+    }
     public IEnumerator JumpCoolTime()
     {
         yield return new WaitForSeconds(8.0f);
@@ -191,9 +195,16 @@ public class Wolf : Enemy, IColor
     {
         EnemyHealthDic[this] -= CalculateDamage(damage, element);
         paralyzation -= 10f;
-        HpSlider.value = EnemyHealthDic[this];
-        PaSlider.value = paralyzation;
-        
+
+        if (HpSlider != null)
+        {
+            HpSlider.value = EnemyHealthDic[this];
+        }
+        if (PaSlider != null)
+        {
+            PaSlider.value = paralyzation;
+        }
+
         animator.SetTrigger("Hit");
         PoolManager.Instance.Get_Text(damage, transform.position, element);
 
@@ -269,6 +280,60 @@ public abstract class WolfState : BossBaseState
         m_Wolf = wolf;
     }
 }
+public class WolfChangePhase : WolfState
+{
+    public WolfChangePhase(Wolf wolf) : base(wolf) { }
+
+    private Vector3 EndPos;
+    private float Speed;
+    private bool isMove = false;
+   
+    public override void StateEnter()
+    {
+        Init();
+    }
+
+    public override void StateExit()
+    {
+        m_Wolf.ChangePhase = true;
+    }
+
+    public override void StateFixedUpdate()
+    {
+        UpDate();
+    }
+
+    private void Init()
+    {
+        EndPos = m_Wolf.JumpPoint.transform.position;
+        m_Wolf.BossAnimator.SetTrigger("JumpAttack");
+        Speed = 10.0f;
+        isMove = true;
+    }
+    private void UpDate()
+    {
+        if (isMove)
+            Move();
+    }
+    private void Move()
+    {
+        Vector3 Dir = (EndPos - m_Wolf.transform.position).normalized;
+
+        Vector3 move = Dir * Speed * Time.fixedDeltaTime;
+
+        if (Vector3.Distance(m_Wolf.transform.position, EndPos) > move.magnitude)
+        {
+            m_Wolf.transform.Translate(move, Space.World);
+        }
+        else
+        {
+            m_Wolf.transform.position = EndPos;
+            isMove = false;
+            m_Wolf.State.ChangeState(BossState.Attack);
+        }
+    }
+}
+
 
 public class WolfIdle : WolfState
 {
@@ -308,10 +373,18 @@ public class WolfIdle : WolfState
 
     private IEnumerator Timer()
     {
-        yield return new WaitForSeconds(6.0f);
+        yield return new WaitForSeconds(4.0f);
         changeState = true;
     }
-    
+
+    public override void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            m_Wolf.BossAnimator.SetTrigger("Hit");
+        }
+    }
+
 }
 
 public class WolfMove : WolfState
@@ -386,8 +459,12 @@ public class WolfAttackState : WolfState
     {
         angle = Angle();
         distance = Distance();
-        
-        Attack(angle, distance);
+
+        if (!m_Wolf.ChangePhase)
+            Phase1(angle, distance);
+        else
+            Phase2(angle, distance);
+
     }
 
     private void Init_AttackState()
@@ -405,7 +482,7 @@ public class WolfAttackState : WolfState
         angle = 0;
         distance = 0;
     }
-    private void Attack(float Angle, float Distance)
+    private void Phase1(float Angle, float Distance)
     {
         JumpBack(Angle, Distance);
         Turn(Angle);
@@ -439,6 +516,13 @@ public class WolfAttackState : WolfState
             }
                 
         }
+    }
+
+    private void Phase2(float angle, float distance)
+    {
+        Turn(angle);
+
+
     }
 
     private void MeleeAttack(float Angle)
