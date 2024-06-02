@@ -209,4 +209,9 @@ public class UIManager : Singleton<UIManager>
         flyButton.SetActive(false);
         skillButton.SetActive(true);
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }

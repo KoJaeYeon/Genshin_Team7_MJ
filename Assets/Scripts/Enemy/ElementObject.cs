@@ -22,8 +22,13 @@ public class ElementObject : MonoBehaviour
     {
         if (targetMove)
         {
-            transform.position = Vector3.MoveTowards(transform.position, Player.position, Speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, Player.position + new Vector3(0, 0.1f, 0), Speed * Time.deltaTime);
         }
+    }
+
+    private void OnEnable()
+    {
+        StartCoroutine(DisableObject());
     }
 
     private void OnTriggerEnter(Collider other)
@@ -63,7 +68,7 @@ public class ElementObject : MonoBehaviour
     
     public IEnumerator DisableObject()
     {
-        yield return new WaitForSeconds(6.0f);
+        yield return new WaitForSeconds(4.0f);
         gameObject.SetActive(false);
     }
 }

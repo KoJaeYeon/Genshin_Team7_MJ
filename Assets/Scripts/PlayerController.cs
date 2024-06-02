@@ -411,6 +411,8 @@ public class PlayerController : MonoBehaviour
             _animator.SetFloat(_animIDSpeed, _animationBlend, 0.05f, Time.deltaTime);
             _animator.SetFloat(_animIDMotionSpeed, inputMagnitude, 0.1f, Time.deltaTime);
         }
+
+        PlayMovementSound(targetSpeed);
     }
 
     private void AimMove()
@@ -434,8 +436,6 @@ public class PlayerController : MonoBehaviour
             _animator.SetFloat("horizontal", horizontalInput);
             _animator.SetFloat("vertical", verticalInput);
         }
-
-        PlayMovementSound(targetSpeed);
     }
 
     private void Climb()

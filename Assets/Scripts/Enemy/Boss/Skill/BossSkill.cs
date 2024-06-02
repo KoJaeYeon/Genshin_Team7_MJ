@@ -10,6 +10,7 @@ public enum Skill
     Drift,
     Ice_Rain
 }
+
 public class BossSkill : MonoBehaviour
 {
     protected Dictionary<Skill, float> skillDic;
