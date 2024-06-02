@@ -6,6 +6,7 @@ public class SoundManager : Singleton<SoundManager>
 {
     public AudioSource effectSource;
     public AudioSource effectSource2;
+    public AudioSource effectSource3;
     public AudioSource bgmSource;
     public List<AudioClip> effectClips;
     public AudioClip morningBgm;
@@ -46,13 +47,14 @@ public class SoundManager : Singleton<SoundManager>
     {
         if (effectDictionary.ContainsKey(clipName))
         {
-            effectSource.PlayOneShot(effectDictionary[clipName]);
+            effectSource3.PlayOneShot(effectDictionary[clipName]);
         }
         else
         {
             Debug.LogWarning("효과음을 찾을 수 없습니다: " + clipName);
         }
     }
+
 
     public void PlayBGM(AudioClip bgmClip)
     {
