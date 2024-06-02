@@ -6,7 +6,7 @@ public class Claymore : Weapon
 {
     public float attackRange = 0.3f;
     public float attackReach = 1.5f;
-    public float attackDamage = 30f;
+    public float attackDamage;
     public Transform attackPoint;
     public LayerMask enemyLayer;
 
@@ -18,6 +18,8 @@ public class Claymore : Weapon
 
     public void PerformMeleeAttack()
     {
+        attackDamage = (int)(((PartyManager.Instance.GetCurrentCharacterData().baseAtk + EquipManager.Instance.beidou_Equip.featherDamage + EquipManager.Instance.beidou_Equip.weaponDamage) * (1 + EquipManager.Instance.beidou_Equip.trohphy_AttackPercent / 100f)) / 10f);
+
         Vector3 startPoint = attackPoint.position;
         Vector3 endPoint = attackPoint.position + attackPoint.forward * attackReach;
         Collider[] hitEnemies = Physics.OverlapCapsule(startPoint, endPoint, attackReach, enemyLayer);

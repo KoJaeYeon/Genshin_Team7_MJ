@@ -50,6 +50,7 @@ public class BossSpawn : MonoBehaviour, IInteractable
             getSlot.gameObject.SetActive(false);
             cineMachine.SetActive(true);
             gameObject.SetActive(false);
+            
             SoundManager.Instance.ChangeBGM(SoundManager.Instance.bossBGM);
         }
     }

@@ -204,7 +204,7 @@ public class PoolManager : Singleton<PoolManager>
         text.transform.position = monsterPos + Vector3.up * 1.5f;
         TextMeshProUGUI textColor = text.GetComponentInChildren<TextMeshProUGUI>();
 
-        textColor.text = damage.ToString();
+        textColor.text = (damage * 10).ToString();
 
         switch (element)
         {

@@ -10,7 +10,6 @@ public class Bow : Weapon
     {
         Shoot();
         SoundManager.Instance.PlayEffect("Yoimiya_Attack");
-        
     }
 
     private void Shoot()

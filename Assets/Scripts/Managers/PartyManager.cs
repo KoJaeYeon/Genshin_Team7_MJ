@@ -5,7 +5,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PartyManager : MonoBehaviour
+public class PartyManager : Singleton<PartyManager>
 {
     public GameObject[] characterPrefabs;
     private Character[] activeCharacters;
@@ -159,8 +159,8 @@ public class PartyManager : MonoBehaviour
         }
     }
 
-    public Character GetCurrentCharacter()
+    public CharacterData GetCurrentCharacterData()
     {
-        return activeCharacters[currentCharacterIndex].GetComponent<Character>();
+        return activeCharacters[currentCharacterIndex].GetComponent<Character>().characterData;
     }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 public class Arrow : MonoBehaviour
 {
-    public float damage = 10f;
+    public float damage;
     public float maxDistance = 50f;
     public Character character;
 
@@ -25,6 +25,7 @@ public class Arrow : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Arrow triggered with: " + other.name);
+        damage = (int)(((PartyManager.Instance.GetCurrentCharacterData().baseAtk + EquipManager.Instance.yoimiya_Equip.featherDamage + EquipManager.Instance.yoimiya_Equip.weaponDamage) * (1 + EquipManager.Instance.yoimiya_Equip.trohphy_AttackPercent / 100f)) / 10f);
 
         if (other.CompareTag("Enemy"))
         {
