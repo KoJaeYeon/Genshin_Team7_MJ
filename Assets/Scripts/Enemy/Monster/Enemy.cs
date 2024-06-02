@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
+
 public enum EnemyLayer
 {
     isAlive = 3,
@@ -29,7 +30,8 @@ public abstract class Enemy : MonoBehaviour
     protected Dictionary<Enemy, float> EnemyHealthDic;
     protected GameObject Hp;
     protected Slider HpSlider;
-
+    protected SkinnedMeshRenderer EnemyMesh;
+    
     private IColor color;
     private Color ElementColor;
     protected Element HitElement;
@@ -37,6 +39,7 @@ public abstract class Enemy : MonoBehaviour
     protected float traceDistance = 5.0f;
     protected bool traceMove = true;
     protected bool attack = true;
+    protected bool isHitMotion = true;
     private int elementCount = 5;
 
     protected virtual void Awake()
@@ -45,9 +48,11 @@ public abstract class Enemy : MonoBehaviour
         Weapon = transform.GetComponentInChildren<MonsterWeapon>(); 
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        EnemyMesh = transform.GetComponentInChildren<SkinnedMeshRenderer>();
         HpSlider = transform.GetComponentInChildren<Slider>();
         Hp = HpSlider.gameObject;
 
+        EnemyMesh.material = this.EnemyMesh.materials[0];
         EnemyHealthDic = new Dictionary<Enemy, float>();
     }
 
@@ -66,7 +71,18 @@ public abstract class Enemy : MonoBehaviour
             StartCoroutine(Die(this, attacker));
         }
         else
-            if (element != Element.Normal) HitDropElement(element);
+        {
+            if (element != Element.Normal)
+            {
+                HitDropElement(element);
+            }
+            if (isHitMotion)
+            {
+                StartCoroutine(HitMotion(this));
+            }
+
+        }
+            
     }
 
     public abstract void Splash(float damage);
@@ -255,6 +271,15 @@ public abstract class Enemy : MonoBehaviour
 
         yield return new WaitForSeconds(1.05f);
         enemy.gameObject.SetActive(false);
+    }
+
+    protected virtual IEnumerator HitMotion(Enemy enemy)
+    {
+        Material mat = enemy.EnemyMesh.material;
+        enemy.EnemyMesh.material = enemy.EnemyMesh.materials[1];
+        yield return new WaitForSeconds(0.1f);
+        enemy.EnemyMesh.material = mat;
+        isHitMotion = true;
     }
 
 }

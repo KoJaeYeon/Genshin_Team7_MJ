@@ -12,6 +12,8 @@ using UnityEngine.PlayerLoop;
 using UnityEngine.Rendering.LookDev;
 using UnityEngine.UI;
 
+
+
 public enum BossPattern
 {
     JumpAttack,
@@ -19,7 +21,8 @@ public enum BossPattern
     ChargeAttack,
     StampAttack,
     DriftAttack,
-    HowlAttack
+    HowlAttack,
+    
 }
 
 public class Wolf : Enemy, IColor
@@ -27,6 +30,8 @@ public class Wolf : Enemy, IColor
     public GameObject left_Hand;
     public GameObject right_Hand;
     public GameObject ChargeCollider;
+    public GameObject effectPool;
+    public Slider[] BossSlider;
 
     private bool battleStart = true;
     private bool turn = true;
@@ -40,9 +45,9 @@ public class Wolf : Enemy, IColor
     private Rigidbody bossRigid;
     private Color BossColor = Color.blue;
     private IPattern bossAttack;
+    private Slider PaSlider;
+    private GameObject Pa;
 
-    public GameObject effectPool;
-    
     private new void Awake()
     {
         InitWolf();
@@ -60,13 +65,10 @@ public class Wolf : Enemy, IColor
         EnemyHealthDic.Add(this, enemyData.Health);
         paralyzation = 100f;
 
-        HpSlider = transform.GetComponentInChildren<Slider>();
+        HpSlider = BossSlider[0].GetComponent<Slider>();
+        PaSlider = BossSlider[1].GetComponent<Slider>();
         Hp = HpSlider.fillRect.transform.parent.gameObject;
-    }
-
-    private void Update()
-    {
-        Debug.Log(EnemyHealthDic[this]);
+        Pa = PaSlider.fillRect.transform.parent.gameObject;
     }
 
     public void InitState()
@@ -182,9 +184,17 @@ public class Wolf : Enemy, IColor
     public override void TakeDamage(float damage, Element element, Character attacker)
     {
         EnemyHealthDic[this] -= CalculateDamage(damage, element);
-        paralyzation -= 1f;
-        HpSlider.value = EnemyHealthDic[this];
-        
+        paralyzation -= 10f;
+
+        if (HpSlider != null)
+        {
+            HpSlider.value = EnemyHealthDic[this];
+        }
+        if (PaSlider != null)
+        {
+            PaSlider.value = paralyzation;
+        }
+
         animator.SetTrigger("Hit");
         PoolManager.Instance.Get_Text(damage, transform.position, element);
 
@@ -222,8 +232,8 @@ public class Wolf : Enemy, IColor
         return enemyData.AttackPower;
     }
     public override void Splash(float damage) { }
-    // Animation Event ----------------------------------------------
 
+    // Animation Event ----------------------------------------------
     public void OnTurn()
     {
         turn = true;
@@ -302,7 +312,15 @@ public class WolfIdle : WolfState
         yield return new WaitForSeconds(4.0f);
         changeState = true;
     }
-    
+
+    public override void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            m_Wolf.BossAnimator.SetTrigger("Hit");
+        }
+    }
+
 }
 
 public class WolfMove : WolfState
@@ -377,7 +395,7 @@ public class WolfAttackState : WolfState
     {
         angle = Angle();
         distance = Distance();
-        
+
         Attack(angle, distance);
     }
 
@@ -400,6 +418,7 @@ public class WolfAttackState : WolfState
     {
         JumpBack(Angle, Distance);
         Turn(Angle);
+
 
         if (!m_Wolf.MoveStop)
         {
@@ -430,7 +449,6 @@ public class WolfAttackState : WolfState
                 
         }
     }
-
     private void MeleeAttack(float Angle)
     {
         float Abs = Mathf.Abs(Angle);        
@@ -477,14 +495,14 @@ public class WolfAttackState : WolfState
         return Vector3.Distance(m_Wolf.transform.position, m_Wolf.PlayerTransform.position);
     }
 
-    private void JumpBack(float Angle, float Distance)
+    private void JumpBack(float angle, float Distance)
     {
         if (!m_Wolf.Turn)
             return;
             
         if (Distance <= 5.5f && m_Wolf.JumpBack)
         {
-            if (Angle > -90.0f && Angle < 90.0f)
+            if (angle > -90.0f && angle < 90.0f)
             {
                 m_Wolf.JumpBack = false;
 
@@ -492,9 +510,9 @@ public class WolfAttackState : WolfState
 
                 targetDirection.y = 0;
 
-                float angle = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg;
+                float targetAngle = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg;
 
-                m_Wolf.transform.rotation = Quaternion.Euler(0, angle, 0);
+                m_Wolf.transform.rotation = Quaternion.Euler(0, targetAngle, 0);
 
                 m_Wolf.BossAnimator.SetTrigger("JumpBack");
             }
@@ -662,7 +680,6 @@ public class WolfAttackState_Charge : WolfState
         if(other.gameObject.layer == LayerMask.NameToLayer("Player") && !Hit)
         {
             Hit = true;
-            Debug.Log("플레이어 박음");
             Character player = other.gameObject.GetComponentInChildren<Character>();
             player.TakeDamage(m_Wolf.GetAtk() * charge_Atk);
         }
