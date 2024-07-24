@@ -9,13 +9,21 @@ public class NomalHilichurl : Enemy, IColor
     protected override void Awake()
     {
         base.Awake();
-
+        InitState();
+        InitData();
+        
+    }
+    private void InitState()
+    {
         state = gameObject.AddComponent<EnemyStateMachine>();
         state.AddState(EnemyState.Idle, new NomalHilichurlIdle(this));
         state.AddState(EnemyState.Move, new NomalHilichurlMove(this));
         state.AddState(EnemyState.TraceMove, new NomalHilichurlTraceMove(this));
-        state.AddState(EnemyState.TraceAttack,new NomalHilichurlTraceAttack(this)); 
-                        //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
+        state.AddState(EnemyState.TraceAttack, new NomalHilichurlTraceAttack(this));
+    }
+    private void InitData()
+    {
+        //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
         enemyData = new EnemyData(220f, 100f, 3f, 0.1f, 100, Element.Normal);
         EnemyHealthDic.Add(this, enemyData.Health);
 
@@ -25,23 +33,15 @@ public class NomalHilichurl : Enemy, IColor
 
     public EnemyStateMachine State => state;
     public Animator Animator => animator;
-    public Transform PlayerTransform => Player;
     public MonsterWeapon MonsterWeapon => Weapon;
     public NavMeshAgent Agent => agent;
-    public float TraceDistance => traceDistance;
     public EnemyData EnemyData => enemyData;
+
     private Color color = Color.white;
     public bool TraceAttack
     {
         get { return attack; }
         set { attack = value; }
-    }
-    public void OnAnimationEnd()
-    {
-        if (Vector3.Distance(transform.position, Player.position) > Agent.stoppingDistance)
-            state.ChangeState(EnemyState.TraceMove);
-
-        attack = true;
     }
 
     public Color GetColor()
@@ -58,11 +58,24 @@ public class NomalHilichurl : Enemy, IColor
             StartCoroutine(Die(this, null));
         }
     }
+
+    //AnimationEvent--------------------------------------------
+    public void OnAnimationEnd()
+    {
+        if (Distance() > Agent.stoppingDistance)
+        {
+            state.ChangeState(EnemyState.TraceMove);
+        }            
+
+        attack = true;
+
+    }
 }
 
 public abstract class NomalHilichurlState : BaseState
 {
     protected NomalHilichurl nomalHilichurl;
+
     public NomalHilichurlState(NomalHilichurl nomalHilichurl)
     {
         this.nomalHilichurl = nomalHilichurl;
@@ -71,14 +84,13 @@ public abstract class NomalHilichurlState : BaseState
 
 public class NomalHilichurlIdle : NomalHilichurlState //기본 상태
 {
-    private float timer = 0f;    
     public NomalHilichurlIdle(NomalHilichurl nomalHilichurl) : base(nomalHilichurl) { }
-    
-    public override void OnCollisionEnter(Collision collision) { }
+
+    private float timer = 0f;    
    
     public override void StateEnter()
     {
-        nomalHilichurl.Animator.SetFloat("Move", 0f);
+        nomalHilichurl.MoveAnimation(0f);
     }
 
     public override void StateExit()
@@ -88,8 +100,8 @@ public class NomalHilichurlIdle : NomalHilichurlState //기본 상태
 
     public override void StateUpDate()
     {
-        Trace();
-
+        nomalHilichurl.Trace();
+        
         timer += Time.deltaTime;
 
         if(timer > 4.0f)
@@ -97,27 +109,34 @@ public class NomalHilichurlIdle : NomalHilichurlState //기본 상태
             nomalHilichurl.State.ChangeState(EnemyState.Move);
         }
     }
-
-    private void Trace()
-    {
-        if (Vector3.Distance(nomalHilichurl.PlayerTransform.position, nomalHilichurl.transform.position) <= nomalHilichurl.TraceDistance)
-        {
-            nomalHilichurl.State.ChangeState(EnemyState.TraceMove);
-        }
-    }
 }
 
 public class NomalHilichurlMove : NomalHilichurlState //이동 (배회)
 {
-    List<Transform> WayPoint = new List<Transform>();
     public NomalHilichurlMove(NomalHilichurl nomalHilichurl) : base(nomalHilichurl) { }
-   
-    public override void OnCollisionEnter(Collision collision)
-    {
-     
-    }
+
+    List<Transform> WayPoint = new List<Transform>();
 
     public override void StateEnter()
+    {
+        FindMovePosition();
+    }
+
+    public override void StateExit()
+    {
+        nomalHilichurl.SetDestination_This();
+    }
+
+    public override void StateUpDate()
+    {
+        nomalHilichurl.Trace();
+
+        if(nomalHilichurl.Agent.remainingDistance <= nomalHilichurl.Agent.stoppingDistance)
+        {
+            nomalHilichurl.State.ChangeState(EnemyState.Idle);
+        }
+    }
+    private void FindMovePosition()
     {
         GameObject movePoint = nomalHilichurl.transform.parent.gameObject;
 
@@ -127,61 +146,34 @@ public class NomalHilichurlMove : NomalHilichurlState //이동 (배회)
         }
 
         nomalHilichurl.Agent.SetDestination(WayPoint[Random.Range(0, WayPoint.Count)].transform.position);
-        nomalHilichurl.Animator.SetFloat("Move", nomalHilichurl.Agent.speed);
-    }
 
-    public override void StateExit()
-    {
-        nomalHilichurl.Agent.SetDestination(nomalHilichurl.Agent.transform.position);
-    }
-
-    public override void StateUpDate()
-    {
-        Trace();
-
-        if(nomalHilichurl.Agent.remainingDistance <= nomalHilichurl.Agent.stoppingDistance)
-        {
-            nomalHilichurl.State.ChangeState(EnemyState.Idle);
-        }
-    }
-
-    private void Trace()
-    {
-        if (Vector3.Distance(nomalHilichurl.PlayerTransform.position, nomalHilichurl.transform.position) <= nomalHilichurl.TraceDistance)
-        {
-            nomalHilichurl.State.ChangeState(EnemyState.TraceMove);
-        }
+        nomalHilichurl.MoveAnimation(3f);
     }
 }
 
 public class NomalHilichurlTraceMove : NomalHilichurlState
 {
     public NomalHilichurlTraceMove(NomalHilichurl nomalHilichurl) : base(nomalHilichurl) { }
-    
-    public override void OnCollisionEnter(Collision collision)
-    {
-     
-    }
 
     public override void StateEnter()
     {
-        nomalHilichurl.Agent.SetDestination(nomalHilichurl.PlayerTransform.position);
-        nomalHilichurl.Animator.SetFloat("Move", nomalHilichurl.Agent.speed + 1);
+        nomalHilichurl.SetDestination_Player();
+        nomalHilichurl.MoveAnimation(4f);
     }
 
     public override void StateExit()
     {
-        nomalHilichurl.Agent.SetDestination(nomalHilichurl.transform.position);
-        nomalHilichurl.Animator.SetFloat("Move", 0);
+        nomalHilichurl.SetDestination_This();
+        nomalHilichurl.MoveAnimation(0f);
     }
 
     public override void StateUpDate()
     {
-        if (Vector3.Distance(nomalHilichurl.PlayerTransform.position, nomalHilichurl.transform.position) > nomalHilichurl.Agent.stoppingDistance)
+        if (nomalHilichurl.Distance() > nomalHilichurl.Agent.stoppingDistance)
         {
-            nomalHilichurl.Agent.SetDestination(nomalHilichurl.PlayerTransform.position);
+            nomalHilichurl.SetDestination_Player();
         }
-        else if (Vector3.Distance(nomalHilichurl.PlayerTransform.position, nomalHilichurl.transform.position) <= nomalHilichurl.Agent.stoppingDistance)
+        else if (nomalHilichurl.Distance() <= nomalHilichurl.Agent.stoppingDistance)
         {
             nomalHilichurl.State.ChangeState(EnemyState.TraceAttack);
         }
@@ -189,36 +181,33 @@ public class NomalHilichurlTraceMove : NomalHilichurlState
         StopTracking();
     }
 
-    public void StopTracking()
+    private void StopTracking()
     {
-        if (Vector3.Distance(nomalHilichurl.transform.position, nomalHilichurl.PlayerTransform.position) > 15.0f)
+        if (nomalHilichurl.Distance() > 15.0f)
+        {
             nomalHilichurl.State.ChangeState(EnemyState.Move);
+        }
+            
     }
-
 }
 
 public class NomalHilichurlTraceAttack : NomalHilichurlState
 {
-    private MonsterWeapon Weapon;
     public NomalHilichurlTraceAttack(NomalHilichurl nomalHilichurl) : base(nomalHilichurl) { }
-    
-    public override void OnCollisionEnter(Collision collision)
-    {
-        
-    }
-
+ 
     public override void StateEnter()
     {
         nomalHilichurl.Agent.updateRotation = false;
-        nomalHilichurl.Agent.SetDestination(nomalHilichurl.transform.position);
 
-        Weapon = nomalHilichurl.transform.GetComponentInChildren<MonsterWeapon>();
-        Weapon.SetAttackPower(nomalHilichurl.EnemyData.AttackPower);
+        nomalHilichurl.SetDestination_This();
+
+        nomalHilichurl.MonsterWeapon.SetAttackPower(nomalHilichurl.EnemyData.AttackPower);
     }
 
     public override void StateExit()
     {
         nomalHilichurl.Agent.updateRotation = true;
+
         nomalHilichurl.TraceAttack = true;
     }
 
@@ -228,11 +217,9 @@ public class NomalHilichurlTraceAttack : NomalHilichurlState
         {
             nomalHilichurl.TraceAttack = false;
             nomalHilichurl.Animator.SetTrigger("Attack");
-            Weapon.EableSword();
+            nomalHilichurl.MonsterWeapon.EableSword();
         }
 
-        Vector3 direction = nomalHilichurl.PlayerTransform.position - nomalHilichurl.transform.position;
-        Quaternion rotation = Quaternion.LookRotation(direction);
-        nomalHilichurl.transform.rotation = rotation;
+        nomalHilichurl.TraceAttackRotation();
     }
 }

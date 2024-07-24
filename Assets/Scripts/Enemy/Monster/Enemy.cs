@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -19,12 +20,12 @@ public enum Element
     Lightning,
     Water
 }
-public abstract class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     protected EnemyStateMachine state;
     protected BossStateMachine bossState;
     protected MonsterWeapon Weapon;
-    public Animator animator;
+    protected Animator animator;
     protected Transform Player;
     protected NavMeshAgent agent;
     protected Dictionary<Enemy, float> EnemyHealthDic;
@@ -85,7 +86,7 @@ public abstract class Enemy : MonoBehaviour
             
     }
 
-    public abstract void Splash(float damage);
+    public virtual void Splash(float damage) { }
 
     protected float CalculateDamage(float damage, Element element) 
     {
@@ -282,6 +283,40 @@ public abstract class Enemy : MonoBehaviour
         isHitMotion = true;
     }
 
+    public float Distance()
+    {
+        return Vector3.Distance(Player.position, transform.position);
+    }
+
+    public void Trace()
+    {
+        if(Distance() <= traceDistance)
+        {
+            state.ChangeState(EnemyState.TraceMove);
+        }
+    }
+
+    public void MoveAnimation(float setFloat)
+    {
+        animator.SetFloat("Move", setFloat);
+    }
+
+    public void SetDestination_Player()
+    {
+        agent.SetDestination(Player.position);
+    }
+
+    public void SetDestination_This()
+    {
+        agent.SetDestination(transform.position);
+    }
+
+    public void TraceAttackRotation()
+    {
+        Vector3 direction = Player.position - transform.position;
+        Quaternion rotation = Quaternion.LookRotation(direction);
+        transform.rotation = rotation;
+    }
 }
 
 
