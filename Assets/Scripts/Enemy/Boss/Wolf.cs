@@ -211,6 +211,7 @@ public class Wolf : Enemy, IColor
         if (EnemyHealthDic[this] <= 0)
         {
             Hp.SetActive(false);
+            Pa.SetActive(false);
             StartCoroutine(Die(this, attacker));
         }
     }
