@@ -7,9 +7,35 @@ public class ItemSerachTrigger : Singleton<ItemSerachTrigger>
     List<IInteractable> items;
     int searchPoint = 0;
     int itemCount;
+    private void Awake()
+    {
+        items = new List<IInteractable>();
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            GetItem();
+            itemCount = items.Count;
+        }
+    }
+
+    public bool SearchPoint(float value)
+    {
+        if (value > 0)
+        {
+            UpSearchPoint();
+        }
+        else if (value < 0)
+        {
+            DownSearchPoint();
+        }
+
+        return items.Count > 1;
+    }
     public void UpSearchPoint()
     {
-        if(searchPoint < items.Count - 1)
+        if (searchPoint < items.Count - 1)
         {
             searchPoint++;
             UIManager.Instance.SetFPoint(searchPoint);
@@ -18,16 +44,11 @@ public class ItemSerachTrigger : Singleton<ItemSerachTrigger>
 
     public void DownSearchPoint()
     {
-        if(searchPoint > 0)
+        if (searchPoint > 0)
         {
             searchPoint--;
             UIManager.Instance.SetFPoint(searchPoint);
         }
-    }
-    public void GetItemIndex(int index)
-    {
-        searchPoint = itemCount -1 - index;
-        GetItem();
     }
 
     private void GetItem()
@@ -40,21 +61,15 @@ public class ItemSerachTrigger : Singleton<ItemSerachTrigger>
         itemCount = items.Count;
     }
 
-    private void Update()
+    /// <summary>
+    /// 모바일 사용성을 위한 버튼 호출함수
+    /// </summary>
+    public void GetItemIndex(int index)
     {
-        if (Input.GetKeyDown(KeyCode.Y)) UpSearchPoint();
-        else if (Input.GetKeyDown(KeyCode.H)) DownSearchPoint();
-        else if (Input.GetKeyDown(KeyCode.F))
-        {
-            GetItem();
-        }
-        itemCount = items.Count;
+        searchPoint = itemCount -1 - index;
+        GetItem();
     }
 
-    private void Awake()
-    {
-        items = new List<IInteractable>();
-    }
     private void OnTriggerEnter(Collider other)
     {
         IInteractable interactable = other.gameObject.GetComponent<IInteractable>();
