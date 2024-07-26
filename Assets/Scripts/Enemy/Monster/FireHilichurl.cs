@@ -32,10 +32,8 @@ public class FireHilichurl : Enemy, IColor
 
     public EnemyStateMachine State => state;
     public Animator Animator => animator;
-    public Transform PlayerTransform => Player;
-    public MonsterWeapon MonsterWeapon => Weapon;
     public NavMeshAgent Agent => agent;
-    public float TraceDistance => traceDistance;
+    public MonsterWeapon MonsterWeapon => Weapon;
     public EnemyData EnemyData => enemyData;
 
     private Color color = Color.red;
@@ -44,14 +42,7 @@ public class FireHilichurl : Enemy, IColor
         get { return  attack; }
         set { attack = value; }
     }
-    public void OnAnimationEnd() //Animation Event
-    { 
-        if (Vector3.Distance(transform.position, Player.position) > Agent.stoppingDistance)
-            State.ChangeState(EnemyState.TraceMove);
-
-        attack = true;
-    }
-
+   
     public Color GetColor()
     {
         return color;
@@ -67,11 +58,21 @@ public class FireHilichurl : Enemy, IColor
             StartCoroutine(Die(this, null));
         }
     }
+
+    //AnimationEvent------------------------------------------------------------------------
+    public void OnAnimationEnd() 
+    {
+        if (Distance() > Agent.stoppingDistance)
+            State.ChangeState(EnemyState.TraceMove);
+
+        attack = true;
+    }
 }
 
 public abstract class FireHilichurlState : BaseState
 {
     protected FireHilichurl fireHilichurl;
+
     public FireHilichurlState(FireHilichurl fireHilichurl)
     {
         this.fireHilichurl = fireHilichurl;
@@ -80,13 +81,13 @@ public abstract class FireHilichurlState : BaseState
 
 public class FireHilichurlIdle : FireHilichurlState //기본 상태
 {
-    private float timer = 0f;
-
     public FireHilichurlIdle(FireHilichurl fireHilichurl) : base(fireHilichurl) { }
+
+    private float timer = 0f;
 
     public override void StateEnter()
     {
-        fireHilichurl.Animator.SetFloat("Move", 0f);
+        fireHilichurl.MoveAnimation(0f);
     }
 
     public override void StateExit()
@@ -96,7 +97,7 @@ public class FireHilichurlIdle : FireHilichurlState //기본 상태
 
     public override void StateUpDate()
     {
-        Trace();
+        fireHilichurl.Trace();
 
         timer += Time.deltaTime;
 
@@ -105,44 +106,28 @@ public class FireHilichurlIdle : FireHilichurlState //기본 상태
             fireHilichurl.State.ChangeState(EnemyState.Move);
         }
     }
-
-    private void Trace()
-    {
-        if (Vector3.Distance(fireHilichurl.PlayerTransform.position, fireHilichurl.transform.position) <= fireHilichurl.TraceDistance)
-        {
-            fireHilichurl.State.ChangeState(EnemyState.TraceMove);
-        }
-    }
+    
 }
 
 public class FireHilichurlMove : FireHilichurlState //이동 (배회)
 {
-    List<Transform> WayPoint = new List<Transform>();
     public FireHilichurlMove(FireHilichurl fireHilichurl) : base(fireHilichurl) { }
 
-    public override void OnCollisionEnter(Collision collision) { }
+    List<Transform> WayPoint = new List<Transform>();
    
     public override void StateEnter()
     {
-        GameObject movePoint = fireHilichurl.transform.parent.gameObject; //WayPoint Transform
-
-        foreach (Transform point in movePoint.transform)
-        {
-            WayPoint.Add(point);
-        }
-
-        fireHilichurl.Agent.SetDestination(WayPoint[Random.Range(0, WayPoint.Count)].transform.position);
-        fireHilichurl.Animator.SetFloat("Move", fireHilichurl.Agent.speed);
+        FindMovePosition();
     }
 
     public override void StateExit()
     {
-        fireHilichurl.Agent.SetDestination(fireHilichurl.Agent.transform.position);
+        fireHilichurl.SetDestination_This();
     }
 
     public override void StateUpDate()
     {
-        Trace();
+        fireHilichurl.Trace();
 
         if (fireHilichurl.Agent.remainingDistance <= fireHilichurl.Agent.stoppingDistance)
         {
@@ -150,40 +135,43 @@ public class FireHilichurlMove : FireHilichurlState //이동 (배회)
         }
     }
 
-    private void Trace()
+    private void FindMovePosition()
     {
-        if (Vector3.Distance(fireHilichurl.PlayerTransform.position, fireHilichurl.transform.position) <= fireHilichurl.TraceDistance)
+        GameObject movePoint = fireHilichurl.transform.parent.gameObject; //WayPoint Transform
+
+        foreach (Transform point in movePoint.transform)
         {
-            fireHilichurl.State.ChangeState(EnemyState.TraceMove);
+            WayPoint.Add(point);
         }
+        fireHilichurl.Agent.SetDestination(WayPoint[Random.Range(0, WayPoint.Count)].transform.position);
+
+        fireHilichurl.MoveAnimation(3f);
     }
 }
 
 public class FireHilichurlTraceMove : FireHilichurlState //(추적 : 이동)
 {
     public FireHilichurlTraceMove(FireHilichurl fireHilichurl) : base(fireHilichurl) { }
-
-    public override void OnCollisionEnter(Collision collision) { }
     
     public override void StateEnter()
     {
-        fireHilichurl.Agent.SetDestination(fireHilichurl.PlayerTransform.position);
-        fireHilichurl.Animator.SetFloat("Move", fireHilichurl.Agent.speed + 1);
+        fireHilichurl.SetDestination_Player();
+        fireHilichurl.MoveAnimation(4f);
     }
 
     public override void StateExit()
     {
-        fireHilichurl.Agent.SetDestination(fireHilichurl.transform.position);
-        fireHilichurl.Animator.SetFloat("Move", 0);
+        fireHilichurl.SetDestination_This();
+        fireHilichurl.MoveAnimation(0f);
     }
 
     public override void StateUpDate()
     {
-        if (Vector3.Distance(fireHilichurl.PlayerTransform.position, fireHilichurl.transform.position) > fireHilichurl.Agent.stoppingDistance)
+        if (fireHilichurl.Distance() > fireHilichurl.Agent.stoppingDistance)
         {
-            fireHilichurl.Agent.SetDestination(fireHilichurl.PlayerTransform.position);
+            fireHilichurl.SetDestination_Player();
         }
-        else if(Vector3.Distance(fireHilichurl.PlayerTransform.position,fireHilichurl.transform.position) <= fireHilichurl.Agent.stoppingDistance)
+        else if(fireHilichurl.Distance() <= fireHilichurl.Agent.stoppingDistance)
         {
             fireHilichurl.State.ChangeState(EnemyState.TraceAttack);
         }
@@ -191,32 +179,32 @@ public class FireHilichurlTraceMove : FireHilichurlState //(추적 : 이동)
         StopTracking();
     }
 
-    public void StopTracking()
+    private void StopTracking()
     {
-        if (Vector3.Distance(fireHilichurl.transform.position, fireHilichurl.PlayerTransform.position) > 15.0f)
+        if (fireHilichurl.Distance() > 15.0f)
+        {
             fireHilichurl.State.ChangeState(EnemyState.Move);
+        }
     }
 }
 
 public class FireHilichurlTraceAttack : FireHilichurlState //(추적 : 공격)
 {
-    private MonsterWeapon Weapon;
     public FireHilichurlTraceAttack(FireHilichurl fireHilichurl) : base(fireHilichurl) { }
-
-    public override void OnCollisionEnter(Collision collision) { }
     
     public override void StateEnter()
     {
         fireHilichurl.Agent.updateRotation = false;
-        fireHilichurl.Agent.SetDestination(fireHilichurl.transform.position);
 
-        Weapon = fireHilichurl.transform.GetComponentInChildren<MonsterWeapon>();
-        Weapon.SetAttackPower(fireHilichurl.EnemyData.AttackPower);
+        fireHilichurl.SetDestination_This();
+
+        fireHilichurl.MonsterWeapon.SetAttackPower(fireHilichurl.EnemyData.AttackPower);
     }
 
     public override void StateExit()
     {
         fireHilichurl.Agent.updateRotation = true;
+
         fireHilichurl.TraceAttack = true;
     }
 
@@ -226,11 +214,9 @@ public class FireHilichurlTraceAttack : FireHilichurlState //(추적 : 공격)
         {
             fireHilichurl.TraceAttack = false;
             fireHilichurl.Animator.SetTrigger("Attack");
-            Weapon.EableSword();
+            fireHilichurl.MonsterWeapon.EableSword();
         }
 
-        Vector3 direction = fireHilichurl.PlayerTransform.position - fireHilichurl.transform.position;
-        Quaternion rotation = Quaternion.LookRotation(direction);
-        fireHilichurl.transform.rotation = rotation;
+        fireHilichurl.TraceAttackRotation();
     }
 }
