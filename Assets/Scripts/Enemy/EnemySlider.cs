@@ -8,12 +8,14 @@ public class EnemySlider : MonoBehaviour
 
     void Start()
     {
+
+
         cam = Camera.main.transform;
     }
 
     
     void Update()
     {
-        transform.forward = cam.transform.forward;  
+        transform.forward = cam.forward;  
     }
 }

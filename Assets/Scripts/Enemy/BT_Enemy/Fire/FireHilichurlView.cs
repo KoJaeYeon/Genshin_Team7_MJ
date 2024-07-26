@@ -3,41 +3,20 @@ using UnityEngine;
 
 public class FireHilichurlView : Enemy
 {
-    //Node
-    private Node _node;
-
-    //Patrol
-    private List<Transform> _wayPointList;
-    private List<Transform> _useWayPointList;
-    private Transform _currentTransform;
-    private float _waitTime = 4f;
-    private float _waitCount = 0f;
-    private bool iswaiting = true;
-
-    //CheckPlayer
-    private GameObject _player;
-    private float _radius = 6f;
-    private int _playerLayer;
-
-    //Trace
-    private bool isTrace = false;
-
     protected override void Awake()
     {
         base.Awake();
         InitializeFireHilichurl();
         InitializeWayPoint();
-
-        _node = new Node(SetUpTree());
     }
 
     private void InitializeFireHilichurl()
     {
-        enemyData = new EnemyData(200f, 200f, 3f, 0.1f, 180, Element.Fire);
-        EnemyHealthDic.Add(this, enemyData.Health);
-        HpSlider.maxValue = enemyData.Health;
-        HpSlider.value = enemyData.Health;
-        _playerLayer = LayerMask.GetMask("Player");
+        _data = new EnemyData(200f, 200f, 3f, 0.1f, 180, Element.Fire);
+        _enemyHealthDic.Add(this, _data.Health);
+        _hpSlider.maxValue = _data.Health;
+        _hpSlider.value = _data.Health;
+        _node = new Node(SetUpTree());
     }
 
     private void InitializeWayPoint()
@@ -64,15 +43,15 @@ public class FireHilichurlView : Enemy
     private INode SetUpTree()
     {
         var attackNodeList = new List<INode>();
-        attackNodeList.Add(new EnemyAction(AttackRange));
-        attackNodeList.Add(new EnemyAction(AttackToPlayer));
+        attackNodeList.Add(new EnemyAction(CheckAttackRange));
+        attackNodeList.Add(new EnemyAction(Attack));
 
         var attackSequence = new EnemySequence(attackNodeList);
 
         var checkPlayerNodeList = new List<INode>();
         checkPlayerNodeList.Add(new EnemyAction(CheckPlayer));
         checkPlayerNodeList.Add(new EnemyAction(IsTracking));
-        checkPlayerNodeList.Add(new EnemyAction(TraceToPlayer));
+        checkPlayerNodeList.Add(new EnemyAction(TrackingPlayer));
 
         var checkSequence = new EnemySequence(checkPlayerNodeList);
 
@@ -86,30 +65,30 @@ public class FireHilichurlView : Enemy
         return selectorNode;
     }
 
-    private INode.NodeState Patrol()
+    public override INode.NodeState Patrol()
     {
         if(_wayPointList == null || _wayPointList.Count == 0)
         {
             return INode.NodeState.Fail;
         }
 
-        if (iswaiting)
+        if (isWaiting)
         {
             _waitCount += Time.deltaTime;
 
             if(_waitCount >= _waitTime)
             {
-                iswaiting = false;
-                SetDestination(FindWayPoint().position, 3f, 0f, true);
+                isWaiting = false;
+                SetDestination(FindWayPoint(_useWayPointList, _wayPointList, ref _currentTransform).position, 3f, 0f, true);
             }
         }
         else
         {
-            if(agent.remainingDistance <= agent.stoppingDistance)
+            if(_agent.remainingDistance <= _agent.stoppingDistance)
             {
                 _waitCount = 0f;
-                iswaiting = true;
-                animator.SetBool("Move", false);
+                isWaiting = true;
+                _animator.SetBool("Move", false);
                 return INode.NodeState.Success;
             }
         }
@@ -117,16 +96,16 @@ public class FireHilichurlView : Enemy
         return INode.NodeState.Running;
     }
 
-    private INode.NodeState CheckPlayer()
+    public override INode.NodeState CheckPlayer()
     {
-        if (isTrace)
+        if (isTracking)
             return INode.NodeState.Success;
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, _radius, _playerLayer);
 
         if(colliders.Length > 0)
         {
-            isTrace = true;
+            isTracking = true;
             _player = colliders[0].gameObject;
             return INode.NodeState.Success;
         }
@@ -134,7 +113,7 @@ public class FireHilichurlView : Enemy
         return INode.NodeState.Fail;
     }
 
-    private INode.NodeState TraceToPlayer()
+    public override INode.NodeState TrackingPlayer()
     {
         if (_player == null)
             return INode.NodeState.Fail;
@@ -144,12 +123,12 @@ public class FireHilichurlView : Enemy
         return INode.NodeState.Running;
     }
 
-    private INode.NodeState IsTracking()
+    public override INode.NodeState IsTracking()
     {
-        if (!isTrace)
+        if (!isTracking)
             return INode.NodeState.Fail;
 
-        var animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        var animatorStateInfo = _animator.GetCurrentAnimatorStateInfo(0);
 
         if (animatorStateInfo.IsName("atk_02") && animatorStateInfo.normalizedTime < 1.0f)
         {
@@ -165,67 +144,37 @@ public class FireHilichurlView : Enemy
             return INode.NodeState.Success;
         }
 
-        isTrace = false;
-        SetDestination(FindWayPoint().position, 3f, 0f, true);
+        isTracking = false;
+        SetDestination(FindWayPoint(_useWayPointList, _wayPointList, ref _currentTransform).position, 3f, 0f, true);
         return INode.NodeState.Fail;
     }
 
-    private INode.NodeState AttackRange()
+    public override INode.NodeState CheckAttackRange()
     {
         bool isAttack = _player != null && Vector3.Distance(transform.position, _player.transform.position) <= 2f
-            && isTrace;
+            && isTracking;
 
         if (isAttack)
         {
-            animator.SetBool("Trace", false);
-            agent.isStopped = true;
+            _animator.SetBool("Trace", false);
+            _agent.isStopped = true;
             return INode.NodeState.Success;
         }
         else
         {
-            agent.isStopped = false;
+            _agent.isStopped = false;
             return INode.NodeState.Fail;
         }
             
     }
 
-    private INode.NodeState AttackToPlayer()
+    public override INode.NodeState Attack()
     {
         if(_player == null)
             return INode.NodeState.Fail;
 
-        animator.SetTrigger("Attack");
+        _animator.SetTrigger("Attack");
 
         return INode.NodeState.Running;
-    }
-
-    private Transform FindWayPoint()
-    {
-        if (_useWayPointList == null || _useWayPointList.Count == 0)
-        {
-            _useWayPointList = new List<Transform>(_wayPointList);
-
-            if(_currentTransform != null)
-            {
-                _useWayPointList.Remove(_currentTransform);
-            }
-        }
-
-        Transform newRandomTransform = _useWayPointList[Random.Range(0,_useWayPointList.Count)];
-
-        _useWayPointList.Remove(newRandomTransform);
-
-        _currentTransform = newRandomTransform;
-
-        return newRandomTransform;
-    }
-
-    private void SetDestination(Vector3 position, float speed, float stoppingDistance, bool isMoving)
-    {
-        animator.SetBool("Move", isMoving);
-        animator.SetBool("Trace", !isMoving);
-        agent.stoppingDistance = stoppingDistance;
-        agent.speed = speed;
-        agent.SetDestination(position);
     }
 }
