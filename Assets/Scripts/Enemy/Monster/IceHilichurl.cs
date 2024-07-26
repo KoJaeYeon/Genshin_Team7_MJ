@@ -9,43 +9,39 @@ public class IceHilichurl : Enemy, IColor
     protected override void Awake()
     {
         base.Awake();
+        InitState();
+        InitData();
+    }
 
+    private void InitState()
+    {
         state = gameObject.AddComponent<EnemyStateMachine>();
         state.AddState(EnemyState.Idle, new IceHilichurlIdle(this));
         state.AddState(EnemyState.Move, new IceHilichurlMove(this));
         state.AddState(EnemyState.TraceMove, new IceHilichurlTraceMove(this));
-        State.AddState(EnemyState.TraceAttack,new IceHilichurlTraceAttack(this));
+        State.AddState(EnemyState.TraceAttack, new IceHilichurlTraceAttack(this));
+    }
+
+    private void InitData()
+    {
         //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
         enemyData = new EnemyData(230f, 150f, 2f, 0.1f, 130, Element.Ice);
         EnemyHealthDic.Add(this, enemyData.Health);
 
         HpSlider.maxValue = enemyData.Health;
         HpSlider.value = enemyData.Health;
-        //traceDistance = 7.0f;
     }
 
+    private Color color = Color.blue;
     public EnemyStateMachine State => state;
     public Animator Animator => animator;
-    public Transform PlayerTransform => Player;
     public MonsterWeapon MonsterWeapon => Weapon;
     public NavMeshAgent Agent => agent;
-    public float TraceDistance => traceDistance;
     public EnemyData EnemyData => enemyData;
-    private Color color = Color.blue;
     public bool TraceAttack
     {
         get { return attack; }
         set { attack = value; }
-    }
-
-    public void OnAnimationEnd()
-    {
-        if (Vector3.Distance(transform.position, Player.position) > Agent.stoppingDistance)
-        {
-            State.ChangeState(EnemyState.TraceMove);
-        }
-
-        attack = true;
     }
 
     public Color GetColor()
@@ -56,11 +52,24 @@ public class IceHilichurl : Enemy, IColor
     public override void Splash(float damage)
     {
         EnemyHealthDic[this] -= damage;
+
         HpSlider.value = EnemyHealthDic[this];
+
         if (EnemyHealthDic[this] <= 0)
         {
             StartCoroutine(Die(this, null));
         }
+    }
+
+    //AnimationEvent-------------------------------------
+    public void OnAnimationEnd()
+    {
+        if (Distance() > Agent.stoppingDistance)
+        {
+            State.ChangeState(EnemyState.TraceMove);
+        }
+
+        attack = true;
     }
 }
 
@@ -73,19 +82,16 @@ public abstract class IceHilichurlState : BaseState
         this.iceHilichurl = iceHilichurl;
     }
 }
+
 public class IceHilichurlIdle : IceHilichurlState
 {
-    private float timer = 0f;
     public IceHilichurlIdle(IceHilichurl iceHilichurl) : base(iceHilichurl) { }
 
-    public override void OnCollisionEnter(Collision collision)
-    {
-        
-    }
+    private float timer = 0f;
 
     public override void StateEnter()
     {
-        iceHilichurl.Animator.SetFloat("Move", 0f);
+        iceHilichurl.MoveAnimation(0f);
     }
 
     public override void StateExit()
@@ -95,7 +101,7 @@ public class IceHilichurlIdle : IceHilichurlState
 
     public override void StateUpDate()
     {
-        Trace();
+        iceHilichurl.Trace();
 
         timer += Time.deltaTime;
 
@@ -104,36 +110,17 @@ public class IceHilichurlIdle : IceHilichurlState
             iceHilichurl.State.ChangeState(EnemyState.Move);
         }
     }
-    private void Trace()
-    {
-        if (Vector3.Distance(iceHilichurl.PlayerTransform.position, iceHilichurl.transform.position) <= iceHilichurl.TraceDistance)
-        {
-            iceHilichurl.State.ChangeState(EnemyState.TraceMove);
-        }
-    }
 }
 
 public class IceHilichurlMove : IceHilichurlState
 {
-    List<Transform> WayPoint = new List<Transform>();
     public IceHilichurlMove(IceHilichurl iceHilichurl) : base(iceHilichurl) { }
-    
-    public override void OnCollisionEnter(Collision collision)
-    {
-        
-    }
 
+    List<Transform> WayPoint = new List<Transform>();
+   
     public override void StateEnter()
     {
-        GameObject movePoint = iceHilichurl.transform.parent.gameObject;
-
-        foreach (Transform point in movePoint.transform)
-        {
-            WayPoint.Add(point);
-        }
-
-        iceHilichurl.Agent.SetDestination(WayPoint[Random.Range(0, WayPoint.Count)].transform.position);
-        iceHilichurl.Animator.SetFloat("Move", iceHilichurl.Agent.speed);
+        FindMovePosition();
     }
 
     public override void StateExit()
@@ -143,52 +130,50 @@ public class IceHilichurlMove : IceHilichurlState
 
     public override void StateUpDate()
     {
-        Trace();
+        iceHilichurl.Trace();
 
         if (iceHilichurl.Agent.remainingDistance <= iceHilichurl.Agent.stoppingDistance)
         {
             iceHilichurl.State.ChangeState(EnemyState.Idle);
         }
     }
-
-    private void Trace()
+    private void FindMovePosition()
     {
-        if (Vector3.Distance(iceHilichurl.PlayerTransform.position, iceHilichurl.transform.position) <= iceHilichurl.TraceDistance)
+        GameObject movePoint = iceHilichurl.transform.parent.gameObject;
+
+        foreach (Transform point in movePoint.transform)
         {
-            iceHilichurl.State.ChangeState(EnemyState.TraceMove);
+            WayPoint.Add(point);
         }
+
+        iceHilichurl.Agent.SetDestination(WayPoint[Random.Range(0, WayPoint.Count)].transform.position);
+        iceHilichurl.MoveAnimation(3f);
     }
 }
 
 public class IceHilichurlTraceMove : IceHilichurlState
 {
- 
     public IceHilichurlTraceMove(IceHilichurl iceHilichurl) : base(iceHilichurl) { }
-    
-    public override void OnCollisionEnter(Collision collision)
-    {
-        
-    }
-
+ 
     public override void StateEnter()
     {
-        iceHilichurl.Agent.SetDestination(iceHilichurl.PlayerTransform.position);
-        iceHilichurl.Animator.SetFloat("Move", iceHilichurl.Agent.speed + 1);
+        iceHilichurl.SetDestination_Player();
+        iceHilichurl.MoveAnimation(4f);
     }
 
     public override void StateExit()
     {
-        iceHilichurl.Agent.SetDestination(iceHilichurl.transform.position);
-        iceHilichurl.Animator.SetFloat("Move", 0);
+        iceHilichurl.SetDestination_This();
+        iceHilichurl.MoveAnimation(0f);
     }
 
     public override void StateUpDate()
     {
-        if (Vector3.Distance(iceHilichurl.PlayerTransform.position, iceHilichurl.transform.position) > iceHilichurl.Agent.stoppingDistance)
+        if (iceHilichurl.Distance() > iceHilichurl.Agent.stoppingDistance)
         {
-            iceHilichurl.Agent.SetDestination(iceHilichurl.PlayerTransform.position);
+            iceHilichurl.SetDestination_Player();
         }
-        else if (Vector3.Distance(iceHilichurl.PlayerTransform.position, iceHilichurl.transform.position) <= iceHilichurl.Agent.stoppingDistance)
+        else if (iceHilichurl.Distance() <= iceHilichurl.Agent.stoppingDistance)
         {
             iceHilichurl.State.ChangeState(EnemyState.TraceAttack);
         }
@@ -196,46 +181,32 @@ public class IceHilichurlTraceMove : IceHilichurlState
         StopTracking();
     }
 
-    public void StopTracking()
+    private void StopTracking()
     {
-        if (Vector3.Distance(iceHilichurl.transform.position, iceHilichurl.PlayerTransform.position) > iceHilichurl.TraceDistance)
+        if (iceHilichurl.Distance() > 15.0f)
+        {
             iceHilichurl.State.ChangeState(EnemyState.Move);
-    }
-
-    private IEnumerator Jump()
-    {
-        iceHilichurl.TraceAttack = false;
-
-        iceHilichurl.Agent.SetDestination(iceHilichurl.transform.position);
-
-        yield return new WaitForSeconds(1.0f);
-
-        iceHilichurl.Animator.SetTrigger("JumpAttack");
+        }
     }
 }
 
 public class IceHilichurlTraceAttack : IceHilichurlState
 {
-    private MonsterWeapon Weapon;
     public IceHilichurlTraceAttack(IceHilichurl iceHilichurl) : base(iceHilichurl) { }
     
-    public override void OnCollisionEnter(Collision collision)
-    {
-        
-    }
-
     public override void StateEnter()
     {
         iceHilichurl.Agent.updateRotation = false;
-        iceHilichurl.Agent.SetDestination(iceHilichurl.transform.position);
 
-        Weapon = iceHilichurl.transform.GetComponentInChildren<MonsterWeapon>();
-        Weapon.SetAttackPower(iceHilichurl.EnemyData.AttackPower);
+        iceHilichurl.SetDestination_This();
+
+        iceHilichurl.MonsterWeapon.SetAttackPower(iceHilichurl.EnemyData.AttackPower);   
     }
 
     public override void StateExit()
     {
         iceHilichurl.Agent.updateRotation = true;
+
         iceHilichurl.TraceAttack = true;
     }
 
@@ -243,15 +214,11 @@ public class IceHilichurlTraceAttack : IceHilichurlState
     {
         if (iceHilichurl.TraceAttack)
         {
-            iceHilichurl.Animator.SetTrigger("GroundAttack");
+            iceHilichurl.Animator.SetTrigger("Attack");
             iceHilichurl.TraceAttack = false;
-            Weapon.EableSword();
+            iceHilichurl.MonsterWeapon.EableSword();
         }
 
-        Vector3 direction = iceHilichurl.PlayerTransform.position - iceHilichurl.transform.position;
-        Quaternion rotation = Quaternion.LookRotation(direction);
-        iceHilichurl.transform.rotation = rotation;
+        iceHilichurl.TraceAttackRotation();
     }
-
-    
 }

@@ -8,21 +8,33 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Avatar_Girl_Catalyst_Kokomi_Mat_Body
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_Shader: {fileID: 4800000, guid: c649e13f6a1015941b7b57c31e31853c, type: 3}
+  m_ValidKeywords:
+  - ENABLE_METAL_SPECULAR
+  - ENABLE_RAMP_SHADOW
+  - _SHADERENUM_BASE
+  m_InvalidKeywords:
+  - _ENABLELAMBERT_ON
+  - _ENABLEOUTLINE_ON
+  - _ENABLERIMDS_ON
+  - _ENABLERIM_ON
+  - _ENABLESPECULAR_ON
+  - _FIXDARKSHADOW_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Opaque
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: 5f375e0d8646ff049aba01bcb77e7407, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BloomMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -45,8 +57,20 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _FaceShadowMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LightMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 5f375e0d8646ff049aba01bcb77e7407, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetalMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -57,7 +81,15 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _OutlineZOffsetMaskTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RampMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -79,39 +111,120 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Alpha: 1
     - _AlphaClip: 0
     - _Blend: 0
+    - _BlendOp: 0
+    - _BlinnPhongSpecularGloss: 5
+    - _BlinnPhongSpecularIntensity: 1
+    - _BloomFactor: 1
+    - _BrightIntensity: 0.5
     - _BumpScale: 1
+    - _CharacterIntensity: 0.63
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _ClipScale: 0.5
     - _Cull: 2
     - _Cutoff: 0.5
+    - _DarkIntensity: 0.5
+    - _DarkShadowArea: 0.5
+    - _DarkShadowSmooth: 0.05
+    - _DarkSideRimPow: 1
+    - _DarkSideRimSmooth: 0.01
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _DstBlendMode: 0
+    - _Emission: 0
+    - _EmissionBloomFactor: 0
+    - _EnableAlphaClipping: 0
+    - _EnableAutoColor: 0
+    - _EnableBloomMask: 0
+    - _EnableEmission: 0
+    - _EnableFaceShadowMap: 0
+    - _EnableLambert: 1
+    - _EnableMetalSpecular: 1
+    - _EnableOutline: 1
+    - _EnableRampShadow: 1
+    - _EnableRim: 1
+    - _EnableRimDS: 1
+    - _EnableRimOther: 0
+    - _EnableRims: 0
+    - _EnableSpecular: 1
     - _EnvironmentReflections: 1
+    - _FaceDarkIntensity: 1
+    - _FaceShadowMapPow: 0.2
+    - _FaceShadowOffset: 0
+    - _FixDarkShadow: 1
+    - _FixLightY: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.31937438
     - _GlossyReflections: 1
+    - _IgnoreLightY: 0
+    - _IsFace: 0
+    - _IsNight: 0
+    - _LightThreshold: 0.5
+    - _MetalSpecularGloss: 0.5
+    - _MetalSpecularIntensity: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
+    - _OtherRimPow: 10
+    - _OtherRimSmooth: 0.01
+    - _OutlineWidth: 0.03
+    - _OutlineZOffset: 0.0001
+    - _OutlineZOffsetMaskRemapEnd: 1
+    - _OutlineZOffsetMaskRemapStart: 0
     - _Parallax: 0.02
     - _QueueOffset: 0
+    - _RampAOLerp: 0.5
+    - _RampIntensity: 0.5
+    - _RampShadowRange: 0.8
+    - _ReceiveShadowMappingAmount: 0.75
+    - _ReceiveShadowMappingPosOffset: 0
     - _ReceiveShadows: 1
+    - _RimOffsets: 0.1
+    - _RimPow: 6.04
+    - _RimSmooth: 0.01
+    - _RimThresholds: 1
+    - _ShaderEnum: 0
+    - _ShadowArea: 0.5
+    - _ShadowRampLerp: 0
     - _Smoothness: 0.31937438
     - _SmoothnessTextureChannel: 0
+    - _SpecMulti: 0.1
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _SrcBlendMode: 1
+    - _StencilComp: 0
+    - _StencilFailOp: 0
+    - _StencilPassOp: 0
+    - _StencilRef: 0
+    - _StencilZFailOp: 0
+    - _StepSpecularGloss: 0.5
+    - _StepSpecularIntensity: 10
     - _Surface: 0
     - _UVSec: 0
     - _WorkflowMode: 1
+    - _WorldLightInfluence: 0.5
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _DarkShadowMultColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _DarkSideRimColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColors: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionMapChannelMask: {r: 1, g: 1, b: 1, a: 0}
+    - _MainColor: {r: 1, g: 1, b: 1, a: 1}
+    - _OtherRimColor: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RimColors: {r: 1, g: 1, b: 1, a: 1}
+    - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ShadowMultColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &6525227495691768331
 MonoBehaviour:
