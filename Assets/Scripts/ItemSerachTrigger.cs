@@ -66,7 +66,7 @@ public class ItemSerachTrigger : Singleton<ItemSerachTrigger>
     /// </summary>
     public void GetItemIndex(int index)
     {
-        searchPoint = itemCount -1 - index;
+        searchPoint = items.Count -1 - index;
         GetItem();
     }
 
