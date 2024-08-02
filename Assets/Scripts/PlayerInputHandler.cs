@@ -64,7 +64,12 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (cursorInputForLook)
         {
-            ZoomInput(value.Get<float>());
+            bool InteractiveActive = ItemSerachTrigger.Instance.SearchPoint(value.Get<float>());
+            //상호작용 패널 활성화 시 줌 실행 불가
+            if (InteractiveActive == false)
+            {
+                ZoomInput(value.Get<float>());
+            }
         }
     }
 
