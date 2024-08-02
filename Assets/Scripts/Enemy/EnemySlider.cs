@@ -10,12 +10,12 @@ public class EnemySlider : MonoBehaviour
     {
 
 
-        cam = Camera.main.transform;
+        //cam = Camera.main.transform;
     }
 
     
     void Update()
     {
-        transform.forward = cam.forward;  
+        //transform.forward = cam.forward;  
     }
 }

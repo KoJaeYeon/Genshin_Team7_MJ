@@ -44,6 +44,7 @@ public class FireHilichurlView : Enemy
     {
         var attackNodeList = new List<INode>();
         attackNodeList.Add(new EnemyAction(CheckAttackRange));
+        attackNodeList.Add(new EnemyAction(RotationToPlayer));
         attackNodeList.Add(new EnemyAction(EnemyAttack));
 
         var attackSequence = new EnemySequence(attackNodeList);
@@ -151,7 +152,10 @@ public class FireHilichurlView : Enemy
 
     public override INode.NodeState CheckAttackRange()
     {
-        bool isAttack = _player != null && Vector3.Distance(transform.position, _player.transform.position) <= 2f
+        if (_player == null)
+            return INode.NodeState.Fail;
+
+        bool isAttack = Vector3.Distance(transform.position, _player.transform.position) <= 2f
             && isTracking;
 
         if (isAttack)
@@ -166,6 +170,26 @@ public class FireHilichurlView : Enemy
             return INode.NodeState.Fail;
         }
             
+    }
+
+    public override INode.NodeState RotationToPlayer()
+    {
+        Vector3 targetDirection = (_player.transform.position - transform.position).normalized;
+
+        Vector3 selfDirection = transform.forward;
+
+        float angle = Vector3.SignedAngle(selfDirection, targetDirection, Vector3.up);
+
+        if(Mathf.Abs(angle) >= 60f)
+        {
+            Quaternion rotation = Quaternion.LookRotation(targetDirection);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 10f * Time.deltaTime);
+
+            return INode.NodeState.Running;
+        }
+
+        return INode.NodeState.Success;
     }
 
     public override INode.NodeState EnemyAttack()

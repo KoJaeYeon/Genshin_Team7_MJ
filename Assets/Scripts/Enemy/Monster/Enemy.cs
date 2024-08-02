@@ -22,6 +22,7 @@ public enum Element
 }
 public class Enemy : MonoBehaviour
 {
+    #region BehaviourTree
     //Node
     protected Node _node;
 
@@ -63,6 +64,7 @@ public class Enemy : MonoBehaviour
     private IColor _enemyColor;
     private Color _elementColor;
     private int _elementCount;
+    #endregion
     //---------------------------------------------------------------
 
     protected EnemyStateMachine state;
@@ -103,6 +105,7 @@ public class Enemy : MonoBehaviour
         InitializeEnemy();
     }
 
+    #region BehaviourTree
     public void InitializeEnemy()
     {
         _waitTime = 4f;
@@ -144,6 +147,11 @@ public class Enemy : MonoBehaviour
         return INode.NodeState.Fail;
     }
 
+    public virtual INode.NodeState RotationToPlayer()
+    {
+        return INode.NodeState.Fail;
+    }
+
     public virtual INode.NodeState EnemyAttack()
     {
         return INode.NodeState.Fail;
@@ -174,6 +182,7 @@ public class Enemy : MonoBehaviour
         currentTransform = newRandomTransform;
         return newRandomTransform;
     }
+    #endregion
 
     public virtual void Splash(float damage) { }
 
