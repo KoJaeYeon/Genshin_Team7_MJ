@@ -9,9 +9,13 @@ public class StampAttack : IPattern
     private float Rotspeed = 15.0f;
     private AnimatorStateInfo animatorStateInfo;
 
-    public StampAttack(Wolf wolf)
+    public void InitPattern(Wolf wolf)
     {
-        m_Wolf = wolf;
+        if(m_Wolf == null)
+        {
+            m_Wolf = wolf;
+        }
+
         targetPos = m_Wolf.PlayerTransform.position;
         m_Wolf.BossAnimator.SetTrigger("Stamp");
     }
@@ -25,6 +29,7 @@ public class StampAttack : IPattern
             Rotation();
         }
     }
+
 
     private void Rotation()
     {

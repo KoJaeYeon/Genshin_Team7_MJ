@@ -44,7 +44,7 @@ public class FireHilichurlView : Enemy
     {
         var attackNodeList = new List<INode>();
         attackNodeList.Add(new EnemyAction(CheckAttackRange));
-        attackNodeList.Add(new EnemyAction(Attack));
+        attackNodeList.Add(new EnemyAction(EnemyAttack));
 
         var attackSequence = new EnemySequence(attackNodeList);
 
@@ -168,7 +168,7 @@ public class FireHilichurlView : Enemy
             
     }
 
-    public override INode.NodeState Attack()
+    public override INode.NodeState EnemyAttack()
     {
         if(_player == null)
             return INode.NodeState.Fail;

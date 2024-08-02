@@ -14,10 +14,14 @@ public class ClawAttack : IPattern
     private SphereCollider left_Coll;
     private SphereCollider right_Coll;
 
-    public ClawAttack(Wolf wolf) 
+    public void InitPattern(Wolf wolf)
     {
-        m_Wolf = wolf;
-        left_Coll = m_Wolf.left_Hand.GetComponent<SphereCollider>();    
+        if(m_Wolf == null)
+        {
+            m_Wolf = wolf;
+        }
+
+        left_Coll = m_Wolf.left_Hand.GetComponent<SphereCollider>();
         right_Coll = m_Wolf.right_Hand.GetComponent<SphereCollider>();
     }
 
@@ -92,5 +96,6 @@ public class ClawAttack : IPattern
         yield return new WaitForSeconds(1.5f);
         left_Coll.enabled = false;
     }
+
     
 }

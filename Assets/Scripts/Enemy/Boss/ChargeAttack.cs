@@ -11,17 +11,21 @@ public class ChargeAttack : IPattern
     private Vector3 targetPos;
     private Vector3 MovePos;
     private CapsuleCollider charge_capsule;
-    
-    public ChargeAttack(Wolf wolf)
+   
+
+    public void InitPattern(Wolf wolf)
     {
-        m_Wolf = wolf;
+        if(m_Wolf == null)
+        {
+            m_Wolf = wolf;
+        }
+
         targetPos = (m_Wolf.PlayerTransform.position - m_Wolf.transform.position).normalized;
         MovePos = m_Wolf.PlayerTransform.position + targetPos * 2.0f;
-        
+
         m_Wolf.BossAnimator.SetBool("isRun", true);
         charge_capsule = m_Wolf.ChargeCollider.GetComponent<CapsuleCollider>();
         charge_capsule.enabled = true;
-
     }
 
     public void BossAttack()
@@ -40,6 +44,8 @@ public class ChargeAttack : IPattern
             m_Wolf.BossRigid.velocity = Vector3.zero;
         }
     }
+
+    
 
     private void Rotation()
     {

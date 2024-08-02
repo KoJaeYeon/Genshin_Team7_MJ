@@ -5,10 +5,15 @@ using UnityEngine;
 public class DriftAttack : IPattern
 {
     private Wolf m_Wolf;
-    public DriftAttack(Wolf wolf)
+    
+    public void InitPattern(Wolf wolf)
     {
-        m_Wolf = wolf;
+        if(m_Wolf == null)
+        {
+            m_Wolf = wolf;
+        }
     }
+
     public void BossAttack()
     {
         DriftAnimation();
@@ -37,4 +42,6 @@ public class DriftAttack : IPattern
             m_Wolf.BossAnimator.SetTrigger("DriftL");
         }
     }
+
+    
 }

@@ -12,15 +12,18 @@ public class HowlAttack : IPattern
         iceRain
     }
     private Wolf m_Wolf;
-    public HowlAttack(Wolf wolf)
+    
+    public void InitPattern(Wolf wolf)
     {
-        m_Wolf = wolf;
+        if(m_Wolf == null)
+        {
+            m_Wolf = wolf;
+        }
+
         RandomHowl();
     }
-    public void BossAttack()
-    {
-        
-    }
+
+    public void BossAttack() { }
 
     public void RandomHowl()
     {
@@ -36,4 +39,6 @@ public class HowlAttack : IPattern
                 break;
         }
     }
+
+    
 }

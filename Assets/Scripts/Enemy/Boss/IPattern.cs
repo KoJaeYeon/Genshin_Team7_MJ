@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface IPattern
 {
+    public void InitPattern(Wolf wolf);
     public void BossAttack();
 }

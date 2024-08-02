@@ -145,7 +145,7 @@ public class Enemy : MonoBehaviour
         return INode.NodeState.Fail;
     }
 
-    public virtual INode.NodeState Attack()
+    public virtual INode.NodeState EnemyAttack()
     {
         return INode.NodeState.Fail;
     }

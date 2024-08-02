@@ -8,9 +8,14 @@ public class JumpAttack : IPattern
     private Vector3 EndPos;
     private float Speed = 12.0f;
     private AnimatorStateInfo animatorStateInfo;
-    public JumpAttack(Wolf wolf)
+    
+    public void InitPattern(Wolf wolf)
     {
-        m_Wolf = wolf;
+        if(m_Wolf == null)
+        {
+            m_Wolf = wolf;
+        }
+
         m_Wolf.BossAnimator.SetTrigger("JumpAttack");
         EndPos = m_Wolf.PlayerTransform.position;
     }
@@ -50,4 +55,6 @@ public class JumpAttack : IPattern
             m_Wolf.transform.position = EndPos;
         
     }
+
+    
 }

@@ -53,6 +53,7 @@ public class Wolf : Enemy, IColor
     private IPattern bossAttack;
     private Slider PaSlider;
     private GameObject Pa;
+    private Dictionary<BossPattern, IPattern> _patternDic;
 
     private new void Awake()
     {
@@ -70,6 +71,8 @@ public class Wolf : Enemy, IColor
         HpSlider = BossSlider[0].GetComponent<Slider>();
         PaSlider = BossSlider[1].GetComponent<Slider>();
         EnemyHealthDic = new Dictionary<Enemy, float>();
+        _patternDic = new Dictionary<BossPattern, IPattern>();
+        AddPattern();
     }
 
     private void InitWolfData()
@@ -100,24 +103,44 @@ public class Wolf : Enemy, IColor
         switch (bossPattern)
         {
             case BossPattern.JumpAttack:
-                bossAttack = new JumpAttack(this);
+                bossAttack = GetPattern(bossPattern);
                 break;
             case BossPattern.ClawAttack:
-                bossAttack = new ClawAttack(this);
+                bossAttack = GetPattern(bossPattern);
                 break;
             case BossPattern.ChargeAttack:
-                bossAttack = new ChargeAttack(this);
+                bossAttack = GetPattern(bossPattern);
                 break;
             case BossPattern.StampAttack:
-                bossAttack = new StampAttack(this);
+                bossAttack = GetPattern(bossPattern);
                 break;
             case BossPattern.DriftAttack:
-                bossAttack = new DriftAttack(this);
+                bossAttack = GetPattern(bossPattern);
                 break;
             case BossPattern.HowlAttack:
-                bossAttack = new HowlAttack(this);
+                bossAttack = GetPattern(bossPattern);
                 break;
         }
+    }
+
+    private void AddPattern()
+    {
+        _patternDic[BossPattern.JumpAttack] = new JumpAttack();
+        _patternDic[BossPattern.ClawAttack] = new ClawAttack();
+        _patternDic[BossPattern.ChargeAttack] = new ChargeAttack();
+        _patternDic[BossPattern.StampAttack] = new StampAttack();
+        _patternDic[BossPattern.DriftAttack] = new DriftAttack();
+        _patternDic[BossPattern.HowlAttack] = new HowlAttack();
+    }
+
+    private IPattern GetPattern(BossPattern currentPattern)
+    {
+        if(_patternDic.TryGetValue(currentPattern, out IPattern pattern))
+        {
+            return pattern;
+        }
+
+        return null;
     }
 
     public IPattern Attack => bossAttack;
@@ -567,6 +590,7 @@ public class WolfAttackState_Howl : WolfState
     {
         m_Wolf.BossPattern = BossPattern.HowlAttack;
         m_Wolf.SetPattern(m_Wolf.BossPattern);
+        m_Wolf.Attack.InitPattern(m_Wolf);
     }
 }
 
@@ -586,6 +610,7 @@ public class WolfAttackState_Stamp : WolfState
     {
         m_Wolf.BossPattern = BossPattern.StampAttack;
         m_Wolf.SetPattern(m_Wolf.BossPattern);
+        m_Wolf.Attack.InitPattern(m_Wolf);
     }
 }
 
@@ -610,6 +635,7 @@ public class WolfAttackState_Jump : WolfState
         m_Wolf.BossRigid.isKinematic = true;
         m_Wolf.BossPattern = BossPattern.JumpAttack;
         m_Wolf.SetPattern(m_Wolf.BossPattern);
+        m_Wolf.Attack.InitPattern(m_Wolf);
     }
 }
 
@@ -643,6 +669,7 @@ public class WolfAttackState_Claw : WolfState
     {
         m_Wolf.BossPattern = BossPattern.ClawAttack;
         m_Wolf.SetPattern(m_Wolf.BossPattern);
+        m_Wolf.Attack.InitPattern(m_Wolf);
         m_Wolf.Attack.BossAttack();
     }
 
@@ -661,6 +688,7 @@ public class WolfAttackState_Drift : WolfState
     {
         m_Wolf.BossPattern = BossPattern.DriftAttack;
         m_Wolf.SetPattern(m_Wolf.BossPattern);
+        m_Wolf.Attack.InitPattern(m_Wolf);
         m_Wolf.Attack.BossAttack();
     }
 }
@@ -701,6 +729,7 @@ public class WolfAttackState_Charge : WolfState
     {
         m_Wolf.BossPattern = BossPattern.ChargeAttack;
         m_Wolf.SetPattern(m_Wolf.BossPattern);
+        m_Wolf.Attack.InitPattern(m_Wolf);
     }
 }
 
