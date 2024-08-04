@@ -4,98 +4,77 @@ using UnityEngine;
 
 public class ClawAttack : IPattern
 {
-    enum RandomAttack
+    private enum Claw
     {
         Claw,
         Claw_Drift
     }
 
-    private Wolf m_Wolf;
-    private SphereCollider left_Coll;
-    private SphereCollider right_Coll;
+    private Andrius _andrius;
+    private Animator _animator;
+    private Transform _player;
 
-    public void InitPattern(Wolf wolf)
+    private int _random;
+    private float _angle;
+
+    public void InitializePattern(Andrius andrius)
     {
-        if(m_Wolf == null)
+        if(_andrius == null)
         {
-            m_Wolf = wolf;
+            _andrius = andrius;
+            _animator = _andrius.GetComponent<Animator>();
         }
 
-        left_Coll = m_Wolf.left_Hand.GetComponent<SphereCollider>();
-        right_Coll = m_Wolf.right_Hand.GetComponent<SphereCollider>();
+        _player = _andrius.PlayerTransform;
+        RandomClawAttack();
     }
 
-    public void BossAttack()
+    public void UpdatePattern() { }
+    
+    public void ExitPattern() { }
+    
+    private float CalculateAngle()
     {
-        RandomAnimation();
-    }
+        Vector3 targetDirection = (_player.position - _andrius.transform.position).normalized;
 
-    public float TargetPosition()
-    {
-        Vector3 targetDirection = (m_Wolf.PlayerTransform.position - m_Wolf.transform.position).normalized;
-        Vector3 selfDirection = m_Wolf.transform.forward;
+        Vector3 andriusForward = _andrius.transform.forward;
 
-        float angle = Vector3.SignedAngle(selfDirection, targetDirection, Vector3.up);
+        float angle = Vector3.SignedAngle(andriusForward, targetDirection, Vector3.up);
 
         return angle;
     }
 
-    public void RandomAnimation()
+    private void RandomClawAttack()
     {
-        int randomAnimation = Random.Range(0, 2);
-        float playerPosition = TargetPosition();
-        
-        switch(randomAnimation)
+        _random = Random.Range(0, 2);
+        _angle = CalculateAngle();
+
+        if(_angle == 0)
         {
-            case (int)RandomAttack.Claw:
-                if(playerPosition > 0)
-                {
-                    m_Wolf.BossAnimator.SetTrigger("ClawL");
-                    m_Wolf.StartCoroutine(LeftColl());
-                }
-                else if(playerPosition < 0)
-                {
-                    m_Wolf.BossAnimator.SetTrigger("ClawR");
-                    m_Wolf.StartCoroutine(RightColl());
-                }
-                else
-                {
-                    m_Wolf.State.ChangeState(BossState.Attack);
-                }
-                break;
-            case (int)RandomAttack.Claw_Drift:
-                if (playerPosition > 0)
-                {
-                    m_Wolf.BossAnimator.SetTrigger("ClawL_Drift");
-                    m_Wolf.StartCoroutine(LeftColl());
-                }
-                else if (playerPosition < 0)
-                {
-                    m_Wolf.BossAnimator.SetTrigger("ClawR_Drift");
-                    m_Wolf.StartCoroutine(RightColl());
-                }
-                else
-                {
-                    m_Wolf.State.ChangeState(BossState.Attack);
-                }
-                break;
+            _andrius.State.ChangeState(BossState.Attack);
+            return;
         }
 
+        switch (_random)
+        {
+            case (int)Claw.Claw:
+                TriggerClawAnimation(_angle, "ClawL", "ClawR");
+                break;
+            case (int)Claw.Claw_Drift:
+                TriggerClawAnimation(_angle, "ClawL_Drift", "ClawR_Drift");
+                break;
+        }
     }
 
-    private IEnumerator RightColl()
+    private void TriggerClawAnimation(float angle, string left, string right)
     {
-        right_Coll.enabled = true;
-        yield return new WaitForSeconds(1.5f);
-        right_Coll.enabled = false;
+        if(angle > 0)
+        {
+            _animator.SetTrigger(left);
+        }
+        else
+        {
+            _animator.SetTrigger(right);
+        }
     }
-
-    private IEnumerator LeftColl()
-    {
-        left_Coll.enabled = true;
-        yield return new WaitForSeconds(1.5f);
-        left_Coll.enabled = false;
-    }
-
-    
 }

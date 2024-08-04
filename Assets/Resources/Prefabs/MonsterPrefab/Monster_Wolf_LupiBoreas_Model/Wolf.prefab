@@ -1902,7 +1902,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3376194054489504899}
-  - component: {fileID: 1115005417}
   m_Layer: 0
   m_Name: HitBox_R_Forearm
   m_TagString: Untagged
@@ -1925,19 +1924,6 @@ Transform:
   m_Father: {fileID: 5501157138594924186}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &1115005417
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1282714105370740513}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: -0.12, y: 0, z: 0}
 --- !u!1 &1282814997044200072
 GameObject:
   m_ObjectHideFlags: 0
@@ -2798,6 +2784,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1325812068443691576}
   - component: {fileID: 6217446351546622901}
+  - component: {fileID: 2238694181697645358}
   m_Layer: 0
   m_Name: Bone_R_Hand
   m_TagString: Untagged
@@ -2835,6 +2822,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1
   m_Center: {x: -0.72, y: -0.21, z: 0}
+--- !u!114 &2238694181697645358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2134086055553465031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41102b6fb4b0f8949bd23d8cc1997f15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2246709509513603671
 GameObject:
   m_ObjectHideFlags: 0
@@ -2972,7 +2971,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7818031162588026805}
-  - component: {fileID: 1023074631}
   m_Layer: 0
   m_Name: HitBox_Spine
   m_TagString: Untagged
@@ -2995,20 +2993,6 @@ Transform:
   m_Father: {fileID: 5148822472491111641}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &1023074631
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2345622683103973735}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.89
-  m_Height: 4.31
-  m_Direction: 0
-  m_Center: {x: -0.4, y: 0.21, z: 0}
 --- !u!1 &2345884877173453107
 GameObject:
   m_ObjectHideFlags: 0
@@ -3430,7 +3414,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5370728554783272595}
-  - component: {fileID: 236880488}
   m_Layer: 0
   m_Name: HitBox_L_Calf
   m_TagString: Untagged
@@ -3453,19 +3436,6 @@ Transform:
   m_Father: {fileID: 7490181432598258057}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &236880488
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3018071989399612571}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: -0.25, z: 0}
 --- !u!1 &3135449274460080699
 GameObject:
   m_ObjectHideFlags: 0
@@ -4057,13 +4027,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10428ad5a7584442a5662ca552e16f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  left_Hand: {fileID: 6454348905801976665}
-  right_Hand: {fileID: 2134086055553465031}
-  ChargeCollider: {fileID: 6274542349107359075}
   effectPool: {fileID: 0}
   BossSlider: []
-  RotatePoint: {fileID: 0}
 --- !u!195 &616660749
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4704,7 +4669,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3983854419917286810}
-  - component: {fileID: 158639467}
   m_Layer: 0
   m_Name: HitBox_R_Calf
   m_TagString: Untagged
@@ -4727,19 +4691,6 @@ Transform:
   m_Father: {fileID: 3005136991579213928}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &158639467
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4454604985648478218}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: -0.25, z: 0}
 --- !u!1 &4481139858365045289
 GameObject:
   m_ObjectHideFlags: 0
@@ -5428,8 +5379,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5500585039855895328}
   m_LocalRotation: {x: 0.0000001188633, y: 0.00000023673, z: 0.0014621781, w: 0.9999989}
-  m_LocalPosition: {x: -0.77702665, y: 0, z: -0.0000004577636}
-  m_LocalScale: {x: 1, y: 0.9999999, z: 0.9999998}
+  m_LocalPosition: {x: -0.77702665, y: 0, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8470637211920382138}
@@ -6234,6 +6185,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6241038971782426381}
   - component: {fileID: 1482898453134245069}
+  - component: {fileID: 6133874387042938558}
   m_Layer: 0
   m_Name: ChargeCollider
   m_TagString: Untagged
@@ -6270,6 +6222,18 @@ CapsuleCollider:
   m_Height: 8.04
   m_Direction: 2
   m_Center: {x: 0, y: 2.15, z: 1.04}
+--- !u!114 &6133874387042938558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6274542349107359075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7af386b42d2c39540853342dfff0b730, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6276002855966629935
 GameObject:
   m_ObjectHideFlags: 0
@@ -6374,6 +6338,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5511976944169857947}
   - component: {fileID: 2437556013673562742}
+  - component: {fileID: 1734230742455484283}
   m_Layer: 0
   m_Name: Bone_L_Hand
   m_TagString: Untagged
@@ -6410,6 +6375,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1
   m_Center: {x: -0.72, y: -0.21, z: 0}
+--- !u!114 &1734230742455484283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6454348905801976665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 916af48060b01c3498b64533c9b31673, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6515638924101237445
 GameObject:
   m_ObjectHideFlags: 0
@@ -6548,7 +6525,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 850972989836291422}
-  - component: {fileID: 653070920}
   m_Layer: 0
   m_Name: HitBox_L_Forearm
   m_TagString: Untagged
@@ -6571,19 +6547,6 @@ Transform:
   m_Father: {fileID: 824673592972077123}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &653070920
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6630150501675809369}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: -0.12, y: 0, z: 0}
 --- !u!1 &6631914487560230862
 GameObject:
   m_ObjectHideFlags: 0
@@ -7486,7 +7449,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4873017321386514299}
-  - component: {fileID: 801508924}
   m_Layer: 0
   m_Name: HitBox_Head
   m_TagString: Untagged
@@ -7509,19 +7471,6 @@ Transform:
   m_Father: {fileID: 8581901050993449939}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &801508924
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7523203946319098508}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.16
-  m_Center: {x: 0.55, y: -0.3, z: 0}
 --- !u!1 &7570998192298524610
 GameObject:
   m_ObjectHideFlags: 0

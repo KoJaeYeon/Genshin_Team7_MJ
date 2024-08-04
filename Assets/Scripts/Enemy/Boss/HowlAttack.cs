@@ -1,8 +1,4 @@
-using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class HowlAttack : IPattern
 {
@@ -11,19 +7,22 @@ public class HowlAttack : IPattern
         howl,
         iceRain
     }
-    private Wolf m_Wolf;
+
+    private Andrius _andrius;
+    private Animator _animator;
     
-    public void InitPattern(Wolf wolf)
+    public void InitializePattern(Andrius andrius)
     {
-        if(m_Wolf == null)
+        if(_andrius == null)
         {
-            m_Wolf = wolf;
+            _andrius = andrius;
+            _animator = _andrius.GetComponent<Animator>();
         }
 
         RandomHowl();
     }
 
-    public void BossAttack() { }
+    public void UpdatePattern() { }
 
     public void RandomHowl()
     {
@@ -32,13 +31,13 @@ public class HowlAttack : IPattern
         switch (random)
         {
             case (int)SelectHowl.howl:
-                m_Wolf.BossAnimator.SetTrigger("Howl");
+                _animator.SetTrigger("Howl");
                 break;
             case (int)SelectHowl.iceRain:
-                m_Wolf.BossAnimator.SetTrigger("IceRain");
+                _animator.SetTrigger("IceRain");
                 break;
         }
     }
 
-    
+    public void ExitPattern() { }
 }

@@ -4,42 +4,47 @@ using UnityEngine;
 
 public class StampAttack : IPattern
 {
-    private Wolf m_Wolf;
-    private Vector3 targetPos;
+    private Andrius _andrius;
+    private Animator _animator;
+
+    private Vector3 _targetPos;
+
     private float Rotspeed = 15.0f;
-    private AnimatorStateInfo animatorStateInfo;
 
-    public void InitPattern(Wolf wolf)
+    public void InitializePattern(Andrius andrius)
     {
-        if(m_Wolf == null)
+        if(_andrius == null)
         {
-            m_Wolf = wolf;
+            _andrius = andrius;
+            _animator = _andrius.GetComponent<Animator>();
         }
 
-        targetPos = m_Wolf.PlayerTransform.position;
-        m_Wolf.BossAnimator.SetTrigger("Stamp");
+        _targetPos = _andrius.PlayerTransform.position;
+        _animator.SetTrigger("Stamp");
     }
 
-    public void BossAttack()
+    public void UpdatePattern()
     {
-        animatorStateInfo = m_Wolf.BossAnimator.GetCurrentAnimatorStateInfo(0);
+        var animatorStateInfo = _animator.GetCurrentAnimatorStateInfo(0);
 
-        if(animatorStateInfo.normalizedTime < 0.4f)
+        if(animatorStateInfo.IsName("Stamp") && animatorStateInfo.normalizedTime < 0.4f)
         {
-            Rotation();
+            RotateToPlayer();
         }
     }
 
-
-    private void Rotation()
+    public void ExitPattern() { }
+    
+    private void RotateToPlayer()
     {
-        Vector3 attackPos = targetPos - m_Wolf.transform.position;
+        Vector3 targetDirection = _targetPos - _andrius.transform.position;
 
-        float rotAngle = Mathf.Atan2(attackPos.x, attackPos.z) * Mathf.Rad2Deg;
+        targetDirection.y = 0f;
 
-        Quaternion rot = Quaternion.Euler(0, rotAngle, 0);
+        float rotateAngle = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg;
 
-        m_Wolf.transform.rotation = Quaternion.Slerp(m_Wolf.transform.rotation, rot, Rotspeed * Time.fixedDeltaTime);
-    }
+        Quaternion rotation = Quaternion.Euler(0f, rotateAngle, 0f);
 
+        _andrius.transform.rotation = Quaternion.Slerp(_andrius.transform.rotation, rotation, Rotspeed * Time.deltaTime);
+    }   
 }

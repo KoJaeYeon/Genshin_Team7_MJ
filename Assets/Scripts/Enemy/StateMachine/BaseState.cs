@@ -14,8 +14,8 @@ public abstract class BaseState
 
 public abstract class BossBaseState
 {
-    public abstract void StateEnter();
-    public abstract void StateFixedUpdate();
-    public abstract void StateExit();
+    public virtual void StateEnter() { }
+    public virtual void StateFixedUpdate() { }
+    public virtual void StateExit() { }
     public virtual void OnTriggerEnter(Collider other) { }
 }

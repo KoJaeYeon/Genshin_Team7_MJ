@@ -17,7 +17,7 @@ public class WolfEffectScript : MonoBehaviour
         Rain
     }
 
-    private Wolf wolf;
+    private Andrius wolf;
     private Jump jumpSkill;
     private Stamp stampSkill;
     private Howl howlSkill;
@@ -51,7 +51,7 @@ public class WolfEffectScript : MonoBehaviour
 
     public void Init()
     {
-        wolf = GetComponent<Wolf>();
+        wolf = GetComponent<Andrius>();
         EffectDic = new Dictionary<Effect, GameObject>();
         EffectTrans = new Dictionary<Effect, Transform>();
 

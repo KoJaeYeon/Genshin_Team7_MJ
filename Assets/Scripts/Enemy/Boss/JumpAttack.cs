@@ -4,57 +4,72 @@ using UnityEngine;
 
 public class JumpAttack : IPattern
 {
-    private Wolf m_Wolf;
-    private Vector3 EndPos;
-    private float Speed = 12.0f;
-    private AnimatorStateInfo animatorStateInfo;
+    private Andrius _andrius;
+    private Animator _animator;
+    private Transform _player;
+    private Rigidbody _rigidBody;
+
+    private Vector3 _endPos;
+    private float _moveSpeed = 12.0f;
+    private float _rotationSpeed = 5f;
     
-    public void InitPattern(Wolf wolf)
+    public void InitializePattern(Andrius andrius)
     {
-        if(m_Wolf == null)
+        if(_andrius == null)
         {
-            m_Wolf = wolf;
+            _andrius = andrius;
+            _animator = _andrius.GetComponent<Animator>();
+            _rigidBody = _andrius.GetComponent<Rigidbody>();
         }
 
-        m_Wolf.BossAnimator.SetTrigger("JumpAttack");
-        EndPos = m_Wolf.PlayerTransform.position;
+        _animator.SetTrigger("JumpAttack");
+        _player = _andrius.PlayerTransform;
+        _endPos = _player.position;
+        _rigidBody.isKinematic = true;
     }
 
-    public void BossAttack()
+    public void UpdatePattern()
     {
-        animatorStateInfo = m_Wolf.BossAnimator.GetCurrentAnimatorStateInfo(0);
+        var animatorStateInfo = _animator.GetCurrentAnimatorStateInfo(0);
 
-        if (animatorStateInfo.normalizedTime < 0.3f)
+        if(animatorStateInfo.IsName("Jump") && animatorStateInfo.normalizedTime < 0.3f)
         {
-            Rotation();
-            Move();
+            RotateToPlayer();
+            MoveToPlayer();
         }
     }
-    private void Rotation()
+
+    public void ExitPattern()
     {
-        Vector3 targetPos = EndPos - m_Wolf.transform.position;
-
-        float angle = Mathf.Atan2(targetPos.x, targetPos.z) * Mathf.Rad2Deg;
-
-        Quaternion Rot = Quaternion.Euler(0, angle, 0);
-
-        m_Wolf.transform.rotation = Quaternion.Slerp(m_Wolf.transform.rotation, Rot, 5f * Time.fixedDeltaTime);
+        _rigidBody.isKinematic = false;
     }
 
-    private void Move()
+    private void RotateToPlayer()
     {
-        Vector3 Dir = (EndPos - m_Wolf.transform.position).normalized;
+        Vector3 targetDirection = _endPos - _andrius.transform.position;
 
-        Vector3 move = Dir * Speed * Time.fixedDeltaTime;
+        targetDirection.y = 0f;
 
-        if (Vector3.Distance(m_Wolf.transform.position, EndPos) > move.magnitude)
+        float angle = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg;
+
+        Quaternion rotation = Quaternion.Euler(0f, angle, 0f);
+
+        _andrius.transform.rotation = Quaternion.Slerp(_andrius.transform.rotation, rotation, _rotationSpeed * Time.deltaTime);
+    }
+
+    private void MoveToPlayer()
+    {
+        Vector3 targetDirection = (_endPos - _andrius.transform.position).normalized;
+
+        Vector3 move = targetDirection * _moveSpeed * Time.fixedDeltaTime;
+
+        if(Vector3.Distance(_andrius.transform.position, _endPos) > move.magnitude)
         {
-            m_Wolf.transform.Translate(move, Space.World);
+            _andrius.transform.Translate(move, Space.World);
         }
         else
-            m_Wolf.transform.position = EndPos;
-        
+        {
+            _andrius.transform.position = _endPos;
+        }
     }
-
-    
 }
