@@ -13,7 +13,7 @@ public class AndriusParalyzation : IPattern
         if(_andrius == null)
         {
             _andrius = andrius;
-            _animator = _animator.GetComponent<Animator>();
+            _animator = _andrius.GetComponent<Animator>();
         }
 
         _animator.SetBool("Idle", true);
