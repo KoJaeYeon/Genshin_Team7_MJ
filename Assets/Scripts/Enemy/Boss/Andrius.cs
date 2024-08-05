@@ -290,4 +290,55 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
     {
         _rightClawEvent?.Invoke();
     }
+
+
+    private void OnDrawGizmos()
+    {
+        Vector3 forward = transform.forward;
+
+        // 양옆 60도씩 회전한 벡터 계산
+        Vector3 leftDirection = Quaternion.Euler(0, -60, 0) * forward;
+        Vector3 rightDirection = Quaternion.Euler(0, 60, 0) * forward;
+
+        // 몬스터 위치
+        Vector3 position = transform.position;
+
+        // 기즈모 색 설정
+        Gizmos.color = Color.cyan;
+        // 전방 벡터
+        Gizmos.DrawLine(position, position + forward * 20);
+
+        Gizmos.color = Color.red;
+
+        // 왼쪽 60도 벡터
+        Gizmos.DrawLine(position, position + leftDirection * 8);
+
+        // 오른쪽 60도 벡터
+        Gizmos.DrawLine(position, position + rightDirection * 8);
+
+        Gizmos.color = Color.yellow;
+
+        Vector3 leftDirection2 = Quaternion.Euler(0, -61, 0) * forward;
+        Vector3 rightDirection2 = Quaternion.Euler(0, 61, 0) * forward;
+
+        Vector3 leftDirection4 = Quaternion.Euler(0, -119, 0) * forward;
+        Vector3 rightDirection4 = Quaternion.Euler(0, 119, 0) * forward;
+
+        Gizmos.DrawLine(position, position + leftDirection2 * 8);
+        Gizmos.DrawLine(position, position + rightDirection2 * 8);
+
+        Gizmos.DrawLine(position, position + leftDirection4 * 8);
+        Gizmos.DrawLine(position, position + rightDirection4 * 8);
+
+        Gizmos.color = Color.blue;
+
+        Vector3 leftDirection3 = Quaternion.Euler(0, -120, 0) * forward;
+        Vector3 rightDirection3 = Quaternion.Euler(0, 120, 0) * forward;
+
+        Gizmos.DrawLine(position, position + leftDirection3 * 8);
+        Gizmos.DrawLine(position, position + rightDirection3 * 8);
+    }
+
+
+
 }
