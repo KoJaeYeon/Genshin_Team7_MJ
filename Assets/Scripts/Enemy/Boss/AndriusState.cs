@@ -143,8 +143,13 @@ public class Andrius_Claw : AndriusState
         if (other.gameObject.layer == LayerMask.NameToLayer("Player") && !_isHit)
         {
             _isHit = true;
+
             Character player = other.gameObject.GetComponentInChildren<Character>();
-            player.TakeDamage(_andrius.GetAtk() * claw_Atk);
+
+            if (player != null)
+            {
+                player.TakeDamage(_andrius.GetAtk() * claw_Atk);
+            }
         }
     }
 }
@@ -187,8 +192,13 @@ public class Andrius_Charge : AndriusState
         if (other.gameObject.layer == LayerMask.NameToLayer("Player") && !_isHit)
         {
             _isHit = true;
+
             Character player = other.gameObject.GetComponentInChildren<Character>();
-            player.TakeDamage(_andrius.GetAtk() * charge_Atk);
+
+            if (player != null)
+            {
+                player.TakeDamage(_andrius.GetAtk() * charge_Atk);
+            }
         }
     }
 }

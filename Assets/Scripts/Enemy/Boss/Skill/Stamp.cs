@@ -30,9 +30,12 @@ public class Stamp : BossSkill
     {
         if(other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            Debug.Log("Stamp");
             Character player = other.gameObject.GetComponentInChildren<Character>();
-            player.TakeDamage(stamp_Atk);
+
+            if(player != null)
+            {
+                player.TakeDamage(stamp_Atk);
+            }
         }
     }
 

@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.Animations.Rigging;
 
 public enum AndriusPattern
 {
@@ -25,23 +26,19 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
     [Header("AndriusSlider")]
     public Slider[] BossSlider;
 
-    private bool battleStart = true;
     private bool turn = true;
     private bool moveStop = false;
     private bool jumpBack = true;
-    private bool isJump = true;
-    private bool isCharge = true;
     private bool isRunStop = false;
     private float paralyzation;
 
-    private AndriusPattern _andriusPattern;
     private IPattern _currentPattern;
 
     private Color BossColor = Color.blue;
 
     private Slider PaSlider;
-    private Rigidbody bossRigid;
     private GameObject Pa;
+    private Rig _andriusRig;
     private Dictionary<AndriusPattern, IPattern> _patternDic;
     private Action _leftClawEvent;
     private Action _rightClawEvent;
@@ -56,9 +53,9 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
     private void InitializeAndriusComponent()
     {
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        _andriusRig = gameObject.transform.GetComponentInChildren<Rig>();
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        bossRigid = GetComponent<Rigidbody>();
         HpSlider = BossSlider[0].GetComponent<Slider>();
         PaSlider = BossSlider[1].GetComponent<Slider>();
         EnemyHealthDic = new Dictionary<Enemy, float>();
@@ -92,6 +89,8 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
 
     public void SetPattern(AndriusPattern newPattern)
     {
+        _andriusRig.weight = 0.3f;
+
         switch (newPattern)
         {
             case AndriusPattern.Idle:
@@ -121,6 +120,15 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
             case AndriusPattern.Howl:
                 _currentPattern = GetPattern(newPattern);
                 break;
+        }
+
+        bool _isRig = newPattern == AndriusPattern.Idle ||
+            newPattern == AndriusPattern.Move ||
+            newPattern == AndriusPattern.Attack;
+
+        if (_isRig)
+        {
+            _andriusRig.weight = 1;
         }
     }
 
@@ -152,11 +160,6 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
     public Animator BossAnimator => animator;
     public Transform PlayerTransform => Player;
 
-    public AndriusPattern Pattern
-    {
-        get { return Pattern; }
-        set { Pattern = value; }
-    }
     public float Paralyzation
     {
         get { return paralyzation; }

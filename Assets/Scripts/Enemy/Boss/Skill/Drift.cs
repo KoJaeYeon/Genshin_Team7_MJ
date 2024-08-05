@@ -25,9 +25,12 @@ public class Drift : BossSkill
     {
         if(other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            Debug.Log("Drift");
             Character player = other.gameObject.GetComponentInChildren<Character>();
-            player.TakeDamage(drift_Atk);
+
+            if(player != null)
+            {
+                player.TakeDamage(drift_Atk);
+            }
         }
     }
 

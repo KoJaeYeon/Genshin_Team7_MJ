@@ -123,7 +123,7 @@ public class AndriusAttack : IPattern
 
     private void Turn(float angle)
     {
-        if (_andrius.JumpBack)
+        if (!_andrius.JumpBack)
         {
             return;
         }
