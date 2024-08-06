@@ -180,6 +180,7 @@ public class Andrius_Charge : AndriusState
     public override void StateExit()
     {
         _isHit = false;
+        _andrius.CurrentPattern.ExitPattern();
     }
 
     public override void StateFixedUpdate()

@@ -1,4 +1,6 @@
+using Cinemachine.Utility;
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class ChargeAttack : IPattern, IAndriusChargeEvent
@@ -10,13 +12,18 @@ public class ChargeAttack : IPattern, IAndriusChargeEvent
     private Action _onCollider;
     private Action _offCollider;
 
+    private WaitForSeconds _timer = new WaitForSeconds(1.0f);
+
     private float _currentAngle;
     private float _distance;
     private float _rotationSpeed = 10f;
 
+    private bool isRun = true;
+
     private Vector3 _targetPos;
     private Vector3 _movePos;
 
+    
     public ChargeAttack()
     {
         AndriusEventManager.Instance.RegisterChargeEvent(this);
@@ -40,58 +47,77 @@ public class ChargeAttack : IPattern, IAndriusChargeEvent
 
     public void UpdatePattern()
     {
-        _distance = Vector3.Distance(_andrius.transform.position, _movePos);
 
-        if(_distance > 2f)
+        Vector3 targetDirection = _movePos - _andrius.transform.position;
+
+        targetDirection.y = 0f;
+
+        Vector3 forwardDirection = _andrius.transform.forward;
+
+        _currentAngle = Vector3.Angle(forwardDirection, targetDirection);
+
+        if(_currentAngle > 120f && isRun)
         {
-            Rotation();
+            isRun = false;
+
+            _offCollider?.Invoke();
+            ScramAnimation();
         }
-        else
+
+        if (isRun)
         {
-            _animator.SetBool("isRun", false);
-            _offCollider.Invoke();
-            SelectAnimation();
-            _rigidBody.velocity = Vector3.zero; 
+            Rotation(targetDirection);
         }
+        
     }
 
-    public void ExitPattern() { }
-
-    private void Rotation()
+    public void ExitPattern()
     {
-        Vector3 rotateDirection = _movePos - _andrius.transform.position;
+        isRun = true;
+        _currentAngle = 0f;
+    }
 
-        rotateDirection.y = 0f;
-
-        float angle = Mathf.Atan2(rotateDirection.x, rotateDirection.z) * Mathf.Rad2Deg;
-
-        _currentAngle = angle;
+    private void Rotation(Vector3 targetDirection)
+    {
+        float angle = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg;
 
         Quaternion rotation = Quaternion.Euler(0f, angle, 0f);
 
         _andrius.transform.rotation = Quaternion.Slerp(_andrius.transform.rotation, rotation, _rotationSpeed * Time.fixedDeltaTime);
     }
-
-    private void SelectAnimation()
+    private void ScramAnimation()
     {
-        if (_currentAngle > 0 && _currentAngle <= 180 && !_andrius.IsRunStop)
+        Vector3 targetDirection = (_player.position - _andrius.transform.position).normalized;
+
+        Vector3 andriusForward = _andrius.transform.forward;
+
+        float angle = Vector3.SignedAngle(andriusForward, targetDirection, Vector3.up);
+
+        _animator.SetBool("isRun", false);
+
+        if (angle > 0f)
         {
-            _andrius.IsRunStop = true;
-            _animator.Play("ScramR");
-            _andrius.State.ChangeState(BossState.Attack);
+            _animator.SetTrigger("ScramRight");
+            _andrius.StartCoroutine(ChangeAttack());
         }
-        else if (_currentAngle < 0 && _currentAngle >= -180 && !_andrius.IsRunStop)
+        else if (angle < 0f)
         {
-            _andrius.IsRunStop = true;
-            _animator.Play("ScramL");
-            _andrius.State.ChangeState(BossState.Attack);
+            _animator.SetTrigger("ScramLeft");
+            _andrius.StartCoroutine(ChangeAttack());
         }
         else
         {
-            _andrius.IsRunStop = true;
-            _animator.Play("ScramL");
-            _andrius.State.ChangeState(BossState.Attack);
+            _animator.SetTrigger("ScramLeft");
+            _andrius.StartCoroutine(ChangeAttack());
         }
+            
+    }
+
+    private IEnumerator ChangeAttack()
+    {
+        yield return _timer;
+
+        _andrius.State.ChangeState(BossState.Attack);   
     }
 
     public void OnChargeColliderEvent(Action callBack)

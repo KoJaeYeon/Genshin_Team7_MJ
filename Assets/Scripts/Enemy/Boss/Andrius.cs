@@ -56,8 +56,8 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
         _andriusRig = gameObject.transform.GetComponentInChildren<Rig>();
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        HpSlider = BossSlider[0].GetComponent<Slider>();
-        PaSlider = BossSlider[1].GetComponent<Slider>();
+        //HpSlider = BossSlider[0].GetComponent<Slider>();
+        //PaSlider = BossSlider[1].GetComponent<Slider>();
         EnemyHealthDic = new Dictionary<Enemy, float>();
         _patternDic = new Dictionary<AndriusPattern, IPattern>();
         AndriusEventManager.Instance.RegisterClawEvent(this);
@@ -69,8 +69,8 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
         enemyData = new EnemyData(2000f, 1000f, 4f, 0.5f, 9999, Element.Ice);
         EnemyHealthDic.Add(this, enemyData.Health);
         paralyzation = 100f;
-        Hp = HpSlider.fillRect.transform.parent.gameObject;
-        Pa = PaSlider.fillRect.transform.parent.gameObject;
+        //Hp = HpSlider.fillRect.transform.parent.gameObject;
+        //Pa = PaSlider.fillRect.transform.parent.gameObject;
     }
     
     public void InitializeState()
