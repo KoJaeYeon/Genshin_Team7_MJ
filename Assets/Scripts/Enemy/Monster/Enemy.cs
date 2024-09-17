@@ -22,51 +22,6 @@ public enum Element
 }
 public class Enemy : MonoBehaviour
 {
-    #region BehaviourTree
-    //Node
-    protected Node _node;
-
-    //Patrol
-    protected List<Transform> _wayPointList;
-    protected List<Transform> _useWayPointList;
-    protected Transform _currentTransform;
-    protected float _waitTime;
-    protected float _waitCount;
-    protected bool isWaiting;
-
-    //Trace
-    protected bool isTracking;
-
-    //Player
-    protected GameObject _player;
-    protected float _radius;
-    protected int _playerLayer;
-
-    //NavMeshAgent
-    protected NavMeshAgent _agent;
-
-    //Data
-    protected EnemyData _data;
-    protected Dictionary<Enemy, float> _enemyHealthDic;
-
-    //Slider
-    protected Slider _hpSlider;
-    protected GameObject _sliderObject;
-
-    //Animator
-    protected Animator _animator;
-
-    //SkinnedMeshRenderer
-    protected SkinnedMeshRenderer _skinnedMeshRenderer;
-
-    //Hit
-    protected Element _enemyElement;
-    private IColor _enemyColor;
-    private Color _elementColor;
-    private int _elementCount;
-    #endregion
-    //---------------------------------------------------------------
-
     protected EnemyStateMachine state;
     protected BossStateMachine bossState;
     protected MonsterWeapon Weapon;
@@ -100,89 +55,8 @@ public class Enemy : MonoBehaviour
 
         EnemyMesh.material = this.EnemyMesh.materials[0];
         EnemyHealthDic = new Dictionary<Enemy, float>();
-
-
-        InitializeEnemy();
+       
     }
-
-    #region BehaviourTree
-    public void InitializeEnemy()
-    {
-        _waitTime = 4f;
-        isWaiting = true;
-        _radius = 6f;
-        _playerLayer = LayerMask.GetMask("Player");
-        isTracking = false;
-        _agent = GetComponent<NavMeshAgent>();
-        _animator = GetComponent<Animator>();
-        _skinnedMeshRenderer = transform.GetComponentInChildren<SkinnedMeshRenderer>();
-        _hpSlider = transform.GetComponentInChildren<Slider>();
-        _sliderObject = _hpSlider.gameObject;
-        _skinnedMeshRenderer.material = this._skinnedMeshRenderer.materials[0];
-        _enemyHealthDic = new Dictionary<Enemy, float>();
-    }
-
-    public virtual INode.NodeState Patrol()
-    {
-        return INode.NodeState.Fail;
-    }
-
-    public virtual INode.NodeState CheckPlayer()
-    {
-        return INode.NodeState.Fail;
-    }
-
-    public virtual INode.NodeState TrackingPlayer()
-    {
-        return INode.NodeState.Fail;
-    }
-
-    public virtual INode.NodeState IsTracking()
-    {
-        return INode.NodeState.Fail;
-    }
-
-    public virtual INode.NodeState CheckAttackRange()
-    {
-        return INode.NodeState.Fail;
-    }
-
-    public virtual INode.NodeState RotationToPlayer()
-    {
-        return INode.NodeState.Fail;
-    }
-
-    public virtual INode.NodeState EnemyAttack()
-    {
-        return INode.NodeState.Fail;
-    }
-
-    public void SetDestination(Vector3 position, float speed, float stoppingDistance, bool isMoving)
-    {
-        _animator.SetBool("Move", isMoving);
-        _animator.SetBool("Trace", !isMoving);
-        _agent.stoppingDistance = stoppingDistance;
-        _agent.speed = speed;
-        _agent.SetDestination(position);    
-    }
-
-    public Transform FindWayPoint(List<Transform> useWayList, List<Transform> wayPointList, ref Transform currentTransform)
-    {
-        if(useWayList == null || useWayList.Count == 0)
-        {
-            useWayList = new List<Transform>(wayPointList);
-            if(currentTransform != null)
-            {
-                useWayList.Remove(currentTransform);
-            }
-        }
-
-        Transform newRandomTransform = useWayList[Random.Range(0, useWayList.Count)];
-        useWayList.Remove(newRandomTransform);
-        currentTransform = newRandomTransform;
-        return newRandomTransform;
-    }
-    #endregion
 
     public virtual void Splash(float damage) { }
 

@@ -1041,8 +1041,13 @@ PrefabInstance:
     - target: {fileID: 5177054481507112756, guid: 8731f9e61bfff644a9da0db88cc745dc,
         type: 3}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5177054481507112756, guid: 8731f9e61bfff644a9da0db88cc745dc,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 08d8f3fcf8e290248aa38d2e53b6102a, type: 2}
     - target: {fileID: 5177054481507112756, guid: 8731f9e61bfff644a9da0db88cc745dc,
         type: 3}
       propertyPath: m_Materials.Array.data[1]
@@ -1192,6 +1197,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.29942644
+      objectReference: {fileID: 0}
+    - target: {fileID: 7191933253770793266, guid: 8731f9e61bfff644a9da0db88cc745dc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.318
       objectReference: {fileID: 0}
     - target: {fileID: 7406704868012928964, guid: 8731f9e61bfff644a9da0db88cc745dc,
         type: 3}
@@ -1503,6 +1513,16 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.29
       objectReference: {fileID: 0}
+    - target: {fileID: 8845700453975840670, guid: 8731f9e61bfff644a9da0db88cc745dc,
+        type: 3}
+      propertyPath: m_BaseOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8845700453975840670, guid: 8731f9e61bfff644a9da0db88cc745dc,
+        type: 3}
+      propertyPath: m_AngularSpeed
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 8845700454509821730, guid: 8731f9e61bfff644a9da0db88cc745dc,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -1634,7 +1654,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0

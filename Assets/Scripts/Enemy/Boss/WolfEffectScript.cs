@@ -14,7 +14,9 @@ public class WolfEffectScript : MonoBehaviour
         Frost_Crystal,
         Magic,
         Tail_Circle,
-        Rain
+        Rain,
+        Turn_SlashEffect,
+        SlashEffect
     }
 
     private Andrius wolf;
@@ -30,6 +32,7 @@ public class WolfEffectScript : MonoBehaviour
     public GameObject Magic_Circle;
     public GameObject Tail_Circle;
     public GameObject Ice_Rain;
+    public GameObject Turn_SlashEffect;
 
     public Transform WavePoint;
     public Transform RingPoint;
@@ -38,6 +41,7 @@ public class WolfEffectScript : MonoBehaviour
     public Transform MagicPoint;
     public Transform TailPoint;
     public Transform IcePoint;
+    public Transform Turn_SlashPoint;
 
     private Dictionary<Effect, GameObject> EffectDic;
     private Dictionary<Effect, Transform> EffectTrans;
@@ -62,6 +66,7 @@ public class WolfEffectScript : MonoBehaviour
         InstantiateMagic();
         InstantiateTail_Circle();
         InstantiateIce_Rain();
+        Instantiate_TurnSlashEffect();
     }
 
     private void InstantiateFrost_Wave()
@@ -132,6 +137,15 @@ public class WolfEffectScript : MonoBehaviour
         EffectDic.Add(Effect.Rain, Ice);
         EffectTrans.Add(Effect.Rain, IcePoint);
         Ice.transform.localPosition = Vector3.zero;
+    }
+
+    private void Instantiate_TurnSlashEffect()
+    {
+        GameObject turnSlash = Instantiate(Turn_SlashEffect, Turn_SlashPoint);
+        turnSlash.SetActive(false);
+        EffectDic.Add(Effect.Turn_SlashEffect, turnSlash);
+        EffectTrans.Add(Effect.Turn_SlashEffect, Turn_SlashPoint);
+        turnSlash.transform.localPosition = Vector3.zero;
     }
 
     public GameObject GetEffect(Effect effect)
@@ -225,11 +239,48 @@ public class WolfEffectScript : MonoBehaviour
         StartCoroutine(CrystalEnable(crystal));
     }    
 
+    public void ActiveRightTurnSlash()
+    {
+        GameObject turnSlash = GetEffect(Effect.Turn_SlashEffect);
+        turnSlash.transform.parent = EffectPool;
+        turnSlash.SetActive(false);
+        turnSlash.SetActive(true);
+
+        StartCoroutine(TurnRightSlashEnable(turnSlash));
+    }
+
+    public void ActiveLeftTurnSlash()
+    {
+        GameObject turnSlash = GetEffect(Effect.Turn_SlashEffect);
+        turnSlash.transform.parent = EffectPool;
+        turnSlash.transform.localRotation = Quaternion.Euler(0f, 0f, 180f);
+        turnSlash.SetActive(false);
+        turnSlash.SetActive(true);
+
+        StartCoroutine(TurnLeftSlashEnable(turnSlash));
+    }
+
     IEnumerator IceRainEnable(GameObject prefab)
     {
         yield return new WaitForSeconds(5.0f);
         prefab.SetActive(false);
         prefab.transform.parent = GetEffectTransform(Effect.Rain);
+        prefab.transform.localPosition = Vector3.zero;
+    }
+
+    IEnumerator TurnRightSlashEnable(GameObject prefab)
+    {
+        yield return new WaitForSeconds(2.0f);
+        prefab.SetActive(false);
+        prefab.transform.parent = GetEffectTransform(Effect.Turn_SlashEffect);
+        prefab.transform.localPosition = Vector3.zero;
+    }
+    IEnumerator TurnLeftSlashEnable(GameObject prefab)
+    {
+        yield return new WaitForSeconds(2.0f);
+        prefab.SetActive(false);
+        prefab.transform.parent = GetEffectTransform(Effect.Turn_SlashEffect);
+        prefab.transform.localRotation = Quaternion.identity;
         prefab.transform.localPosition = Vector3.zero;
     }
 
