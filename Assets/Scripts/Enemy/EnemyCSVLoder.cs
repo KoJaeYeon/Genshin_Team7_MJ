@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using UnityEngine;
+using UnityEditor;
 
 public class EnemyCSVLoder : MonoBehaviour
 {
@@ -43,8 +45,20 @@ public class EnemyCSVLoder : MonoBehaviour
             Element element = ParseEnum(fields[6]);
 
             EnemyCSVData data = new EnemyCSVData(id,name,health,power,speed,defence,element);
-
             _enemyDataDictionary.Add((MonsterType)i,data);  
+
+            EnemyScriptableObject enemyScriptableData = ScriptableObject.CreateInstance<EnemyScriptableObject>();
+            enemyScriptableData._id = id;
+            enemyScriptableData._name = name;
+            enemyScriptableData._health = health;
+            enemyScriptableData._power = power;
+            enemyScriptableData._speed = speed;
+            enemyScriptableData._element = element;
+
+            string path = $"Assets/Resources/Data/EnemyData{name}.asset";
+
+            AssetDatabase.CreateAsset(enemyScriptableData, path);
+            AssetDatabase.SaveAssets();
         }
     }
 
