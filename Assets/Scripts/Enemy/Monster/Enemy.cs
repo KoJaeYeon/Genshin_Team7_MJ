@@ -18,8 +18,21 @@ public enum Element
     Fire,
     Ice,
     Lightning,
-    Water
+    Water,
+
+    Null
 }
+
+public enum MonsterType
+{
+    Fire = 1,
+    Ice,
+    Normal,
+    Lightning,
+    Andrius
+
+}
+
 public class Enemy : MonoBehaviour
 {
     protected EnemyStateMachine state;

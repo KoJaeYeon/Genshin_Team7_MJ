@@ -13,6 +13,27 @@ public class NomalHilichurl : Enemy, IColor
         InitData();
         
     }
+
+    private void Start()
+    {
+        MonsterType id = MonsterType.Normal;
+
+        EnemyCSVData data = EnemyCSVLoder.Instance.GetData(id);
+
+        if(data != null )
+        {
+            Debug.Log(data.Id);
+            Debug.Log(data.Name);
+            Debug.Log(data.Health);
+            Debug.Log(data.AttackPower);
+            Debug.Log(data.element);
+            Debug.Log(data.Speed);
+            Debug.Log(data.Defence);
+            Debug.Log("데이터 가져옴");
+        }
+        
+    }
+
     private void InitState()
     {
         state = gameObject.AddComponent<EnemyStateMachine>();
