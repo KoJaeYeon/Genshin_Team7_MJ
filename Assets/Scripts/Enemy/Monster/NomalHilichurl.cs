@@ -10,28 +10,11 @@ public class NomalHilichurl : Enemy, IColor
     {
         base.Awake();
         InitState();
-        InitData();
-        
     }
 
     private void Start()
     {
-        MonsterType id = MonsterType.Normal;
-
-        EnemyCSVData data = EnemyCSVLoder.Instance.GetData(id);
-
-        if(data != null )
-        {
-            Debug.Log(data.Id);
-            Debug.Log(data.Name);
-            Debug.Log(data.Health);
-            Debug.Log(data.AttackPower);
-            Debug.Log(data.element);
-            Debug.Log(data.Speed);
-            Debug.Log(data.Defence);
-            Debug.Log("데이터 가져옴");
-        }
-        
+        InitData();
     }
 
     private void InitState()
@@ -44,21 +27,25 @@ public class NomalHilichurl : Enemy, IColor
     }
     private void InitData()
     {
-        //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
-        enemyData = new EnemyData(220f, 100f, 3f, 0.1f, 100, Element.Normal);
-        EnemyHealthDic.Add(this, enemyData.Health);
+        var dataPath = "Data/EnemyDataNomalHilichurl";
 
-        HpSlider.maxValue = enemyData.Health;
-        HpSlider.value = enemyData.Health;
+        _data = Resources.Load<EnemyScriptableObject>(dataPath);
+        EnemyHealthDic.Add(this, _data.Health);
+        HpSlider.maxValue = _data.Health;
+        HpSlider.value = _data.Health;
+        agent.speed = _data.Speed;
+        traceDistance = _data.TraceDistance;
+        color = _data.Color;
     }
 
+    public EnemyScriptableObject Data => _data;
     public EnemyStateMachine State => state;
     public Animator Animator => animator;
     public MonsterWeapon MonsterWeapon => Weapon;
     public NavMeshAgent Agent => agent;
     public EnemyData EnemyData => enemyData;
 
-    private Color color = Color.white;
+    private Color color;
     public bool TraceAttack
     {
         get { return attack; }
@@ -222,7 +209,7 @@ public class NomalHilichurlTraceAttack : NomalHilichurlState
 
         nomalHilichurl.SetDestination_This();
 
-        nomalHilichurl.MonsterWeapon.SetAttackPower(nomalHilichurl.EnemyData.AttackPower);
+        nomalHilichurl.MonsterWeapon.SetAttackPower(nomalHilichurl.Data.Power);
     }
 
     public override void StateExit()

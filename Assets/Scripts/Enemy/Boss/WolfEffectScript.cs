@@ -183,6 +183,30 @@ public class WolfEffectScript : MonoBehaviour
         StartCoroutine(TailCircleEnable(tail_circle));
     }
 
+
+    public void ActivePlayerTransformTailCircle()
+    {
+        GameObject tail_circle = GetEffect(Effect.Tail_Circle);
+
+        StartCoroutine(PlayerTail(tail_circle));
+    }
+    private IEnumerator PlayerTail(GameObject prefab)
+    {
+        prefab.transform.GetChild(0).gameObject.SetActive(true);
+        prefab.transform.GetChild(1).gameObject.SetActive(true);
+        prefab.transform.SetParent(EffectPool);
+        prefab.SetActive(false);
+        prefab.SetActive(true);
+        prefab.transform.position = wolf.PlayerTransform.position;
+        prefab.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+
+        yield return new WaitForSeconds(1.5f);
+
+        prefab.SetActive(false);
+        prefab.transform.parent = GetEffectTransform(Effect.Tail_Circle);
+        prefab.transform.localPosition = Vector3.zero;
+    }
+
     public void ActiveSpike()
     {
         GameObject spike = GetEffect(Effect.Frost_Spike);
@@ -337,6 +361,8 @@ public class WolfEffectScript : MonoBehaviour
         prefab.transform.parent = GetEffectTransform(Effect.Frost_Ring);
         prefab.transform.localPosition = Vector3.zero;
     }
+
+   
 
 
 }

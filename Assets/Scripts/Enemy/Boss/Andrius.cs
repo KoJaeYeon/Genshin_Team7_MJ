@@ -26,6 +26,10 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
     [Header("AndriusSlider")]
     public Slider[] BossSlider;
 
+    [Header("WalkPos")]
+    [SerializeField] private GameObject[] _walkPos;
+    private List<Transform> _selectPositionList;
+
     private bool turn = true;
     private bool moveStop = false;
     private bool jumpBack = true;
@@ -34,7 +38,7 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
 
     private IPattern _currentPattern;
 
-    private Color BossColor = Color.blue;
+    private Color BossColor;
 
     private Slider PaSlider;
     private GameObject Pa;
@@ -48,6 +52,30 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
         InitializeAndriusComponent();
         InitializeAndriusData();
         InitializeState();
+
+        int randomWalkPos = UnityEngine.Random.Range(0, _walkPos.Length);
+
+        GameObject selectPosObject = _walkPos[randomWalkPos];
+
+        _selectPositionList = new List<Transform>();
+
+        foreach (Transform transform in selectPosObject.transform)
+        {
+            _selectPositionList.Add(transform); 
+        }
+    }
+
+    private void Start()
+    {
+        var dataPath = "Data/EnemyDataAndrius";
+
+        _data = Resources.Load<EnemyScriptableObject>(dataPath);
+        EnemyHealthDic.Add(this, _data.Health);
+        paralyzation = _data.Paralyzation;
+        agent.speed = _data.Speed;
+        Hp = HpSlider.fillRect.transform.parent.gameObject;
+        Pa = PaSlider.fillRect.transform.parent.gameObject;
+        BossColor = _data.Color;
     }
 
     private void InitializeAndriusComponent()
@@ -159,6 +187,7 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
     public BossStateMachine State => bossState;
     public Animator BossAnimator => animator;
     public Transform PlayerTransform => Player;
+    public List<Transform> WalkList => _selectPositionList;
 
     public float Paralyzation
     {

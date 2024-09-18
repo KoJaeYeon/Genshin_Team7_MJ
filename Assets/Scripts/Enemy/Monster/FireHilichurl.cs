@@ -9,6 +9,11 @@ public class FireHilichurl : Enemy, IColor
     {
         base.Awake();
         InitState();
+        
+    }
+
+    private void Start()
+    {
         InitEnemyData();
     }
 
@@ -23,20 +28,25 @@ public class FireHilichurl : Enemy, IColor
 
     private void InitEnemyData()
     {
-        //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
-        enemyData = new EnemyData(200f, 200f, 3f, 0.1f, 180, Element.Fire);
-        EnemyHealthDic.Add(this, enemyData.Health);
-        HpSlider.maxValue = enemyData.Health;
-        HpSlider.value = enemyData.Health;
+        var dataPath = "Data/EnemyDataFireHilichurl";
+
+        _data = Resources.Load<EnemyScriptableObject>(dataPath);
+        EnemyHealthDic.Add(this, _data.Health);
+        HpSlider.maxValue = _data.Health;
+        HpSlider.value = _data.Health;
+        agent.speed = _data.Speed;
+        traceDistance = _data.TraceDistance;
+        color = _data.Color;
     }
 
+    public EnemyScriptableObject Data => _data;
     public EnemyStateMachine State => state;
     public Animator Animator => animator;
     public NavMeshAgent Agent => agent;
     public MonsterWeapon MonsterWeapon => Weapon;
     public EnemyData EnemyData => enemyData;
 
-    private Color color = Color.red;
+    private Color color;
     public bool TraceAttack
     {
         get { return  attack; }

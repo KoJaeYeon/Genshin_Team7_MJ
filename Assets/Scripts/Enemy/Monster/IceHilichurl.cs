@@ -10,6 +10,11 @@ public class IceHilichurl : Enemy, IColor
     {
         base.Awake();
         InitState();
+        
+    }
+
+    private void Start()
+    {
         InitData();
     }
 
@@ -24,15 +29,20 @@ public class IceHilichurl : Enemy, IColor
 
     private void InitData()
     {
-        //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
-        enemyData = new EnemyData(230f, 150f, 2f, 0.1f, 130, Element.Ice);
-        EnemyHealthDic.Add(this, enemyData.Health);
+        var dataPath = "Data/EnemyDataIceHilichurl";
 
-        HpSlider.maxValue = enemyData.Health;
-        HpSlider.value = enemyData.Health;
+        _data = Resources.Load<EnemyScriptableObject>(dataPath);
+        EnemyHealthDic.Add(this, _data.Health);
+        HpSlider.maxValue = _data.Health;
+        HpSlider.value = _data.Health;
+        agent.speed = _data.Speed;
+        traceDistance = _data.TraceDistance;
+        color = _data.Color;
     }
 
-    private Color color = Color.blue;
+    public EnemyScriptableObject Data => _data;
+
+    private Color color;
     public EnemyStateMachine State => state;
     public Animator Animator => animator;
     public MonsterWeapon MonsterWeapon => Weapon;
@@ -200,7 +210,7 @@ public class IceHilichurlTraceAttack : IceHilichurlState
 
         iceHilichurl.SetDestination_This();
 
-        iceHilichurl.MonsterWeapon.SetAttackPower(iceHilichurl.EnemyData.AttackPower);   
+        iceHilichurl.MonsterWeapon.SetAttackPower(iceHilichurl.Data.Power);   
     }
 
     public override void StateExit()

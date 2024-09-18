@@ -9,8 +9,14 @@ public class LightningHilichurl : Enemy, IColor
     {
         base.Awake();
         InitState();
+    
+    }
+
+    private void Start()
+    {
         InitData();
     }
+
     private void InitState()
     {
         state = gameObject.AddComponent<EnemyStateMachine>();
@@ -21,15 +27,18 @@ public class LightningHilichurl : Enemy, IColor
     }
     private void InitData()
     {
-        //체력 , 공격력, 이동속도, 물리내성, 경험치 , 속성
-        enemyData = new EnemyData(120f, 20f, 5f, 0.5f, 180, Element.Lightning);
-        EnemyHealthDic.Add(this, enemyData.Health);
+        var dataPath = "Data/EnemyDataLightningHilichurl";
 
-        HpSlider.maxValue = enemyData.Health;
-        HpSlider.value = enemyData.Health;
+        _data = Resources.Load<EnemyScriptableObject>(dataPath);
+        EnemyHealthDic.Add(this, _data.Health);
+        HpSlider.maxValue = _data.Health;
+        HpSlider.value = _data.Health;
+        agent.speed = _data.Speed;
+        traceDistance = _data.TraceDistance;
+        color = _data.Color;
     }
 
-    private Color color = Color.yellow;
+    private Color color;
     public EnemyStateMachine State => state;
     public Animator Animator => animator;
     public MonsterWeapon MonsterWeapon => Weapon;

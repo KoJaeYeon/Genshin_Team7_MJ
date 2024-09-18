@@ -36,6 +36,7 @@ public enum MonsterType
 public class Enemy : MonoBehaviour
 {
     protected EnemyStateMachine state;
+    protected EnemyScriptableObject _data;
     protected BossStateMachine bossState;
     protected MonsterWeapon Weapon;
     protected Animator animator;
@@ -73,8 +74,10 @@ public class Enemy : MonoBehaviour
 
     public virtual void Splash(float damage) { }
 
+
     public virtual void TakeDamage(float damage, Element element, Character attacker)
     {
+        Debug.Log(damage);
         EnemyHealthDic[this] -= CalculateDamage(damage, element);
         HpSlider.value = EnemyHealthDic[this];
         transform.LookAt(Player.position);
@@ -107,59 +110,59 @@ public class Enemy : MonoBehaviour
         switch (element)
         {
             case Element.Fire:
-                if(enemyData.element == Element.Ice)
+                if(_data.Element == Element.Ice)
                 {
                     Debug.Log("융해");
                     damage *= 2f;
                 }
-                else if(enemyData.element == Element.Lightning)
+                else if(_data.Element == Element.Lightning)
                 {
                     Debug.Log("과부화");
-                    damage -= damage * enemyData.Defence;
+                    damage -= damage * _data.Defence;
                     SplashAttack();
                 }
                 else
                 {
-                    damage -= damage * enemyData.Defence;
+                    damage -= damage * _data.Defence;
                 }
                 break;
             case Element.Ice:
-                if(enemyData.element == Element.Fire)
+                if(_data.Element == Element.Fire)
                 {
                     Debug.Log("융해");
                     damage *= 1.5f;
                 }
-                else if(enemyData.element == Element.Lightning)
+                else if(_data.Element == Element.Lightning)
                 {
                     Debug.Log("초전도");
-                    damage -= damage * enemyData.Defence;
+                    damage -= damage * _data.Defence;
                     SplashAttack();
                 }
                 else
                 {
-                    damage -= damage * enemyData.Defence;
+                    damage -= damage * _data.Defence;
                 }
                 break;
             case Element.Lightning:
-                if(enemyData.element == Element.Fire)
+                if(_data.Element == Element.Fire)
                 {
                     Debug.Log("과부화");
-                    damage -= damage * enemyData.Defence;
+                    damage -= damage * _data.Defence;
                     SplashAttack();
                 }
-                else if(enemyData.element == Element.Ice)
+                else if(_data.Element == Element.Ice)
                 {
                     Debug.Log("초전도");
-                    damage -= damage * enemyData.Defence;
+                    damage -= damage * _data.Defence;
                     SplashAttack();
                 }
                 else
                 {
-                    damage -= damage * enemyData.Defence;
+                    damage -= damage * _data.Defence;
                 }
                 break;
             case Element.Normal:
-                damage -= damage * enemyData.Defence;
+                damage -= damage * _data.Defence;
                 break;
         }
         return damage;
