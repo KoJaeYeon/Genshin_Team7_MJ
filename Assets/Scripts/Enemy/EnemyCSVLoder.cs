@@ -1,34 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.IO;
 using UnityEngine;
-using UnityEditor;
 using System.Text.RegularExpressions;
-using System.Globalization;
-using UnityEngine.InputSystem;
-public enum EnemyID
-{
-    FireH = 1,
-    IceH,
-    NormalH,
-    LightningH,
-    Andrius
-}
-
-public enum AndriusData
-{
-    BasePattern,
-    SkillPattern
-}
 
 public class EnemyCSVLoder : MonoBehaviour
 {
     public static EnemyCSVLoder Instance;
 
     private Dictionary<string, EnemyCSVData> _dataDictionary;
-    private Dictionary<AndriusData, List<AndriusPatternData>> _andriusDictionary;
+    private Dictionary<string, AndriusCSVData> _andriusDictionary;
 
     private void Awake()
     {
@@ -41,8 +22,10 @@ public class EnemyCSVLoder : MonoBehaviour
         LoadEnemyOverlapCSV();
         LoadEnemyTraceCSV();
 
-        _andriusDictionary = new Dictionary<AndriusData, List<AndriusPatternData>>();
+        _andriusDictionary = new Dictionary<string, AndriusCSVData>();
 
+        StartCoroutine(LoadAndriusBasePatternCSV());
+        StartCoroutine(LoadAndriusSkillPatternCSV());
     }
 
     private void LoadEnemyBaseCSV()
@@ -187,13 +170,13 @@ public class EnemyCSVLoder : MonoBehaviour
             switch (id)
             {
                 case nameof(AndriusParalyzationData):
-                    ParseAndriusParalyzation(nextSplitArray, AndriusData.BasePattern);
+                    ParseAndriusParalyzation(nextSplitArray, PatternName.AndriusParalyzation);
                     break;
                 case nameof(AndriusWalkData):
-                    ParseAndriusWalk(nextSplitArray, AndriusData.BasePattern);
+                    ParseAndriusWalk(nextSplitArray, PatternName.AndriusWalk);
                     break;
                 case nameof(AndriusAttackData):
-                    ParseAndriusAttack(nextSplitArray, AndriusData.BasePattern);
+                    ParseAndriusAttack(nextSplitArray, splitArray, PatternName.AndriusAttack);
                     break;
             }
         }
@@ -201,7 +184,7 @@ public class EnemyCSVLoder : MonoBehaviour
         return true;
     }
 
-    private void ParseAndriusParalyzation(string[] nextSplitArray, AndriusData key)
+    private void ParseAndriusParalyzation(string[] nextSplitArray, PatternName key)
     {
         string id = nextSplitArray[0];
         float changeTime = ParseFloat(nextSplitArray[1]);
@@ -209,10 +192,12 @@ public class EnemyCSVLoder : MonoBehaviour
 
         AndriusParalyzationData data = new AndriusParalyzationData(id, changeTime, paralyzationValue);
 
-        AddAndriusData(data, key);
+        string stringkey = key.ToString();
+
+        _andriusDictionary.Add(stringkey, data);
     }
 
-    private void ParseAndriusWalk(string[] nextSplitArray, AndriusData key)
+    private void ParseAndriusWalk(string[] nextSplitArray, PatternName key)
     {
         string id = nextSplitArray[0];
         float speed = ParseFloat(nextSplitArray[1]);
@@ -220,14 +205,20 @@ public class EnemyCSVLoder : MonoBehaviour
 
         AndriusWalkData data = new AndriusWalkData(id, speed, walkTime);
 
-        AddAndriusData(data, key);
+        string stringkey = key.ToString();
+
+        _andriusDictionary.Add(stringkey, data);
     }
 
-    private void ParseAndriusAttack(string[] nextSplitArray, AndriusData key)
+    private void ParseAndriusAttack(string[] nextSplitArray, string[] splitArray , PatternName key)
     {
         AndriusAttackData data = new AndriusAttackData();
 
+        data.Data = new Dictionary<AttackDataList, float>();
+
         string id = nextSplitArray[0];
+
+        string[] headerArray = splitArray[0].Split(',');
 
         data.Id = id;
 
@@ -235,44 +226,175 @@ public class EnemyCSVLoder : MonoBehaviour
         {
             float value = ParseFloat(nextSplitArray[i]);
 
-            data.Data.Add((AndriusAttackData.DataList)i, value);
+            string header = headerArray[i];
+
+            if (header == "Turn_leftAngle" || 
+                header == "Back_leftAngle")
+            {
+                value *= -1f;
+            }
+
+            data.Data.Add((AttackDataList)i, value);
         }
 
-        AddAndriusData(data, key);
+        string stringkey = key.ToString();
+
+        _andriusDictionary.Add(stringkey, data);
     }
 
 
-    private void AddAndriusData(AndriusPatternData data, AndriusData key)
+    private IEnumerator LoadAndriusSkillPatternCSV()
     {
-        if (!_andriusDictionary.ContainsKey(key))
-        {
-            _andriusDictionary[key] = new List<AndriusPatternData>();
-        }
+        TextAsset andriusSkillCSV = Resources.Load<TextAsset>("Data/AndriusData/AndriusSkillData");
 
-        _andriusDictionary[key].Add(data);
+        string[] splitArray = andriusSkillCSV.text.Split('\n');
+
+        for(int i = 1; i < splitArray.Length;i++)
+        {
+            string[] fieldes = splitArray[i].Split(',');
+
+            yield return new WaitUntil(() => ParseAndriusSkillPattern(fieldes));
+        }
     }
 
-    //private IEnumerator LoadAndriusSkillPatternCSV()
-    //{
-    //    TextAsset andriusSkillCSV = Resources.Load<TextAsset>("Data/AndriusData/AndriusSkillData");
+    private bool ParseAndriusSkillPattern(string[] fieldArray)
+    {
+        string id = fieldArray[0];
+        float moveSpeed = ParseFloat(fieldArray[1]);
+        float rotationSpeed = ParseFloat(fieldArray[2]);
+        float chargeTime = ParseFloat(fieldArray[3]);
+        float maxAngle = ParseFloat(fieldArray[4]);
+        float maxNormalizedTime = ParseFloat(fieldArray[5]);
 
-    //    string[] splitArray = andriusSkillCSV.text.Split('\n');
+        if(id == nameof(AndriusHowlData))
+        {
+            string replace = Regex.Replace(fieldArray[6], "[{}\"]", "");
+            string[] split = replace.Split('/');
 
-    //    string[] header = splitArray[0].Split(',');
+            float howlDamage = ParseFloat(split[0].Trim());
+            float iceDamage = ParseFloat(split[1].Trim());
 
-    //    for(int i = 1; i <  splitArray.Length; i++)
-    //    {
-    //        string[] fields = splitArray[i].Split(',');
+            AndriusHowlData howlData = new AndriusHowlData(id, moveSpeed, rotationSpeed, chargeTime,
+                maxAngle, maxNormalizedTime);
 
-    //        if(header.Length == fields.Length)
-    //        {
+            howlData.Data = new Dictionary<AndriusHowlData.DataList, float>
+            {
+                { AndriusHowlData.DataList.SKillDamage_howl, howlDamage },
+                { AndriusHowlData.DataList.SKillDamage_howl, iceDamage}
+            };
 
-    //        }
+            _andriusDictionary.Add(PatternName.HowlAttack.ToString(), howlData);
 
-    //    }
-    //}
+            return true;
+        }
 
+        float skillDamage = ParseFloat(fieldArray[6]);
 
+        switch (id)
+        {
+            case nameof(AndriusJumpData):
+                AndriusJumpData jumpData = new AndriusJumpData(id, moveSpeed, rotationSpeed,
+                    chargeTime, maxAngle, maxNormalizedTime, skillDamage);
+                AddData(PatternName.JumpAttack, jumpData);
+                break;
+            case nameof(AndriusClawData):
+                AndriusClawData clawData = new AndriusClawData(id, moveSpeed, rotationSpeed,
+                    chargeTime, maxAngle, maxNormalizedTime, skillDamage);
+                AddData(PatternName.ClawAttack, clawData);
+                break;
+            case nameof(AndriusChargeData):
+                AndriusChargeData chargeData = new AndriusChargeData(id, moveSpeed, rotationSpeed,
+                    chargeTime, maxAngle, maxNormalizedTime, skillDamage);
+                AddData(PatternName.ChargeAttack, chargeData);
+                break;
+            case nameof(AndriusStampData):
+                AndriusStampData stampData = new AndriusStampData(id, moveSpeed, rotationSpeed,
+                    chargeTime, maxAngle, maxNormalizedTime, skillDamage);
+                AddData(PatternName.StampAttack, stampData);
+                break;
+            case nameof(AndriusDriftData):
+                AndriusDriftData driftData = new AndriusDriftData(id, moveSpeed, rotationSpeed,
+                    chargeTime, maxAngle, maxNormalizedTime, skillDamage);
+                AddData(PatternName.DriftAttack, driftData);
+                break;
+        }
+
+        return true;        
+    }
+
+    private void AddData(PatternName name, AndriusCSVData data)
+    {
+        if (!_andriusDictionary.ContainsKey(name.ToString()))
+        {
+            _andriusDictionary.Add(name.ToString(), data);
+        }
+        else
+        {
+            Debug.Log($"{name}데이터가 딕셔너리에 들어가지 않았습니다(Add).");
+        }
+    }
+
+    public T GetEnemyCSVData<T>(EnemyID id) where T : class
+    {
+        var data = GetEnemyCSV(id);
+
+        if(data is T tData)
+        {
+            return tData;
+        }
+        else
+        {
+            Debug.Log("T 변환 실패(GetEnemyCSVData)");
+            return null;
+        }
+    }
+
+    public T GetAndriusCSVData<T>(PatternName id) where T : class
+    {
+        var data = GetAndriusCSV(id);
+
+        if (data is T tData)
+        {
+            return tData;
+        }
+        else
+        {
+            Debug.Log("T 변환 실패(GetAndriusCSVData)");
+            return null;
+        }
+    }
+
+    private AndriusCSVData GetAndriusCSV(PatternName patternName)
+    {
+        string key = patternName.ToString();
+
+        if(_andriusDictionary.TryGetValue(key, out AndriusCSVData data))
+        {
+            return data;
+        }
+        else
+        {
+            Debug.Log($"{patternName}의 AndriusData를 가져오지 못했습니다(Get).");
+            return null;
+        }
+    }
+
+    private EnemyCSVData GetEnemyCSV(EnemyID id)
+    {
+        string dataId = id.ToString();
+
+        if (_dataDictionary.TryGetValue(dataId, out EnemyCSVData data))
+        {
+            return data;
+        }
+        else
+        {
+            Debug.Log($"{id}의 EnemyData를 가져오지 못했습니다(Get).");
+            return null;
+        }
+    }
+
+    #region ParseValue
     private Color ParseColor(string value)
     {
         Color color;
@@ -320,40 +442,12 @@ public class EnemyCSVLoder : MonoBehaviour
         return result;
     }
 
-
     private int ParseInt(string value)
     {
         int.TryParse(value, out int result);
         return result;  
     }
-
-    //public EnemyCSVData GetEnemyData(EnemyID id)
-    //{
-    //    string dictionaryKey = id.ToString();
-
-    //    if (_dataDictionary.TryGetValue(dictionaryKey, out EnemyCSVData data))
-    //    {
-    //        return data;
-    //    }
-    //    else
-    //    {
-    //        LoadEnemyCSV();
-
-    //        EnemyCSVData currentData = _dataDictionary[dictionaryKey];
-
-    //        if (currentData != null)
-    //        {
-    //            return currentData;
-    //        }
-    //        else
-    //        {
-    //            EnemyCSVData defaultData = new EnemyCSVData("default", "null", 0, 0, 0, 0, Element.Null,
-    //                0, 0, Color.white, new List<Vector3> { new Vector3(0, 0, 0), new Vector3(0, 0, 0) });
-
-    //            return defaultData;
-    //        }
-    //    }
-    //}
+    #endregion
 
     #region SaveScriptableObject
     //var filePath = Path.Combine(Application.dataPath, $"Resources/Data/EnemyData{name}.asset");

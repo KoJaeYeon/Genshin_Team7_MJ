@@ -7,9 +7,17 @@ public class AndriusAttack : IPattern
     private Andrius _andrius;
     private Animator _animator;
     private Transform _player;
+    private AndriusAttackData _attackData;
 
-    private WaitForSeconds _jumpDelay = new WaitForSeconds(7f);
-    private WaitForSeconds _chargeDelay = new WaitForSeconds(10f);
+    private WaitForSeconds _jumpDelay;
+    private WaitForSeconds _chargeDelay;
+
+    public AndriusAttack()
+    {
+        _attackData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusAttackData>(PatternName.AndriusAttack);
+        _jumpDelay = new WaitForSeconds(_attackData.GetData(AttackDataList.JumpDelay));
+        _chargeDelay = new WaitForSeconds(_attackData.GetData(AttackDataList.ChargeDelay));
+    }
 
     private float _angle;
     private float _distance;

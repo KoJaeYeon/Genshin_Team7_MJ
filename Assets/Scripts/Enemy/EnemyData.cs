@@ -1,6 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+public enum EnemyID
+{
+    FireH = 1,
+    IceH,
+    NormalH,
+    LightningH,
+    Andrius
+}
+
 
 public class EnemyCSVData { }
 public class EnemyBaseData : EnemyCSVData

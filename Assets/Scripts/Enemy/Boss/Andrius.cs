@@ -46,7 +46,7 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
     private Dictionary<AndriusPattern, IPattern> _patternDic;
     private Action _leftClawEvent;
     private Action _rightClawEvent;
-    
+
     private new void Awake()
     {
         InitializeAndriusComponent();
@@ -66,13 +66,23 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
 
     private void Start()
     {
-        _data = EnemyCSVLoder.Instance.GetEnemyData(EnemyID.Andrius);
-        EnemyHealthDic.Add(this, _data.Health);
-        paralyzation = _data.Paralyzation;
-        agent.speed = _data.Speed;
+        GetData();
+
+        EnemyHealthDic.Add(this, _baseData.Health);
+        AndriusParalyzationData paralyzationData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusParalyzationData>(PatternName.AndriusParalyzation);
+        paralyzation = paralyzationData.ParalyzationValue;
+        agent.stoppingDistance = _traceData.AgentStopDistance;
+        agent.speed = _baseData.Speed;
         Hp = HpSlider.fillRect.transform.parent.gameObject;
         Pa = PaSlider.fillRect.transform.parent.gameObject;
-        BossColor = _data.Color;
+        BossColor = _elementData.Color;
+    }
+
+    private void GetData()
+    {
+        _baseData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyBaseData>(EnemyID.Andrius);
+        _elementData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyElementData>(EnemyID.Andrius);
+        _traceData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyTraceData>(EnemyID.Andrius);
     }
 
     private void InitializeAndriusComponent()
@@ -260,7 +270,7 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
     
     public float GetAtk()
     {
-        return _data.Power;
+        return _baseData.Power;
     }
     public void LeftClawEvent(Action callBack)
     {

@@ -9,6 +9,13 @@ public class AndriusWalk : IPattern
     private Animator _animator;
     private NavMeshAgent _agent;
     private Transform _player;
+    private AndriusWalkData _walkData;
+
+    public AndriusWalk()
+    {
+        _walkData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusWalkData>(PatternName.AndriusWalk);
+        Debug.Log($"AndriusWalk : {_walkData.Speed},{_walkData.WalkTime}");
+    }
 
     private float _distance;
 
@@ -38,7 +45,7 @@ public class AndriusWalk : IPattern
         {
             _currentSpeed = _agent.speed;
 
-            _agent.speed = 2f;
+            _agent.speed = _walkData.Speed;
 
             _agent.SetDestination(_andrius.WalkList[_walkIndex].transform.position);
 
@@ -73,7 +80,7 @@ public class AndriusWalk : IPattern
 
     private IEnumerator WalkCoroutine()
     {
-        yield return new WaitForSeconds(10.0f);
+        yield return new WaitForSeconds(_walkData.WalkTime);
 
         _isFirstWalking = false;
 
