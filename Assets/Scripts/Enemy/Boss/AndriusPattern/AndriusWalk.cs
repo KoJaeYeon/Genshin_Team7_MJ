@@ -14,6 +14,7 @@ public class AndriusWalk : IPattern
 
     private bool _isFirstWalking = true;
     private int _walkIndex = 0;
+    private float _currentSpeed;
 
     public void InitializePattern(Andrius andrius)
     {
@@ -30,11 +31,15 @@ public class AndriusWalk : IPattern
         _player = _andrius.PlayerTransform;
 
         if (!_isFirstWalking)
-        {            
+        {
             _agent.SetDestination(_player.position);
         }
         else
         {
+            _currentSpeed = _agent.speed;
+
+            _agent.speed = 2f;
+
             _agent.SetDestination(_andrius.WalkList[_walkIndex].transform.position);
 
             _andrius.StartCoroutine(WalkCoroutine());
@@ -77,6 +82,7 @@ public class AndriusWalk : IPattern
 
     public void ExitPattern()
     {
+        _agent.speed = _currentSpeed;
         _agent.SetDestination(_andrius.transform.position);
         _agent.enabled = false;
         _animator.applyRootMotion = true;

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.704372, g: 0.6878891, b: 0.5656661, a: 1}
+  m_IndirectSpecularColor: {r: 0.7043718, g: 0.68788826, b: 0.56566536, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -19752,6 +19752,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4085532359360965791, guid: acf18acb5edc07a45a81dc462d59f172,
         type: 3}
+      propertyPath: effectPool
+      value: 
+      objectReference: {fileID: 343591927}
+    - target: {fileID: 4085532359360965791, guid: acf18acb5edc07a45a81dc462d59f172,
+        type: 3}
       propertyPath: _walkPos.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -33771,40 +33776,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &40675196876022121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3779597442609240312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41dd82c90263cac43ac6825cfb4229ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Frost_Wave: {fileID: 1315254003636950, guid: 3c64a10e51b2f4e49a93cd981b96c07e, type: 3}
-  Frost_Ring: {fileID: 1004130324304354, guid: 7ff5054651e072d48a2a68a59c5a94aa, type: 3}
-  Frost_Spike: {fileID: 1947193360064264, guid: d747e4541ac159f4fad4b5f652745dad,
-    type: 3}
-  Frost_Crystal: {fileID: 1044610343865118, guid: c2da6dd63ef5f1d4f8beaa7cfc76f910,
-    type: 3}
-  Magic_Circle: {fileID: 1216020416843760, guid: 760968a4eb0f981488871438e53f63fe,
-    type: 3}
-  Tail_Circle: {fileID: 1216020416843760, guid: 76cee92b037abb3498bf08bf8c7d0d59,
-    type: 3}
-  Ice_Rain: {fileID: 1658525510040468, guid: e3e4de69343c17c49b77c92ff3ed4b6b, type: 3}
-  Turn_SlashEffect: {fileID: 1294101409476956, guid: 231e3be01ac50c047bb16d07fd8d2ba5,
-    type: 3}
-  WavePoint: {fileID: 1066795679}
-  RingPoint: {fileID: 1325694384}
-  SpikePoint: {fileID: 776736170}
-  CrystalPoint: {fileID: 1442743035}
-  MagicPoint: {fileID: 2030757450}
-  TailPoint: {fileID: 100926145}
-  IcePoint: {fileID: 651626471923793901}
-  Turn_SlashPoint: {fileID: 1847940167898146138}
-  EffectPool: {fileID: 343591928}
 --- !u!4 &53673991340727518
 Transform:
   m_ObjectHideFlags: 0
@@ -37462,7 +37433,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4555394827520475714}
   - component: {fileID: 7626898338821920824}
-  - component: {fileID: 40675196876022121}
   - component: {fileID: 353546797}
   m_Layer: 3
   m_Name: Wolf
@@ -40433,18 +40403,6 @@ Transform:
   m_Father: {fileID: 9174530905729868422}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -13.967637, y: 15.513966, z: -34.67476}
---- !u!114 &6133874387461171099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6274542349519594566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7af386b42d2c39540853342dfff0b730, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6144780683825855485
 GameObject:
   m_ObjectHideFlags: 0
@@ -40620,7 +40578,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6241038971397678632}
   - component: {fileID: 1482898452998796776}
-  - component: {fileID: 6133874387461171099}
   m_Layer: 0
   m_Name: ChargeCollider
   m_TagString: Untagged

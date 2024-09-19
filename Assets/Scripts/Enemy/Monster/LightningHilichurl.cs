@@ -27,9 +27,7 @@ public class LightningHilichurl : Enemy, IColor
     }
     private void InitData()
     {
-        var dataPath = "Data/EnemyDataLightningHilichurl";
-
-        _data = Resources.Load<EnemyScriptableObject>(dataPath);
+        _data = EnemyCSVLoder.Instance.GetEnemyData(EnemyID.LightningH);
         EnemyHealthDic.Add(this, _data.Health);
         HpSlider.maxValue = _data.Health;
         HpSlider.value = _data.Health;
@@ -38,6 +36,7 @@ public class LightningHilichurl : Enemy, IColor
         color = _data.Color;
     }
 
+    public EnemyCSVData Data => _data;
     private Color color;
     public EnemyStateMachine State => state;
     public Animator Animator => animator;
@@ -210,7 +209,7 @@ public class LightningHilichurlTraceAttack : LightningHilichurlState
 
         lightningHilichurl.SetDestination_This();
 
-        lightningHilichurl.MonsterWeapon.SetAttackPower(lightningHilichurl.EnemyData.AttackPower);
+        lightningHilichurl.MonsterWeapon.SetAttackPower(lightningHilichurl.Data.Power);
     }
 
     public override void StateExit()

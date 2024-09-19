@@ -29,9 +29,7 @@ public class IceHilichurl : Enemy, IColor
 
     private void InitData()
     {
-        var dataPath = "Data/EnemyDataIceHilichurl";
-
-        _data = Resources.Load<EnemyScriptableObject>(dataPath);
+        _data = EnemyCSVLoder.Instance.GetEnemyData(EnemyID.IceH);
         EnemyHealthDic.Add(this, _data.Health);
         HpSlider.maxValue = _data.Health;
         HpSlider.value = _data.Health;
@@ -40,7 +38,7 @@ public class IceHilichurl : Enemy, IColor
         color = _data.Color;
     }
 
-    public EnemyScriptableObject Data => _data;
+    public EnemyCSVData Data => _data;
 
     private Color color;
     public EnemyStateMachine State => state;

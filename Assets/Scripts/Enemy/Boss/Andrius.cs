@@ -50,7 +50,6 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
     private new void Awake()
     {
         InitializeAndriusComponent();
-        InitializeAndriusData();
         InitializeState();
 
         int randomWalkPos = UnityEngine.Random.Range(0, _walkPos.Length);
@@ -67,9 +66,7 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
 
     private void Start()
     {
-        var dataPath = "Data/EnemyDataAndrius";
-
-        _data = Resources.Load<EnemyScriptableObject>(dataPath);
+        _data = EnemyCSVLoder.Instance.GetEnemyData(EnemyID.Andrius);
         EnemyHealthDic.Add(this, _data.Health);
         paralyzation = _data.Paralyzation;
         agent.speed = _data.Speed;
@@ -90,15 +87,6 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
         _patternDic = new Dictionary<AndriusPattern, IPattern>();
         AndriusEventManager.Instance.RegisterClawEvent(this);
         AddPattern();
-    }
-
-    private void InitializeAndriusData()
-    {
-        enemyData = new EnemyData(2000f, 1000f, 4f, 0.5f, 9999, Element.Ice);
-        EnemyHealthDic.Add(this, enemyData.Health);
-        paralyzation = 100f;
-        Hp = HpSlider.fillRect.transform.parent.gameObject;
-        Pa = PaSlider.fillRect.transform.parent.gameObject;
     }
     
     public void InitializeState()
@@ -272,7 +260,7 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
     
     public float GetAtk()
     {
-        return enemyData.AttackPower;
+        return _data.Power;
     }
     public void LeftClawEvent(Action callBack)
     {

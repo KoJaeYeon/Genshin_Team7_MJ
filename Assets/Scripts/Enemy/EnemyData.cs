@@ -4,22 +4,30 @@ using UnityEngine;
 
 public class EnemyCSVData
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
     public string Name { get; set; }
     public float Health { get; set; }
-    public float AttackPower { get; set; }
+    public float Power { get; set; }
     public float Speed { get;set; }
+    public float TraceDistance { get; set; }
+    public Element Element { get; set; }
+    public float Paralyzation { get;set; }
     public float Defence { get; set; }
-    public Element element { get; set; }
+    public Color Color { get; set; }
 
-    public EnemyCSVData(int id, string name, float health, float attackPower, float speed, float defence, Element element)
+
+    public EnemyCSVData(string id, string name, float health, float attackPower, 
+        float speed, float traceDistance, Element element, float paralyzation, float defence, Color color)
     {
         Id=id;
         Name=name;
         Health=health;
-        AttackPower=attackPower;
+        Power=attackPower;
         Speed=speed;
+        TraceDistance=traceDistance;
+        Element=element;
+        Paralyzation=paralyzation;
         Defence=defence;
-        this.element=element;
+        Color=color;    
     }
 }

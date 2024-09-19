@@ -27,9 +27,7 @@ public class NomalHilichurl : Enemy, IColor
     }
     private void InitData()
     {
-        var dataPath = "Data/EnemyDataNomalHilichurl";
-
-        _data = Resources.Load<EnemyScriptableObject>(dataPath);
+        _data = EnemyCSVLoder.Instance.GetEnemyData(EnemyID.NormalH);
         EnemyHealthDic.Add(this, _data.Health);
         HpSlider.maxValue = _data.Health;
         HpSlider.value = _data.Health;
@@ -38,7 +36,7 @@ public class NomalHilichurl : Enemy, IColor
         color = _data.Color;
     }
 
-    public EnemyScriptableObject Data => _data;
+    public EnemyCSVData Data => _data;
     public EnemyStateMachine State => state;
     public Animator Animator => animator;
     public MonsterWeapon MonsterWeapon => Weapon;

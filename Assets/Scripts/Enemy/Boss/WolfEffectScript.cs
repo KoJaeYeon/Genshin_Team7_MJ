@@ -200,7 +200,7 @@ public class WolfEffectScript : MonoBehaviour
         prefab.transform.position = wolf.PlayerTransform.position;
         prefab.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.0f);
 
         prefab.SetActive(false);
         prefab.transform.parent = GetEffectTransform(Effect.Tail_Circle);

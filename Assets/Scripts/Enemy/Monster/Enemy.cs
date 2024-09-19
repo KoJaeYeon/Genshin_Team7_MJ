@@ -36,7 +36,7 @@ public enum MonsterType
 public class Enemy : MonoBehaviour
 {
     protected EnemyStateMachine state;
-    protected EnemyScriptableObject _data;
+    protected EnemyCSVData _data;
     protected BossStateMachine bossState;
     protected MonsterWeapon Weapon;
     protected Animator animator;

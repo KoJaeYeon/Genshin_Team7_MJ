@@ -28,9 +28,7 @@ public class FireHilichurl : Enemy, IColor
 
     private void InitEnemyData()
     {
-        var dataPath = "Data/EnemyDataFireHilichurl";
-
-        _data = Resources.Load<EnemyScriptableObject>(dataPath);
+        _data = EnemyCSVLoder.Instance.GetEnemyData(EnemyID.FireH);
         EnemyHealthDic.Add(this, _data.Health);
         HpSlider.maxValue = _data.Health;
         HpSlider.value = _data.Health;
@@ -39,7 +37,7 @@ public class FireHilichurl : Enemy, IColor
         color = _data.Color;
     }
 
-    public EnemyScriptableObject Data => _data;
+    public EnemyCSVData Data => _data;
     public EnemyStateMachine State => state;
     public Animator Animator => animator;
     public NavMeshAgent Agent => agent;
