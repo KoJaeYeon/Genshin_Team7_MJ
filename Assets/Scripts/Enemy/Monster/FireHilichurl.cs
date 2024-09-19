@@ -42,7 +42,6 @@ public class FireHilichurl : Enemy, IColor
     public Animator Animator => animator;
     public NavMeshAgent Agent => agent;
     public MonsterWeapon MonsterWeapon => Weapon;
-    public EnemyData EnemyData => enemyData;
 
     private Color color;
     public bool TraceAttack
@@ -75,6 +74,37 @@ public class FireHilichurl : Enemy, IColor
 
         attack = true;
     }
+
+    public void AttackOverlapBox()
+    {
+        Vector3 transformDirection = _data.BoxData[0];
+
+        Vector3 boxPosition = transform.position + transform.TransformDirection(transformDirection) + transform.forward;
+
+        Vector3 boxSize = _data.BoxData[1];
+
+        Collider[] colliders = Physics.OverlapBox(boxPosition, boxSize /2, transform.rotation, LayerMask.GetMask("Player"));
+        
+        if(colliders.Length > 0)
+        {
+            Character player = colliders[0].transform.GetComponentInChildren<Character>();
+
+            if(player != null)
+            {
+                player.TakeDamage(_data.Power);
+            }
+        }
+    }
+
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Vector3 boxPosition = transform.position + transform.TransformDirection(new Vector3(0f, 0.8f, 0f)) + transform.forward;
+        Gizmos.DrawWireCube(boxPosition, new Vector3(1f, 1, 0.5f));
+    }
+
 }
 
 public abstract class FireHilichurlState : BaseState
@@ -206,7 +236,7 @@ public class FireHilichurlTraceAttack : FireHilichurlState //(추적 : 공격)
 
         fireHilichurl.SetDestination_This();
 
-        fireHilichurl.MonsterWeapon.SetAttackPower(fireHilichurl.EnemyData.AttackPower);
+        //fireHilichurl.MonsterWeapon.SetAttackPower(fireHilichurl.EnemyData.AttackPower);
     }
 
     public override void StateExit()

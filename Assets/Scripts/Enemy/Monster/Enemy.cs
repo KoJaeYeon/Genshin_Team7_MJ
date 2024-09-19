@@ -50,7 +50,6 @@ public class Enemy : MonoBehaviour
     private IColor color;
     private Color ElementColor;
     protected Element HitElement;
-    protected EnemyData enemyData;
     protected float traceDistance = 5.0f;
     protected bool traceMove = true;
     protected bool attack = true;
@@ -334,26 +333,4 @@ public class Enemy : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(direction);
         transform.rotation = rotation;
     }
-}
-
-
-public struct EnemyData
-{
-    public float Health { get; }
-    public float AttackPower { get; }
-    public float Speed { get; }
-    public float Defence { get; }
-    public int DropExp { get; }
-    public Element element { get; }
-
-    public EnemyData(float health, float attackPower, float speed, float defence, int dropExp, Element element) //체력 , 공격력, 이동속도, 물리내성, 경험치, 속성
-    {
-        this.Health = health;
-        this.AttackPower = attackPower;
-        this.Speed = speed;
-        this.Defence = defence;
-        this.DropExp = dropExp;
-        this.element = element;
-    }
-    
 }

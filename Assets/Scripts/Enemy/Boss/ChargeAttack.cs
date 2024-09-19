@@ -7,8 +7,7 @@ public class ChargeAttack : IPattern, IAndriusChargeEvent
 {
     private Andrius _andrius;
     private Animator _animator;
-    private Transform _player;
-    private Rigidbody _rigidBody;
+    private Transform _player;    
     private Action _onCollider;
     private Action _offCollider;
 
@@ -35,7 +34,6 @@ public class ChargeAttack : IPattern, IAndriusChargeEvent
         {
             _andrius = andrius;
             _animator = _andrius.GetComponent<Animator>();  
-            _rigidBody = _andrius.GetComponent<Rigidbody>();
         }
 
         _player = _andrius.PlayerTransform;

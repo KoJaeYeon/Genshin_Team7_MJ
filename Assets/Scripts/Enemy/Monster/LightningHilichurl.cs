@@ -42,7 +42,6 @@ public class LightningHilichurl : Enemy, IColor
     public Animator Animator => animator;
     public MonsterWeapon MonsterWeapon => Weapon;
     public NavMeshAgent Agent => agent;
-    public EnemyData EnemyData => enemyData;
 
     public bool TraceAttack
     {
@@ -75,6 +74,27 @@ public class LightningHilichurl : Enemy, IColor
 
         attack = true;
 
+    }
+
+    public void AttackOverlapBox()
+    {
+        Vector3 transformDirection = _data.BoxData[0];
+
+        Vector3 boxPosition = transform.position + transform.TransformDirection(transformDirection) + transform.forward;
+
+        Vector3 boxSize = _data.BoxData[1];
+
+        Collider[] colliders = Physics.OverlapBox(boxPosition, boxSize /2, transform.rotation, LayerMask.GetMask("Player"));
+
+        if (colliders.Length > 0)
+        {
+            Character player = colliders[0].transform.GetComponentInChildren<Character>();
+
+            if (player != null)
+            {
+                player.TakeDamage(_data.Power);
+            }
+        }
     }
 }
 
@@ -209,7 +229,7 @@ public class LightningHilichurlTraceAttack : LightningHilichurlState
 
         lightningHilichurl.SetDestination_This();
 
-        lightningHilichurl.MonsterWeapon.SetAttackPower(lightningHilichurl.Data.Power);
+        //lightningHilichurl.MonsterWeapon.SetAttackPower(lightningHilichurl.Data.Power);
     }
 
     public override void StateExit()
