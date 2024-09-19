@@ -10,7 +10,7 @@ public class JumpAttack : IPattern
     private Rigidbody _rigidBody;
 
     private Vector3 _endPos;
-    private float _moveSpeed = 12.0f;
+    private float _moveSpeed = 20.0f;
     private float _rotationSpeed = 5f;
     
     public void InitializePattern(Andrius andrius)
@@ -61,7 +61,7 @@ public class JumpAttack : IPattern
     {
         Vector3 targetDirection = (_endPos - _andrius.transform.position).normalized;
 
-        Vector3 move = targetDirection * _moveSpeed * Time.fixedDeltaTime;
+        Vector3 move = targetDirection * _moveSpeed * Time.deltaTime;
 
         if(Vector3.Distance(_andrius.transform.position, _endPos) > move.magnitude)
         {

@@ -8,7 +8,7 @@ public class AndriusAttack : IPattern
     private Animator _animator;
     private Transform _player;
 
-    private WaitForSeconds _jumpDelay = new WaitForSeconds(5f);
+    private WaitForSeconds _jumpDelay = new WaitForSeconds(7f);
     private WaitForSeconds _chargeDelay = new WaitForSeconds(10f);
 
     private float _angle;

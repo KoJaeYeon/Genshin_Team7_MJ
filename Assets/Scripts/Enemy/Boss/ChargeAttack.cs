@@ -40,7 +40,7 @@ public class ChargeAttack : IPattern, IAndriusChargeEvent
 
         _player = _andrius.PlayerTransform;
         _targetPos = (_player.position - _andrius.transform.position).normalized;
-        _movePos = _player.position + _targetPos * 2f;
+        _movePos = _player.position;
         _onCollider.Invoke();
         _animator.SetBool("isRun", true); 
     }
