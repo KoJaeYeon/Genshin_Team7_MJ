@@ -5,7 +5,15 @@ using UnityEngine;
 public class Howl : BossSkill
 {
     private float howl_Atk;
+    private float howlDamage;
     private SphereCollider sphereColl;
+    private AndriusHowlData _howlData;
+
+    public Howl()
+    {
+        _howlData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusHowlData>("AndriusHowlData");
+        howlDamage = _howlData.GetData(DataList.SKillDamage_howl);
+    }
 
     private void OnEnable()
     {
@@ -15,7 +23,7 @@ public class Howl : BossSkill
 
     public override void SetAtk(float atk)
     {
-        howl_Atk = GetSkillDamage(Skill.Howl) * atk;
+        howl_Atk = howlDamage * atk;
     }
 
     public override IEnumerator DelayDamage()

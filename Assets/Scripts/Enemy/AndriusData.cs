@@ -2,36 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PatternName
-{
-    AndriusParalyzation,
-    AndriusWalk,
-    AndriusAttack,
-    JumpAttack,
-    ClawAttack,
-    ChargeAttack,
-    StampAttack,
-    DriftAttack,
-    HowlAttack
-}
-
-public enum AttackDataList
-{
-    JumpDelay = 1,
-    ChargeDelay,
-    MeleeDistance,
-    JumpDistance,
-    ChargeDistance,
-    MoveDistance,
-    Turn_rightAngle,
-    Turn_leftAngle,
-    Back_leftAngle,
-    Back_rightAngle,
-    Back_Distance,
-    MeleeAngle,
-    DriftAngle
-}
-
 public class AndriusCSVData { }
 public class AndriusParalyzationData : AndriusCSVData
 {
@@ -80,6 +50,7 @@ public class AndriusJumpData : AndriusCSVData
     private float _chargeTime;
     private float _maxAngle;
     private float _maxNormalizedTime;
+
     public string Id { get; set; }
     public float MoveSpeed { get; set; }
     public float RotationSpeed { get; set; }
@@ -88,13 +59,13 @@ public class AndriusJumpData : AndriusCSVData
     public AndriusJumpData(string id, float moveSpeed, float rotationSpeed, 
         float chargeTime, float maxAngle ,float maxNormalizedTime, float skillDamage)
     {
-        Id=id;
-        MoveSpeed=moveSpeed;
-        RotationSpeed=rotationSpeed;
-        _chargeTime=chargeTime;
-        _maxAngle=maxAngle;
-        _maxNormalizedTime=maxNormalizedTime;
-        SkillDamage=skillDamage;
+        Id = id;
+        MoveSpeed = moveSpeed;
+        RotationSpeed = rotationSpeed;
+        _chargeTime = chargeTime;
+        _maxAngle = maxAngle;
+        _maxNormalizedTime = maxNormalizedTime;
+        SkillDamage = skillDamage;
     }
 }
 
@@ -112,13 +83,13 @@ public class AndriusClawData : AndriusCSVData
     public AndriusClawData(string id, float moveSpeed, float rotationSpeed,
         float chargeTime, float maxAngle, float maxNormalizedTime, float skillDamage)
     {
-        Id=id;
-        _moveSpeed=moveSpeed;
-        _rotationSpeed=rotationSpeed;
-        _chargeTime=chargeTime;
-        _maxAngle=maxAngle;
-        _maxNormalizedTime=maxNormalizedTime;
-        SkillDamage=skillDamage;
+        Id = id;
+        _moveSpeed = moveSpeed;
+        _rotationSpeed = rotationSpeed;
+        _chargeTime = chargeTime;
+        _maxAngle = maxAngle;
+        _maxNormalizedTime = maxNormalizedTime;
+        SkillDamage = skillDamage;
     }
 }
 
@@ -136,13 +107,13 @@ public class AndriusChargeData : AndriusCSVData
     public AndriusChargeData(string id, float moveSpeed, float rotationSpeed,
         float chargeTime, float maxAngle, float maxNormalizedTime, float skillDamage)
     {
-        Id=id;
-        _moveSpeed=moveSpeed;
-        RotationSpeed=rotationSpeed;
-        ChargeTime=chargeTime;
-        MaxAngle=maxAngle;
-        _maxNormalizedTime =maxNormalizedTime;
-        SkillDamage=skillDamage;
+        Id = id;
+        _moveSpeed = moveSpeed;
+        RotationSpeed = rotationSpeed;
+        ChargeTime = chargeTime;
+        MaxAngle = maxAngle;
+        _maxNormalizedTime = maxNormalizedTime;
+        SkillDamage = skillDamage;
     }
 }
 
@@ -159,13 +130,13 @@ public class AndriusStampData : AndriusCSVData
     public AndriusStampData(string id, float moveSpeed, float rotationSpeed,
         float chargeTime, float maxAngle, float maxNormalizedTime, float skillDamage)
     {
-        Id=id;
-        _moveSpeed=moveSpeed;
-        RotationSpeed=rotationSpeed;
-        _chargeTime=chargeTime;
-        _maxAngle=maxAngle;
-        MaxNormalizedTime=maxNormalizedTime;
-        SkillDamage=skillDamage;
+        Id = id;
+        _moveSpeed = moveSpeed;
+        RotationSpeed = rotationSpeed;
+        _chargeTime = chargeTime;
+        _maxAngle = maxAngle;
+        MaxNormalizedTime = maxNormalizedTime;
+        SkillDamage = skillDamage;
     }
 }
 
@@ -176,18 +147,19 @@ public class AndriusDriftData : AndriusCSVData
     private float _chargeTime;
     private float _maxAngle;
     private float _maxNormalizedTime;
+
     public string Id { get; set; }
     public float SkillDamage { get; set; }
     public AndriusDriftData(string id, float moveSpeed, float rotationSpeed,
         float chargeTime, float maxAngle, float maxNormalizedTime, float skillDamage)
     {
-        Id=id;
-        _moveSpeed=moveSpeed;
+        Id = id;
+        _moveSpeed = moveSpeed;
         _rotationSpeed = rotationSpeed;
-        _chargeTime=chargeTime;
-        _maxAngle=maxAngle;
-        _maxNormalizedTime=maxNormalizedTime;
-        SkillDamage=skillDamage;
+        _chargeTime = chargeTime;
+        _maxAngle = maxAngle;
+        _maxNormalizedTime = maxNormalizedTime;
+        SkillDamage = skillDamage;
     }
 }
 
@@ -198,23 +170,31 @@ public class AndriusHowlData : AndriusCSVData
     private float _chargeTime;
     private float _maxAngle;
     private float _maxNormalizedTime;
-    public string Id { get; set; }
-    public enum DataList
-    {
-        SKillDamage_howl,
-        SKillDamage_ice
-    }
 
+    public string Id { get; set; }
     public Dictionary<DataList,float> Data { get; set; } 
+
+    public float GetData(DataList dataList)
+    {
+        if(Data.TryGetValue(dataList, out var data))
+        {
+            return data;
+        }
+        else
+        {
+            Debug.Log("HowlData를 가져오지 못했습니다.");
+            return 0;
+        }
+    }
     
     public AndriusHowlData(string id, float moveSpeed, float rotationSpeed,
         float chargeTime, float maxAngle, float maxNormalizedTime)
     {
-        Id=id;
-        _moveSpeed=moveSpeed;
-        _rotationSpeed=rotationSpeed;
-        _chargeTime=chargeTime;
-        _maxAngle=maxAngle;
-        _maxNormalizedTime=maxNormalizedTime;
+        Id = id;
+        _moveSpeed = moveSpeed;
+        _rotationSpeed = rotationSpeed;
+        _chargeTime = chargeTime;
+        _maxAngle = maxAngle;
+        _maxNormalizedTime = maxNormalizedTime;
     }
 }

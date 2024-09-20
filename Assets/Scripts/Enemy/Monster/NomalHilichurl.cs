@@ -27,19 +27,28 @@ public class NomalHilichurl : Enemy, IColor
     }
     private void InitData()
     {
-        _data = EnemyCSVLoder.Instance.GetEnemyData(EnemyID.NormalH);
-        EnemyHealthDic.Add(this, _data.Health);
-        HpSlider.maxValue = _data.Health;
-        HpSlider.value = _data.Health;
-        agent.speed = _data.Speed;
-        traceDistance = _data.TraceDistance;
-        color = _data.Color;
+        GetData();
+
+        EnemyHealthDic.Add(this, _baseData.Health);
+        HpSlider.maxValue = _baseData.Health;
+        HpSlider.value = _baseData.Health;
+        agent.speed = _baseData.Speed;
+        agent.stoppingDistance = _traceData.AgentStopDistance;
+        traceDistance = _traceData.TraceDistance;
+        color = _elementData.Color;
     }
 
-    public EnemyCSVData Data => _data;
+    private void GetData()
+    {
+        _baseData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyBaseData>("B103");
+        _elementData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyElementData>("E103");
+        _traceData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyTraceData>("T103");
+        _overlapData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyOverlapData>("O103");
+    }
+
+    public EnemyTraceData TraceData => _traceData;
     public EnemyStateMachine State => state;
     public Animator Animator => animator;
-    public MonsterWeapon MonsterWeapon => Weapon;
     public NavMeshAgent Agent => agent;
 
     private Color color;
@@ -78,11 +87,11 @@ public class NomalHilichurl : Enemy, IColor
 
     public void AttackOverlapBox()
     {
-        Vector3 transformDirection = _data.BoxData[0];
+        Vector3 transformDirection = _overlapData.BoxList[0];
 
         Vector3 boxPosition = transform.position + transform.TransformDirection(transformDirection) + transform.forward;
 
-        Vector3 boxSize = _data.BoxData[1];
+        Vector3 boxSize = _overlapData.BoxList[1];
 
         Collider[] colliders = Physics.OverlapBox(boxPosition, boxSize /2, transform.rotation, LayerMask.GetMask("Player"));
 
@@ -92,7 +101,7 @@ public class NomalHilichurl : Enemy, IColor
 
             if (player != null)
             {
-                player.TakeDamage(_data.Power);
+                player.TakeDamage(_baseData.Power);
             }
         }
     }
@@ -130,7 +139,7 @@ public class NomalHilichurlIdle : NomalHilichurlState //기본 상태
         
         timer += Time.deltaTime;
 
-        if(timer > 4.0f)
+        if(timer > nomalHilichurl.TraceData.NextMoveTime)
         {
             nomalHilichurl.State.ChangeState(EnemyState.Move);
         }
@@ -209,7 +218,7 @@ public class NomalHilichurlTraceMove : NomalHilichurlState
 
     private void StopTracking()
     {
-        if (nomalHilichurl.Distance() > 15.0f)
+        if (nomalHilichurl.Distance() > nomalHilichurl.TraceData.StopDistance)
         {
             nomalHilichurl.State.ChangeState(EnemyState.Move);
         }
@@ -243,7 +252,6 @@ public class NomalHilichurlTraceAttack : NomalHilichurlState
         {
             nomalHilichurl.TraceAttack = false;
             nomalHilichurl.Animator.SetTrigger("Attack");
-            nomalHilichurl.MonsterWeapon.EableSword();
         }
 
         nomalHilichurl.TraceAttackRotation();

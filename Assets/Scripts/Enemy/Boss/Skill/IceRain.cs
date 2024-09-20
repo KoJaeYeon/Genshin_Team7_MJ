@@ -6,10 +6,18 @@ using UnityEngine.UI;
 public class IceRain : BossSkill
 {
     private float Ice_Atk;
+    private float iceDamage;
+    private AndriusHowlData _data;
+
+    public IceRain()
+    {
+        _data = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusHowlData>("AndriusHowlData");
+        iceDamage = _data.GetData(DataList.SKillDamage_ice);
+    }
 
     public override void SetAtk(float atk)
     {
-        Ice_Atk = GetSkillDamage(Skill.Ice_Rain) + atk;
+        Ice_Atk = iceDamage * atk;
     }
 
     private void OnParticleCollision(GameObject other)

@@ -6,83 +6,72 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using UnityEngine.Animations.Rigging;
 
-public enum AndriusPattern
-{
-    Idle,
-    Move,
-    Attack,
-    Jump,
-    Claw,
-    Charge,
-    Stamp,
-    Drift,
-    Howl
-}
-
 public class Andrius : Enemy, IColor, IAndriusClawEvent
 {
     [Header("EffectPool")]
     public GameObject effectPool;
+
     [Header("AndriusSlider")]
     public Slider[] BossSlider;
 
     [Header("WalkPos")]
     [SerializeField] private GameObject[] _walkPos;
+
     private List<Transform> _selectPositionList;
+    private Dictionary<AndriusPattern, IPattern> _patternDic;
 
     private bool turn = true;
     private bool moveStop = false;
     private bool jumpBack = true;
     private bool isRunStop = false;
     private float paralyzation;
-
     private IPattern _currentPattern;
-
     private Color BossColor;
 
     private Slider PaSlider;
     private GameObject Pa;
     private Rig _andriusRig;
-    private Dictionary<AndriusPattern, IPattern> _patternDic;
     private Action _leftClawEvent;
     private Action _rightClawEvent;
 
     private new void Awake()
     {
-        InitializeAndriusComponent();
-        InitializeState();
+        EnemyHealthDic = new Dictionary<Enemy, float>();
+        _patternDic = new Dictionary<AndriusPattern, IPattern>();
+    }
 
-        int randomWalkPos = UnityEngine.Random.Range(0, _walkPos.Length);
-
-        GameObject selectPosObject = _walkPos[randomWalkPos];
-
-        _selectPositionList = new List<Transform>();
-
-        foreach (Transform transform in selectPosObject.transform)
-        {
-            _selectPositionList.Add(transform); 
-        }
+    private void OnEnable()
+    {
+        AndriusEventManager.Instance.RegisterClawEvent(this);
     }
 
     private void Start()
     {
         GetData();
+        InitializeAndriusComponent();
+        InitializeState();
+        InitializeAndriusValue();
+        AddPattern();
+        GetWalkPosition();
+    }
 
+    private void GetData()
+    {
+        _baseData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyBaseData>("B105");
+        _elementData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyElementData>("E105");
+        _traceData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyTraceData>("T105");
+    }
+
+    private void InitializeAndriusValue()
+    {
         EnemyHealthDic.Add(this, _baseData.Health);
-        AndriusParalyzationData paralyzationData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusParalyzationData>(PatternName.AndriusParalyzation);
+        AndriusParalyzationData paralyzationData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusParalyzationData>("AndriusParalyzationData");
         paralyzation = paralyzationData.ParalyzationValue;
         agent.stoppingDistance = _traceData.AgentStopDistance;
         agent.speed = _baseData.Speed;
         Hp = HpSlider.fillRect.transform.parent.gameObject;
         Pa = PaSlider.fillRect.transform.parent.gameObject;
         BossColor = _elementData.Color;
-    }
-
-    private void GetData()
-    {
-        _baseData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyBaseData>(EnemyID.Andrius);
-        _elementData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyElementData>(EnemyID.Andrius);
-        _traceData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyTraceData>(EnemyID.Andrius);
     }
 
     private void InitializeAndriusComponent()
@@ -93,10 +82,7 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
         animator = GetComponent<Animator>();
         HpSlider = BossSlider[0].GetComponent<Slider>();
         PaSlider = BossSlider[1].GetComponent<Slider>();
-        EnemyHealthDic = new Dictionary<Enemy, float>();
-        _patternDic = new Dictionary<AndriusPattern, IPattern>();
-        AndriusEventManager.Instance.RegisterClawEvent(this);
-        AddPattern();
+        
     }
     
     public void InitializeState()
@@ -111,6 +97,20 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
         bossState.AddState(BossState.Claw, new Andrius_Claw(this));
         bossState.AddState(BossState.Drift, new Andrius_Drift(this));
         bossState.AddState(BossState.Charge, new Andrius_Charge(this));
+    }
+
+    private void GetWalkPosition()
+    {
+        int randomWalkPos = UnityEngine.Random.Range(0, _walkPos.Length);
+
+        GameObject selectPosObject = _walkPos[randomWalkPos];
+
+        _selectPositionList = new List<Transform>();
+
+        foreach (Transform transform in selectPosObject.transform)
+        {
+            _selectPositionList.Add(transform);
+        }
     }
 
     public void SetPattern(AndriusPattern newPattern)

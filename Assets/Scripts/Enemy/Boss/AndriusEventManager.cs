@@ -5,6 +5,8 @@ public class AndriusEventManager
     private static AndriusEventManager _instance;
     private IAndriusClawEvent _andriusClawEvent;
     private IAndriusChargeEvent _andriusChargeEvent;
+    public bool IsChargeInterface { get; set; } = false;
+    public bool IsClawInterface { get;set; } = false;
 
     public static AndriusEventManager Instance
     {
@@ -22,10 +24,12 @@ public class AndriusEventManager
     public void RegisterClawEvent(IAndriusClawEvent eventHandler)
     {
         _andriusClawEvent = eventHandler;
+        IsClawInterface = true;
     }
     public void RegisterChargeEvent(IAndriusChargeEvent eventHandler)
     {
         _andriusChargeEvent = eventHandler;
+        IsChargeInterface = true;
     }
 
     public void AddEvent_LeftClawEvent(Action callBack)

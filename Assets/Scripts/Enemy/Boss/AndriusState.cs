@@ -125,9 +125,15 @@ public class Andrius_Jump : AndriusState
 
 public class Andrius_Claw : AndriusState
 {
-    public Andrius_Claw(Andrius andrius) : base(andrius) { }
+    public Andrius_Claw(Andrius andrius) : base(andrius)
+    {
+        _clawData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusClawData>("AndriusClawData");
+        claw_Atk = _clawData.SkillDamage;
+    }
+
+    private AndriusClawData _clawData;
     private bool _isHit = false;
-    private float claw_Atk = 1f;
+    private float claw_Atk;
 
     public override void StateEnter()
     {
@@ -166,10 +172,15 @@ public class Andrius_Drift : AndriusState
 
 public class Andrius_Charge : AndriusState
 {
-    public Andrius_Charge(Andrius andrius) : base(andrius) { }
+    public Andrius_Charge(Andrius andrius) : base(andrius)
+    {
+        _chargeData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusChargeData>("AndriusChargeData");
+        charge_Atk = _chargeData.SkillDamage;
+    }
 
+    private AndriusChargeData _chargeData;
     private bool _isHit;
-    private float charge_Atk = 2f;
+    private float charge_Atk;
 
     public override void StateEnter()
     {

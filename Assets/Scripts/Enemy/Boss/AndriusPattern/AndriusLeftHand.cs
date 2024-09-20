@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 public class AndriusLeftHand : MonoBehaviour
 {
@@ -6,9 +7,17 @@ public class AndriusLeftHand : MonoBehaviour
 
     void Start()
     {
-        AndriusEventManager.Instance.AddEvent_LeftClawEvent(OnSphereCollider);
         _leftCollider = GetComponent<SphereCollider>();
-        _leftCollider.enabled = false;  
+        _leftCollider.enabled = false;
+
+        StartCoroutine(AddInterface());
+    }
+
+    private IEnumerator AddInterface()
+    {
+        yield return new WaitUntil(() => AndriusEventManager.Instance.IsClawInterface);
+
+        AndriusEventManager.Instance.AddEvent_LeftClawEvent(OnSphereCollider);
     }
 
     private void OnSphereCollider()

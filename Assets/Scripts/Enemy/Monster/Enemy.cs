@@ -5,51 +5,22 @@ using UnityEngine.Accessibility;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-
-public enum EnemyLayer
-{
-    isAlive = 3,
-    isDead = 6
-}
-
-public enum Element
-{
-    Normal,
-    Fire,
-    Ice,
-    Lightning,
-    Water,
-
-    Null
-}
-
-public enum MonsterType
-{
-    Fire = 1,
-    Ice,
-    Normal,
-    Lightning,
-    Andrius
-
-}
-
 public class Enemy : MonoBehaviour
 {
     protected EnemyBaseData _baseData;
     protected EnemyElementData _elementData;
     protected EnemyOverlapData _overlapData;
     protected EnemyTraceData _traceData;
-
     protected EnemyStateMachine state;
     protected BossStateMachine bossState;
-    protected MonsterWeapon Weapon;
+    protected GameObject Hp;
+
     protected Animator animator;
     protected Transform Player;
     protected NavMeshAgent agent;
-    protected Dictionary<Enemy, float> EnemyHealthDic;
-    protected GameObject Hp;
     protected Slider HpSlider;
     protected SkinnedMeshRenderer EnemyMesh;
+    protected Dictionary<Enemy, float> EnemyHealthDic;
     
     private IColor color;
     private Color ElementColor;
@@ -62,22 +33,23 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Awake()
     {
+        OnAwakeGetComponent();
+
+        Hp = HpSlider.gameObject;
+        EnemyMesh.material = this.EnemyMesh.materials[0];
+        EnemyHealthDic = new Dictionary<Enemy, float>();
+    }
+
+    protected void OnAwakeGetComponent()
+    {
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        Weapon = transform.GetComponentInChildren<MonsterWeapon>(); 
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         EnemyMesh = transform.GetComponentInChildren<SkinnedMeshRenderer>();
         HpSlider = transform.GetComponentInChildren<Slider>();
-        Hp = HpSlider.gameObject;
-
-        EnemyMesh.material = this.EnemyMesh.materials[0];
-        EnemyHealthDic = new Dictionary<Enemy, float>();
-       
     }
 
     public virtual void Splash(float damage) { }
-
-
     public virtual void TakeDamage(float damage, Element element, Character attacker)
     {
         Debug.Log(damage);
@@ -113,59 +85,59 @@ public class Enemy : MonoBehaviour
         switch (element)
         {
             case Element.Fire:
-                if(_data.Element == Element.Ice)
+                if(_elementData.Element == Element.Ice)
                 {
                     Debug.Log("융해");
                     damage *= 2f;
                 }
-                else if(_data.Element == Element.Lightning)
+                else if(_elementData.Element == Element.Lightning)
                 {
                     Debug.Log("과부화");
-                    damage -= damage * _data.Defence;
+                    damage -= damage * _baseData.Defence;
                     SplashAttack();
                 }
                 else
                 {
-                    damage -= damage * _data.Defence;
+                    damage -= damage * _baseData.Defence;
                 }
                 break;
             case Element.Ice:
-                if(_data.Element == Element.Fire)
+                if(_elementData.Element == Element.Fire)
                 {
                     Debug.Log("융해");
                     damage *= 1.5f;
                 }
-                else if(_data.Element == Element.Lightning)
+                else if(_elementData.Element == Element.Lightning)
                 {
                     Debug.Log("초전도");
-                    damage -= damage * _data.Defence;
+                    damage -= damage * _baseData.Defence;
                     SplashAttack();
                 }
                 else
                 {
-                    damage -= damage * _data.Defence;
+                    damage -= damage * _baseData.Defence;
                 }
                 break;
             case Element.Lightning:
-                if(_data.Element == Element.Fire)
+                if(_elementData.Element == Element.Fire)
                 {
                     Debug.Log("과부화");
-                    damage -= damage * _data.Defence;
+                    damage -= damage * _baseData.Defence;
                     SplashAttack();
                 }
-                else if(_data.Element == Element.Ice)
+                else if(_elementData.Element == Element.Ice)
                 {
                     Debug.Log("초전도");
-                    damage -= damage * _data.Defence;
+                    damage -= damage * _baseData.Defence;
                     SplashAttack();
                 }
                 else
                 {
-                    damage -= damage * _data.Defence;
+                    damage -= damage * _baseData.Defence;
                 }
                 break;
             case Element.Normal:
-                damage -= damage * _data.Defence;
+                damage -= damage * _baseData.Defence;
                 break;
         }
         return damage;

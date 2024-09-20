@@ -12,11 +12,23 @@ public class AndriusAttack : IPattern
     private WaitForSeconds _jumpDelay;
     private WaitForSeconds _chargeDelay;
 
+    #region Value
+    private float _meleeDistance;
+    private float _jumpDistance;
+    private float _chargeDistance;
+    private float _moveDistance;
+    private float _turn_Rightangle;
+    private float _turn_Leftangle;
+    private float _back_Rightangle;
+    private float _back_Leftangle;
+    private float _back_Distance;
+    private float _meleeAngle;
+    private float _driftAngle;
+    #endregion
+
     public AndriusAttack()
     {
-        _attackData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusAttackData>(PatternName.AndriusAttack);
-        _jumpDelay = new WaitForSeconds(_attackData.GetData(AttackDataList.JumpDelay));
-        _chargeDelay = new WaitForSeconds(_attackData.GetData(AttackDataList.ChargeDelay));
+        GetData();
     }
 
     private float _angle;
@@ -24,6 +36,24 @@ public class AndriusAttack : IPattern
 
     private bool _isJump = true;
     private bool _isCharge = true;
+
+    private void GetData()
+    {
+        _attackData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusAttackData>("AndriusAttackData");
+        _jumpDelay = new WaitForSeconds(_attackData.GetData(AttackDataList.JumpDelay));
+        _chargeDelay = new WaitForSeconds(_attackData.GetData(AttackDataList.ChargeDelay));
+        _meleeDistance = _attackData.GetData(AttackDataList.MeleeDistance);
+        _jumpDistance = _attackData.GetData(AttackDataList.JumpDistance);
+        _chargeDistance = _attackData.GetData(AttackDataList.ChargeDistance);
+        _moveDistance = _attackData.GetData(AttackDataList.MoveDistance);
+        _turn_Rightangle = _attackData.GetData(AttackDataList.Turn_rightAngle);
+        _turn_Leftangle = _attackData.GetData(AttackDataList.Turn_leftAngle);
+        _back_Rightangle = _attackData.GetData(AttackDataList.Back_rightAngle);
+        _back_Leftangle = _attackData.GetData(AttackDataList.Back_leftAngle);
+        _back_Distance = _attackData.GetData(AttackDataList.Back_Distance);
+        _meleeAngle = _attackData.GetData(AttackDataList.MeleeAngle);
+        _driftAngle = _attackData.GetData(AttackDataList.DriftAngle);
+    }
 
     public void InitializePattern(Andrius andrius)
     {
@@ -62,23 +92,23 @@ public class AndriusAttack : IPattern
 
         if (!_andrius.MoveStop)
         {
-            if (distance <= 10f)
+            if (distance <= _meleeDistance)
             {
                 MeleeAttack(angle);
             }
-            else if(distance <= 20f && _isJump)
+            else if(distance <= _jumpDistance && _isJump)
             {
                 _isJump = false;
                 _andrius.StartCoroutine(JumpDelay());
                 _andrius.State.ChangeState(BossState.Jump);
             }
-            else if(distance <= 100f && _isCharge)
+            else if(distance <= _chargeDistance && _isCharge)
             {
                 _isCharge = false;
                 _andrius.StartCoroutine(ChargeDelay());
                 _andrius.State.ChangeState(BossState.Charge);
             }
-            else if(distance > 100f)
+            else if(distance > _moveDistance)
             {
                 _andrius.State.ChangeState(BossState.Move);
             }
@@ -107,12 +137,12 @@ public class AndriusAttack : IPattern
 
     private void Back(float angle, float distance)
     {
-        if (!_andrius.Turn || !(angle > -90f && angle < 90f))
+        if (!_andrius.Turn || !(angle > _back_Leftangle && angle < _back_Rightangle))
         {
             return;
         }
 
-        if(distance <= 5.5f && _andrius.JumpBack)
+        if(distance <= _back_Distance && _andrius.JumpBack)
         {
             _andrius.JumpBack = false;
 
@@ -136,12 +166,12 @@ public class AndriusAttack : IPattern
             return;
         }
 
-        if(angle >= 120f && _andrius.Turn)
+        if(angle >= _turn_Rightangle && _andrius.Turn)
         {
             _animator.SetTrigger("TurnRight");
             _andrius.Turn = false;
         }
-        else if(angle <= -120f && _andrius.Turn)
+        else if(angle <= _turn_Leftangle && _andrius.Turn)
         {
             _animator.SetTrigger("TurnLeft");
             _andrius.Turn = false;
@@ -152,7 +182,7 @@ public class AndriusAttack : IPattern
     {
         float absAngle = Mathf.Abs(angle);
 
-        if (absAngle <= 60f)
+        if (absAngle <= _meleeAngle)
         {
             int random = Random.Range(0, 3);
 
@@ -169,7 +199,7 @@ public class AndriusAttack : IPattern
                     break;
             }
         }
-        else if (absAngle <= 120f)
+        else if (absAngle <= _driftAngle)
         {
             _andrius.State.ChangeState(BossState.Drift);
         }

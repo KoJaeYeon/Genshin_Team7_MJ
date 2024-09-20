@@ -70,13 +70,18 @@ public class BossStateMachine : MonoBehaviour
     Dictionary<BossState, BossBaseState> BossStateDic = new Dictionary<BossState, BossBaseState>();
     BossBaseState State;
 
+    private bool _isState = false;
+
     private void Start()
     {
-        InitState();
+        StartCoroutine(StateDelay());
     }
     private void FixedUpdate()
     {
-        State.StateFixedUpdate();
+        if (_isState)
+        {
+            State.StateFixedUpdate();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -100,5 +105,26 @@ public class BossStateMachine : MonoBehaviour
         State.StateExit();
         State = BossStateDic[changeState];
         State.StateEnter();
+    }
+
+    private IEnumerator StateDelay()
+    {
+        yield return new WaitUntil(() =>
+        {
+            State = BossStateDic[BossState.Move];
+
+            if(State == null)
+            {
+                return false;
+            }
+            else
+            {
+                _isState = true;
+
+                InitState();
+                
+                return true;
+            }
+        });
     }
 }

@@ -11,9 +11,14 @@ public class AndriusWalk : IPattern
     private Transform _player;
     private AndriusWalkData _walkData;
 
+    private float _walkSpeed;
+    private WaitForSeconds _walkTime;
+
     public AndriusWalk()
     {
-        _walkData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusWalkData>(PatternName.AndriusWalk);
+        _walkData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusWalkData>("AndriusWalkData");
+        _walkSpeed = _walkData.Speed;
+        _walkTime = new WaitForSeconds(_walkData.WalkTime);
         Debug.Log($"AndriusWalk : {_walkData.Speed},{_walkData.WalkTime}");
     }
 
@@ -80,7 +85,7 @@ public class AndriusWalk : IPattern
 
     private IEnumerator WalkCoroutine()
     {
-        yield return new WaitForSeconds(_walkData.WalkTime);
+        yield return _walkTime;
 
         _isFirstWalking = false;
 

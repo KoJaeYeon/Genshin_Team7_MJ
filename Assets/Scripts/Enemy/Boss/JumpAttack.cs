@@ -8,10 +8,18 @@ public class JumpAttack : IPattern
     private Animator _animator;
     private Transform _player;
     private Rigidbody _rigidBody;
+    private AndriusJumpData _jumpData;
 
     private Vector3 _endPos;
-    private float _moveSpeed = 20.0f;
-    private float _rotationSpeed = 5f;
+    private float _moveSpeed;
+    private float _rotationSpeed;
+
+    public JumpAttack()
+    {
+        _jumpData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusJumpData>("AndriusJumpData");
+        _moveSpeed = _jumpData.MoveSpeed;
+        _rotationSpeed = _jumpData.RotationSpeed;
+    }
     
     public void InitializePattern(Andrius andrius)
     {
@@ -61,7 +69,7 @@ public class JumpAttack : IPattern
     {
         Vector3 targetDirection = (_endPos - _andrius.transform.position).normalized;
 
-        Vector3 move = targetDirection * _moveSpeed * Time.deltaTime;
+        Vector3 move = targetDirection * _moveSpeed * Time.fixedDeltaTime;
 
         if(Vector3.Distance(_andrius.transform.position, _endPos) > move.magnitude)
         {

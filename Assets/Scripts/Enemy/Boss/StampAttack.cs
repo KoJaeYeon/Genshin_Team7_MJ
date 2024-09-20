@@ -6,10 +6,19 @@ public class StampAttack : IPattern
 {
     private Andrius _andrius;
     private Animator _animator;
+    private AndriusStampData _stampData;
 
     private Vector3 _targetPos;
 
-    private float Rotspeed = 15.0f;
+    private float Rotspeed;
+    private float _maxNormalizedTime;
+
+    public StampAttack()
+    {
+        _stampData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusStampData>("AndriusStampData");
+        Rotspeed = _stampData.RotationSpeed;
+        _maxNormalizedTime = _stampData.MaxNormalizedTime;
+    }
 
     public void InitializePattern(Andrius andrius)
     {
@@ -27,7 +36,7 @@ public class StampAttack : IPattern
     {
         var animatorStateInfo = _animator.GetCurrentAnimatorStateInfo(0);
 
-        if(animatorStateInfo.IsName("Stamp") && animatorStateInfo.normalizedTime < 0.4f)
+        if(animatorStateInfo.IsName("Stamp") && animatorStateInfo.normalizedTime < _maxNormalizedTime)
         {
             RotateToPlayer();
         }

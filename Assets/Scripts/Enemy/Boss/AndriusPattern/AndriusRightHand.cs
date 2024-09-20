@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class AndriusRightHand : MonoBehaviour
 {
@@ -7,9 +8,17 @@ public class AndriusRightHand : MonoBehaviour
 
     void Start()
     {
-        AndriusEventManager.Instance.AddEvent_RightClawEvent(OnSphereCollider);
         _rightCollider = GetComponent<SphereCollider>();
         _rightCollider.enabled = false;
+
+        StartCoroutine(AddInterface());
+    }
+
+    private IEnumerator AddInterface()
+    {
+        yield return new WaitUntil(() => AndriusEventManager.Instance.IsClawInterface);
+
+        AndriusEventManager.Instance.AddEvent_RightClawEvent(OnSphereCollider);
     }
 
     private void OnSphereCollider()

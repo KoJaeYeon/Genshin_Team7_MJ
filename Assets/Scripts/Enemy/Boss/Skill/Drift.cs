@@ -5,8 +5,16 @@ using UnityEngine;
 
 public class Drift : BossSkill
 {
+    private AndriusDriftData _driftData;
     private float drift_Atk;
+    private float driftDamage;
     private SphereCollider sphereColl;
+
+    public Drift()
+    {
+        _driftData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusDriftData>("AndriusDriftData");
+        driftDamage = _driftData.SkillDamage;
+    }
 
     private void OnEnable()
     {
@@ -18,7 +26,7 @@ public class Drift : BossSkill
 
     public override void SetAtk(float atk)
     {
-        drift_Atk = GetSkillDamage(Skill.Drift) * atk;
+        drift_Atk = driftDamage * atk;
     }
 
     private void OnTriggerEnter(Collider other)

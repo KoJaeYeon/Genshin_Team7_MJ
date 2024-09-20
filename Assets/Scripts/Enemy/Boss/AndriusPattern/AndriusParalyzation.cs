@@ -9,10 +9,13 @@ public class AndriusParalyzation : IPattern
     private AndriusParalyzationData _paralyzationData;
     private bool _isChangeState;
 
+    private float __paralyzationValue;
+
     public AndriusParalyzation()
     {
-        _paralyzationData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusParalyzationData>(PatternName.AndriusParalyzation);
+        _paralyzationData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusParalyzationData>("AndriusParalyzationData");
         _changeTime = new WaitForSeconds(_paralyzationData.ChangeTime);
+        __paralyzationValue = _paralyzationData.ParalyzationValue;
         Debug.Log($"AndriusParalyzation{_paralyzationData.ParalyzationValue},{_paralyzationData.ChangeTime}");
     }
 
@@ -40,7 +43,7 @@ public class AndriusParalyzation : IPattern
     public void ExitPattern()
     {
         _animator.SetBool("Idle", false);
-        _andrius.Paralyzation = _paralyzationData.ParalyzationValue;
+        _andrius.Paralyzation = __paralyzationValue;
     }
 
     private IEnumerator ChangeTimer()

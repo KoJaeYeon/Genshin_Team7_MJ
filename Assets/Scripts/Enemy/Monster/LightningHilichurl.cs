@@ -27,20 +27,29 @@ public class LightningHilichurl : Enemy, IColor
     }
     private void InitData()
     {
-        _data = EnemyCSVLoder.Instance.GetEnemyData(EnemyID.LightningH);
-        EnemyHealthDic.Add(this, _data.Health);
-        HpSlider.maxValue = _data.Health;
-        HpSlider.value = _data.Health;
-        agent.speed = _data.Speed;
-        traceDistance = _data.TraceDistance;
-        color = _data.Color;
+        GetData();
+
+        EnemyHealthDic.Add(this, _baseData.Health);
+        HpSlider.maxValue = _baseData.Health;
+        HpSlider.value = _baseData.Health;
+        agent.speed = _baseData.Speed;
+        agent.stoppingDistance = _traceData.AgentStopDistance;
+        traceDistance = _traceData.TraceDistance;
+        color = _elementData.Color;
     }
 
-    public EnemyCSVData Data => _data;
+    private void GetData()
+    {
+        _baseData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyBaseData>("B104");
+        _elementData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyElementData>("E104");
+        _traceData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyTraceData>("T104");
+        _overlapData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyOverlapData>("O104");
+    }
+
+    public EnemyTraceData TraceData { get { return _traceData; } }
     private Color color;
     public EnemyStateMachine State => state;
     public Animator Animator => animator;
-    public MonsterWeapon MonsterWeapon => Weapon;
     public NavMeshAgent Agent => agent;
 
     public bool TraceAttack
@@ -78,11 +87,11 @@ public class LightningHilichurl : Enemy, IColor
 
     public void AttackOverlapBox()
     {
-        Vector3 transformDirection = _data.BoxData[0];
+        Vector3 transformDirection = _overlapData.BoxList[0];
 
         Vector3 boxPosition = transform.position + transform.TransformDirection(transformDirection) + transform.forward;
 
-        Vector3 boxSize = _data.BoxData[1];
+        Vector3 boxSize = _overlapData.BoxList[1];
 
         Collider[] colliders = Physics.OverlapBox(boxPosition, boxSize /2, transform.rotation, LayerMask.GetMask("Player"));
 
@@ -92,7 +101,7 @@ public class LightningHilichurl : Enemy, IColor
 
             if (player != null)
             {
-                player.TakeDamage(_data.Power);
+                player.TakeDamage(_baseData.Power);
             }
         }
     }
@@ -130,7 +139,7 @@ public class LightningHilichurlIdle : LightningHilichurlState //기본 상태
        
         timer += Time.deltaTime;
 
-        if (timer > 4.0f)
+        if (timer > lightningHilichurl.TraceData.NextMoveTime)
         {
             lightningHilichurl.State.ChangeState(EnemyState.Move);
         }
@@ -211,7 +220,7 @@ public class LightningHilichurlTraceMove : LightningHilichurlState //이동 (추적)
 
     private void StopTracking()
     {
-        if (lightningHilichurl.Distance() > 15.0f)
+        if (lightningHilichurl.Distance() > lightningHilichurl.TraceData.StopDistance)
         {
             lightningHilichurl.State.ChangeState(EnemyState.Move);
         }
@@ -228,8 +237,6 @@ public class LightningHilichurlTraceAttack : LightningHilichurlState
         lightningHilichurl.Agent.updateRotation = false;
 
         lightningHilichurl.SetDestination_This();
-
-        //lightningHilichurl.MonsterWeapon.SetAttackPower(lightningHilichurl.Data.Power);
     }
 
     public override void StateExit()
@@ -244,7 +251,6 @@ public class LightningHilichurlTraceAttack : LightningHilichurlState
         {
             lightningHilichurl.TraceAttack = false;
             lightningHilichurl.Animator.SetTrigger("Attack");
-            lightningHilichurl.MonsterWeapon.EableSword();
         }
 
         lightningHilichurl.TraceAttackRotation();

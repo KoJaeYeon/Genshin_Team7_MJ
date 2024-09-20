@@ -5,7 +5,15 @@ using UnityEngine;
 public class Jump : BossSkill
 {
     private float jump_Atk;
+    private float jumpDamage;
     private SphereCollider sphereColl;
+    private AndriusJumpData _jumpData;
+
+    public Jump()
+    {
+        _jumpData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusJumpData>("AndriusJumpData");
+        jumpDamage = _jumpData.SkillDamage;
+    }
 
     private void OnEnable()
     {
@@ -15,7 +23,7 @@ public class Jump : BossSkill
 
     public override void SetAtk(float atk)
     {
-        jump_Atk = skillDic[Skill.Jump] * atk;
+        jump_Atk = jumpDamage * atk;
     }
     
 

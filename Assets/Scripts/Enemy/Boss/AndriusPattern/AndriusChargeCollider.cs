@@ -8,11 +8,18 @@ public class AndriusChargeCollider : MonoBehaviour
 
     void Start()
     {
-        AndriusEventManager.Instance.AddEvent_OnChargeColliderEvent(OnCollider);
-        AndriusEventManager.Instance.AddEvent_OffColliderEvent(OffCollider);
-
         _chargeCollider = GetComponent<CapsuleCollider>();
         _chargeCollider.enabled = false;
+
+        StartCoroutine(AddInterface());
+    }
+
+    private IEnumerator AddInterface()
+    {
+        yield return new WaitUntil(() => AndriusEventManager.Instance.IsChargeInterface);
+
+        AndriusEventManager.Instance.AddEvent_OnChargeColliderEvent(OnCollider);
+        AndriusEventManager.Instance.AddEvent_OffColliderEvent(OffCollider);
     }
 
     private void OnCollider()

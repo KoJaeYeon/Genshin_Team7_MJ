@@ -10,12 +10,14 @@ public class ChargeAttack : IPattern, IAndriusChargeEvent
     private Transform _player;    
     private Action _onCollider;
     private Action _offCollider;
+    private AndriusChargeData _chargeData;
 
-    private WaitForSeconds _timer = new WaitForSeconds(1.0f);
+    private WaitForSeconds _timer;
 
     private float _currentAngle;
     private float _distance;
-    private float _rotationSpeed = 10f;
+    private float _rotationSpeed;
+    private float _maxAngle;
 
     private bool isRun = true;
 
@@ -26,6 +28,10 @@ public class ChargeAttack : IPattern, IAndriusChargeEvent
     public ChargeAttack()
     {
         AndriusEventManager.Instance.RegisterChargeEvent(this);
+        _chargeData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusChargeData>("AndriusChargeData");
+        _timer = new WaitForSeconds(_chargeData.ChargeTime);
+        _rotationSpeed = _chargeData.RotationSpeed;
+        _maxAngle = _chargeData.MaxAngle;
     }
 
     public void InitializePattern(Andrius andrius)
@@ -54,7 +60,7 @@ public class ChargeAttack : IPattern, IAndriusChargeEvent
 
         _currentAngle = Vector3.Angle(forwardDirection, targetDirection);
 
-        if(_currentAngle > 120f && isRun)
+        if(_currentAngle > _maxAngle && isRun)
         {
             isRun = false;
 

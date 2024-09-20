@@ -29,21 +29,30 @@ public class IceHilichurl : Enemy, IColor
 
     private void InitData()
     {
-        _data = EnemyCSVLoder.Instance.GetEnemyData(EnemyID.IceH);
-        EnemyHealthDic.Add(this, _data.Health);
-        HpSlider.maxValue = _data.Health;
-        HpSlider.value = _data.Health;
-        agent.speed = _data.Speed;
-        traceDistance = _data.TraceDistance;
-        color = _data.Color;
+        GetData();
+
+        EnemyHealthDic.Add(this, _baseData.Health);
+        HpSlider.maxValue = _baseData.Health;
+        HpSlider.value = _baseData.Health;
+        agent.speed = _baseData.Speed;
+        agent.stoppingDistance = _traceData.AgentStopDistance;
+        traceDistance = _traceData.TraceDistance;
+        color = _elementData.Color;
     }
 
-    public EnemyCSVData Data => _data;
+    private void GetData()
+    {
+        _baseData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyBaseData>("B102");
+        _elementData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyElementData>("E102");
+        _traceData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyTraceData>("T102");
+        _overlapData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyOverlapData>("O102");
+    }
 
+    
     private Color color;
+    public EnemyTraceData TraceData { get { return _traceData; } }
     public EnemyStateMachine State => state;
     public Animator Animator => animator;
-    public MonsterWeapon MonsterWeapon => Weapon;
     public NavMeshAgent Agent => agent;
     public bool TraceAttack
     {
@@ -81,11 +90,11 @@ public class IceHilichurl : Enemy, IColor
 
     public void AttackOverlapBox()
     {
-        Vector3 transformDirection = _data.BoxData[0];
+        Vector3 transformDirection = _overlapData.BoxList[0];
 
         Vector3 boxPosition = transform.position + transform.TransformDirection(transformDirection) + transform.forward;
 
-        Vector3 boxSize = _data.BoxData[1];
+        Vector3 boxSize = _overlapData.BoxList[1];
 
         Collider[] colliders = Physics.OverlapBox(boxPosition, boxSize /2, transform.rotation, LayerMask.GetMask("Player"));
 
@@ -95,7 +104,7 @@ public class IceHilichurl : Enemy, IColor
 
             if (player != null)
             {
-                player.TakeDamage(_data.Power);
+                player.TakeDamage(_baseData.Power);
             }
         }
     }
@@ -133,7 +142,7 @@ public class IceHilichurlIdle : IceHilichurlState
 
         timer += Time.deltaTime;
 
-        if (timer > 4.0f)
+        if (timer > iceHilichurl.TraceData.NextMoveTime)
         {
             iceHilichurl.State.ChangeState(EnemyState.Move);
         }
@@ -211,7 +220,7 @@ public class IceHilichurlTraceMove : IceHilichurlState
 
     private void StopTracking()
     {
-        if (iceHilichurl.Distance() > 15.0f)
+        if (iceHilichurl.Distance() > iceHilichurl.TraceData.StopDistance)
         {
             iceHilichurl.State.ChangeState(EnemyState.Move);
         }
@@ -244,7 +253,6 @@ public class IceHilichurlTraceAttack : IceHilichurlState
         {
             iceHilichurl.Animator.SetTrigger("Attack");
             iceHilichurl.TraceAttack = false;
-            iceHilichurl.MonsterWeapon.EableSword();
         }
 
         iceHilichurl.TraceAttackRotation();

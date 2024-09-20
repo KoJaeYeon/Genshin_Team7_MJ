@@ -1,15 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum EnemyID
-{
-    FireH = 1,
-    IceH,
-    NormalH,
-    LightningH,
-    Andrius
-}
-
 
 public class EnemyCSVData { }
 public class EnemyBaseData : EnemyCSVData
@@ -55,14 +46,16 @@ public class EnemyTraceData : EnemyCSVData
     public float TraceDistance { get; set; }
     public float StopDistance { get; set; }
     public float AgentStopDistance { get; set; }
+    public float NextMoveTime {  get; set; }
 
     public EnemyTraceData(string id, float traceDistance, 
-        float stopDistance, float agentstopDistance)
+        float stopDistance, float agentstopDistance, float nextMoveTime)
     {
         Id = id;
         TraceDistance = traceDistance;
         StopDistance = stopDistance;
         AgentStopDistance = agentstopDistance;
+        NextMoveTime = nextMoveTime;
     }
 }
 

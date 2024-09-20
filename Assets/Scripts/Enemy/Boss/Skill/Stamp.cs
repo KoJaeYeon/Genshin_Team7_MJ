@@ -5,7 +5,15 @@ using UnityEngine;
 public class Stamp : BossSkill
 {
     private float stamp_Atk;
+    private float stampDamage;
     private BoxCollider boxColl;
+    private AndriusStampData _stampData;
+
+    public Stamp()
+    {
+        _stampData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusStampData>("AndriusStampData");
+        stampDamage = _stampData.SkillDamage;
+    }
 
     private void OnEnable()
     {
@@ -15,7 +23,7 @@ public class Stamp : BossSkill
 
     public override void SetAtk(float atk)
     {
-        stamp_Atk = GetSkillDamage(Skill.Stamp) * atk;
+        stamp_Atk = stampDamage * atk;
     }
 
     public override IEnumerator DelayDamage()
