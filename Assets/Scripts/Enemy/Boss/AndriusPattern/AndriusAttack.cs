@@ -39,7 +39,7 @@ public class AndriusAttack : IPattern
 
     private void GetData()
     {
-        _attackData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusAttackData>("AndriusAttackData");
+        _attackData = EnemyCSVLoader.Instance.GetAndriusCSVData<AndriusAttackData>("AndriusAttackData");
         _jumpDelay = new WaitForSeconds(_attackData.GetData(AttackDataList.JumpDelay));
         _chargeDelay = new WaitForSeconds(_attackData.GetData(AttackDataList.ChargeDelay));
         _meleeDistance = _attackData.GetData(AttackDataList.MeleeDistance);

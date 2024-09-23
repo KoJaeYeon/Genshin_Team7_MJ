@@ -11,7 +11,7 @@ public class Stamp : BossSkill
 
     public Stamp()
     {
-        _stampData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusStampData>("AndriusStampData");
+        _stampData = EnemyCSVLoader.Instance.GetAndriusCSVData<AndriusStampData>("AndriusStampData");
         stampDamage = _stampData.SkillDamage;
     }
 

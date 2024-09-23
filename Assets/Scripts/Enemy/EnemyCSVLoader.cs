@@ -5,14 +5,26 @@ using UnityEngine;
 using System.Text.RegularExpressions;
 using System.Globalization;
 
-public class EnemyCSVLoder : MonoBehaviour
+public class EnemyCSVLoader : MonoBehaviour
 {
-    public static EnemyCSVLoder Instance;
+    public static EnemyCSVLoader Instance;
 
     private Dictionary<string, EnemyCSVData> _dataDictionary = new Dictionary<string, EnemyCSVData> ();
     private Dictionary<string, AndriusCSVData> _andriusDictionary = new Dictionary<string, AndriusCSVData>();
+    private Dictionary<string, float> _enemyDamageDictionary = new Dictionary<string, float>();    
 
-    private void Awake()
+    private const string _basePath = "Data/BaseData/BaseData";
+    private const string _elementPath = "Data/BaseData/ElementData";
+    private const string _overlapPath = "Data/BaseData/OverlapData";
+    private const string _tracePath = "Data/BaseData/TraceData";
+    private const string _damagePath = "Data/BaseData/Damage";
+
+    private const string _andriusParalyzationPath = "Data/AndriusData/AndriusParalyzation";
+    private const string _andriusWalkPath = "Data/AndriusData/AndriusWalkData";
+    private const string _andriusAttackPath = "Data/AndriusData/AndriusAttackData";
+    private const string _andriusSkillPath = "Data/AndriusData/AndriusSkillData";
+
+    private void Awake() //불이면 융해, 과부화가 나와야함.
     {
         Instance = this;
 
@@ -20,6 +32,7 @@ public class EnemyCSVLoder : MonoBehaviour
         LoadEnemyElementCSV();
         LoadEnemyOverlapCSV();
         LoadEnemyTraceCSV();
+        LoadDamageCSV();
 
         StartCoroutine(LoadAndriusBasePatternCSV());
         StartCoroutine(LoadAndriusSkillPatternCSV());
@@ -27,7 +40,7 @@ public class EnemyCSVLoder : MonoBehaviour
 
     private void LoadEnemyBaseCSV()
     {
-        TextAsset baseCSV = Resources.Load<TextAsset>("Data/BaseData/BaseData");
+        TextAsset baseCSV = Resources.Load<TextAsset>(_basePath);
 
         string[] splitArray = baseCSV.text.Split('\n');
 
@@ -55,7 +68,7 @@ public class EnemyCSVLoder : MonoBehaviour
 
     private void LoadEnemyElementCSV()
     {
-        TextAsset elementCSV = Resources.Load<TextAsset>("Data/BaseData/ElementData");
+        TextAsset elementCSV = Resources.Load<TextAsset>(_elementPath);
 
         string[] splitArray = elementCSV.text.Split('\n');
 
@@ -81,7 +94,7 @@ public class EnemyCSVLoder : MonoBehaviour
 
     private void LoadEnemyOverlapCSV()
     {
-        TextAsset overlapCSV = Resources.Load<TextAsset>("Data/BaseData/OverlapData");
+        TextAsset overlapCSV = Resources.Load<TextAsset>(_overlapPath);
 
         string[] splitArray = overlapCSV.text.Split('\n');
 
@@ -113,7 +126,7 @@ public class EnemyCSVLoder : MonoBehaviour
 
     private void LoadEnemyTraceCSV()
     {
-        TextAsset traceCSV = Resources.Load<TextAsset>("Data/BaseData/TraceData");
+        TextAsset traceCSV = Resources.Load<TextAsset>(_tracePath);
 
         string[] splitArray = traceCSV.text.Split('\n');
 
@@ -139,13 +152,35 @@ public class EnemyCSVLoder : MonoBehaviour
         }
     }
 
+    private void LoadDamageCSV()
+    {
+        TextAsset damageCSV = Resources.Load<TextAsset>(_damagePath);
+
+        string[] splitArray = damageCSV.text.Split('\n');
+
+        for (int i = 1; i < splitArray.Length; i++)
+        {
+            if (string.IsNullOrWhiteSpace(splitArray[i]))
+            {
+                continue;
+            }
+
+            string[] fields = splitArray[i].Split(',');
+
+            string id = fields[0];
+            float damagePercentage = ParseFloat(fields[1]);       
+
+            _enemyDamageDictionary.Add(id, damagePercentage);
+        }
+    }
+
     private IEnumerator LoadAndriusBasePatternCSV()
     {
         List<TextAsset> textList = new List<TextAsset>();
 
-        TextAsset paralyzationCSV = Resources.Load<TextAsset>("Data/AndriusData/AndriusParalyzation");
-        TextAsset walkCSV = Resources.Load<TextAsset>("Data/AndriusData/AndriusWalkData");
-        TextAsset attackCSV = Resources.Load<TextAsset>("Data/AndriusData/AndriusAttackData");
+        TextAsset paralyzationCSV = Resources.Load<TextAsset>(_andriusParalyzationPath);
+        TextAsset walkCSV = Resources.Load<TextAsset>(_andriusWalkPath);
+        TextAsset attackCSV = Resources.Load<TextAsset>(_andriusAttackPath);
 
         textList.Add(paralyzationCSV);
         textList.Add(walkCSV);
@@ -248,7 +283,7 @@ public class EnemyCSVLoder : MonoBehaviour
 
     private IEnumerator LoadAndriusSkillPatternCSV()
     {
-        TextAsset andriusSkillCSV = Resources.Load<TextAsset>("Data/AndriusData/AndriusSkillData");
+        TextAsset andriusSkillCSV = Resources.Load<TextAsset>(_andriusSkillPath);
 
         string[] splitArray = andriusSkillCSV.text.Split('\n');
 
@@ -372,6 +407,19 @@ public class EnemyCSVLoder : MonoBehaviour
         }
     }
 
+    public float CalculateData(string id)
+    {
+        if(_enemyDamageDictionary.TryGetValue(id, out float value))
+        {
+            return value;
+        }
+        else
+        {
+            Debug.Log("튜플을 가져오지 못했습니다.");
+            return 0f;
+        }
+    }
+
     private AndriusCSVData GetAndriusCSV(string id)
     {
         if(_andriusDictionary.TryGetValue(id, out AndriusCSVData data))
@@ -450,6 +498,12 @@ public class EnemyCSVLoder : MonoBehaviour
     {
         int.TryParse(value, out int result);
         return result;  
+    }
+
+    private bool ParseBool(string value)
+    {
+        bool.TryParse(value, out bool result);
+        return result;
     }
     #endregion
 

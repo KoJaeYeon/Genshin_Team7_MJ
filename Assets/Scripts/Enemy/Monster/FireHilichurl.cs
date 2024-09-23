@@ -41,10 +41,10 @@ public class FireHilichurl : Enemy, IColor
 
     private void GetData()
     {
-        _baseData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyBaseData>("B101");
-        _elementData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyElementData>("E101");
-        _traceData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyTraceData>("T101");
-        _overlapData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyOverlapData>("O101");
+        _baseData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyBaseData>("B101");
+        _elementData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyElementData>("E101");
+        _traceData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyTraceData>("T101");
+        _overlapData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyOverlapData>("O101");
     }
 
     public EnemyTraceData Data { get { return _traceData; } }

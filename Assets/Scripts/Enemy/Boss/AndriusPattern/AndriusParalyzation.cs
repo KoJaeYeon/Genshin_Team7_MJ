@@ -13,7 +13,7 @@ public class AndriusParalyzation : IPattern
 
     public AndriusParalyzation()
     {
-        _paralyzationData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusParalyzationData>("AndriusParalyzationData");
+        _paralyzationData = EnemyCSVLoader.Instance.GetAndriusCSVData<AndriusParalyzationData>("AndriusParalyzationData");
         _changeTime = new WaitForSeconds(_paralyzationData.ChangeTime);
         __paralyzationValue = _paralyzationData.ParalyzationValue;
         Debug.Log($"AndriusParalyzation{_paralyzationData.ParalyzationValue},{_paralyzationData.ChangeTime}");

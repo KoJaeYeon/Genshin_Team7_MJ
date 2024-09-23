@@ -11,7 +11,7 @@ public class Jump : BossSkill
 
     public Jump()
     {
-        _jumpData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusJumpData>("AndriusJumpData");
+        _jumpData = EnemyCSVLoader.Instance.GetAndriusCSVData<AndriusJumpData>("AndriusJumpData");
         jumpDamage = _jumpData.SkillDamage;
     }
 

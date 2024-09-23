@@ -16,7 +16,7 @@ public class AndriusWalk : IPattern
 
     public AndriusWalk()
     {
-        _walkData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusWalkData>("AndriusWalkData");
+        _walkData = EnemyCSVLoader.Instance.GetAndriusCSVData<AndriusWalkData>("AndriusWalkData");
         _walkSpeed = _walkData.Speed;
         _walkTime = new WaitForSeconds(_walkData.WalkTime);
         Debug.Log($"AndriusWalk : {_walkData.Speed},{_walkData.WalkTime}");

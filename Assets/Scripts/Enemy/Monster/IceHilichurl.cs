@@ -42,10 +42,10 @@ public class IceHilichurl : Enemy, IColor
 
     private void GetData()
     {
-        _baseData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyBaseData>("B102");
-        _elementData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyElementData>("E102");
-        _traceData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyTraceData>("T102");
-        _overlapData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyOverlapData>("O102");
+        _baseData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyBaseData>("B102");
+        _elementData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyElementData>("E102");
+        _traceData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyTraceData>("T102");
+        _overlapData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyOverlapData>("O102");
     }
 
     

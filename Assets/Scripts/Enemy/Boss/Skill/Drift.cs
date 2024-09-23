@@ -12,7 +12,7 @@ public class Drift : BossSkill
 
     public Drift()
     {
-        _driftData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusDriftData>("AndriusDriftData");
+        _driftData = EnemyCSVLoader.Instance.GetAndriusCSVData<AndriusDriftData>("AndriusDriftData");
         driftDamage = _driftData.SkillDamage;
     }
 

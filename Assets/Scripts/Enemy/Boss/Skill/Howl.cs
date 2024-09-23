@@ -11,7 +11,7 @@ public class Howl : BossSkill
 
     public Howl()
     {
-        _howlData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusHowlData>("AndriusHowlData");
+        _howlData = EnemyCSVLoader.Instance.GetAndriusCSVData<AndriusHowlData>("AndriusHowlData");
         howlDamage = _howlData.GetData(DataList.SKillDamage_howl);
     }
 

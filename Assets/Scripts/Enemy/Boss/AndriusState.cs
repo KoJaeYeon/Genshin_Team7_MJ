@@ -127,7 +127,7 @@ public class Andrius_Claw : AndriusState
 {
     public Andrius_Claw(Andrius andrius) : base(andrius)
     {
-        _clawData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusClawData>("AndriusClawData");
+        _clawData = EnemyCSVLoader.Instance.GetAndriusCSVData<AndriusClawData>("AndriusClawData");
         claw_Atk = _clawData.SkillDamage;
     }
 
@@ -174,7 +174,7 @@ public class Andrius_Charge : AndriusState
 {
     public Andrius_Charge(Andrius andrius) : base(andrius)
     {
-        _chargeData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusChargeData>("AndriusChargeData");
+        _chargeData = EnemyCSVLoader.Instance.GetAndriusCSVData<AndriusChargeData>("AndriusChargeData");
         charge_Atk = _chargeData.SkillDamage;
     }
 

@@ -40,10 +40,10 @@ public class NomalHilichurl : Enemy, IColor
 
     private void GetData()
     {
-        _baseData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyBaseData>("B103");
-        _elementData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyElementData>("E103");
-        _traceData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyTraceData>("T103");
-        _overlapData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyOverlapData>("O103");
+        _baseData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyBaseData>("B103");
+        _elementData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyElementData>("E103");
+        _traceData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyTraceData>("T103");
+        _overlapData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyOverlapData>("O103");
     }
 
     public EnemyTraceData TraceData => _traceData;

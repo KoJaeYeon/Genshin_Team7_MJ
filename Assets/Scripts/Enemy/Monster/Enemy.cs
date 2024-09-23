@@ -40,6 +40,15 @@ public class Enemy : MonoBehaviour
         EnemyHealthDic = new Dictionary<Enemy, float>();
     }
 
+    protected void GetData(string baseKey, string elementKey, 
+        string overlapKey, string traceKey)
+    {
+        _baseData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyBaseData>(baseKey);
+        _elementData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyElementData>(elementKey);
+        _traceData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyTraceData>(traceKey);
+        _overlapData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyOverlapData>(overlapKey);
+    }
+
     protected void OnAwakeGetComponent()
     {
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
@@ -80,66 +89,81 @@ public class Enemy : MonoBehaviour
             
     }
 
+    public float Melting(float damage, float defenceData)
+    {
+        var calculateData = EnemyCSVLoader.Instance.CalculateData("melting");
+
+        float meltingDamage = calculateData * damage - defenceData;
+
+        return meltingDamage;
+    }
+
+    public float Overload(float damage, float defenceData)
+    {
+        var calculateData = EnemyCSVLoader.Instance.CalculateData("overload");
+
+        float overloadDamage = calculateData * damage - defenceData;
+
+        return overloadDamage;
+    }
+
+    public float Superconductivity(float damage, float defenceData)
+    {
+        var calculateData = EnemyCSVLoader.Instance.CalculateData("superconductivity");
+
+        float superconductivityDamage = calculateData * damage - defenceData;
+
+        return superconductivityDamage;
+    }
+
+
     protected float CalculateDamage(float damage, Element element) 
     {
+        
         switch (element)
         {
             case Element.Fire:
                 if(_elementData.Element == Element.Ice)
                 {
                     Debug.Log("융해");
-                    damage *= 2f;
+                    damage = Melting(damage, _baseData.Defence);
                 }
                 else if(_elementData.Element == Element.Lightning)
                 {
                     Debug.Log("과부화");
-                    damage -= damage * _baseData.Defence;
+                    damage = Overload(damage, _baseData.Defence);
                     SplashAttack();
-                }
-                else
-                {
-                    damage -= damage * _baseData.Defence;
                 }
                 break;
             case Element.Ice:
                 if(_elementData.Element == Element.Fire)
                 {
                     Debug.Log("융해");
-                    damage *= 1.5f;
+                    damage = Melting(damage, _baseData.Defence);
                 }
                 else if(_elementData.Element == Element.Lightning)
                 {
                     Debug.Log("초전도");
-                    damage -= damage * _baseData.Defence;
+                    damage = Superconductivity(damage, _baseData.Defence);
                     SplashAttack();
-                }
-                else
-                {
-                    damage -= damage * _baseData.Defence;
                 }
                 break;
             case Element.Lightning:
                 if(_elementData.Element == Element.Fire)
                 {
                     Debug.Log("과부화");
-                    damage -= damage * _baseData.Defence;
+                    damage = Overload(damage, _baseData.Defence);
                     SplashAttack();
                 }
                 else if(_elementData.Element == Element.Ice)
                 {
                     Debug.Log("초전도");
-                    damage -= damage * _baseData.Defence;
+                    damage = Superconductivity(damage, _baseData.Defence);
                     SplashAttack();
                 }
-                else
-                {
-                    damage -= damage * _baseData.Defence;
-                }
-                break;
-            case Element.Normal:
-                damage -= damage * _baseData.Defence;
                 break;
         }
+        Debug.Log(damage);
         return damage;
     }
 

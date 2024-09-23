@@ -11,7 +11,7 @@ public class IceRain : BossSkill
 
     public IceRain()
     {
-        _data = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusHowlData>("AndriusHowlData");
+        _data = EnemyCSVLoader.Instance.GetAndriusCSVData<AndriusHowlData>("AndriusHowlData");
         iceDamage = _data.GetData(DataList.SKillDamage_ice);
     }
 

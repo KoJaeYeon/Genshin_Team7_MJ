@@ -15,7 +15,7 @@ public class StampAttack : IPattern
 
     public StampAttack()
     {
-        _stampData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusStampData>("AndriusStampData");
+        _stampData = EnemyCSVLoader.Instance.GetAndriusCSVData<AndriusStampData>("AndriusStampData");
         Rotspeed = _stampData.RotationSpeed;
         _maxNormalizedTime = _stampData.MaxNormalizedTime;
     }

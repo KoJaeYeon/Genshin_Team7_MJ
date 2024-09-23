@@ -40,10 +40,10 @@ public class LightningHilichurl : Enemy, IColor
 
     private void GetData()
     {
-        _baseData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyBaseData>("B104");
-        _elementData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyElementData>("E104");
-        _traceData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyTraceData>("T104");
-        _overlapData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyOverlapData>("O104");
+        _baseData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyBaseData>("B104");
+        _elementData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyElementData>("E104");
+        _traceData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyTraceData>("T104");
+        _overlapData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyOverlapData>("O104");
     }
 
     public EnemyTraceData TraceData { get { return _traceData; } }

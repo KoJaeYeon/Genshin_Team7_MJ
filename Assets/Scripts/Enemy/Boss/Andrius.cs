@@ -57,15 +57,15 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
 
     private void GetData()
     {
-        _baseData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyBaseData>("B105");
-        _elementData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyElementData>("E105");
-        _traceData = EnemyCSVLoder.Instance.GetEnemyCSVData<EnemyTraceData>("T105");
+        _baseData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyBaseData>("B105");
+        _elementData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyElementData>("E105");
+        _traceData = EnemyCSVLoader.Instance.GetEnemyCSVData<EnemyTraceData>("T105");
     }
 
     private void InitializeAndriusValue()
     {
         EnemyHealthDic.Add(this, _baseData.Health);
-        AndriusParalyzationData paralyzationData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusParalyzationData>("AndriusParalyzationData");
+        AndriusParalyzationData paralyzationData = EnemyCSVLoader.Instance.GetAndriusCSVData<AndriusParalyzationData>("AndriusParalyzationData");
         paralyzation = paralyzationData.ParalyzationValue;
         agent.stoppingDistance = _traceData.AgentStopDistance;
         agent.speed = _baseData.Speed;

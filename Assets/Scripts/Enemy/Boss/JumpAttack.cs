@@ -16,7 +16,7 @@ public class JumpAttack : IPattern
 
     public JumpAttack()
     {
-        _jumpData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusJumpData>("AndriusJumpData");
+        _jumpData = EnemyCSVLoader.Instance.GetAndriusCSVData<AndriusJumpData>("AndriusJumpData");
         _moveSpeed = _jumpData.MoveSpeed;
         _rotationSpeed = _jumpData.RotationSpeed;
     }

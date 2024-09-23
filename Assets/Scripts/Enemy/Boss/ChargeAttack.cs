@@ -28,7 +28,7 @@ public class ChargeAttack : IPattern, IAndriusChargeEvent
     public ChargeAttack()
     {
         AndriusEventManager.Instance.RegisterChargeEvent(this);
-        _chargeData = EnemyCSVLoder.Instance.GetAndriusCSVData<AndriusChargeData>("AndriusChargeData");
+        _chargeData = EnemyCSVLoader.Instance.GetAndriusCSVData<AndriusChargeData>("AndriusChargeData");
         _timer = new WaitForSeconds(_chargeData.ChargeTime);
         _rotationSpeed = _chargeData.RotationSpeed;
         _maxAngle = _chargeData.MaxAngle;
