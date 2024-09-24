@@ -21,9 +21,9 @@ public class LightningHilichurl : Enemy, IColor
     {
         state = gameObject.AddComponent<EnemyStateMachine>();
         state.AddState(EnemyState.Idle, new LightningHilichurlIdle(this));
-        state.AddState(EnemyState.Move, new LightningHilichurlMove(this));
-        state.AddState(EnemyState.TraceMove, new LightningHilichurlTraceMove(this));
-        state.AddState(EnemyState.TraceAttack, new LightningHilichurlTraceAttack(this));
+        state.AddState(EnemyState.Move, new LightningHilichurlPartrol(this));
+        state.AddState(EnemyState.TraceMove, new LightningHilichurlTrace(this));
+        state.AddState(EnemyState.TraceAttack, new LightningHilichurlAttack(this));
     }
     private void InitData()
     {
@@ -146,9 +146,9 @@ public class LightningHilichurlIdle : LightningHilichurlState //기본 상태
     }
 }
 
-public class LightningHilichurlMove : LightningHilichurlState //이동 (배회)
+public class LightningHilichurlPartrol : LightningHilichurlState //이동 (배회)
 {
-    public LightningHilichurlMove(LightningHilichurl lightningHilichurl) : base(lightningHilichurl) { }
+    public LightningHilichurlPartrol(LightningHilichurl lightningHilichurl) : base(lightningHilichurl) { }
 
     List<Transform> WayPoint = new List<Transform>();
 
@@ -188,9 +188,9 @@ public class LightningHilichurlMove : LightningHilichurlState //이동 (배회)
     }
 }
 
-public class LightningHilichurlTraceMove : LightningHilichurlState //이동 (추적)
+public class LightningHilichurlTrace : LightningHilichurlState //이동 (추적)
 {
-    public LightningHilichurlTraceMove(LightningHilichurl lightningHilichurl) : base(lightningHilichurl) { }
+    public LightningHilichurlTrace(LightningHilichurl lightningHilichurl) : base(lightningHilichurl) { }
 
     public override void StateEnter()
     {
@@ -228,9 +228,9 @@ public class LightningHilichurlTraceMove : LightningHilichurlState //이동 (추적)
 
 }
 
-public class LightningHilichurlTraceAttack : LightningHilichurlState
+public class LightningHilichurlAttack : LightningHilichurlState
 {
-    public LightningHilichurlTraceAttack(LightningHilichurl lightningHilichurl) : base(lightningHilichurl) { }
+    public LightningHilichurlAttack(LightningHilichurl lightningHilichurl) : base(lightningHilichurl) { }
 
     public override void StateEnter()
     {

@@ -21,9 +21,9 @@ public class FireHilichurl : Enemy, IColor
     {
         state = gameObject.AddComponent<EnemyStateMachine>();
         state.AddState(EnemyState.Idle, new FireHilichurlIdle(this));
-        state.AddState(EnemyState.Move, new FireHilichurlMove(this));
-        state.AddState(EnemyState.TraceAttack, new FireHilichurlTraceAttack(this));
-        state.AddState(EnemyState.TraceMove, new FireHilichurlTraceMove(this));
+        state.AddState(EnemyState.Move, new FireHilichurlPartrol(this));
+        state.AddState(EnemyState.TraceAttack, new FireHilichurlAttack(this));
+        state.AddState(EnemyState.TraceMove, new FireHilichurlTrace(this));
     }
 
     private void InitEnemyData()
@@ -156,9 +156,9 @@ public class FireHilichurlIdle : FireHilichurlState //기본 상태
     
 }
 
-public class FireHilichurlMove : FireHilichurlState //이동 (배회)
+public class FireHilichurlPartrol : FireHilichurlState //이동 (배회)
 {
-    public FireHilichurlMove(FireHilichurl fireHilichurl) : base(fireHilichurl) { }
+    public FireHilichurlPartrol(FireHilichurl fireHilichurl) : base(fireHilichurl) { }
 
     List<Transform> WayPoint = new List<Transform>();
    
@@ -196,9 +196,9 @@ public class FireHilichurlMove : FireHilichurlState //이동 (배회)
     }
 }
 
-public class FireHilichurlTraceMove : FireHilichurlState //(추적 : 이동)
+public class FireHilichurlTrace : FireHilichurlState //(추적 : 이동)
 {
-    public FireHilichurlTraceMove(FireHilichurl fireHilichurl) : base(fireHilichurl) { }
+    public FireHilichurlTrace(FireHilichurl fireHilichurl) : base(fireHilichurl) { }
     
     public override void StateEnter()
     {
@@ -235,9 +235,9 @@ public class FireHilichurlTraceMove : FireHilichurlState //(추적 : 이동)
     }
 }
 
-public class FireHilichurlTraceAttack : FireHilichurlState //(추적 : 공격)
+public class FireHilichurlAttack : FireHilichurlState //(추적 : 공격)
 {
-    public FireHilichurlTraceAttack(FireHilichurl fireHilichurl) : base(fireHilichurl) { }
+    public FireHilichurlAttack(FireHilichurl fireHilichurl) : base(fireHilichurl) { }
     
     public override void StateEnter()
     {

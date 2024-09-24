@@ -21,9 +21,9 @@ public class NomalHilichurl : Enemy, IColor
     {
         state = gameObject.AddComponent<EnemyStateMachine>();
         state.AddState(EnemyState.Idle, new NomalHilichurlIdle(this));
-        state.AddState(EnemyState.Move, new NomalHilichurlMove(this));
-        state.AddState(EnemyState.TraceMove, new NomalHilichurlTraceMove(this));
-        state.AddState(EnemyState.TraceAttack, new NomalHilichurlTraceAttack(this));
+        state.AddState(EnemyState.Move, new NomalHilichurlPartrol(this));
+        state.AddState(EnemyState.TraceMove, new NomalHilichurlTrace(this));
+        state.AddState(EnemyState.TraceAttack, new NomalHilichurlAttack(this));
     }
     private void InitData()
     {
@@ -146,9 +146,9 @@ public class NomalHilichurlIdle : NomalHilichurlState //기본 상태
     }
 }
 
-public class NomalHilichurlMove : NomalHilichurlState //이동 (배회)
+public class NomalHilichurlPartrol : NomalHilichurlState //이동 (배회)
 {
-    public NomalHilichurlMove(NomalHilichurl nomalHilichurl) : base(nomalHilichurl) { }
+    public NomalHilichurlPartrol(NomalHilichurl nomalHilichurl) : base(nomalHilichurl) { }
 
     List<Transform> WayPoint = new List<Transform>();
 
@@ -186,9 +186,9 @@ public class NomalHilichurlMove : NomalHilichurlState //이동 (배회)
     }
 }
 
-public class NomalHilichurlTraceMove : NomalHilichurlState
+public class NomalHilichurlTrace : NomalHilichurlState
 {
-    public NomalHilichurlTraceMove(NomalHilichurl nomalHilichurl) : base(nomalHilichurl) { }
+    public NomalHilichurlTrace(NomalHilichurl nomalHilichurl) : base(nomalHilichurl) { }
 
     public override void StateEnter()
     {
@@ -226,9 +226,9 @@ public class NomalHilichurlTraceMove : NomalHilichurlState
     }
 }
 
-public class NomalHilichurlTraceAttack : NomalHilichurlState
+public class NomalHilichurlAttack : NomalHilichurlState
 {
-    public NomalHilichurlTraceAttack(NomalHilichurl nomalHilichurl) : base(nomalHilichurl) { }
+    public NomalHilichurlAttack(NomalHilichurl nomalHilichurl) : base(nomalHilichurl) { }
  
     public override void StateEnter()
     {

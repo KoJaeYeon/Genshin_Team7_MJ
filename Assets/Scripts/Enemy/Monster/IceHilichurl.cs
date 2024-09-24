@@ -22,9 +22,9 @@ public class IceHilichurl : Enemy, IColor
     {
         state = gameObject.AddComponent<EnemyStateMachine>();
         state.AddState(EnemyState.Idle, new IceHilichurlIdle(this));
-        state.AddState(EnemyState.Move, new IceHilichurlMove(this));
-        state.AddState(EnemyState.TraceMove, new IceHilichurlTraceMove(this));
-        State.AddState(EnemyState.TraceAttack, new IceHilichurlTraceAttack(this));
+        state.AddState(EnemyState.Move, new IceHilichurlPartrol(this));
+        state.AddState(EnemyState.TraceMove, new IceHilichurlTrace(this));
+        State.AddState(EnemyState.TraceAttack, new IceHilichurlAttack(this));
     }
 
     private void InitData()
@@ -149,9 +149,9 @@ public class IceHilichurlIdle : IceHilichurlState
     }
 }
 
-public class IceHilichurlMove : IceHilichurlState
+public class IceHilichurlPartrol : IceHilichurlState
 {
-    public IceHilichurlMove(IceHilichurl iceHilichurl) : base(iceHilichurl) { }
+    public IceHilichurlPartrol(IceHilichurl iceHilichurl) : base(iceHilichurl) { }
 
     List<Transform> WayPoint = new List<Transform>();
    
@@ -188,9 +188,9 @@ public class IceHilichurlMove : IceHilichurlState
     }
 }
 
-public class IceHilichurlTraceMove : IceHilichurlState
+public class IceHilichurlTrace : IceHilichurlState
 {
-    public IceHilichurlTraceMove(IceHilichurl iceHilichurl) : base(iceHilichurl) { }
+    public IceHilichurlTrace(IceHilichurl iceHilichurl) : base(iceHilichurl) { }
  
     public override void StateEnter()
     {
@@ -227,9 +227,9 @@ public class IceHilichurlTraceMove : IceHilichurlState
     }
 }
 
-public class IceHilichurlTraceAttack : IceHilichurlState
+public class IceHilichurlAttack : IceHilichurlState
 {
-    public IceHilichurlTraceAttack(IceHilichurl iceHilichurl) : base(iceHilichurl) { }
+    public IceHilichurlAttack(IceHilichurl iceHilichurl) : base(iceHilichurl) { }
     
     public override void StateEnter()
     {
