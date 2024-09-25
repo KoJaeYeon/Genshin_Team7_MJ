@@ -19,3 +19,11 @@ public abstract class BossBaseState
     public virtual void StateExit() { }
     public virtual void OnTriggerEnter(Collider other) { }
 }
+
+public interface IAndriusBase
+{
+    public void StateEnter();
+    public void StateFixedUpdate();
+    public void StateExit();
+    public void OnTriggerEnter(Collider other);
+}

@@ -62,13 +62,15 @@ public enum BossState
     Charge,
     Stamp,
     Drift,
-    ChangePhase
+    ChangePhase,
+    Back,
+    Turn
 }
 
 public class BossStateMachine : MonoBehaviour
 {
-    Dictionary<BossState, BossBaseState> BossStateDic = new Dictionary<BossState, BossBaseState>();
-    BossBaseState State;
+    Dictionary<BossState, IAndriusBase> BossStateDic = new Dictionary<BossState, IAndriusBase>();
+    IAndriusBase State;
 
     private bool _isState = false;
 
@@ -95,7 +97,7 @@ public class BossStateMachine : MonoBehaviour
         State.StateEnter();
     }
 
-    public void AddState(BossState state, BossBaseState baseState)
+    public void AddState(BossState state, IAndriusBase baseState)
     {
         BossStateDic.Add(state, baseState);
     }
