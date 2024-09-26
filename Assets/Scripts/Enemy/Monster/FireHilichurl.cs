@@ -112,6 +112,12 @@ public class FireHilichurl : Enemy, IColor
         Gizmos.color = Color.red;
         Vector3 boxPosition = transform.position + transform.TransformDirection(new Vector3(0f, 0.8f, 0f)) + transform.forward;
         Gizmos.DrawWireCube(boxPosition, new Vector3(1f, 1, 0.5f));
+
+        Gizmos.color = Color.black;
+        Gizmos.DrawWireSphere(transform.position, 5f);
+
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(transform.position, 10f);
     }
 
 }
@@ -190,7 +196,8 @@ public class FireHilichurlPartrol : FireHilichurlState //이동 (배회)
         {
             WayPoint.Add(point);
         }
-        fireHilichurl.Agent.SetDestination(WayPoint[Random.Range(0, WayPoint.Count)].transform.position);
+
+        fireHilichurl.Agent.SetDestination(WayPoint[Random.Range(0, WayPoint.Count - 1)].transform.position);
 
         fireHilichurl.MoveAnimation(3f);
     }

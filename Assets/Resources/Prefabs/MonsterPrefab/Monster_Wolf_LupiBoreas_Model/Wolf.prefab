@@ -4139,6 +4139,7 @@ GameObject:
   - component: {fileID: 216038152}
   - component: {fileID: 3714006122732120433}
   - component: {fileID: 1206999727}
+  - component: {fileID: 2322067188604456215}
   m_Layer: 3
   m_Name: Wolf
   m_TagString: Untagged
@@ -4213,6 +4214,7 @@ MonoBehaviour:
   BossSlider:
   - {fileID: 883037645}
   - {fileID: 1519579762}
+  _walkPos: []
 --- !u!195 &616660749
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4335,6 +4337,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4.79
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2322067188604456215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3779597442484277725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d0de433376d62e43b134c1474b04d97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3815933269178443590
 GameObject:
   m_ObjectHideFlags: 0

@@ -58,9 +58,9 @@ public class EnemyCSVLoader : MonoBehaviour
             float health = ParseFloat(fields[2]);
             float power = ParseFloat(fields[3]);
             float speed = ParseFloat(fields[4]);
-            float defence = ParseFloat(fields[5]) * 0.01f;
+            float defense = ParseFloat(fields[5]) * 0.01f;
 
-            EnemyBaseData baseData = new EnemyBaseData(id, name, health, power, speed, defence);
+            EnemyBaseData baseData = new EnemyBaseData(id, name, health, power, speed, defense);
 
             _dataDictionary.Add(id, baseData);
         }

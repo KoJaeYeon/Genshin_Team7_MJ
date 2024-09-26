@@ -126,12 +126,12 @@ public class Enemy : MonoBehaviour
                 if(_elementData.Element == Element.Ice)
                 {
                     Debug.Log("융해");
-                    damage = Melting(damage, _baseData.Defence);
+                    damage = Melting(damage, _baseData.Defense);
                 }
                 else if(_elementData.Element == Element.Lightning)
                 {
                     Debug.Log("과부화");
-                    damage = Overload(damage, _baseData.Defence);
+                    damage = Overload(damage, _baseData.Defense);
                     SplashAttack();
                 }
                 break;
@@ -139,12 +139,12 @@ public class Enemy : MonoBehaviour
                 if(_elementData.Element == Element.Fire)
                 {
                     Debug.Log("융해");
-                    damage = Melting(damage, _baseData.Defence);
+                    damage = Melting(damage, _baseData.Defense);
                 }
                 else if(_elementData.Element == Element.Lightning)
                 {
                     Debug.Log("초전도");
-                    damage = Superconductivity(damage, _baseData.Defence);
+                    damage = Superconductivity(damage, _baseData.Defense);
                     SplashAttack();
                 }
                 break;
@@ -152,13 +152,13 @@ public class Enemy : MonoBehaviour
                 if(_elementData.Element == Element.Fire)
                 {
                     Debug.Log("과부화");
-                    damage = Overload(damage, _baseData.Defence);
+                    damage = Overload(damage, _baseData.Defense);
                     SplashAttack();
                 }
                 else if(_elementData.Element == Element.Ice)
                 {
                     Debug.Log("초전도");
-                    damage = Superconductivity(damage, _baseData.Defence);
+                    damage = Superconductivity(damage, _baseData.Defense);
                     SplashAttack();
                 }
                 break;

@@ -10,17 +10,17 @@ public class EnemyBaseData : EnemyCSVData
     public float Health { get; set; }
     public float Power { get; set; }
     public float Speed { get; set; }
-    public float Defence { get; set; }
+    public float Defense { get; set; }
 
     public EnemyBaseData(string id, string name, float health, 
-        float power, float speed, float defence)
+        float power, float speed, float defense)
     {
         Id = id;
         Name = name;
         Health = health;
         Power = power;
         Speed = speed;
-        Defence = defence;
+        Defense = defense;
     }
 }
 
