@@ -81,10 +81,11 @@ public class BossStateMachine : MonoBehaviour
     private void FixedUpdate()
     {
         if (_isState)
-        {
+        {            
             State.StateFixedUpdate();
         }
     }
+
 
     private void OnTriggerEnter(Collider other)
     {

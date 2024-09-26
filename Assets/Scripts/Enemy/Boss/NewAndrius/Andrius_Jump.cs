@@ -7,18 +7,31 @@ public class Andrius_Jump : Andrius_AttackController
     public Andrius_Jump(Andrius andrius) : base(andrius) { }
 
     private Vector3 _endPosition;
+    private bool _isJumping = true;
 
     public override void StateEnter()
     {
-        base.StateEnter();
+        bool paralyzation = Paralyzation();
+
+        if (paralyzation)
+        {
+            return;
+        }
+
+        if (!_isJumping)
+        {
+            _state.ChangeState(BossState.Howl);
+
+            return;
+        }
 
         _andrius.IsAction = true;
 
         _animator.SetTrigger(_jump);
 
-        _endPosition = _playerTransform.position;
-
         _rigidbody.isKinematic = true;
+
+        _andrius.StartCoroutine(JumpCoolTime());
     }
     public override void StateFixedUpdate()
     {
@@ -26,12 +39,17 @@ public class Andrius_Jump : Andrius_AttackController
 
         var animatorStateInfo = _animator.GetCurrentAnimatorStateInfo(0);
 
-        if(animatorStateInfo.IsName("Jump") && animatorStateInfo.normalizedTime < 0.3f)
+        if(animatorStateInfo.IsName("Jump"))
         {
-            Vector3 targetDirection = (_endPosition - _andrius.transform.position).normalized;
+            _endPosition = _playerTransform.position;
 
-            Rotation(targetDirection);
-            Move(targetDirection);
+            if (animatorStateInfo.normalizedTime > 0.1f && animatorStateInfo.normalizedTime < 0.3f)
+            {
+                Vector3 targetDirection = (_endPosition - _andrius.transform.position).normalized;
+
+                Rotation(targetDirection);
+                Move(targetDirection);
+            }
         }
     }
 
@@ -42,7 +60,6 @@ public class Andrius_Jump : Andrius_AttackController
 
     private void Rotation(Vector3 targetDirection)
     {
-        
         targetDirection.y = 0f;
 
         float angle = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg;
@@ -64,5 +81,14 @@ public class Andrius_Jump : Andrius_AttackController
         {
             _andrius.transform.position = _endPosition;
         }
+    }
+
+    private IEnumerator JumpCoolTime()
+    {
+        _isJumping = false;
+
+        yield return new WaitForSeconds(_attackData.GetData(AttackDataList.JumpDelay));
+
+        _isJumping = true;
     }
 }

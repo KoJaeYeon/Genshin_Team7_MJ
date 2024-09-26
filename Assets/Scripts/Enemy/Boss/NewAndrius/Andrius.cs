@@ -24,6 +24,8 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
     private Action _rightClawEvent;
     private Color BossColor;
 
+    private float _paralyzation;
+
     private new void Awake()
     {
         EnemyHealthDic = new Dictionary<Enemy, float>();
@@ -54,7 +56,7 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
     {
         EnemyHealthDic.Add(this, _baseData.Health);
         AndriusParalyzationData paralyzationData = EnemyCSVLoader.Instance.GetAndriusCSVData<AndriusParalyzationData>("AndriusParalyzationData");
-        Paralyzation = paralyzationData.ParalyzationValue;
+        _paralyzation = paralyzationData.ParalyzationValue;
         agent.stoppingDistance = _traceData.AgentStopDistance;
         agent.speed = _baseData.Speed;
         Hp = HpSlider.fillRect.transform.parent.gameObject;
@@ -102,7 +104,16 @@ public class Andrius : Enemy, IColor, IAndriusClawEvent
     }
 
     public bool IsAction { get; set; } = false;
-    public float Paralyzation { get; set; }
+    public float Paralyzation
+    {
+        get { return _paralyzation; }
+        set
+        {
+            _paralyzation = value;
+
+            PaSlider.value = _paralyzation;
+        }
+    }
     public Transform PlayerTransform => Player;
     public List<Transform> WalkList => _selectPositionList;
     

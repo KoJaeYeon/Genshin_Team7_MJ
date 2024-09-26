@@ -5,6 +5,8 @@ using UnityEngine;
 public class Andrius_Idle : Andrius_AttackController
 {
     private WaitForSeconds _changeTime;
+    private float _startTime;
+    private float _currentTime;
 
     public Andrius_Idle(Andrius andrius) : base(andrius)
     {
@@ -17,7 +19,19 @@ public class Andrius_Idle : Andrius_AttackController
 
         _animator.SetBool(_idle, true);
 
-        _andrius.StartCoroutine(Next());
+        _startTime = Time.time;
+    }
+
+    public override void StateFixedUpdate()
+    {
+        _currentTime = Time.time;
+
+        if(_currentTime - _startTime > _paralyzationData.ChangeTime)
+        {
+            _andrius.Paralyzation = _paralyzationData.ParalyzationValue;
+
+            NextPattern();
+        }
     }
 
     public override void StateExit()
@@ -25,21 +39,13 @@ public class Andrius_Idle : Andrius_AttackController
         _rig.weight = 0f;
 
         _animator.SetBool(_idle, false);
-
-        _andrius.Paralyzation = _paralyzationData.ParalyzationValue;
-    }
-
-    public override void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
-        {
-            _animator.SetTrigger(_hit);
-        }
     }
 
     private IEnumerator Next()
     {
         yield return _changeTime;
+
+        _andrius.Paralyzation = _paralyzationData.ParalyzationValue;
 
         NextPattern();
     }

@@ -65,17 +65,7 @@ public abstract class Andrius_State : IAndriusBase
         _jumpData = EnemyCSVLoader.Instance.GetAndriusCSVData<AndriusJumpData>("AndriusJumpData");
         _stampData = EnemyCSVLoader.Instance.GetAndriusCSVData<AndriusStampData>("AndriusStampData");
     }
-    public virtual void StateEnter()
-    {
-        if(_andrius.Paralyzation <= 0)
-        {
-            _andrius.IsAction = false;
-
-            _state.ChangeState(BossState.Idle);
-
-            return;
-        }
-    }
+    public virtual void StateEnter() { }
     public virtual void StateFixedUpdate() { }
     public virtual void StateExit() { }
     public virtual void OnTriggerEnter(Collider other) { }

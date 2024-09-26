@@ -20,22 +20,37 @@ public class Andrius_Charge : Andrius_AttackController, IAndriusChargeEvent
 
     private bool _isHit;
     private bool _isRun = true;
+    private bool _isCharge = true;
 
     private float _rotationSpeed;
     private float _maxAngle;
-    private new float _currentAngle;
+    private float _currentAngle;
 
     private Vector3 _movePosition;
 
     public override void StateEnter()
     {
-        base.StateEnter();
+        bool paralyzation = Paralyzation();
+
+        if (paralyzation)
+        {
+            return;
+        }
+
+        if (!_isCharge)
+        {
+            _state.ChangeState(BossState.Howl);
+
+            return;
+        }
 
         _movePosition = _playerTransform.position;
 
         _onCollider.Invoke();
 
         _animator.SetBool(_run, true);
+
+        _andrius.StartCoroutine(ChargeCoolTime());
     }
 
     public override void StateFixedUpdate()
@@ -98,6 +113,15 @@ public class Andrius_Charge : Andrius_AttackController, IAndriusChargeEvent
         yield return _timer;
 
         NextPattern();
+    }
+
+    private IEnumerator ChargeCoolTime()
+    {
+        _isCharge = false;
+
+        yield return new WaitForSeconds(_attackData.GetData(AttackDataList.ChargeDelay));
+
+        _isCharge = true;
     }
 
     private void Rotation(Vector3 targetDirection)

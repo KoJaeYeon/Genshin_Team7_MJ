@@ -15,21 +15,12 @@ public class Andrius_Back : Andrius_AttackController
 
     public override void StateFixedUpdate()
     {
-        NextPattern();
+        Pattern();
     }
 
     private void Back()
     {
-        float signedAngle = CalculateSignedAngle();
-
-        Rotation(signedAngle);
-
         _animator.SetTrigger(_back);
-    }
-
-    private void Rotation(float signedAngle)
-    {
-        _andrius.transform.rotation = Quaternion.Euler(0,signedAngle, 0);
     }
 
 }

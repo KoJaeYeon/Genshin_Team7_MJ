@@ -8,7 +8,12 @@ public class Andrius_Drift : Andrius_AttackController
 
     public override void StateEnter()
     {
-        base.StateEnter();
+        bool paralyzation = Paralyzation();
+
+        if (paralyzation)
+        {
+            return;
+        }
 
         _andrius.IsAction = true;
 

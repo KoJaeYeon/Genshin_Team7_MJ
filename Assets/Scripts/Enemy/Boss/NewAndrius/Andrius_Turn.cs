@@ -15,7 +15,7 @@ public class Andrius_Turn : Andrius_AttackController
 
     public override void StateFixedUpdate()
     {
-        NextPattern();
+        Pattern();
     }
 
     private void Turn()

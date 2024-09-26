@@ -6,8 +6,8 @@ public abstract class Andrius_AttackController : Andrius_State
 {
     public Andrius_AttackController(Andrius andrius) : base(andrius) { }
 
-    protected float _currentAngle;
-    protected float _currentDistance;
+    private float _currentAngle;
+    private float _currentDistance;
     
     protected void NextPattern()
     {
@@ -20,17 +20,44 @@ public abstract class Andrius_AttackController : Andrius_State
             return;
         }
 
-        IsBack(_currentDistance);
-        IsTurn(_currentAngle);
+        TurnAndBack(_currentDistance, _currentAngle);
 
-        if (ChangePattern(_currentDistance,
-            _attackData.GetData(AttackDataList.MeleeDistance)))
+        if (_currentDistance <= 10f)
         {
             MeleeAttack(_currentAngle);
         }
+        else if(_currentDistance <= 18f)
+        {
+            _state.ChangeState(BossState.Jump);
+        }
         else
         {
-            JumpAndCharge();
+            _state.ChangeState(BossState.Charge);
+        }
+    }
+
+    protected void Pattern()
+    {
+        _currentAngle = CalculateAngle();
+
+        _currentDistance = CalculateDistance();
+
+        if (!CanAction())
+        {
+            return;
+        }
+
+        if (_currentDistance <= 10f)
+        {
+            MeleeAttack(_currentAngle);
+        }
+        else if (_currentDistance <= 18f)
+        {
+            _state.ChangeState(BossState.Jump);
+        }
+        else
+        {
+            _state.ChangeState(BossState.Charge);
         }
     }
 
@@ -39,14 +66,9 @@ public abstract class Andrius_AttackController : Andrius_State
         return !_andrius.IsAction;
     }
 
-    private bool ChangePattern(float currentDistance, float dataDistance)
-    {
-        return currentDistance <= dataDistance;  
-    }
-
     private void MeleeAttack(float angle)
     {
-        if(angle < _attackData.GetData(AttackDataList.MeleeAngle))
+        if(angle <= 60f)
         {
             int random = Random.Range(0, 3);
 
@@ -63,38 +85,57 @@ public abstract class Andrius_AttackController : Andrius_State
                     break;
             }
         }
-        else
+        else if(angle < 120f)
         {
             _state.ChangeState(BossState.Drift);
         }
-    }
-
-    private void JumpAndCharge()
-    {
-        int random = Random.Range(0, 2);
-
-        switch (random)
+        else
         {
-            case 0:
-                _state.ChangeState(BossState.Jump);
-                break;
-            case 1:
-                _state.ChangeState(BossState.Charge);
-                break;
+            _state.ChangeState(BossState.Turn);
         }
     }
 
-    private void IsBack(float distance)
+    private void TurnAndBack(float distance, float angle)
     {
-        if(distance <= _attackData.GetData(AttackDataList.Back_Distance) && CanAction())
+        if(angle >= 120f && CanAction())
         {
+            _state.ChangeState(BossState.Turn);
+        }
+        else if(angle < 90f && CanAction())
+        {
+            if(distance <= 5.5f)
+            {
+                _state.ChangeState(BossState.Back);
+            }
+        }
+    }
+
+    protected bool Paralyzation()
+    {
+        if (_andrius.Paralyzation <= 0)
+        {
+            _andrius.IsAction = false;
+
+            _state.ChangeState(BossState.Idle);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private void IsBack(float distance, float angle)
+    {
+        if(distance <= 5.5f && CanAction())
+        {
+
             _state.ChangeState(BossState.Back);
         }
     }
 
     private void IsTurn(float angle)
     {
-        if (angle >= _attackData.GetData(AttackDataList.Turn_rightAngle) && CanAction())
+        if (angle >= 120f && CanAction())
         {
             _state.ChangeState(BossState.Turn);
         }

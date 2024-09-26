@@ -10,7 +10,12 @@ public class Andrius_Stamp : Andrius_AttackController
 
     public override void StateEnter()
     {
-        base.StateEnter();
+        bool paralyzation = Paralyzation();
+
+        if (paralyzation)
+        {
+            return;
+        }
 
         _andrius.IsAction = true;
 
@@ -23,9 +28,12 @@ public class Andrius_Stamp : Andrius_AttackController
     {
         var animatorStateInfo = _animator.GetCurrentAnimatorStateInfo(0);
 
-        if (animatorStateInfo.IsName("Stamp") && animatorStateInfo.normalizedTime < _stampData.MaxNormalizedTime)
+        if (animatorStateInfo.IsName("Stamp"))
         {
-            RotateToPlayer();
+            if(animatorStateInfo.normalizedTime >= 0.2f && animatorStateInfo.normalizedTime <= 0.5f)
+            {
+                RotateToPlayer();
+            }
         }
 
         NextPattern();
