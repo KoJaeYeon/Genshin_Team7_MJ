@@ -14,10 +14,10 @@ public class Andrius_Howl : Andrius_AttackController
 
     public override void StateEnter()
     {
-        bool paralyzation = Paralyzation();
-
-        if(paralyzation)
+        if (_andrius.Paralyzation <= 0)
         {
+            _state.ChangeState(BossState.Idle);
+
             return;
         }
 

@@ -82,17 +82,17 @@ public class AndriusAnimationEvent : MonoBehaviour
 
         Gizmos.DrawWireSphere(transform.position, 7f);
 
-        Gizmos.color = Color.blue;
+        //Gizmos.color = Color.blue;
 
-        Gizmos.DrawWireSphere(transform.position, 10f);
+        //Gizmos.DrawWireSphere(transform.position, 10f);
 
-        Gizmos.color = Color.white;
+        //Gizmos.color = Color.white;
 
-        Vector3 boxSize = new Vector3(6f, 8f, 25f);
+        //Vector3 boxSize = new Vector3(6f, 8f, 25f);
 
-        Vector3 boxPosition = transform.position +
-            transform.TransformDirection(new Vector3(0f, 4f, 15f)) + transform.forward;
+        //Vector3 boxPosition = transform.position +
+        //    transform.TransformDirection(new Vector3(0f, 4f, 15f)) + transform.forward;
 
-        Gizmos.DrawWireCube(boxPosition, boxSize);
+        //Gizmos.DrawWireCube(boxPosition, boxSize);
     }
 }

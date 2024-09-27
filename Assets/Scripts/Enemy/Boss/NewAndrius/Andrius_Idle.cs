@@ -17,7 +17,7 @@ public class Andrius_Idle : Andrius_AttackController
     {
         _rig.weight = 1f;
 
-        _animator.SetBool(_idle, true);
+        _animator.SetTrigger(_idle);
 
         _startTime = Time.time;
     }

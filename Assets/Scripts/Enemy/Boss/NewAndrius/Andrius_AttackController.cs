@@ -110,36 +110,6 @@ public abstract class Andrius_AttackController : Andrius_State
         }
     }
 
-    protected bool Paralyzation()
-    {
-        if (_andrius.Paralyzation <= 0)
-        {
-            _andrius.IsAction = false;
-
-            _state.ChangeState(BossState.Idle);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    private void IsBack(float distance, float angle)
-    {
-        if(distance <= 5.5f && CanAction())
-        {
-
-            _state.ChangeState(BossState.Back);
-        }
-    }
-
-    private void IsTurn(float angle)
-    {
-        if (angle >= 120f && CanAction())
-        {
-            _state.ChangeState(BossState.Turn);
-        }
-    }
 
     public float CalculateAngle()
     {
